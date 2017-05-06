@@ -1,4 +1,4 @@
-![Logo](/assets/images/sectalks-0.jpg)
+![Logo](/assets/images/404.png)
 Last week I've been to the 5th SecTalks London meetup and I'm proud to say I've learnt something that evening and wanted to say Thank you to the creator of the night's challenge - @leigh.  I'll definitely be going again.
 
 
