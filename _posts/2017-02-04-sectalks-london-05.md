@@ -80,12 +80,9 @@ print "[*] XOR key: ", k
 kStr = "".join([chr(n) for n in k])
  
 # Encode desired cookie
-pt2 = '{"user":"elf2207","is_admin":true}
-c2 = [ord(a) ^ ord(b) for a,b in zip(pt2,
-
-kStr[:len(pt2)])]
+pt2 = '{"user":"elf2207","is_admin":true}'
+c2 = [ord(a) ^ ord(b) for a,b in zip(pt2, kStr[:len(pt2)])]
 print "Admin cookie (to be url-encoded): ", base64.b64encode("".join([chr(n) for n in c2]))
- 
  
 # Test
 c3 = base64.b64decode("ccYKPh4W+AEcJGLVIbhReh3q3cRXEARRll0DKGE2Z87oqQ==")
