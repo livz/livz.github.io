@@ -1,9 +1,7 @@
 ![Logo](/assets/images/sectalks4-0.jpg)
 
-Last week I've been to the 5th SecTalks London meetup and I'm proud to say I've learnt something that evening and wanted to say Thank you to the creator of the night's challenge - @leigh.  I'll definitely be going again.
-
-Below is a write-up of my solution. Hopefully by now the details of the challenge are made public so if people are still working on this I won't spoil anyone's fun by publishing this.
+A while ago I've attended another London SecTalks event. Since I had proposed the current challenge there was nothing to solve, so I've pulled down another challenge from the archives. Below is a write-up of my solution. If you plan to solve it yourself, download the [file](/files/mail) and stop reading now!
 
 ## Stage 0
 
-The challenge is Christmas themed and  starts at the North Pole: 178.62.xx.xx/1.html
+This challenge revolves around a secret encrypted message sent from NSA to BoozeAlien
