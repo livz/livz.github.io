@@ -132,7 +132,7 @@ elf2207@grot0:~$
  Going back to the login message, I remembered there was something about /home/webuser directory:
  
  ```bash
- $ cat /etc/motd
+$ cat /etc/motd
  
 This system is poorly configured. You figure that the data you want must be in the /home/webuser directory.
 ```
@@ -155,7 +155,7 @@ listen.mode = 0666
 
 This makes the socket world writeable! In fact it  should be readable/writeable only by the nginx user. So we can actually send commands to php-fm ourselves, that is if we first find out how to communicate with it.
 
-```bash
+```
 REQUEST_METHOD=GET SCRIPT_FILENAME= /home/elf2207/hello.php cgi-fcgi -bind -connect /var/run/php-fpm.sock
  
 X-Powered-By: PHP/7.2.0-dev
@@ -171,8 +171,10 @@ There are a few minor obstacles here, like not being able to compile stuff on th
 ## References
 
 **PHP-FM Architecture**
+
 [PHP-FM](https://serversforhackers.com/video/php-fpm-configuration-the-listen-directive)
 
 **Talking to FastCGI Server**
+
 [Directly connecting to PHP-FPM](https://www.thatsgeeky.com/2012/02/directly-connecting-to-php-fpm/)
 [Communicate with PHP FastCGI from ruby](http://stackoverflow.com/questions/16561826/communication-with-php-fastcgi-socket-from-ruby)
