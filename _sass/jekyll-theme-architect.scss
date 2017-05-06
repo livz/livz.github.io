@@ -111,15 +111,32 @@ header a.button {
   right: 0;
   background: transparent url(../images/github-button.png) 0 0 no-repeat;
 }
-aside a.button {
+aside a.btn-home {
   display: block;
   width: 138px;
   padding-left: 64px;
   margin-bottom: 20px;
   font-size: 21px;
-  background: transparent url(../images/download-button.png) 0 0 no-repeat;
+  background: transparent url(../images/nav-home.png) 0 0 no-repeat;
 }
 
+aside a.btn-blog {
+  display: block;
+  width: 138px;
+  padding-left: 64px;
+  margin-bottom: 20px;
+  font-size: 21px;
+  background: transparent url(../images/nav-blog.png) 0 0 no-repeat;
+}
+
+aside a.btn-about {
+  display: block;
+  width: 138px;
+  padding-left: 64px;
+  margin-bottom: 20px;
+  font-size: 21px;
+  background: transparent url(../images/nav-about.png) 0 0 no-repeat;
+}
 code, pre {
   margin-bottom: 30px;
   font-family: Monaco, "Bitstream Vera Sans Mono", "Lucida Console", Terminal, monospace;
