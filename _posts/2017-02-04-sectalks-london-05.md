@@ -5,7 +5,6 @@ Last week I've been to the 5th SecTalks London meetup and I'm proud to say I've 
 Below is a write-up of my solution. Hopefully by now the details of the challenge are made public so if people are still working on this I won't spoil anyone's fun by publishing this.
 
 ## Stage 0
-The challenge is Christmas themed and  starts at the North Pole: 178.62.xx.xx/1.html
 
 > While taking a well earned break at the Pole Star Tavern, you overhear a couple of the local elves talking about some of the security improvements they've made to Santa's distribution infrastructure this year.
 Of particular interest to you is the digitisation of the naughty and nice lists, you know you haven't exactly been on your best behaviour this year, perhaps there is something you can do about that.
