@@ -116,7 +116,8 @@ elf2207@grot0:~$
 
 [Nginx](https://en.wikipedia.org/wiki/Nginx) web server is running, and by looking in the configuration files we see that it will pass [FastCGI](https://en.wikipedia.org/wiki/FastCGI) requests through a pipe, which will be executed by php-fm.
 
-```bashlocation ~ ^/index.php$ {
+```bash
+location ~ ^/index.php$ {
         fastcgi_param  SCRIPT_FILENAME    /home/webuser/index.php;
         fastcgi_param  REQUEST_METHOD     $request_method;
         fastcgi_param  REQUEST_URI        $request_uri;
