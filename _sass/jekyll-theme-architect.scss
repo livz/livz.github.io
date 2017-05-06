@@ -155,13 +155,13 @@ pre {
   padding: 20px;
   overflow: auto;
   text-shadow: none;
-  //background: #fff;   Remove white background for the code
+  //background: #fff;   Remove white background for pre box
   border: solid 1px #f2f2f2;
 }
 pre code {
   padding: 0;
   color: #2879d0;
-  background-color: #fff;
+  //background-color: #fff;  Remove white background for the code
   border: none;
 }
 
