@@ -161,7 +161,7 @@ Well that was easy wasn't it :)
 Have a cookie!
 ```
 
-There are a few minor obstacles here, like not being able to compile stuff on the box (missing GCC) on install apps (no sudo, obviously:) but I'll let you figure out how to overcome them. It shouldn't be too difficult.
+There are a few minor obstacles here, like not being able to compile stuff on the box (missing GCC) or install apps (no sudo, obviously:) but I'll let you figure out how to overcome them. It shouldn't be too difficult.
 
 ## References
 
