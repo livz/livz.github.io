@@ -42,7 +42,7 @@ Now that we have the encrypted file and the key, we need to figure out the corre
 
 Note that OpenSSL's man page _does not_ mention the essential **-kfile** parameter. For that we'd have to consult the man page of symmetric cipher routines:
 
-```
+```bash
 ~ man 1 enc
 ```
 
