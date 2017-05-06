@@ -1,12 +1,12 @@
 ![Logo](/assets/images/sectalks4-0.jpg)
 
-A while ago I've attended another London SecTalks event. Since I had proposed the current challenge there was nothing to solve, so I've pulled down another challenge from the archives. Below is a write-up of my solution. If you plan to solve it yourself, download the files: [email](/files/mail) and the [128 bytes key](/files/key) and stop reading now!
+A while ago I've attended another London SecTalks event. Since I had proposed the current challenge there was nothing to solve, so I've pulled down another challenge from the archives. Below is a write-up of my solution. If you plan to solve it yourself, download the files: [mail](/files/mail) and the [128 bytes key](/files/key) and stop reading right now (and start working)!
 
 ## Stage 0
 
 This challenge revolves around a secret encrypted message sent from NSA to BoozeAlien. Let's have a look:
 
-```bash
+```
 Return-Path: <bobloblaw@nsa.gov>                                                      
 Delivered-To: jeremyl@boozealien.com
 Received: (qmail 16641 invoked by uid 1000); 24 Apr 2014 07:37:19 -0000
@@ -34,9 +34,9 @@ A quick search reveals we're dealing with something encrypted in [OpenSSL salted
 
 ## Stage 1
 
-Now that we have the encrypted file and the key, we need to figure out the parameters to instruct OpenSSL to perform the decryption. OpenSSL's documentation is far from ideal, but after some frenetic online searching, I've found out the right parameters. Remember we already know the cipher parameter from the **X-Cipher** email header:
+Now that we have the encrypted file and the key, we need to figure out the correct parameters to instruct OpenSSL to perform the decryption. OpenSSL's documentation is far from ideal, but after some frenetic online searching, I've found out the right parameters. Remember we already know the cipher, the block size and the mode of operation from the **X-Cipher** email header:
 
-```bash
+```
 ~ openssl aes-128-cbc -d -kfile key -in mail.bin -out mail.out                          
 ```
 
