@@ -1,4 +1,4 @@
-![Logo](/assets/images/blog/sectalks-0.jpg)
+![Logo](/assets/images/sectalks-0.jpg)
 Last week I've been to the 5th SecTalks London meetup and I'm proud to say I've learnt something that evening and wanted to say Thank you to the creator of the night's challenge - @leigh.  I'll definitely be going again.
 
 
@@ -14,7 +14,7 @@ You snap out of your daydream to find them picking up the papers they've been gl
 It's a Christmas card with some writing on the front.
 The writing looks like it's in some sort of code: 4cf2af119d84f698585ebf494c6ca6321d72eb211d44a49344f4f7393ca73194
 There must be some more clues on the card!'
-![Christmas card](/assets/images/blog/sectalks-1.png)
+![Christmas card](/assets/images/sectalks-1.png)
 
 ## Stage 1
 The hint for this stage for "Simple stego". I've first opened the image in Gimp and noticed there was an alpha channel.  Unfortunately nothing really obvious here. Then I thought about varying colour intensity, a method used to enhance black and white images.
