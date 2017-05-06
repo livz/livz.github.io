@@ -141,7 +141,8 @@ aside a.btn-about {
 code, pre {
   margin-bottom: 30px;
   font-family: Monaco, "Bitstream Vera Sans Mono", "Lucida Console", Terminal, monospace;
-  font-size: 13px;
+  //font-size: 13px;
+  font-size: 85%;
   color: #222;
 }
 
@@ -160,7 +161,7 @@ pre {
 }
 pre code {
   padding: 0;
-  color: #2879d0;
+  color: #2879d0;     // Remove default blue color
   //background-color: #fff;  Remove white background for the code
   border: none;
 }
