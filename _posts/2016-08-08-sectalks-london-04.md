@@ -6,7 +6,7 @@ A while ago I've attended another London SecTalks event. Since I had proposed th
 
 This challenge revolves around a secret encrypted message sent from NSA to BoozeAlien. Let's have a look:
 
-```
+```bash
 Return-Path: <bobloblaw@nsa.gov>                                                      
 Delivered-To: jeremyl@boozealien.com
 Received: (qmail 16641 invoked by uid 1000); 24 Apr 2014 07:37:19 -0000
