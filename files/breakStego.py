@@ -31,7 +31,7 @@ def buildStream(bits):
         f.write("".join([chr(c) for c in stream]))
 
 def getBit(pixel):                    
-    print pixel
+    #print pixel
     if pixel[1] != pixel[2]:
         return 0
     else:
