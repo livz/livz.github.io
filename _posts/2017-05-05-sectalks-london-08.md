@@ -59,3 +59,72 @@ Intuitively, we can see these errors are related to the case of the letters in t
 * The last character of the text should be 'e' instead of 'E'. We add 0x20 to the last character of the key (0x13) and we get '3' (0x33)
 
 So the key to the first stage is **sectalks<3** :sunglasses:
+
+## Stage 1
+
+Armed with the password from the previous stage, let's check what's with the image
+
+```python
+v = [23, 4, 23, 21, 9, .....]
+key = "sectalks<3"
+
+dec = "".join([chr(v[i] ^ ord(key[i % 10])) for i in range(len(v))])
+f = open("3.out", "wb")
+f.write(dec)
+f.close()
+```
+
+As expected, the image is a PNG file, base64 encoded:
+
+```
+data:image/png;base64,iVBORw.....
+```
+
+Another starting point to solve this challenge could have been to know the format expected by the _src_ html tag, namely **_data:image/.._**. The password could have been obtained by XOR-ing the first 10 character of this header with the first 10 elements of the array. Anyways, let's move on.
+
+```bash
+~ cat image.b64 | base64 -d   > image.png
+~ feh image.png
+```
+![Stage 2](/assets/images/sectalks8-1.png)
+
+The clue for this stage is _'in the movie name'_. Firstly, what movie?? If you're not a fan of the genre, just upload the image on the [Google reverse image search](https://images.google.com/) page and you'll get the movie name:
+
+![Reverse image search](/assets/images/sectalks8-2.png)
+
+Now there is a lot of grey/gray in the picture. I first fired up Gimp to see if I can spot anything suspicious in there. First thing I noticed is that the alpha channel is blank. No luck here. Then I started to fiddle with colour filters to see if I can spot the place where something has been injected.  The [Colour Enhance filter](https://docs.gimp.org/en/plug-in-color-enhance.html) (Colours -> Auto -> Colour Enhance) reveals an area which has clearly been manually altered:
+
+![Colour Enhace](/assets/images/sectalks8-3.png)
+
+Same effect can be seen also with the [Maximum RGB](https://docs.gimp.org/en/plug-in-max-rgb.html) filter. This keeps the intensity of the RGB color channel which has the maximal/minimal intensity and reduces other both to zero. This observation will prove useful later in figuring out the steganography scheme.
+
+![Maximum RGB](/assets/images/sectalks8-4.png)
+
+After many tries to guess the obfuscation scheme, I realised that there is a repetitive pattern in in all the modified pixels in the upper part of the image. Take a moment to look at the pixels below and try to find out yourself what the pattern is. The colours below represent the RGBA codes:
+
+```
+(246, 245, 245, 255)
+(248, 249, 248, 255)
+(247, 246, 246, 255)
+(248, 247, 247, 255)
+(244, 245, 244, 255)
+(249, 248, 248, 255)
+(247, 246, 246, 255)
+(247, 248, 247, 255)
+(248, 247, 247, 255)
+(246, 247, 246, 255)
+```
+
+As you probably spotted, we have two cases:
+* R and G == B
+* R == B and G
+
+So each pixel encodes actually a single bit. It's actually very easy to code this in Python, using the [Python Imaging Library](http://www.pythonware.com/products/pil/). [This script](/files/breakStego.py) checks the above condition in all the pixels and adds a 0 or 1 to a stream of bits. It then splits the stream into bytes and dumps them:
+
+```python
+ ~ python breakStego.py image.png out
+[+] Width: 469 Heigh: 699 (pixels)
+699 469
+~ less out
+[][(![]+[])[+[]]+([![]]+[][[]]) ....
+```
