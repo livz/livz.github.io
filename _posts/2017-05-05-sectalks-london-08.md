@@ -33,7 +33,7 @@ At this point we know that the long array is being XOR-ed with a repetitive 10 l
  
 I've put together a short [Python script](/files/breakXOR.py) that guesses the most probably five key sizes (notice that 10 is in there as well!) then goes on to crack each of the ten transposed blocks individually:
 ```
-~ python 1.py
+~ python breakXOR.py
 [+] Most possible 5 key sizes: 
 [*] Key size: 2 Hamming dist: 2.6
 [*] Key size: 4 Hamming dist: 2.95
