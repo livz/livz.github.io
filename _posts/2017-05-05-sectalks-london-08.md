@@ -80,7 +80,7 @@ As expected, the image is a PNG file, base64 encoded:
 data:image/png;base64,iVBORw.....
 ```
 
-Another starting point to solve this challenge could have been to know the format expected by the _src_ html tag, namely **_data:image/.._**. The password could have been obtained by XOR-ing the first 10 character of this header with the first 10 elements of the array. Anyways, let's move on.
+Another starting point to solve this challenge could have been to know the format expected by the _src_ html tag, namely **_data:image/.._**. The password could have been obtained by XOR-ing the first 10 character of this header with the first 10 elements of the array. Anyways, let's move on and decode the base64:
 
 ```bash
 ~ cat image.b64 | base64 -d   > image.png
@@ -88,7 +88,7 @@ Another starting point to solve this challenge could have been to know the forma
 ```
 ![Stage 2](/assets/images/sectalks8-1.png)
 
-The clue for this stage is _'in the movie name'_. Firstly, what movie?? If you're not a fan of the genre, just upload the image on the [Google reverse image search](https://images.google.com/) page and you'll get the movie name:
+The clue for this stage is _'in the movie name'_. First you might ask, what movie?? If you're not a fan of the genre, just upload the image on the [Google reverse image search](https://images.google.com/) page and you'll get the movie name:
 
 ![Reverse image search](/assets/images/sectalks8-2.png)
 
@@ -100,7 +100,7 @@ Same effect can be seen also with the [Maximum RGB](https://docs.gimp.org/en/plu
 
 ![Maximum RGB](/assets/images/sectalks8-4.png)
 
-After many tries to guess the obfuscation scheme, I realised that there is a repetitive pattern in in all the modified pixels in the upper part of the image. Take a moment to look at the pixels below and try to find out yourself what the pattern is. The colours below represent the RGBA codes:
+After many tries to guess the obfuscation scheme, I realised that there is a repetitive pattern in all the modified pixels in the upper part of the image. Take a moment to look at the pixel values below and try to find out yourself what the pattern is. The colours below represent the RGBA codes:
 
 ```
 (246, 245, 245, 255)
@@ -115,11 +115,11 @@ After many tries to guess the obfuscation scheme, I realised that there is a rep
 (246, 247, 246, 255)
 ```
 
-As you probably spotted, we have two cases:
+As you have probably spotted, we have two cases:
 * R and G == B
 * R == B and G
 
-So each pixel encodes actually a single bit. It's actually very easy to code this in Python, using the [Python Imaging Library](http://www.pythonware.com/products/pil/). [This script](/files/breakStego.py) checks the above condition in all the pixels and adds a 0 or 1 to a stream of bits. It then splits the stream into bytes and dumps them:
+So each pixel in the marked area encodes a single bit. It's actually very easy to code this in Python, using the [Python Imaging Library](http://www.pythonware.com/products/pil/). [This script](/files/breakStego.py) checks the above condition in all the pixels and adds a 0 or 1 to a stream of bits. It then splits the stream into bytes and dumps them:
 
 ```python
  ~ python breakStego.py image.png out
