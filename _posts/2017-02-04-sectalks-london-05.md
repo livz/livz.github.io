@@ -141,7 +141,7 @@ drwxr-x---  3 webuser webuser 4096 Jan 26 20:30 webuser
 
 But someone else has - php-fm. To understand a bit more what's happening, Nginx is sending requests to the socket file defined in sites-available configuration file and php-fpm is picking them up and executing them:
 
-**_Browser -> nginx -> (FastCGI) -> PHP-FPM _**
+**Browser -> nginx -> (FastCGI) -> PHP-FPM **
 
 The configuration file for php-fm is readable at /usr/local/etc/php-fpm.d/www.conf. Remember the Message of the Day mentioned a _poorly configured_ system. The culprit is actually in the **insecure permissions for the socket used by nginx** to send commands to php-fm:
 
