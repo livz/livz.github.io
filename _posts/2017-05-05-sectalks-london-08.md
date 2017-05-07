@@ -128,3 +128,15 @@ So each pixel in the marked area encodes a single bit. It's actually very easy t
 ~ less out
 [][(![]+[])[+[]]+([![]]+[][[]]) ....
 ```
+
+## Stage 2
+
+The easy solution for this is to recognise that the output extracted from the image is obfuscated JavaScript. We can just paste it into the Web Developer console and see what it does:
+
+![Well done](/assets/images/sectalks8-5.png)
+
+That JavaScript looks pretty cool. Let's spend some time to understand the obfuscation technique. A quick Google search for _"obfuscated javascript using tons of square brackets"_ leads us to [JSFuck](http://www.jsfuck.com):
+
+> JSFuck is an esoteric and educational programming style based on the atomic parts of JavaScript. It uses only six different characters to write and execute code.
+
+If you're curious how everything can be constructed from just 6 characters, check its [source code](https://github.com/aemkei/jsfuck/blob/master/jsfuck.js), it's very clever. The tool was developed by **Martin Kleppe** and his [website](http://aem1k.com) has some amazing work, make sure you check it out.
