@@ -38,4 +38,164 @@ probs = predict(img_data, n_preds=1)
 label: 283 (Persian cat)
 certainty: 13.94%
 ```
-[First detection](/assets/images/nn-1.png)
+![First detection](/assets/images/nn-1.png)
+
+## Part 3 - Breaking the predictions
+
+### Step 1 - Calculate the gradient
+
+First we'll calculate the gradient of the neural network. The gradient is the derivative of the network.
+The intuition behind this is that the gradient represents _the direction to take to make the image look like something_.
+So we'll calculate the gradient to make the cat look like a mouse for example.
+
+```python
+def compute_gradient(image_data, intended_outcome):
+    predict(image_data, display_output=False)
+    
+    # Get an empty set of probabilities
+    probs = np.zeros_like(net.blobs['prob'].data)
+    
+    # Set the probability for our intended outcome to 1
+    probs[0][intended_outcome] = 1
+    
+    # Do backpropagation to calculate the gradient for that outcome
+    gradient = net.backward(prob=probs)
+    
+    return gradient['data'].copy()
+
+mouse = 673        # Line 674 in synset_words.txt
+grad = compute_gradient(img_data, mouse)    
+```
+
+Very important, because _the gradient is the same shape as the the original image_, we can display it as an image!. But we need to scale it up, otherwise it won't be visible, since the order of magniture of gradient is _e-08_. So let's display the gradient for the prediction above:
+
+```python
+# Display scaled gradient
+display(grad / np.percentile(grad, 98))
+
+plt.title('Gradient for mouse prediction')
+```
+![Gradient](/assets/images/nn-2.png)
+
+
+### Step 2: Find the direction towards a different prediction
+
+We've already calculated gradient via _compute_gradient()_ function, and drawn it as a picture. In this step we want to create a delta which _emphasizes the pixels in the picture that the neural network thinks are important_.
+
+Below we can play with different values, and add or substract small multiples of delta from our image and see how the predictions change. The modified image is then displayed. Notice how the pixels are slightly affected. 
+
+```python
+delta = np.sign(grad)
+multiplicator = 0.9
+new_predictions = predict(np.round(img_data + multiplicator*delta), n_preds=5)
+```
+
+```
+label: 673 (mouse, computer mouse), certainty: 52.87%
+label: 508 (computer keyboard, keypad), certainty: 12.23%
+label: 230 (Shetland sheepdog, Shetland sheep dog), certainty: 4.22%
+label: 534 (dishwasher, dish washer), certainty: 2.73%
+label: 742 (printer), certainty: 2.6%
+```
+![Modified cat](/assets/images/nn-3.png)
+
+We've added a very light version of the gradient to the original image. This increased the probability of the label we used to compute the gradient - _mouse_, which now has **52.87% probability**. Not bad at all but the image is visibly altered. Let's see if we can do better.
+
+So insted of adding delta multiplied by a big number, we'll work in smaller steps, compute the gradient towards our desired outcome _at each step_ and each time modify the image slightly.
+
+### Step 3 - Loop to find the best values
+
+**Slowly** go towards a different prediction. At each step compute the gradient for our desired label, and make a slight update of the image. The following steps compute the gradiend _of the image updated at previous step_ then update it slightly.
+
+_The most interesting function_ of this whole session is below. Spend a few minutes on it!
+
+```python
+def trick(image, desired_label, n_steps=10):
+    # Maintain a list of outputs at each step
+    # Will be usefl later to plot the evolution of labels at each step.
+    prediction_steps = []
+    
+    for _ in range(n_steps - 1):
+        preds = predict(image, display_output=False)
+        prediction_steps.append(np.copy(preds))
+        grad = compute_gradient(image, desired_label)
+        delta = np.sign(grad)
+        # If there are n steps, we make them size 1/n -- small!
+        image = image + delta * 0.9 / n_steps
+    return image, prediction_steps
+```
+
+## Part 4 - Final results
+
+### Transform the cat into a penguin (or mouse)
+
+... _without affecting the apparence of the image_. First let's check the original predictions, to see what is our starting point:
+
+```python
+# Check Original predictions
+pred  = predict(img_data, n_preds=5)
+plt.title("Original predictions")
+```
+
+```
+label: 283 (Persian cat), certainty: 13.94%
+label: 700 (paper towel), certainty: 13.38%
+label: 673 (mouse, computer mouse), certainty: 6.05%
+label: 478 (carton), certainty: 5.66%
+label: 508 (computer keyboard, keypad), certainty: 4.7%
+```
+
+![Original predictions](/assets/images/nn-4.png)
+
+Now let's trick the Neural Network:
+
+```
+mouse_label = 673
+penguin_label = 145
+new_image, steps = trick(img_data, penguin_label, n_steps=30)
+
+preds = predict(new_image)
+plt.title("New predictions for altered image")
+```
+
+```
+label: 145 (king penguin, Aptenodytes patagonica), certainty: 51.84%
+label: 678 (neck brace), certainty: 4.76%
+label: 018 (magpie), certainty: 4.27%
+label: 667 (mortarboard), certainty: 3.02%
+label: 013 (junco, snowbird), certainty: 2.52%
+label: 148 (killer whale, killer), certainty: 2.04%
+```
+
+![Cat-penguin](/assets/images/nn-4.png)
+
+It still looks like a cat, with no visible differences compared to the intial picture.
+But after only 10 iterations, the cat can become a mouse with **96.72% probability**, or a king penguin actually with a probability of **51.84%** after 30. We can do a lot better with more iterations but it takes more time. Notice _there is no visible change in the image pixels!_
+
+
+### Plot the evolution of predictions
+
+Another cool thing to do is plot the evolution of predictions for a few chosen labels and see what happens with the probabilities at every small step:
+
+```python
+# Plot evolution of different labels at each step
+def plot_steps(steps, label_list, **args):
+    d = {}
+    for label in label_list:
+        d[get_label_name(label)] = [s[0][label] for s in steps]
+    df = pd.DataFrame(d)
+    df.plot(**args)
+    plt.xlabel('Step number')
+    plt.ylabel('Probability of label')
+
+mouse_label = 673
+keyboard_label = 508
+persian_cat_label = 283
+penguin_label = 145
+
+label_list = [mouse_label, keyboard_label, persian_cat_label, penguin_label]
+plot_steps(steps, label_list, figsize=(10, 5))
+plt.title("Prediction for labels at each step")
+```    
+
+![Predictions graph](/assets/images/nn-6.png)
