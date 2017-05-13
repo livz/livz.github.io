@@ -3,30 +3,33 @@
 Recently I have completed profesor Andrew Ng's [Coursera class on Machine Learning](https://www.coursera.org/learn/machine-learning). 
 I learnt a lot from this and I liked the most the practical exercises.
 The course covers general methods of machine learning, starting with _linear regression_, _logistic regression_, _neural networks_, _clustering_ and many others. 
-You can find praises for this class basically everywhere online so I won't say more here. 
+You can find praises for this class basically everywhere online so I won't say any more here. 
 
 Since I'm not a practitioner of Machine Learning techniques, at the end of the class I wanted to find an aproachable and interesting project to practice somehow my newly acquired knowledge.
 So I stumbled upon the amazing work of [Julia Evans](https://codewords.recurse.com/issues/five/why-do-neural-networks-think-a-panda-is-a-vulture).
 
-In this blog I've followed and build upon that, and convinced the already trained Neural Network that my cat is actually a mouse, or other different animals (_Hint:_ It actually works!)
+In this blog I've followed and build upon that, and convinced an already trained ( by Google!) Neural Network that my cat is actually a penguin, or a mouse or other different animals (_Hint:_ It actually works!)
 I've removed many details and added more comments throughout the code. Please check her original blog post to better understand what's happening at every point.
 
 If you want to follow along, check her installation instructions to configure a Docker container with all the necessary libraries in it. Also here's my [Jupyter Notebook](/files/breaking-neural-network.ipynb). 
-While doing the Docker setup part I had a few issue, but nothing that couldn't be solved with a few Google searches.
+While doing the Docker setup part I had a few issues, but nothing that couldn't be solved with a few Google searches.
+
+The trickiest one was that _the backpropagation method returned a matrix with all zeros_. The bottom line is that by default Caffe does not backpropagate to the data since it has no parameters. You  need to force this by adding a parameter to your model. More details [here](https://github.com/BVLC/caffe/issues/583).
 
 ## Part 1 - Setup
 
 This is completely coverd in the Julia Evans' referenced article and you can find it in my Jupyter Notebook as well. 
-Basically  we need to da few things before we canstart playing with the neural network:
+Basically  we need to do few things before we can start playing with the neural network:
 * Prepare the necessary libraries: Caffe, Pandas, mathplotlib, numpy, etc.
-* Load the labes of the neural network
+* Load the labels of the neural network
 * Load the model already trained on a huge set of animal images
-* Define some auxiliary functions to get images from URLs, convert them to PNG
+* Define some auxiliary functions to get images from URLs and convert them to PNG
 * Create the prediction function
 
 ## Part 2 - Testing the Neural Network
 
-We're going to test the network first. A Persian cat is detected in the image, with probability 13.94%. Sounds (about) right.
+We're going to test the network first. A Persian cat is detected in the image below, with probability 13.94%. Sounds (about) right. More on this later.
+
 ```python
 img_url = 'https://github.com/livz/livz.github.io/raw/master/assets/images/liz.jpg'
 img_data = get_png_image(img_url)
@@ -82,7 +85,7 @@ plt.title('Gradient for mouse prediction')
 
 We've already calculated gradient via _compute_gradient()_ function, and drawn it as a picture. In this step we want to create a delta which _emphasizes the pixels in the picture that the neural network thinks are important_.
 
-Below we can play with different values, and add or substract small multiples of delta from our image and see how the predictions change. The modified image is then displayed. Notice how the pixels are slightly affected. 
+Below we can play with different values and add or substract small multiples of delta from our image and see how the predictions change. The modified image is then displayed. Notice how the pixels are slightly affected. 
 
 ```python
 delta = np.sign(grad)
@@ -101,7 +104,7 @@ label: 742 (printer), certainty: 2.6%
 
 We've added a very light version of the gradient to the original image. This increased the probability of the label we used to compute the gradient - _mouse_, which now has **52.87% probability**. Not bad at all but the image is visibly altered. Let's see if we can do better.
 
-So insted of adding delta multiplied by a big number, we'll work in smaller steps, compute the gradient towards our desired outcome _at each step_ and each time modify the image slightly.
+So insted of adding delta multiplied by a big number (0.9), we'll work in smaller steps, compute the gradient towards our desired outcome _at each step_ and each time modify the image slightly.
 
 ### Step 3 - Loop to find the best values
 
@@ -167,7 +170,7 @@ label: 013 (junco, snowbird), certainty: 2.52%
 label: 148 (killer whale, killer), certainty: 2.04%
 ```
 
-![Cat-penguin](/assets/images/nn-4.png)
+![Cat-penguin](/assets/images/nn-5.png)
 
 It still looks like a cat, with no visible differences compared to the intial picture.
 But after only 10 iterations, the cat can become a mouse with **96.72% probability**, or a king penguin actually with a probability of **51.84%** after 30. We can do a lot better with more iterations but it takes more time. Notice _there is no visible change in the image pixels!_
@@ -199,3 +202,30 @@ plt.title("Prediction for labels at each step")
 ```    
 
 ![Predictions graph](/assets/images/nn-6.png)
+
+### Morphing the cat 
+
+Initially the first prediction was _Persian cat (label 283)_ with **13.94% certainty**. Although the image was correctly recognised as a cat, the probability is really not that great. Let's try to obtain a better score and address all the doubts that there is a Persian cat in the picture (_It actually isn't!_ A Persian cat looks massively different). 
+
+```python
+persian_cat_label = 283
+cat_persian, steps = trick(img_data, persian_cat_label, n_steps=10)
+preds = predict(cat_persian)
+plt.title("Persian or not?")
+```
+
+```
+label: 283 (Persian cat), certainty: 99.9%
+label: 332 (Angora, Angora rabbit), certainty: 0.03%
+label: 281 (tabby, tabby cat), certainty: 0.01%
+label: 259 (Pomeranian), certainty: 0.01%
+label: 700 (paper towel), certainty: 0.01%
+label: 478 (carton), certainty: 0.0%
+```
+![Persian cat(or not)](/assets/images/nn-7.png)
+
+After just 10 iterations, we managed to grow the confidence of the predicted label **_from 13.94% to 99.9% certainty**_!
+
+## Conclusions
+
+After going through the pain of setting up the correct libraries and train them, Neural networks actually can be very fun! If you're interested, the Coursera class is definitely a strong place to start, and plenty of resources online and  ways to continue your journey into ML afterwards!
