@@ -8,7 +8,7 @@ off-by-one errors and so on. No recent security mitigations are involved in the 
 
 ![Ensign](/assets/images/bm1.png)
 
-I hope it goes without saying that these blog posts shouldn't be used as a way to cheat in any case, but as a learning oportunity. With this in mind, let's begin with *Level 1*.
+I hope it goes without saying that these blog posts shouldn't be used as a way to cheat in any case, but as a learning oportunity. With this in mind, let's begin with **Level 1**.
 
 ## 0 - Discovery
 
