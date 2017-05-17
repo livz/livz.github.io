@@ -36,7 +36,7 @@ $ readelf -lW level2 | grep GNU_STACK
   GNU_STACK      0x000000 0x00000000 0x00000000 0x00000 0x00000 RWE 0x10
 ```
 
-The R**W**E flag suggests Read-**Write**-Execute flags are all enabled. Also remember from the previous level that ASLR is disabled on the system and all the addresses are static:
+The R**W**E flag suggests Read-**Write**-Execute flags are all enabled. Also remember from the previous level that ASLR is disabled on the system and all the addresses are static.
 
 ## 1 - Vulnerability
 
