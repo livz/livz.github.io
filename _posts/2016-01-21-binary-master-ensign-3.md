@@ -53,8 +53,9 @@ The R**W**E flag suggests Read-**Write**-Execute flags are all enabled. Also rem
 In this case we have a logic vulnerability. Notice that now string copying is done in a more secure way, using the [strncpy](http://www.cplusplus.com/reference/cstring/strncpy/) function, which receives as its 3rd parameter a maximum number of character to be copied from source to destination buffer. There is a very important caveat here, however:
 > No null-character is implicitly appended at the end of _destination_ if _source_ is longer than _num_. Thus, in this case, destination shall not be considered a null terminated C string (reading it as such would overflow).
 
-So the call to _ strncpy(buf3, a, sizeof(buf3))_ will **not** add a null terminator if parameter **_a_** (first user input!) is exactly 16 characters. 
-Following this, the call to _strlen(buf3)_ will go over bounds of the string buf (no null terminator) and will return a larger value. This will lead to the execution of the _strcpy(buf1, b)_ call, which will overflow _buf1_ with second user input, thus giving us the posibility to control agian the return address from function _foo_.
+* So the call to **strncpy(buf3, a, sizeof(buf3))** will **not** add a null terminator if parameter **a** (first user input!) is exactly 16 characters.
+* Following this, the call to **strlen(buf3)** will go over the bounds of the string **buf3** (no null terminator for _buf3_) and will return a larger value than expected. 
+* This will lead to the execution of the **strcpy(buf1, b)** call, which will overflow **buf1** with **b** (second user input), thus giving us the posibility to control again the return address from function **foo**.
 
 
 ```c
