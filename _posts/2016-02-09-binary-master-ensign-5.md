@@ -113,7 +113,7 @@ Now let's see how we can break it. Again a stack layout of the function is very 
 
 ### Overwriting the canary
 
-Because the canary is stored in a global variable, we can overwrite it:
+Because the canary is stored in a global variable, in a writeable section (check the permissions of **.bss** section with ```readelf -S level5```), we can overwrite it:
 
 ![Global variable](/assets/images/bm5-2.png)
 
