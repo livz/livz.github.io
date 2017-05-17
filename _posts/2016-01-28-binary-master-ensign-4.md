@@ -183,10 +183,10 @@ To print the value of the stack pointer from C source code, we can just add thes
    printf("%x", sp);
 ```
 
-Using this trick, I've found that the stack address for a recompiled program run outside the debugger was **0xffffd690**, or **0xffffd6a0** or close to these values. So the brute-force script - **try.sh**, goes from 0xFFFFD000 to 0xFFFFF000. This was enough.
+Using this trick, I've found that the stack address for a recompiled level4 run outside the debugger was either **0xffffd690** or **0xffffd6a0** or very close to these values. So the brute-force script - **try.sh** below, goes from 0xFFFFD000 to 0xFFFFF000. This was enough.
 
 ```bash
-#!/bin/bash                                                                                                        
+#!/bin/bash
 
 #for i in `seq 0xFFFFD000 0xFFFFF000`;
 for i in `seq 4294955008 4294963200`;
