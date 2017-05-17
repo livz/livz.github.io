@@ -2,7 +2,7 @@
 
 In this post we'll continue with level3 of the **Certified Secure Binary Mastery**, [Ensign](https://www.certifiedsecure.com/certification/view/37). 
 This time we will be dealing with a slightly more interesting vulnerability, an application logic vulnerability, again involving strings operations.
-To review the previous levels, check the link below:
+To review the previous levels, check the links below:
 * [Binary Master: Ensign - Level 1](https://livz.github.io/2016/01/07/binary-master-ensign-1.html)
 * [Binary Master: Ensign - Level 2](https://livz.github.io/2016/01/14/binary-master-ensign-2.html)
 
