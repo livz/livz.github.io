@@ -1,6 +1,6 @@
 ![Logo](/assets/images/nn-0.png)
 
-Recently I have completed profesor Andrew Ng's [Coursera class on Machine Learning](https://www.coursera.org/learn/machine-learning). 
+Recently I have completed professor Andrew Ng's [Coursera class on Machine Learning](https://www.coursera.org/learn/machine-learning). 
 I learnt a lot from this and I liked the most the practical exercises.
 The course covers general methods of machine learning, starting with _linear regression_, _logistic regression_, _neural networks_, _clustering_ and many others. 
 You can find praises for this class basically everywhere online so I won't say any more here. 
