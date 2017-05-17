@@ -133,7 +133,7 @@ gdb-peda$ run  $(python -c 'print "\x04\x03\x02\x01" + "A"*8 + "\x40\xa0\x04\x08
 
 ### Overwriting the return address
 
-Building on the findings from the previous point, the following payload achieves full control of EIP, without triggering the error message:
+Building on the findings from the previous point, the next payload achieves full control of EIP, without triggering the error message:
 
 * Overwrites the canary, as above
 * Sends a buffer with the correct overwritten canary value, which will overwrite the **cookie** variable
@@ -143,7 +143,7 @@ Building on the findings from the previous point, the following payload achieves
 | "\x04\x03\x02\x01" | JUNK (8 bytes) | "\x40\xa0\x04\x08" | JUNK (4 bytes) | "\x04\x03\x02\x01" | JUNK (12 bytes) | RET | 
 ```
 
-If it's not clear why, check again the stack layout from the image above. Basically the 4 bytes of junk represents the **i** variable, nexy we have the value that will overwrite **cookie** (has to be the same as the canary), 12 more junk bytes then the value for the return address.
+If it's not clear why, check again the stack layout from the image above. Basically the 4 bytes of junk represents the **i** variable, next we have the value that will overwrite **cookie** (has to be the same as the canary), 12 more junk bytes then the value for the return address.
 
 Again, test this first in GDB:
 ```bash
