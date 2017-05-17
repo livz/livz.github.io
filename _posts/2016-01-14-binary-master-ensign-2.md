@@ -1,7 +1,7 @@
 ![Logo](/assets/images/belts-yellow.png)
 
 We'll continue with level2 of the **Certified Secure Binary Mastery**, [Ensign](https://www.certifiedsecure.com/certification/view/37). This time it will be another classic issues that needs no introduction - _uncontrolled format strings attacks_. To review the previous level, check the link below:
-* [Binary Master - Ensign - Level 1](https://livz.github.io/2016/01/07/binary-master-ensign-1.html)
+* [Binary Master: Ensign - Level 1](https://livz.github.io/2016/01/07/binary-master-ensign-1.html)
 
 ## 0 - Discovery
 
@@ -30,17 +30,17 @@ RELRO           STACK CANARY      NX            PIE             RPATH      RUNPA
 No RELRO        Canary found      NX disabled   No PIE          No RPATH   No RUNPATH   level2
 ```
 
-NX is disabled and there *is* a stack canary now. Let's not worry about this yet, because we might not even be bother by the presence of the canary. Let's verify that the stack is executable:
+NX is disabled and now there *is* a stack canary. But let's not worry about this yet, because we might not even be bothered by the presence of the canary. Let's verify that the stack is executable:
 ```
 $ readelf -lW level2 | grep GNU_STACK
   GNU_STACK      0x000000 0x00000000 0x00000000 0x00000 0x00000 RWE 0x10
 ```
 
-The R**W**E flag suggests Read-**Write**-Execute flags are all enabled. Also remember from the previous level that ASLR is disabled on the system, all the addresses are static:
+The R**W**E flag suggests Read-**Write**-Execute flags are all enabled. Also remember from the previous level that ASLR is disabled on the system and all the addresses are static:
 
 ## 1 - Vulnerability
 
-What we have here is a classic uncontrolled format string vulnerability. The value of _buf_ comes from the user and is passed directly as a format string to the _printf_ call. There are so many excellent resources on this type of issues, there is no need for further details. For a better understanding, please check:
+What we have here is a classic uncontrolled format string vulnerability. The value of _buf_ comes from the user and is passed directly as a format string to the _printf_ call. There are so many excellent resources on this type of issues, there is no need for further details. If you're not familiar with this, for a better understanding, please check at least the following papers. For brevity I will skip most of the details regarding the methodlogy found in those papers.
 * team teso - [Exploiting Format String Vulnerabilities](https://crypto.stanford.edu/cs155/papers/formatstring-1.2.pdf)
 * Saif El-Sherei - [Format String Exploitation-Tutorial](https://www.exploit-db.com/docs/28476.pdf)
 
