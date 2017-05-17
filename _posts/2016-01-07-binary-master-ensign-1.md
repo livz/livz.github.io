@@ -185,4 +185,5 @@ You can now start with level2. If you want, you can log in
 as level2 with password [REDACTED]
 ```
 
-In the [next level](https://livz.github.io/2016/01/14/binary-master-ensign-2.html) we'll exploit another classic vulnerability, **uncontrolled string format**.
+
+In the [next level](https://livz.github.io/2016/01/14/binary-master-ensign-2.html) we'll exploit another classic vulnerability, **uncontrolled format strings**.
