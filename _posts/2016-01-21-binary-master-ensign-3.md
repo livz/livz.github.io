@@ -32,7 +32,7 @@ Run 'do-release-upgrade' to upgrade to it.
 
 ```
 
-Let's see if we have any mitigation techniques using [checksec.sh](http://www.trapkit.de/tools/checksec.html), downloaded and run locally :
+Let's see if we have any mitigation techniques using [checksec.sh](http://www.trapkit.de/tools/checksec.html), downloaded and run locally:
 ```bash
 $ checksec.sh --file level3
 RELRO           STACK CANARY      NX            PIE             RPATH      RUNPATH      FILE
