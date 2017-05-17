@@ -168,7 +168,7 @@ The layout and the following observations will help in constructing the proper p
 
 So our payload will look like this:
 ```
-| password (8 bytes) | JUNK (235 bytes) | | RET | 
+| password (8 bytes) | JUNK (235 bytes) | RET | 
 ```
 
 Next question is where should we place the payload? We cannot use the previous approach with the shellcode in an environment variable because the program is already started, we cannot control the environment anymore. But we have so much space left in the **name** variable (_Hint!_)
