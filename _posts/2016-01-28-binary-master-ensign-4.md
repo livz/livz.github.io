@@ -273,4 +273,4 @@ You can now start with level5. If you want, you can log in
 as level5 with password  [REDACTED]
 ```
 
-In the next and [final level](https://livz.github.io/2016/02/09/binary-master-ensign-5.html) of this set of challenges we'll work with more stack smashing, but this time we'll have to defeat some home-made canaries. Good fun!
+In the next and [final level](https://livz.github.io/2016/02/09/binary-master-ensign-5.html) of this set of challenges we'll work with more stack smashing, but this time we'll have to defeat some homemade canaries. Good fun!
