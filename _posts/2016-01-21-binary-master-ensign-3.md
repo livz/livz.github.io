@@ -33,7 +33,7 @@ Run 'do-release-upgrade' to upgrade to it.
 ```
 
 Let's see if we have any mitigation techniques using [checksec.sh](http://www.trapkit.de/tools/checksec.html), downloaded and run locally :
-```bas
+```bash
 $ checksec.sh --file level3
 RELRO           STACK CANARY      NX            PIE             RPATH      RUNPATH      FILE
 Partial RELRO   No canary found   NX disabled   No PIE          No RPATH   No RUNPATH   level3
@@ -49,6 +49,13 @@ $ readelf -lW level3 | grep GNU_STACK
 The R**W**E flag suggests Read-**Write**-Execute flags are all enabled. Also remember from the previous levels that ASLR is disabled on the system and all the addresses are static.
 
 ## 1 - Vulnerability
+
+In this case we have a logic vulnerability. Notice that now string copying is done in a more secure way, using the [strncpy](http://www.cplusplus.com/reference/cstring/strncpy/) function, which receives as its 3rd parameter a maximum number of character to be copied from source to destination buffer. There is a very important caveat here, however:
+> No null-character is implicitly appended at the end of _destination_ if _source_ is longer than _num_. Thus, in this case, destination shall not be considered a null terminated C string (reading it as such would overflow).
+
+So the call to _ strncpy(buf3, a, sizeof(buf3))_ will **not** add a null terminator if parameter **_a_** (first user input!) is exactly 16 characters. 
+Following this, the call to _strlen(buf3)_ will go over bounds of the string buf (no null terminator) and will return a larger value. This will lead to the execution of the _strcpy(buf1, b)_ call, which will overflow _buf1_ with second user input, thus giving us the posibility to control agian the return address from function _foo_.
+
 
 ```c
 #include <string.h>
@@ -86,4 +93,6 @@ int main(int argc, char** argv) {
 }
 ```
 
-In this case 
+## 2 - Exploit
+
+## 3 - Profit
