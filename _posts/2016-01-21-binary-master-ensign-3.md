@@ -99,7 +99,7 @@ int main(int argc, char** argv) {
 
 For all the steps describe before to work, the layot of the stack of function **foo** is very important. Let's check that in IDA. After a bit of renaming, the variables on the stack look like this: 
 
-![Logo](/assets/images/bm3-1.png)
+![Stack Layout](/assets/images/bm3-1.png)
 
 Steps:
 * We need a payload of 16 characters in **a**.
