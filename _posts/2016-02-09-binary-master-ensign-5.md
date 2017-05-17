@@ -2,7 +2,7 @@
 
 
 In this post we'll continue with level5, the last one from **Certified Secure Binary Mastery**, [Ensign](https://www.certifiedsecure.com/certification/view/37). 
-This time we will be dealing again with more buffer overflow issues but we'll have to defeat a homemade implementation of buffer overflow detection. This is the most interesting one and it hides yet another logical vulnerability that will allow us to defeat the random stack canary.
+This time we will be dealing again with more buffer overflow issues but we'll have to defeat a homemade implementation of buffer overflow detection. This is the most interesting level so far and it hides yet another logical vulnerability that will allow us to defeat the random stack canary.
 
 To review the previous levels, check the links below:
 * [Binary Master: Ensign - Level 1](https://livz.github.io/2016/01/07/binary-master-ensign-1.html)
@@ -61,7 +61,7 @@ int canary;
 
 void __attribute__ ((constructor)) generate_canary() {
         FILE* fp = fopen("/dev/urandom", "r");
-        fread(&canary, 4, 1, fp);                                [1]+-        
+        fread(&canary, 4, 1, fp);                                [1]      
 }
 
 void hello(char* name) {
