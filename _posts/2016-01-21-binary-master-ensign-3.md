@@ -138,4 +138,4 @@ You can now start with level4. If you want, you can log in
 as level4 with password  [REDACTED] 
 ```
 
-In the next level we'll exploit more buffer overflows, but this time over the network.
+In the [next level](https://livz.github.io/2016/01/28/binary-master-ensign-4.html) we'll exploit more buffer overflows, but this time over the network.
