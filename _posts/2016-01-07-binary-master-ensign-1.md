@@ -30,7 +30,7 @@ Welcome to Ubuntu 14.04.5 LTS (GNU/Linux 3.13.0-119-generic x86_64)
                                           /___/      
 ```
 
-Let's see if we have any mitigation techniques using [checksec.sh](http://www.trapkit.de/tools/checksec.html), downloaded and run locally :
+Let's see if we have any mitigation techniques using [checksec.sh](http://www.trapkit.de/tools/checksec.html), downloaded and run locally:
 ```bash
 $ checksec.sh --file level1
 RELRO           STACK CANARY      NX            PIE             RPATH      RUNPATH      FILE
