@@ -101,5 +101,8 @@ First let us understand how the program works:
 * The **hello** function set its first variable on the stack to the value of the canary. 
 * In case any buffer overflow would try to overwrite the return address, it would have to overwrite also the canary. But this will trigger a program termination with an error (**[3]**)
 
-Now let's see how we can break it:
-* 
+Now let's see how we can break it. Again a stack layout of the function is very useful. We need to understand where each variable is located and what can be overwritten. Below I've renamed the variables in IDA to reflect the source code from level5.c:
+
+![Stack layout](/assets/images/bm4-1.png)
+
+
