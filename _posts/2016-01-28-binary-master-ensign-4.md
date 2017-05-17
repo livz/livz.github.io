@@ -195,7 +195,7 @@ do
 done
 ```
 
-The python script **bof.py** constructs and sends a payload over the socket for each value in the chosen range. One more thing here. We need a different shellcode than before. Spawning /bin/dash will not help us at all. I went for running the **victory** and piping the result to a temporary file:
+The python script **bof.py** constructs and sends a payload over the socket for each value in the chosen range. One more thing here. We need a different shellcode than before. Spawning /bin/dash will not help us at all. I went for a payload that runs the **victory** binary and pipes the result to a temporary file:
 ```bash
 # msfvenom  -p linux/x86/exec CMD="/home/level5/victory > /tmp/out" -e x86/shikata_ga_nai -b '\x00' -f python
 ```
