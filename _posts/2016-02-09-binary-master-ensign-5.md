@@ -97,17 +97,17 @@ int main(int argc, char** argv) {
 
 First let us understand how the program works:
 * We have one constructor that generates a random 4 bytes canary by reading **/dev/urandom** (**[1]**)
-* **Main** function accespts one input parameter which is passed to the **hello** function (**[2]**).
-* The **hello** function set its first variable on the stack to the value of the canary. 
-* In case any buffer overflow would try to overwrite the return address, it would have to overwrite also the canary. But this will trigger a program termination with an error (**[3]**)
+* The **Main** function accepts one input parameter which is passed to the **hello** function (**[2]**).
+* The **hello** function assigns the value of the canary to the first variable on the stack - **cookie**. 
+* In case any buffer overflow would try to overwrite the return address, it would have to overwrite also the cookie. But this would trigger a program termination with an error (**[3]**). Not good.
 
-Now let's see how we can break it. Again a stack layout of the function is very useful. We need to understand where each variable is located and what can be overwritten. Below I've renamed the variables in IDA to reflect the source code from level5.c:
+Now let's see how we can break it. Again a stack layout of the function is very useful. We need to understand where each variable is located and which ones we can overwrite. Below I've renamed the variables in IDA to reflect the source code from level5.c:
 
 ![Stack layout](/assets/images/bm5-1.png)
 
-* The **strcpy** call at **[4]** can overwrite the address of the newly allocate memory block in **msg**, which located immediately after the buffer.
-* The **sprintf** call at **[5]** will write from **buf** the address overwritten by the call before.
-* Basically we have a primitive that allows us to overwrite an arbitrary memory address
+* The **strcpy** call at **[4]** can overwrite the address of the newly allocated memory block in **msg**, which is located immediately after the buffer.
+* The **sprintf** call at **[5]** will write from **buf** to the address we've just overwritten by the call before.
+* Basically we have a primitive that allows us to overwrite an arbitrary memory address.
 
 ## 2 - Exploit
 
