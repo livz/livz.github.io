@@ -52,3 +52,54 @@ The R**W**E flag suggests Read-**Write**-Execute flags are all enabled. Also rem
 
 ## 1 - Vulnerability
 
+```c
+#include <string.h>
+#include <stdio.h>
+#include <stdlib.h>
+
+int canary;
+
+void __attribute__ ((constructor)) generate_canary() {
+        FILE* fp = fopen("/dev/urandom", "r");
+        fread(&canary, 4, 1, fp);                                [1]+-        
+}
+
+void hello(char* name) {
+        int cookie = canary;
+        int i = 0x12345;
+        char* msg = malloc(128);
+        char buf[12];
+
+        strcpy(buf, name);
+        sprintf(msg, "%s, it's good to see you!\n", buf);
+
+        printf("%s", msg);
+
+        if (cookie != canary) {                                  [3]        
+                printf("*** stack smashing detected ***\n");
+
+                abort();
+        }
+}
+
+int main(int argc, char** argv) {
+        if (argc != 2) {
+                printf("Usage: %s <name>\n", argv[0]);
+
+                return -1;
+        }
+
+        hello(argv[1]);                                          [2]
+
+        return 0;
+}
+```
+
+First let us understand how the program works:
+* We have one constructor that generates a random 4 bytes canary by reading **/dev/urandom** (**[1]**)
+* **Main** function accespts one input parameter which is passed to the **hello** function (**[2]**).
+* The **hello** function set its first variable on the stack to the value of the canary. 
+* In case any buffer overflow would try to overwrite the return address, it would have to overwrite also the canary. But this will trigger a program termination with an error (**[3]**)
+
+Now let's see how we can break it:
+* 
