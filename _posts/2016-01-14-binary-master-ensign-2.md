@@ -196,4 +196,4 @@ You can now start with level3. If you want, you can log in
 as level3 with password  [REDACTED]
 ```
 
-In the [next leve](https://livz.github.io/2016/01/21/binary-master-ensign-3.html) we'll deal with more buffer related issues and some logical vulnerabilities as well.
+In the [next level](https://livz.github.io/2016/01/21/binary-master-ensign-3.html) we'll deal with more buffer related issues and some logical vulnerabilities as well.
