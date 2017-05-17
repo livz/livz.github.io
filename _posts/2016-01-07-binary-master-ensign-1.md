@@ -1,10 +1,9 @@
 ![Logo](/assets/images/belts-white.png)
 
-At one point I _stumbled_  over the Certified Secure Binary Mastery challenges. 
+At one point I _stumbled_  over the **Certified Secure Binary Mastery** challenges. 
 They are not terribly difficult and _each one of them has an interesting element_. This makes them _accessible and fun_. 
 
-In this blog posts and the following four I'll go through the [Ensign](https://www.certifiedsecure.com/certification/view/37) levels. As described, these ones deal with _retro exploitation techniques_ like buffer overflows, format strings
-off-by-one errors and so on. No recent security mitigations are involved in the Ensign levels (E.g.: ASLR or non-executable stack). Don't worry too much about this yet, because their complexity increases to keep the hackers _in flow_.
+In this blog posts and the following four I'll go through the [Ensign](https://www.certifiedsecure.com/certification/view/37) levels. As described, these ones deal with _retro exploitation techniques_ like buffer overflows, format strings, off-by-one errors and so on. No recent security mitigations are involved in the Ensign levels (E.g.: ASLR or non-executable stack). Don't worry too much about this yet, because their complexity increases to keep the hackers _in flow_. 
 
 ![Ensign](/assets/images/bm1.png)
 
@@ -12,9 +11,9 @@ off-by-one errors and so on. No recent security mitigations are involved in the 
 
 ## 0 - Discovery
 
-Let's connect to the server and check thebinary we're dealing with:
+Let's connect to the server and check the binary we're dealing with:
 ```
-ssh level1@hacking.certifiedsecure.com -p 8266
+$ ssh level1@hacking.certifiedsecure.com -p 8266
 level1@hacking.certifiedsecure.com's password: 
 Welcome to Ubuntu 14.04.5 LTS (GNU/Linux 3.13.0-119-generic x86_64)
 
@@ -31,7 +30,7 @@ Welcome to Ubuntu 14.04.5 LTS (GNU/Linux 3.13.0-119-generic x86_64)
                                           /___/      
 ```
 
-Let's see if we have any mitigation techniques using [checksec.sh](http://www.trapkit.de/tools/checksec.html):
+Let's see if we have any mitigation techniques using [checksec.sh](http://www.trapkit.de/tools/checksec.html), downloaded and run locally :
 ```bash
 $ checksec.sh --file level1
 - Stack executable and no stack cookie
@@ -45,7 +44,7 @@ $ readelf -lW level1 | grep GNU_STACK
   GNU_STACK      0x000000 0x00000000 0x00000000 0x00000 0x00000 RWE 0x10
 ```
 
-The R**W**E flag suggets Read-**Write**-Execute flags are all enabled. What about the state of ASLR on the system? Good news again: there is [no ASLR](https://askubuntu.com/questions/318315/how-can-i-temporarily-disable-aslr-address-space-layout-randomization), everything is static:
+The R**W**E flag suggests Read-**Write**-Execute flags are all enabled. What about the state of ASLR on the system? Good news again: there is [no ASLR](https://askubuntu.com/questions/318315/how-can-i-temporarily-disable-aslr-address-space-layout-randomization), everything is static:
 ```bash
 $ cat  /proc/sys/kernel/randomize_va_space
 0
@@ -53,7 +52,7 @@ $ cat  /proc/sys/kernel/randomize_va_space
 
 ## 1 - Vulnerability
 
-We have a classic stack-based buffer overflow, caused by overflowing the buffer _buf_ using the insecure function _strcpy_, which doesn't do any bounds checking:
+What we have here is a classic stack-based buffer overflow, caused by overflowing the 16-byte buffer _buf_ using the insecure function _strcpy_, which doesn't do any bounds checking:
 
 ```c
 #include <stdio.h>                                                                                                 
@@ -82,9 +81,9 @@ int main(int argc, char** argv) {
 
 ## 2 - Exploitation
 
-By overwriting the return address from the function _helloworld_, we can redirect the execution of the program. We'll chose as destination a location on the stack containing a shellcode. Steps:
+By overwriting the return address from the function _helloworld_, we can redirect the execution of the program. We'll chose as destination _**a location on the stack containing our shellcode**_. Steps:
 * Find the position that overwrites the return address
-* Generate _NULL-free_ shellcode for the correct architecture (_Although the machine is 64-bit, the binaries are 32!_)
+* Generate _NULL-free_ shellcode for the correct architecture. Although the machine is 64-bit, the binaries are 32!
 * Place the shellcode in an environment variable
 * Find the static address of the environment variable (_No ASLR, remember?_) and used it conjunction with step 1
 
