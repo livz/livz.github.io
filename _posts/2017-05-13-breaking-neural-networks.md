@@ -8,7 +8,7 @@ You can find praises for this class basically everywhere online so I won't say a
 Since I'm not a practitioner of Machine Learning techniques, at the end of the class I wanted to find an aproachable and interesting project to practice somehow my newly acquired knowledge.
 So I stumbled upon the amazing work of [Julia Evans](https://codewords.recurse.com/issues/five/why-do-neural-networks-think-a-panda-is-a-vulture).
 
-In this blog I've followed and build upon that, and convinced an already trained ( by Google!) Neural Network that my cat is actually a penguin, or a mouse or other different animals (_Hint:_ It actually works!)
+In this blog I've followed and build upon that, and convinced an already trained (by Google!) Neural Network that my cat is actually a penguin, or a mouse or other different animals (_Hint:_ It actually works!)
 I've removed many details and added more comments throughout the code. Please check her original blog post to better understand what's happening at every point.
 
 If you want to follow along, check her installation instructions to configure a Docker container with all the necessary libraries in it. Also here's my [Jupyter Notebook](/files/breaking-neural-network.ipynb). 
