@@ -82,10 +82,10 @@ int main(int argc, char** argv) {
 ## 2 - Exploitation
 
 By overwriting the return address from the function _helloworld_, we can redirect the execution of the program. We'll chose as destination _**a location on the stack containing our shellcode**_. Steps:
-* Find the position that overwrites the return address
+* Find the position that overwrites the return address.
 * Generate _NULL-free_ shellcode for the correct architecture. Although the machine is 64-bit, the binaries are 32!
-* Place the shellcode in an environment variable
-* Find the static address of the environment variable (_No ASLR, remember?_) and used it conjunction with step 1
+* Place the shellcode in an environment variable.
+* Find the static address of the environment variable (No ASLR, remember?) and used it conjunction with step 1.
 
 ### Control the execution flow
 Although  we can generally use tools from Metasploit Framework like _pattern_create_ and _pattern_offset_, in this case it is much simpler. We can just examine stack of the _helloworld_ function in IDA:
