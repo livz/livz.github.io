@@ -81,17 +81,17 @@ While we're here looking at the code, see if you notice anything unusual. What a
 ## 2 - Exploitation
 
 Using the techniques from the second paper mentioned above, we can read and also overwrite any memory location. Exploitation steps:
-* Place a shellcode in an environment variable
-* Find the address of the environment variable on the stack
-* Use format string vulnerability to overwrite the address of the destructor **end** with the address of the environment variable.
+* Place a shellcode in an environment variable.
+* Find the address of the environment variable on the stack.
+* Use the format string vulnerability to overwrite the address of the destructor **end** with the address of our environment variable.
 
-To generate an apropriate shellcode and place it in an environment variable, check the previous post. To find out the address of our environment variable on the stack, again check the previous level.
+To generate an appropriate shellcode and place it in an environment variable, check the previous post. To find out the address of our environment variable on the stack, again check the previous level.
 
 First thing is to find out the address of the _end_ destructor. IDA Pro shows this really quickly if we check the **_.fini_array_** section. Notice also the permissions of this section. This is important because we want to overwrite the location of _end_ function with an address we control.
 
 ![ida destructor](/assets/images/bm2-1.png)
 
-We can als ouse Linux tools to get the same information:
+We can also use Linux tools to get the same information:
 
 ```bash
 $ readelf -S  level2    
@@ -138,7 +138,7 @@ Key to Flags:
 Notice that section 19 - _.fini\_array_ is writable. Exactly what we need. And to dump the section in hex:
 
 ```bash
-readelf --hex-dump=.fini_array level2
+$ readelf --hex-dump=.fini_array level2
 
 Hex dump of section '.fini_array':
   0x08049760 60840408 ad840408                   `.......
@@ -151,24 +151,24 @@ gdb-peda$ p end
 $4 = {<text variable, no debug info>} 0x80484ad <end>
 ```
 
-Next we need to play a bit with the format string in order to discover how to correctly overwrite the value at address 0x08049764. More explicit details can be found in the second reference paper.  So le'ts place our shellcode in the EGG environment variable, as before and get it's address:
+Next we need to play a bit with the format string in order to discover how to correctly overwrite the value at address 0x08049764. Again, more explicit details on how to do this can be found in the second referenced paper.  So let's place our shellcode in the EGG environment variable, as we did before and get its address:
 
 ```bash
-s$  /tmp/level2-mod aaa
+$  /tmp/level2-mod aaa
 Hello aaa!
 EGG address: 0xffffd8d3
 ```
 
-**Warning!** If you're testing your exploit in GDB first (and you should), the address of the environment variables on the stack will be slightly different. While in GDB, you can print their addresses  by iterating through the environ array. In my testcase the EGG variable was the 5h element:
+**Warning!** If you're testing your exploit in GDB first (and you should), the address of the environment variables on the stack will be slightly different than outside GDB. While in GDB, you can print these addresses  by iterating through the _environ_ array. In my testcase the EGG variable was the 5th element:
 
 ```
 (gdb) x/s *((char **)environ+4)
 0xffffd903:     "EGG=", 'A' <repeats 19 times>
 ```
 
-This means that the shellcode begins at **0xffffd903+4** we add the length of the string _EGG=_).
+This means that in GDB the shellcode begins at **0xffffd903+4** (we add the length of the string _EGG=_ ).
 
-Finding the correct format string involved a bit of trial and error, but in the end I managed to overwrite the address of _end_ destructor with my address
+Finding the correct format string involved a bit of trial and error, but in the end I managed to overwrite the address of _end_ destructor with my address.
 
 ## 3 - Profit
 
