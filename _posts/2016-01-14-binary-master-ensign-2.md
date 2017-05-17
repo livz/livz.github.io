@@ -40,7 +40,7 @@ The R**W**E flag suggests Read-**Write**-Execute flags are all enabled. Also rem
 
 ## 1 - Vulnerability
 
-What we have here is a classic uncontrolled format string vulnerability. The value of _buf_ comes from the user and is passed directly as a format string to the _printf_ call. There are so many excellent resources on this type of issues, there is no need for further details. If you're not familiar with this, for a better understanding, please check at least the following papers. For brevity I will skip most of the details regarding the methodlogy found in those papers.
+What we have here is a classic uncontrolled format string vulnerability. The value of _buf_ comes from the user and is passed directly as a format string to the _printf_ call. There are so many excellent resources on this type of issues, there is no need for further details. If you're not familiar with it, for a better understanding, please check at least the following two papers. For brevity I will skip most of the details regarding the methodlogy which can be found in those papers.
 * team teso - [Exploiting Format String Vulnerabilities](https://crypto.stanford.edu/cs155/papers/formatstring-1.2.pdf)
 * Saif El-Sherei - [Format String Exploitation-Tutorial](https://www.exploit-db.com/docs/28476.pdf)
 
@@ -76,7 +76,7 @@ int main(int argc, char** argv) {
 }
 ```
 
-While we're here looking at the code, see if you notice anything unusual. What about the presence of the destructor function that just prints **"Bye!"**? Couldn't that be just be done as a normal printf call at the end of the main function? Then it might be a hint. Keep that in mind for later!
+While we're here looking at the code, see if you notice anything unusual. What about the presence of the destructor function that just prints **"Bye!"**? Couldn't that be done just as a normal _printf_ call at the end of the _main_ function? Maybe it is a hint of some sort. Keep that in mind for later!
 
 ## 2 - Exploitation
 
