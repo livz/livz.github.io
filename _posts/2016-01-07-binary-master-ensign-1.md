@@ -95,7 +95,7 @@ Although  we can generally use tools from Metasploit Framework like _pattern_cre
 So at dest+24 we have the saved EBP and at **dest+28** the saved return address. 
 
 ### Generate shellcode
-We'll do this very easy from Kali. Let's usec a payload to execute **/bin/dash** to be sure it will not drop the SUID privileges:
+We'll do this very easily from Kali. We can generate a payload to execute **/bin/dash** to ensure it will not [drop the SUID privileges](http://stackoverflow.com/questions/13209215/bin-sh-does-not-drop-privileges):
 ```bash
 # msfvenom  -p linux/x86/exec CMD=/bin/dash -e x86/shikata_ga_nai -b '\x00' -f python
 ```
