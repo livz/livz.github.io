@@ -53,11 +53,6 @@ The R**W**E flag suggests Read-**Write**-Execute flags are all enabled. Also rem
 In this case we have a logic vulnerability. Notice that now string copying is done in a more secure way, using the [strncpy](http://www.cplusplus.com/reference/cstring/strncpy/) function, which receives as its 3rd parameter a maximum number of character to be copied from source to destination buffer. There is a very important caveat here, however:
 > No null-character is implicitly appended at the end of _destination_ if _source_ is longer than _num_. Thus, in this case, destination shall not be considered a null terminated C string (reading it as such would overflow).
 
-* So the call to **strncpy(buf3, a, sizeof(buf3))** will **not** add a null terminator if parameter **a** (first user input!) is exactly 16 characters.
-* Following this, the call to **strlen(buf3)** will go over the bounds of the string **buf3** (no null terminator for _buf3_) and will return a larger value than expected. 
-* This will lead to the execution of the **strcpy(buf1, b)** call, which will overflow **buf1** with **b** (second user input), thus giving us the posibility to control again the return address from function **foo**.
-
-
 ```c
 #include <string.h>
 #include <stdio.h>
@@ -73,11 +68,11 @@ void foo(char* a, char* b) {
         }
 
         if (strlen(a) <= sizeof(buf3)) {
-                strncpy(buf3, a, sizeof(buf3));
+[1]             strncpy(buf3, a, sizeof(buf3));
 
 
-                if (strlen(b) <= strlen(buf3)) {
-                        strcpy(buf1, b);
+[2]             if (strlen(b) <= strlen(buf3)) {
+[3]                     strcpy(buf1, b);
                 }
         }
 }
@@ -93,6 +88,12 @@ int main(int argc, char** argv) {
         return 0;
 }
 ```
+
+
+* So the call to **strncpy(buf3, a, sizeof(buf3)) [1]** will **not** add a null terminator if parameter **a** (first user input!) is exactly 16 characters.
+* Following this, the call to **strlen(buf3) [2]** will go over the bounds of the string **buf3** (no null terminator for _buf3_) and will return a larger value than expected. 
+* This will lead to the execution of the **strcpy(buf1, b) [3]** call, which will overflow **buf1** with **b** (second user input), thus giving us the posibility to control again the return address from function **foo**.
+
 
 ## 2 - Exploit
 
