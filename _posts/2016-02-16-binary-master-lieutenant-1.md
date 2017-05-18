@@ -53,7 +53,7 @@ Partial RELRO   No canary found   NX enabled    No PIE          No RPATH   No RU
 
 ```
 
-There is no stack canary, however, the stack is **not** executable. What about the state of ASLR on the system? Good news this time: there is [no ASLR](https://askubuntu.com/questions/318315/how-can-i-temporarily-disable-aslr-address-space-layout-randomization), everything is static:
+There is no stack canary but the stack is **not** executable. What about the state of ASLR on the system? Good news this time: there is [no ASLR](https://askubuntu.com/questions/318315/how-can-i-temporarily-disable-aslr-address-space-layout-randomization), everything is static:
 
 ```bash
 $ cat  /proc/sys/kernel/randomize_va_space
@@ -63,9 +63,9 @@ $ cat  /proc/sys/kernel/randomize_va_space
 ## 1 - Vulnerability
 
 ```c
-#include<string.h>
-#include<stdio.h>
-#include<unistd.h>
+#include <string.h>
+#include <stdio.h>
+#include <unistd.h>
 
 void hello(int count) {
         char buf[12];
