@@ -181,4 +181,4 @@ send an e-mail to unlock@certifiedsecure.com and include:
    * the exploit
 ```
 
-This was the last level in this challenge set. Next set of levels, [Binary Mastery: Lieutenant](https://www.certifiedsecure.com/certification/view/37) will be even more fun :) as they include modern day vulnerabilities and mitigation techniques!
+This was the last level in this challenge set. Next set of levels, [Binary Mastery: Lieutenant](https://www.certifiedsecure.com/certification/view/37) will be even more fun :) as they include modern day vulnerabilities and mitigation techniques. In the [next part](https://livz.github.io/2016/02/16/binary-master-lieutenant-1.html) we'll look at bypassing the **NX** bit using **return to libc** technique.
