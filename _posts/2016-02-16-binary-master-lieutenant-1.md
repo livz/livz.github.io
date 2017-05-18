@@ -96,11 +96,11 @@ The third issue, which is a general one, is that the application has the **setui
 The idea is to redirect the execution flow to the address of the **system** function and somehow give it a meaningful parameter to execute. Let's go step by step.
 
 ### Controlling the execution flow
-Although we know that **buf** is 12 bytes in size, we need to see the stack layout of function **hello** in order to understand exactly how many bytes we need to overwrite to get to the saved return address on the stack.
+Although we know that **buf** is 12 bytes in size, we need to see the stack layout of the function **hello** in order to understand exactly how many bytes we need to overwrite to get to the saved return address on the stack.
 
 ![hello stack](/assets/images/bm6-1.png)
 
-So we need 24 bytes of padding in the buffer before we'll reach the saved return address. Let's see first if we can reliably control the return address:
+So we need 20 + 4 bytes of padding in the buffer before we'll reach the saved return address. Let's see first if we can reliably control the return address:
 
 ```bash
 $ python -c 'print "A"*24 + "BBBB"' > input
@@ -113,7 +113,7 @@ We see below that the execution crashed at address **0x42424242** ("BBBB"). That
 
 ### Final payload
 
-After we gain control of the EIP, we want to return to the **system** function as discussed. I chose to execute the **/home/level2/victory** binary, but we could as well spawn a new bash shell. So the payload will look like this:
+After we gain control of the EIP, we want to return to the **system** function as discussed. I chose to execute the **/home/level2/victory** binary, but we could as well spawn a new shell. So the payload will look like this:
 
 ```
 | PADDING (24 bytes) | addr. of system() | addr of exit() | addr of arguments |
