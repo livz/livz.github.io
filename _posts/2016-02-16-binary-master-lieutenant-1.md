@@ -121,7 +121,7 @@ After we gain control of the EIP, we want to return to the **system** function a
 
 If it's not clear why, go back to the articles referened in the beginning. The last parameter is important. We need to place there the argument to the **system** call. According to its [man page](http://man7.org/linux/man-pages/man3/system.3.html) this should be the address of a string in memory representing the command to execute. 
 
-We can use the same trick as before and place the command to be executed in an environment variable:
+Since there is no ASLR, we can use the same trick as before and place the command to be executed in an environment variable:
 
 ```bash
 $ export EGG="/home/level2/victory"
