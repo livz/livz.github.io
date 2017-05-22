@@ -10,6 +10,7 @@ To review the previous levels, check the links below:
 * [Binary Master: Ensign - Level 4](https://livz.github.io/2016/01/28/binary-master-ensign-4.html)
 * [Binary Master: Ensign - Level 5](https://livz.github.io/2016/02/09/binary-master-ensign-5.html)
 * [Binary Master: Lieutenant - Level 1](https://livz.github.io/2016/02/16/binary-master-lieutenant-1.html)
+* [Binary Master: Lieutenant - Level 2](https://livz.github.io/2016/02/23/binary-master-lieutenant-2.html)
 
 Before we begin, here's a list of resources containing different tricks to bypass filters meant to prevent command injection:
 * [OS Command execution](https://github.com/fuzzdb-project/fuzzdb/tree/master/attack/os-cmd-execution)
