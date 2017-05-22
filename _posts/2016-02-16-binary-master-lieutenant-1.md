@@ -168,3 +168,5 @@ send an e-mail to unlock@certifiedsecure.com and include:
 You can now start with level2. If you want, you can log in
 as level2 with password    [REDACTED]
 ```
+
+That's it for now! In the [next post](https://livz.github.io/2016/02/23/binary-master-lieutenant-2.html) we'll discuss another class of vulnerabilities involving a more subtle error which is usually more difficult to spot - _integer signess errors_.
