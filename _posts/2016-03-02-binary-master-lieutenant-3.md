@@ -170,4 +170,4 @@ Connection from [127.0.0.1] port 2000 [tcp/cisco-sccp] accepted (family 2, sport
 only*******s
 ```
 
-This concludes the level. in the [next leve] we'll analyse another interestting vulnerability - [Time of check to time of use -TOCTOU](https://en.wikipedia.org/wiki/Time_of_check_to_time_of_use).
+This concludes the level. in the [next level](https://livz.github.io/2016/03/10/binary-master-lieutenant-4.html) we'll analyse another interestting vulnerability - [Time of check to time of use -TOCTOU](https://en.wikipedia.org/wiki/Time_of_check_to_time_of_use).
