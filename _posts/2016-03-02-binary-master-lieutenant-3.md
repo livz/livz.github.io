@@ -153,8 +153,6 @@ $ ls -alh /chroot/bin/nc.openbsd
 Let's see if we can get a simple message back:
 ![hello](/assets/images/bm8-0.png)
 
-
-So we can execute commands and get any results back!
 ![borat](/assets/images/bm8-1.png)
 
 ## 3 - Profit
