@@ -3,7 +3,7 @@
 
 In this post we'll continue with the second level from the [Lieutenant](https://www.certifiedsecure.com/certification/view/37) set of challenges from **Certified Secure Binary Mastery**.
 Another buffer overflow, similar mitigatiopn techniques as we've seen in the previous level (non-executable stack), 
-but this time we have another flow, a little more subtle: _integer signedness error_.
+but this time we have another flaw, a little more subtle: _integer signedness error_.
 
 To review the previous levels, check the links below:
 * [Binary Master: Ensign - Level 1](https://livz.github.io/2016/01/07/binary-master-ensign-1.html)
@@ -95,17 +95,17 @@ int main(int argc, char **argv) {
 }
 ```
 
-First let's understand what is the purpose of this program and how it works. In this case it is pretty straight forward:
+First let's understand what is the purpose of this program and how it works. In this case it's pretty straight forward:
 * Its first parameter represents a number of lines to be read from the filename specified in the second command line parameter.
 * A first sanity check is implemented at **[1]**: if the length is greater than 255 bytes, the program will terminate.
-* A second check at **[2]** after the _open_ call probably intends to termiante the program if file cannot be opened successfully.
+* A second check at **[2]** after the _open_ call probably intends to terminate the program if file cannot be opened successfully.
 * Finally,the _read_ call at **[3]** copies maximum _len_ characters into the buffer _buf_, whose size is 256 bytes, thus avoiding the overflow.
 
 Now let's see if we can break it:
-* Let's notice that the check at **[2]** is actually not effective because, according to its [man page](http://man7.org/linux/man-pages/man2/open.2.html), _open_ will return -1 in case of error. This means that the program will have unpredictable output for non-existent files.
-* The check at **[1]** poses, however, a more serious risk: as we can see from the definition of the function, _len_ is actually a signed integer. This means that passing any negative value will successfulyl bypass the check, overflow the buffer and everything beyond, including the return address from function _head_.
+* Let's notice that the check at **[2]** is actually not effective because, according to its [man page](http://man7.org/linux/man-pages/man2/open.2.html), _open_ will return -1 in case of error, not 0. This means that the program will have unpredictable output for non-existent files.
+* The check at **[1]** poses, however, a more serious risk: as we can see from the definition of the function, _len_ is actually a signed integer. But [read](https://linux.die.net/man/3/read) expects instead a **size_t** parameter. This means that passing any negative value will successfulyl bypass the check, overflow the buffer and everything beyond, including the return address from function _head_.
 
-Although one might expect that a GCC compiler error would be generated in situations like this, it is not actually the case. Moreover, even eanbling _all warnings_ and _extra warnings_ doesn't produce any new message. These flags are actually misleading, since it is not possible (nor desirable!) to show _ALL_ compilation errors supported by GCC. See [here](https://stackoverflow.com/questions/11714827/how-to-turn-on-literally-all-of-gccs-warnings) why. That's why I was saying it is slighly more difficult to spot this class of vulnerabilities in practice. 
+Although one might expect that a GCC compiler error would be generated in situations like this, it is not actually the case. Moreover, even eanbling _all warnings_ and _extra warnings_ doesn't produce any relevant message. These flags are actually misleading, since it is not possible (nor desirable!) to show _ALL_ compilation errors supported by GCC. See [here](https://stackoverflow.com/questions/11714827/how-to-turn-on-literally-all-of-gccs-warnings) why. That's why I was saying it is slighly more difficult to spot this class of vulnerabilities in practice. 
 
 ```bash
 $ gcc  -m32 -fstack-protector level2.c -o level2       
@@ -132,7 +132,7 @@ level2.c:24:20: warning: conversion to ‘size_t {aka unsigned int}’ from ‘i
 
 Given the previous finding, the exploitation is simple and very similar with [level 1](https://livz.github.io/2016/02/16/binary-master-lieutenant-1.html). First we'll see what we need to control the EIP and then we'll introduce a payload as well.
 
-### Controlling theexecution flow
+### Controlling the execution flow
 Although we know that **buf** is 256 bytes in size, we need to see the stack layout of the function **head** in order to understand exactly how many bytes we need to overwrite to get to the saved return address on the stack.
 
 ![head stack](/assets/images/bm7-0.png)
@@ -140,7 +140,7 @@ Although we know that **buf** is 256 bytes in size, we need to see the stack lay
 So we need 256 + 12 + 4 bytes of padding in the buffer before we'll reach the saved return address. Let's see first if we can reliably control the return address:
 
 ```bash
-$ python -c 'print "A"*256 + "BBBB"' > input
+$ python -c 'print "A"*272 + "BBBB"' > input
 $ gdb -q ./level2
 
 gdb-peda$ run -1 input
