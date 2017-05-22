@@ -150,7 +150,7 @@ We see below that the execution crashed at address **0x42424242** ("BBBB"). That
 ![Control EIP](/assets/images/bm7-1.png)
 
 ### Add ret2libc payload
-In a very similar way with the previous level, we'll return from _head_ function to the system function, and place the argument in an environment variable. All the unchanged details omitted for space. The format of our payload is:
+In a very similar way with the previous level, we'll return from _head_ function to the _system_ function, and place its argument in an environment variable. All the unchanged details omitted for space. The format of our payload is:
 
 ```
 | PADDING (272 bytes) | addr. of system() | addr of exit() | addr of arguments |
@@ -199,4 +199,4 @@ You can now start with level3. If you want, you can log in
 as level3 with password     [REDACTED]
 ```
 
-That's it for now. It the [next level]() we'll look at a new calss of issues - command injection vulnerabilities.
+That's it for now. It the [next level](https://livz.github.io/2016/03/02/binary-master-lieutenant-3.html) we'll look at a new calss of issues - _command injection vulnerabilities_.
