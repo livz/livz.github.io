@@ -185,8 +185,7 @@ Here things are pretty similar. Bob will have to reach the same value of the sha
 
 We can also see the two processes listening on the corresponding ports, 5550 (Alice) and 5551 (Bob):
 ```bash
-level5@shellbinarylieutenant:~$ netstat -antp | grep 555
-(No info could be read for "-p": geteuid()=1006 but you should be root.)
+level5@shellbinarylieutenant:~$ netstat -ant | grep 555
 tcp        0      0 127.0.0.1:5550          0.0.0.0:*               LISTEN
 tcp        0      0 127.0.0.1:5551          0.0.0.0:*               LISTEN
 ```
