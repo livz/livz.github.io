@@ -1,7 +1,7 @@
 ![Logo](/assets/images/belts-black-plus.png)
 
 
-We're finally reached the last level of [Lieutenant](https://www.certifiedsecure.com/certification/view/37) set of challenges from **Certified Secure Binary Mastery**. Before diving in, a huge thank you goes to the challenge writer for creating this learning oppurtunity!
+We're finally reached the last level of the [Lieutenant](https://www.certifiedsecure.com/certification/view/37) set of challenges from **Certified Secure Binary Mastery**. Before diving in, a huge thank you goes to the challenge writers for creating this learning oppurtunity!
 
 In this post we'll analyse an encrypted communication protocol based on [Diffie-Hellman key exchange](https://en.wikipedia.org/wiki/Diffie%E2%80%93Hellman_key_exchange). If you're not familiar with the protocol, please study it beforehand since it is very important in general, not only for solving challenges. In a nutshell, **_DH key exchange is a method of securely exchanging cryptographic keys over an insecure channel_**. And that's exactly what's happening here: Alice and Bob first establis ha secret key, which Alice then uses it to send the final password to Bob,
 
@@ -345,4 +345,6 @@ send an e-mail to unlock@certifiedsecure.com and include:
 ```
 
 This concludesthe Binary Mastery challenges. I hope this was a good learning opportunity and thanks again to the challenge creators!
+
+The learning doesn't stop here of course, so stay hungry stay foolish :)
 
