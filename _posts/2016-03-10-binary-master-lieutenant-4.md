@@ -143,5 +143,5 @@ You can now start with level5. If you want, you can log in
 as level5 with password   [REDACTED]
 ```
 
-That's it for now. The [final level]() which we'll see next was the most interesting for me. We'll perform a Man-in-the-Middle attack on a well-known cryptographic encryption scheme.
+That's it for now. The [final level](https://livz.github.io/2016/03/17/binary-master-lieutenant-5.html) which we'll see next was the most interesting for me. We'll perform a Man-in-the-Middle attack on a well-known cryptographic encryption scheme.
 
