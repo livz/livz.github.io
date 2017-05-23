@@ -103,9 +103,9 @@ $ ls -alh /levels/level4
 ## 1 - Vulnerability
 
 Although the program will check if the real user has privileges to open the file specified as first parameter,
-another _open()_ call is performed at **[3]** without any verification, basically introducing the TOCTOU vulnerability. So in order to exploit this we'll do a few simle stes:
-* Create a file in the /tmp folder, for which the application will have access
-* While the application is in the _for_ loop waiting for modifications on the file, replace it with a symbolic link to /home/level5/victory. At this point the level5 privileges have been regained so we'll have read access
+another _fopen()_ call is performed at **[3]** without any verification, basically introducing the TOCTOU vulnerability. So in order to exploit this we'll do a few simple stes:
+* Create a file in the /tmp folder, for which the application will have access.
+* While the application is in the _for_ loop waiting for modifications on the file, replace it with a symbolic link to /home/level5/victory. At this point the level5 privileges have been regained so we'll have read access.
 
 ## 2 - Exploit 
 
