@@ -89,9 +89,10 @@ int main(int argc, char** argv) {
 ```
 
 First, a bit about the functionality of the application:
-* The code at **[1]** _sets the effective user id_ to the actual user id running the process. The effective user id is what the OS checks when making a decision whether to allow an operation or not. To understand more about real and effective user id, check [this link](https://stackoverflow.com/questions/32455684/difference-between-real-user-id-effective-user-id-and-saved-user-id#32456814). 
-* Basically this call will drop the privileges temporarily to check if the real user has privileges to open a file or not.
-*  the _seteuid()_ call at **[2]** then restores the privileges by setting the effective user id to 1006 (level5), which is the actual owner of the binary:
+* The code at **[1]** _sets the effective user id_ to the actual user id running the process. The effective user id is what the OS checks when making a decision whether to allow an operation or not. To understand more about real and effective user ids, check [this link](https://stackoverflow.com/questions/32455684/difference-between-real-user-id-effective-user-id-and-saved-user-id#32456814). 
+* Basically this call will drop the privileges temporarily (remember we have a setuid program) to check if the real user has privileges to open a file or not.
+*  The _seteuid()_ call at **[2]** then restores the privileges by setting the effective user id to 1006 (level5), which is the actual owner of the binary:
+
 ```
 $ id
 uid=1005(level4) gid=1005(level4) groups=1005(level4)
