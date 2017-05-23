@@ -1,10 +1,10 @@
 ![Logo](/assets/images/belts-black.png)
 
 
-We're finally getting closer to the end of the [Lieutenant](https://www.certifiedsecure.com/certification/view/37) set of challenges from **Certified Secure Binary Mastery**. This time we'll analyse another classic vulnerability - **Time of check to time of use (TOCTOU)**. At its roots, the vulnerability is a class of [race condition](https://en.wikipedia.org/wiki/Race_condition). As the [Wikipedia article](https://en.wikipedia.org/wiki/Time_of_check_to_time_of_use) states:
+We're finally getting closer to the end of the [Lieutenant](https://www.certifiedsecure.com/certification/view/37) set of challenges from **Certified Secure Binary Mastery**. This time we'll analyse another classic vulnerability - **Time of check to time of use (TOCTOU)**. At its root, the vulnerability is a class of [race condition](https://en.wikipedia.org/wiki/Race_condition). As the [Wikipedia article](https://en.wikipedia.org/wiki/Time_of_check_to_time_of_use) states:
 > **TOCTOU**, pronounced "TOCK too" is a class of software bug caused by changes in a system between the checking of a condition (such as a security credential) and the use of the results of that check.
 
-The vulnerability in this level is actually pretty straight-forward to spot. Although some race-conditions are difficult to exploit reliably, in this case things are easier, as we'll see.
+The vulnerability in this level is actually pretty straight-forward to spot. Although race-conditions are usually difficult to exploit reliably, in this case things are easier, as we'll see.
 
 To review the previous levels, check the links below:
 * [Binary Master: Ensign - Level 1](https://livz.github.io/2016/01/07/binary-master-ensign-1.html)
@@ -18,14 +18,14 @@ To review the previous levels, check the links below:
 
 ## 0 - Discovery
 
-Let's see what mitigation techniques we have here, if any, using checksec.sh, downloaded and run locally:
+Let's see what mitigation techniques we have here, if any, using [checksec.sh](http://www.trapkit.de/tools/checksec.html), downloaded and run locally:
 
 ```bash
 $ checksec.sh --file level4
 RELRO           STACK CANARY      NX            PIE             RPATH      RUNPATH      FILE
 Partial RELRO   Canary found      NX enabled    No PIE          No RPATH   No RUNPATH   level4
 ```
-So both **NX bit** and **stack canary** are enabled. Sounds difficult t oexploit but let's not worry just yet and have a look at the source code:
+So both **NX bit** and **stack canary** are enabled. Sounds difficult to exploit but let's not worry just yet and have a look at the source code:
 
 ```c
 /*
@@ -48,7 +48,7 @@ int main(int argc, char** argv) {
 		return -1;
 	}
 	
-	seteuid(getuid());                                                  [1]
+[1]	seteuid(getuid());                                                 
 	fp = fopen(argv[1], "r");
 	
 	if (fp == NULL) {
@@ -60,10 +60,10 @@ int main(int argc, char** argv) {
 	}
 	
 	fclose(fp);
-	seteuid(1006);                                                      [2]	
+[2]	seteuid(1006);    
 	
 	for (;;) {
-		fp = fopen(argv[1], "rb");                                  [3]
+[3]		fp = fopen(argv[1], "rb");
 
 		if (fp == NULL) {
 			return -1;
