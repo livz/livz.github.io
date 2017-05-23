@@ -192,15 +192,15 @@ tcp        0      0 127.0.0.1:5551          0.0.0.0:*               LISTEN
 
 ## 1 - Vulnerability
 
-If we think a little bit about this scenario, this is a classic Man-in-the-Middle scenario. As it is the case most of the times, cryptographic protocols are quite solid but implementations are flawed. Although Alice would send strong values for the modulus _p_ and base _g_, an attacker can send anything to Bob and force him  to use those parameters in the encryption process. Same is true for Bob.
+If we think a little bit about this scenario, we can easily mount a Man-in-the-Middle attack. As it is the case most of the times, cryptographic protocols are quite solid but implementations are flawed. Although Alice would send strong values for the modulus _p_ and base _g_, an attacker can send anything to Bob and force him  to use those parameters in the key computation process. Same is true for the other side of the conversation.
 
 ## 2 - Exploit
 
 So let's see how to exploit this. The idea is like this:  we'll first exploit Bob and make him reveal the authentication password, then use the authentication password with Alice and make her reveal the level6 password.
 
 ### Exploiting Bob
-* We'll impersonate Alice and send simple values for p, base and A to Bob:
-    * p = 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF - We know that the length of the file containing the 2 passwords is 31 bytes so We want the modulus to cover as many charaters as possible. If this is not clear why, check how the _bintoint_ function converts a string to an integer. The AUTH message will be raised to the key power and the result modulo p, so we want to make sure the modulus is large enough.
+* We'll impersonate Alice and send simple values for p, g and A to Bob:
+    * p = 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF - We know that the length of the file containing the 2 passwords is 31 bytes so we want the modulus to cover as many charaters as possible. If this is not clear why, check how the _bintoint_ function converts a string to an integer. The AUTH message will be raised to the key power and the result modulo p, so we want to make sure the modulus is large enough.
     * g = 42 - It doesn't actually matter
     * A = 1 - This will force the shared key to 1 (key = A<sup>b</sup> mod p) 
 * By forcing Bob to generate a secret key of 1, Alice will receive the plain text authentication password, computed as AUTH<sup>key</sup> mod p
@@ -253,9 +253,9 @@ finally:
 ### Exploiting Alice
 
 * Similarly, after finding out the authentication password, we'll impersonate Bob in a conversation with Alice.
-* This time We'll send B = 1 in order to force Alice generate a secret key of 1 (key = B<sup>a</sup> mod p). That's all that matters now.
+* This time We'll send B = 1 in order to force Alice to generate a secret key of 1 (key = B<sup>a</sup> mod p). That's all that matters now.
 * This secret key will first be used to decrpt the AUTH code (we have this already).
-* Alice will then encrypt level6 password using this key - 1. Quite convenient!
+* Alice will then encrypt level6 password using this key which will be 1. Quite convenient!
 
 **exploitAlice.py:**
 ```python
@@ -344,7 +344,7 @@ send an e-mail to unlock@certifiedsecure.com and include:
    * the exploit
 ```
 
-This concludesthe Binary Mastery challenges. I hope this was a good learning opportunity and thanks again to the challenge creators!
+This concludes the Binary Mastery challenges. I hope this was a good learning opportunity and thanks again to the challenge creators!
 
 The learning doesn't stop here of course, so stay hungry stay foolish :)
 
