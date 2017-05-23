@@ -3,7 +3,7 @@
 
 We're finally reached the last level of the [Lieutenant](https://www.certifiedsecure.com/certification/view/37) set of challenges from **Certified Secure Binary Mastery**. Before diving in, a huge thank you goes to the challenge writers for creating this learning oppurtunity!
 
-In this post we'll analyse an encrypted communication protocol based on [Diffie-Hellman key exchange](https://en.wikipedia.org/wiki/Diffie%E2%80%93Hellman_key_exchange). If you're not familiar with the protocol, please study it beforehand since it is very important in general, not only for solving challenges. In a nutshell, **_DH key exchange is a method of securely exchanging cryptographic keys over an insecure channel_**. And that's exactly what's happening here: Alice and Bob first establis ha secret key, which Alice then uses it to send the final password to Bob,
+In this post we'll analyse an encrypted communication protocol based on [Diffie-Hellman key exchange](https://en.wikipedia.org/wiki/Diffie%E2%80%93Hellman_key_exchange). If you're not already familiar with the protocol, please study it beforehand since it is very important in general, not only for solving challenges. In a nutshell, **_DH key exchange is a method of securely exchanging cryptographic keys over an insecure channel_**. And that's exactly what's happening here: Alice and Bob first establish a secret key, which Alice then uses to send a final password to Bob.
 
 To review the previous levels, check the links below:
 * [Binary Master: Ensign - Level 1](https://livz.github.io/2016/01/07/binary-master-ensign-1.html)
@@ -19,7 +19,7 @@ To review the previous levels, check the links below:
 
 ## 0 - Discovery
 
-To understand what's happening in this level, let's analyse the two Python scripts corresponding to the two participants to the exchange (Comments have been added to clarify the DH interaction).
+To understand what's happening in this level, let's analyse the two Python scripts corresponding to the two participants to the exchange (some comments have been added to clarify the DH interaction).
 
 **level5a.py - Alice**
 ```python
@@ -64,23 +64,23 @@ class AliceTCPHandler(SocketServer.BaseRequestHandler):
         # Send to Bob A = g^a mod p
         A = pow(g, a, p)
 
-        # Send modulus p and base g to Bob
-        self.request.sendall(inttobin(p, 128))
+        # Send modulus p and base g to Bob	
+        self.request.sendall(inttobin(p, 128))                                        [2]
         self.request.sendall(inttobin(g, 128))
 
         # Send A to Bob
-        self.request.sendall(inttobin(A, 128))
+        self.request.sendall(inttobin(A, 128))                                        [3]
         
         # Receive B from Bob
-        B = bintoint(self.request.recv(1024))
+        B = bintoint(self.request.recv(1024))                                         [4]
 
         # Compute shared secret key as key = B^a mod p
-        key = pow(B, a, p)
+        key = pow(B, a, p)                                                            [5]
 
         # We now have a secure session key, lets see if the user can authenticate
         auth_enc = self.request.recv(128)
 
-        if auth_enc == inttobin(pow(bintoint(AUTH), key, p), 128):
+        if auth_enc == inttobin(pow(bintoint(AUTH), key, p), 128):                    [6]
             # We have a session key and the user is authenticated
             # Lets send him the level 6 password
             lvl6_enc = pow(bintoint(LEVEL6_PASSWORD), key, p)
@@ -92,18 +92,18 @@ class ThreadedTCPServer(SocketServer.ThreadingMixIn, SocketServer.TCPServer):
 if __name__ == '__main__':
     HOST, PORT = "localhost", 5550
 
-    server = ThreadedTCPServer((HOST, PORT), AliceTCPHandler)
+    server = ThreadedTCPServer((HOST, PORT), AliceTCPHandler)                         [1]
 
     server.serve_forever()
 ```
 
 So what's happening here:
-* Alice listens on port 5550 for incoming connections from Bob
-* Upon receiving a connection, it sends the public modulus (**p**) and the public base (**g**)
-* It then computes and sends its public key A = g<sup>a</sup> mod p
-* Receives Bob public key
-* Computes the shared key as key = B <sup>a</sup> mod p  (Bob will do the same so both will reach the same secret key)
-* The agreed key is then used to decrypt an authentication password sent from B
+* Alice listens on port 5550 for incoming connections from Bob (**[1]**)
+* Upon receiving a connection, it sends the public modulus (**p**) and the public base (**g**) (**[2]**)
+* It then computes and sends its public key A = g<sup>a</sup> mod p (**[3]**)
+* Receives Bob public key (**[4]**)
+* Computes the shared key at **[5]** as key = B <sup>a</sup> mod p  (Bob will do the same so both will reach the same secret key)
+* The agreed key is then used to decrypt an authentication password sent from B (**[6]**)
 * The decrypted password is compared against the first line read from the level5_passwords.txt file
 * if the passwords match, Alice will send Bob the final password, read from the second line of the same file
 
@@ -138,25 +138,25 @@ class BobTCPHandler(SocketServer.BaseRequestHandler):
         # Lets generate a secure session key	
 
         # Receive modulus p and base g from Alice
-        p = bintoint(self.request.recv(1024))
+        p = bintoint(self.request.recv(1024))                              [1]
         g = bintoint(self.request.recv(1024))
 
         # Receive A from Alice
-        A = bintoint(self.request.recv(1024))
+        A = bintoint(self.request.recv(1024))                              [2]
 
         # Chose secret integer b
         b = random(p)
 
         # Compute B = g^b mod p and send to Alice
         B = pow(g, b, p)
-        B = self.request.sendall(inttobin(B, 128))
+        B = self.request.sendall(inttobin(B, 128))                         [3]
 
         # Compute shared secret key as key = A^b mod p
-        key = pow(A, b, p)
+        key = pow(A, b, p)                                                 [4]
 
         # Now we have a secure session key, lets authenticate
         auth_enc = inttobin(pow(bintoint(AUTH), key, p), 128)
-        self.request.sendall(auth_enc)
+        self.request.sendall(auth_enc)                                     [5]
 
         # We should now get the encrypted level 6 password
         level6_password_enc = self.request.recv(1024)
@@ -173,11 +173,11 @@ if __name__ == '__main__':
 ```
 
 Here things are pretty similar. Bob will have to reach the same value of the shared key, based on the public information exchanged with Alice:
-* Receive modulus p and base g, the public parameters sent by Alice
-* Receive Alice's public key A
-* Compute and send its own public key B = g<sup>b</sup> mod p
-*  Computes the shared key as key = A <sup>b</sup> mod p  (Alice will have done the same so both will reach the same secret key)
-* Read the password from the first line of level5_passwords.txt file, encrypt it with the shared key and send it to Alice
+* Receive modulus p and base g, the public parameters sent by Alice (**[1]**)
+* Receive Alice's public key A (**[2]**)
+* Compute and send its own public key B = g<sup>b</sup> mod p (**[3]**)
+*  Computes the shared key at **[4]** as key = A <sup>b</sup> mod p  (Alice will have done the same so both will reach the same secret key)
+* Read the password from the first line of level5_passwords.txt file, encrypt it with the shared key and send it to Alice (**[5]**)
 * Alice will validate it and send back the level6 password in case in validates successfully.
 
 
