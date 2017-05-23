@@ -101,11 +101,12 @@ So what's happening here:
 * Alice listens on port 5550 for incoming connections from Bob (**[1]**)
 * Upon receiving a connection, it sends the public modulus (**p**) and the public base (**g**) (**[2]**)
 * It then computes and sends its public key A = g<sup>a</sup> mod p (**[3]**)
-* Receives Bob public key (**[4]**)
+* Receives Bob's public key (**[4]**)
 * Computes the shared key at **[5]** as key = B <sup>a</sup> mod p  (Bob will do the same so both will reach the same secret key)
 * The agreed key is then used to decrypt an authentication password sent from B (**[6]**)
 * The decrypted password is compared against the first line read from the level5_passwords.txt file
 * if the passwords match, Alice will send Bob the final password, read from the second line of the same file
+
 
 **level5b.py - Bob**
 ```python
