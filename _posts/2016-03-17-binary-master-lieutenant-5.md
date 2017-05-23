@@ -205,7 +205,7 @@ So let's see how to exploit this. The idea is like this:  we'll first exploit Bo
     * A = 1 - This will force the shared key to 1 (key = A<sup>b</sup> mod p) 
 * By forcing Bob to generate a secret key of 1, Alice will receive the plain text authentication password, computed as AUTH<sup>key</sup> mod p
 
-**exploitBob.py**
+**exploitBob.py:**
 ```python
 import socket
 import os
@@ -257,7 +257,7 @@ finally:
 * This secret key will first be used to decrpt the AUTH code (we have this already).
 * Alice will then encrypt level6 password using this key - 1. Quite convenient!
 
-**exploitAlice.py**
+**exploitAlice.py:**
 ```python
 import socket
 import os
@@ -321,6 +321,27 @@ $ python /tmp/exploitAlice.py
 [*] A:  67822532937672403341133500344662694313100688943009465570368871195094638682198921320122360558606976847691444030865164117689804840177358778671136035631030768734493075317491984663789698285991290859575819343388739148987231447904568337380980789800692490340141178255466207869636147193673919982118380272726613835839
 [*] Key (as it should be computed by Alice: 1
 youmade[REDACTED]
+```
+We can then use the level6 password to login and get the expected sweet message:
+```
+level6@shellbinarylieutenant:~$ ./victory
+   ___  _                      __  ___         __
+  / _ )(_)__  ___ _______ __  /  |/  /__ ____ / /____ ______ __
+ / _  / / _ \/ _ `/ __/ // / / /|_/ / _ `(_-</ __/ -_) __/ // /
+/____/_/_//_/\_,_/_/  \_, / /_/  /_/\_,_/___/\__/\__/_/  \_, /
+                     /___/                              /___/
+                ___           __                   __
+               / (_)___ __ __/ /____ ___ ___ ____ / /_
+              / / // -_) // / __/ -_) _ | _ `/ _ | __/
+             /_/_/ \__/\_,_/\__/\__/_//_|_,_/_//_|__/
+
+Subject: Victory!
+
+Congrats, you have solved the last level!. To update your score,
+send an e-mail to unlock@certifiedsecure.com and include:
+   * your CS-ID
+   * which level you solved (level5 @ binary mastery lieutenant)
+   * the exploit
 ```
 
 This concludesthe Binary Mastery challenges. I hope this was a good learning opportunity and thanks again to the challenge creators!
