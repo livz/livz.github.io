@@ -256,3 +256,6 @@ a {
 .cf {
   zoom:1;
 }
+
+/* Obfuscate email addresses */
+.addr { unicode-bidi: bidi-override; direction: rtl; }
