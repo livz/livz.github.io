@@ -53,6 +53,7 @@ $ python lsb.py hide samples/orig.jpg secret.zip p@$5w0rD
 Compare the original and modified images below:
 
 ![Original image](/assets/images/cloacked-pixel/orig.jpg)
+
 ![Stego image](/assets/images/cloacked-pixel/stego.jpg)
  
 
