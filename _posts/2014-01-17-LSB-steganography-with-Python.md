@@ -5,7 +5,7 @@ techniques to hide data within least significant parts of different media, be it
 In this post we'll see how to do this ourselves step by step, using the mighty Python. 
 We'll cover how to **encrypt and embed data**, the **extraction** and also basic **detection techniques**.
 
-I assume that since youre on this page you know what steganography is 
+I assume that since you're on this page you know what steganography is 
 and have probably experimented different techniques and tools. 
 If not, dont worry, Internet is full of resources. 
 The project below is simple and extensible and should serve as 
@@ -13,7 +13,7 @@ a starting step for anyone wanting to understand and expand on the LSB steganogr
 
 ## Description
 
-I won't cover the LSB insertion technique in depth here. In a nutshell, this allows us to  
+I won't cover the LSB insertion technique in depth here. In a nutshell, this allows us to 
 use the least significant bits of every colour of every pixel to embed our own message. 
 Nice, isn't it? 
 For 24-bit images, every pixel is represented by the tuple of colours (R, G, B), 
