@@ -2,7 +2,7 @@
 
 This is not a new topic and there are many Windows applications out there that implement different steganographic
 techniques to hide data within least significant parts of different media, be it music, video or pictures.
-In this post we'll see how to do this yourselves, using the mighty Python. 
+In this post we'll see how to do this ourselves step by step, using the mighty Python. 
 We'll cover how to encrypt and embed data, the extraction and also basic detection techniques.
 
 I assume that since youre on this page you know what steganography is 
