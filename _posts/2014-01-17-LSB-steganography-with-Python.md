@@ -38,8 +38,8 @@ Two consequences of this are that:
 * The encrypted payload will have a high entropy and will be similar to random data.
 
 Because of the second property, the frequency of 0s and 1s in the LSB position should be around 0.5. 
-In many cases, real images don't have this propriety and this can help someone distinguish
-between unaltered images and the ones containing embedded data. More about this later
+In many cases, real images don't have this propriety so this could help someone distinguish
+between unaltered images and the ones havein data embedded. More about this later.
 
 ```bash
 $ python lsb.py hide samples/orig.jpg secret.zip p@$5w0rD
