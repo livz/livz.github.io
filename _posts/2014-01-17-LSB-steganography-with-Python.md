@@ -14,7 +14,7 @@ a starting step for anyone wanting to understand and expand on the LSB steganogr
 ## Description
 
 I won't cover the LSB insertion technique in depth here. In a nutshell, this allows us to 
-use the least significant bits of every colour of every pixel to embed our own message. 
+**use the least significant bits of every colour of every pixel** to embed our own message. 
 Nice, isn't it? 
 For 24-bit images, every pixel is represented by the tuple of colours (R, G, B), 
 each one being 8 bits in size. By modifying the last bit of every colour we can hide 3 bits in every pixel. 
