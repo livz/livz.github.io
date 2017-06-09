@@ -1,6 +1,3 @@
-## Some markdown follows html
-
-
 <!-- IMAGE BEGINS HERE -->
 <font size="-3">
 <!-- Default line height is 1.5. Correct for better appearance -->
@@ -52,6 +49,8 @@
 </font>
 <!-- IMAGE ENDS HERE -->
 
+#### Hint1: 
+> This bear likes new programming languages
 
-
-## More markdown
+#### Hint2: 
+> THis den looks like a labyrinth.
