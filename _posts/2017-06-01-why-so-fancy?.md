@@ -55,6 +55,7 @@ This bear likes new programming languages.
 </div>
 
 
+
 ### Hint2: 
 <div class="hint">
 His den looks like a labyrinth.
