@@ -261,13 +261,13 @@ a {
 .addr { unicode-bidi: bidi-override; direction: rtl; }
 
 /* Add hint styles */
-hint
+.hint
 {
     text-decoration: none;
     color: transparent;
 }
 
-hint:hover
+.hint:hover
 {
     color: #aaa;
 }
