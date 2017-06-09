@@ -259,3 +259,15 @@ a {
 
 /* Obfuscate email addresses */
 .addr { unicode-bidi: bidi-override; direction: rtl; }
+
+/* Add hint styles */
+hint
+{
+    text-decoration: none;
+    color: transparent;
+}
+
+hint:hover
+{
+    color: #aaa;
+}
