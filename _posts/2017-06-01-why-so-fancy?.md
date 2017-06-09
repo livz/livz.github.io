@@ -1,9 +1,6 @@
 ## Some markdown follows html
 
 
-<table align="center" cellpadding="10">
-<tr bgcolor="BLACK"><td>
-
 <!-- IMAGE BEGINS HERE -->
 <font size="-3">
 <!-- Default line height is 1.5. Correct for better appearance -->
@@ -54,8 +51,7 @@
 </pre>
 </font>
 <!-- IMAGE ENDS HERE -->
-</td></tr>
-</table>
+
 
 
 ## More markdown
