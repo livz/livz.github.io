@@ -50,7 +50,9 @@
 <!-- IMAGE ENDS HERE -->
 
 #### Hint1: 
-> This bear likes new programming languages
+<div class="hint">
+This bear likes new programming languages.
+</div>
 
 #### Hint2: 
 <div class="hint">
