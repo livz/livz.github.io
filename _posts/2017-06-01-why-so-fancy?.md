@@ -49,12 +49,13 @@
 </font>
 <!-- IMAGE ENDS HERE -->
 
-#### Hint1: 
+### Hint1: 
 <div class="hint">
 This bear likes new programming languages.
 </div>
 
-#### Hint2: 
+
+### Hint2: 
 <div class="hint">
 His den looks like a labyrinth.
 </div>
