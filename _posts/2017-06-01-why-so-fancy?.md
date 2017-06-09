@@ -49,14 +49,14 @@
 </font>
 <!-- IMAGE ENDS HERE -->
 
-### Hint1
+### Hint 1
 <div class="hint">
 This bear likes new programming languages.
 </div>
 <br><br><br>
 
 
-### Hint2
+### Hint 2
 <div class="hint">
 His den looks like a labyrinth.
 </div>
