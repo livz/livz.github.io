@@ -53,10 +53,8 @@
 </pre>
 </font>
 <!-- IMAGE ENDS HERE -->
-
-<P><FONT COLOR=LIGHTBLUE SIZE=2>Rendering time: 1 seconds.</FONT><BR>
-			</td></tr>
-		</table>
+</td></tr>
+</table>
 
 
 ## More markdown
