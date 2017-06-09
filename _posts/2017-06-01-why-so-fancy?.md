@@ -53,7 +53,7 @@
 > This bear likes new programming languages
 
 #### Hint2: 
-<div class="hover-item">
+<div class="hint">
 His den looks like a labyrinth.
 </div>
 
