@@ -51,7 +51,7 @@
 
 ### Hint 1
 <div class="hint">
-This bear likes new programming languages.
+This bear likes programming.
 </div>
 <br><br><br>
 
