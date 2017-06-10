@@ -46,8 +46,3 @@ UUID=...  /boot ext4 errors=remount-ro  0  1
 ```bash
 # update-grub
 ```
-
-asaaa <code>test code</code> bb
-```
-more test code not inline
-```
