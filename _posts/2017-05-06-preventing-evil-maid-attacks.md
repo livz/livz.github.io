@@ -16,13 +16,13 @@ As written by Bruce Schneier, there is a reason why it's called "evil maid":
 The following applies to Linux-based operating operating systems using Full Disk Encryption (not using FDE defeats the whole purpose and opens the door to many simpler attacks). It has been successfully tested un Ubuntu 14.04.5 LTS and 16.04.2 LTS but should be 
 
 
-## 2. Approach
+## 2. Approaches
 
 ### Keep the bootloader on a USB key
 
 Basically if you don't like having the /boot partition unencrypted on the same machine, you could store is on a USB key, which you can keep separate from the system. Remember you need to have the key when booting and upgrading the kernel. If /boot partition is currently on the same hard disk, it's easy to move it to a USB thumb drive:
 
-* Identify the USB disk (<pre>```/dev/sdd1```</pre> in my case) and launch ```gksudo gparted```
+* Identify the USB disk (**/dev/sdd1** in my case) and launch **gksudo gparted***
 * Delete any existing patition, create an ext4 partition, apply the changes and close gparted
 * Copy the original boot files to the new partition:
 ```bash
@@ -36,7 +36,7 @@ Basically if you don't like having the /boot partition unencrypted on the same m
 # blkid /dev/sdd1
 # vim /etc/fstab
 ```
-Comment the previous line indicating the UUID of ```/boot``` and add the following:
+Comment the previous line indicating the UUID of **/boot** and add the following:
 ```
 # /boot on /dev/sdd1
 UUID=...  /boot ext4 errors=remount-ro  0  1
@@ -46,3 +46,15 @@ UUID=...  /boot ext4 errors=remount-ro  0  1
 ```bash
 # update-grub
 ```
+
+### Password protect the BIOS
+
+Remove the option to boot from other media and password protect the BIOS. This would prevent the attacker from actually booting from a live CD/USB and modify the /boot partition.
+
+### Detect tampering with the laptop
+
+One could leave the machine turned on with a screen-lock while in a hotel room. If anyone tries to reboot it and replace files on the /boot partition, he won't be able to boot it and start the screeen lock.
+
+### Detect tampering with the hard drive
+
+The "evil maid" could remove the drive and modify anythign on the boot partition, since it is on the same disk. One could apply tamper-evident seals over the hard disk to detect removal. This sounds good in theory but probably it would be very hard to check for the tampering of the seal everytimethe machine is booted. 
