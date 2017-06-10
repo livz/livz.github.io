@@ -36,10 +36,11 @@ Basically if you don't like having the /boot partition unencrypted on the same m
 # blkid /dev/sdd1
 # vim /etc/fstab
 ```
-And you add these lines at the end with that reported blkid UUID.
-
-# /dev/sdd1 was /boot
+Comment the previous line indicating the UUID of ```/boot``` and add the following:
+```
+# /boot on /dev/sdd1
 UUID=...  /boot ext4 errors=remount-ro  0  1
+```
 
 * Update the bootloader and restart
 ```bash
