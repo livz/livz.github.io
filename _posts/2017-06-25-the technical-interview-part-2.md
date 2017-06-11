@@ -5,10 +5,10 @@ In an attempt to solve the problems described in
 a different approach: the technical challenge - aka _**the homework**_.
 
 A few examples from the security research and software engineering areas include:
-* Solving various cracking exercises
-* Do a mock vulnerability assessment on a real target under the employer’s control
-* Pentest a vulnerable virtual environment
-* Analyse a piece of malware and provide a report
+* Solving various cracking exercises.
+* Do a mock vulnerability assessment on a real target under the employer’s control.
+* Pentest a vulnerable virtual environment.
+* Analyse a piece of malware and provide a report.
 * Do a small project from design stages till the end. 
 
 While the benefits of these approaches over the tactics in the previous post are clear, 
@@ -51,5 +51,6 @@ For the interviewer’s perspective, the goal is simple. You want to find people
     * Verify the challenge is technically sound, solvable and without any errors (grammar or any other types)
  
  Good luck!
+ 
 ![Viking rune](/assets/images/rune.png) 
  
