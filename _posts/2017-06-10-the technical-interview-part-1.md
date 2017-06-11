@@ -39,11 +39,13 @@ Some companies now use a mixed approach, where an experienced technical intervie
 * Tell me about the last time you had an incident, how did you deal with it?
 * Who did you work with and how?
 * Why did you choose this approach over X?
-* What were the priorities? 
+* What were your priorities? 
 * What would you have done if Y happened instead?  
 * How could this be prevented? 
 
-Branching from these questions, you can a level up to policy related questions or down to more technical bits if needed. The are countless possibilities and variations and mostly depends on the experience of the interviewer to steer the discussion in the right way. Also he has a lot of opportunities to sniff the [STE](https://techcrunch.com/2015/03/08/on-secretly-terrible-engineers/). As a friend is saying, you basically want to know if the candidate can get the job done, not if he knows all the flags from the TCP header or a specific syscall number.
+Branching from these questions, you can go a level up to policy related questions or down to more technical bits if needed. The are countless possibilities and variations and it mostly depends on the experience of the interviewer to steer the discussion in the right way. Also he has a lot of opportunities to sniff the [STE](https://techcrunch.com/2015/03/08/on-secretly-terrible-engineers/). As a friend is saying, you basically want to know if the candidate can get the job done, not if he knows all the flags from the TCP header or a specific syscall number.
 
-**P.S.:** Of course someone can argue that a determined candidate might as well prepare in advance answers for these questions, the same way he would do for traditional logic problems/puzzles/brain teasers. Nevertheless, this is one level above that because the interviewer can change the scenario at any moment.
+**P.S. 1:** Of course someone can argue that a determined candidate might as well prepare in advance answers for these questions, the same way he would do for traditional logic problems/puzzles/brain teasers. Nevertheless, this is one level above that because the interviewer can change the scenario at any moment.
+
+**P.S. 2:** If you haven't already, sovle the puzzle in the logo of this post. It's very interesting.
 
