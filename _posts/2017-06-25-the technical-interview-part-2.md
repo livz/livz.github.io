@@ -50,6 +50,7 @@ For the interviewer’s perspective, the goal is simple. You want to find people
 3. **Make sure all the details are right**
     * Verify the challenge is technically sound, solvable and without any errors (grammar or any other types).
  
+ 
  ### Good luck!
  
 ![Viking rune](/assets/images/rune.png) 
