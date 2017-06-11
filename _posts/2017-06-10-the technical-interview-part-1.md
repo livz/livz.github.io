@@ -13,9 +13,9 @@ A quick search for related terms comes up with several tens millions of results:
 
 ![More search results](/assets/images/search2.png)
 
-It almost looks like a whole industry has developed around answering technical interview questions. 
+It almost looks like *a whole industry has developed around answering technical interview questions*. 
 Titles like *"15 Mind-Bending Interview Questions"*, *"7 Interview Brain Teasers You Could Be Asked"* 
-are guaranteed to attract the competitive side of technical people, however, let’s ask a few questions:
+are guaranteed to attract the competitive side of technical people, however, let’s ask ourselves a few questions:
 * What is their actual benefit? 
 * How much are they helping the candidates in the interview? 
 * How much they improve the candidates?
@@ -25,7 +25,7 @@ are guaranteed to attract the competitive side of technical people, however, let
 I’ve heard from people with strong software development experience, that they prepare continuously for days 
 before technical interviews by reviewing algorithms and tricky problems. A very similar problem exist in the related areas of security engineering/security research. 
  
-If we think about it, there is a good reason why an engineer needs to study these resources before an interview: because they are not part of the day-to-day job. We usually don’t have to solve the *"100 Coins logic problem"*, or the *"Burning rope problem"* or even do insane Big-Oh optimisations.
+If we think about it, there is a good reason why an engineer needs to study these resources before an interview: **because they are not part of the day-to-day job**. We usually don’t have to solve the *"100 Coins logic problem"*, or the *"Burning rope problem"* or even do insane Big-Oh optimisations.
  
 Back in the days (actually only a few years ago) puzzles, brainteasers and other similar challenges were very popular among big companies. This issue has been discussed a lot in the past, there is a [great article](http://www.newyorker.com/tech/elements/why-brainteasers-dont-belong-in-job-interviews) in The New Yorker which captures the main points. Now even Google, famously known for its very hard logic puzzles, [has banned](http://www.businessinsider.com/answers-to-google-interview-questions-2011-11) the practice of brain teasers interview questions (Luckily it’s been a long while since I had this type of interview, incidentally with Google).
 
@@ -35,7 +35,7 @@ Here are two possible solutions extracted from the article:
 1. **A highly standardised interview process** — for instance, asking each candidate the same questions in the same order. To reduce the effect of [*thin-slicing judgement*](https://en.wikipedia.org/wiki/Thin-slicing)
 2. **Focus on behavioral measures** - past and future actions, relevant to the job. This could include writing code, going through a scenario exercise step by step, ar typical questions like *"Were you ever in a situation when X?"*, *"How did you handle Y?"*
 
-Some companies now used a mixed approach, where an experienced technical interviewer will walk the candidate through a technical scenario. At each step he can actually gauge the interviewee actions from a technical and behavioural perspective. I would argue that this is the way to go. The approach actually fits perfectly many security research and incident investigation related positions. For example, possible general questions include:
+Some companies now use a mixed approach, where an experienced technical interviewer will walk the candidate through a technical scenario. At each step he can actually gauge the interviewee actions from a technical and behavioural perspective. I would argue that this is the way to go. Switching a bit from engineering to security research and incident investigation, the approach actually fits perfectly. For example, possible general questions include:
 * Tell me about the last time you had an incident, how did you deal with it?
 * Who did you work with and how?
 * Why did you choose this approach over X?
