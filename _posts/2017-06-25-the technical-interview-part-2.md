@@ -25,10 +25,10 @@ From a candidate’s perspective:
     * What is the purpose of the challenge? Is it evaluating report writing capabilities, logical thinking, technical investigation skills? Find out as much as you can in advance.
 3. **Stay focused on the situation**
     * Be aware of any influence principles at work. Some employers/recruiters will try to exploit their _authority position_. Using phrases like *"Are you up for..."*," *"Now is your time to .."*, *"Use everything you know to ..."*, *"Feel free to impress us with ..."* can get candidates committed to solve the problem at hand.
-    * However, this will escalate quickly when you don’t have a clear purpose
+    * However, this will escalate quickly when you don’t have a clear purpose.
 4. **Clear purpose**
-    * Approach the interview challenge with a clear purpose. Your time is limited. Your goal could be “Do everything I can in 5 hours” or “Exploit the FTP server and get root” or even “Write a good report and highlight all the vulnerabilities found and mitigations” (if that’s your speciality). 
-    *Because this is not possible with all challenges, you need to know where to stop! It’s perfectly reasonable to add a list of future task you would do next. 
+    * Approach the interview challenge with a clear purpose. Your time is limited. Your goal could be *"Do everything I can in 5 hours"* or *"Exploit the FTP server and get root"* or even *"Write a good report and highlight all the vulnerabilities found and mitigations"* (if that’s your speciality). 
+    * Because this is not possible with all challenges, you need to know where to stop! It’s perfectly reasonable to think of a list of future task you *would do* next and include it in the report.
 5. **Errors**
     * An interview challenge can be clear and well written or it can fall short of expectations (to put it mildly) in this area. Whatever the case may be, this tells something about the person who wrote it.
     * The first type of errors are grammar errors. Not the end of the world but still.
