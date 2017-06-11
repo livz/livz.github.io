@@ -25,7 +25,7 @@ Basically if you don't like having the /boot partition unencrypted on the same m
 
 * Identify the USB disk (**/dev/sdd1** in my case) and launch **gksudo gparted**
 * Delete any existing patition, create an **ext4** partition, apply the changes and close **gparted**
-* Copy the original boot files to the new partition:
+* As root, copy the original boot files to the new partition:
 ```bash
 # mkdir /media/newboot
 # mount /dev/sdd1 /media/newboot
