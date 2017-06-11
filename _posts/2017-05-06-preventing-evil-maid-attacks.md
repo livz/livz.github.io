@@ -32,18 +32,18 @@ Basically if you don't like having the /boot partition unencrypted on the same m
 # cd /boot
 # cp -ax . /media/newboot
 ```
-* Update ```/etc/fstab``` with the UUID of the new partition
+* Update ```/etc/fstab``` with the UUID of the new partition:
 ```bash
 # blkid /dev/sdd1
 # vim /etc/fstab
 ```
-Comment the previous line indicating the UUID of **/boot** and add the following:
+Comment the existing line indicating the UUID of **/boot** and add the following:
 ```
 # /boot on /dev/sdd1
 UUID=...  /boot ext4 errors=remount-ro  0  1
 ```
 
-* Update the bootloader and restart
+* Update the bootloader and restart:
 ```bash
 # update-grub
 ```
@@ -54,8 +54,8 @@ Remove the option to boot from other media and password protect the BIOS. This w
 
 ### Detect tampering with the laptop
 
-One could leave the machine turned on with a screen-lock while in a hotel room. If anyone tries to reboot it and replace files on the /boot partition, he won't be able to boot it and start the screeen lock.
+One could leave the machine turned on with a screen lock while in a hotel room. If anyone tries to reboot it and replace files on the /boot partition, he won't be able to boot it and start the screeen lock again.
 
 ### Detect tampering with the hard drive
 
-The "evil maid" could remove the drive and modify anythign on the boot partition, since it is on the same disk. One could apply tamper-evident seals over the hard disk to detect removal. This sounds good in theory but probably it would be very hard to check for the tampering of the seal everytimethe machine is booted. 
+The "evil maid" could remove the drive from the laptop and modify anything on the boot partition, since it is on the same disk. To identify this, one could apply tamper-evident seals over the hard disk to detect removal. This sounds good in theory but probably it would be very difficult to check for the tampering of the seal every time the machine is booted. 
