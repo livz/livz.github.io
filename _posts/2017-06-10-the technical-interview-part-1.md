@@ -47,5 +47,5 @@ Branching from these questions, you can go a level up to policy related question
 
 **P.S. 1:** Of course someone can argue that a determined candidate might as well prepare in advance answers for these questions, the same way he would do for traditional logic problems/puzzles/brain teasers. Nevertheless, this is one level above that because the interviewer can change the scenario at any moment.
 
-**P.S. 2:** If you haven't already, sovle the puzzle in the logo of this post. It's very interesting.
+**P.S. 2:** The puzzle in the logo of this post was invented by a New York City amateur magician, [Paul Curry](https://en.wikipedia.org/wiki/Paul_Curry), in 1953. If you haven't already, try to solve it.
 
