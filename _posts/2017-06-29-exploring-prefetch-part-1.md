@@ -61,7 +61,7 @@ A very important detail to keep in mind: according to the first Forensic Magazin
 > Monitoring occurs for ten seconds after an application is started.
 
 * a
-* b 
+* __Implicit linking__ - This linking 
 * c 
 * __Implicit linking__ - This linking method is also referred to as _static load_ or _load-time dynamic linking_. With implicit linking, the executable using the DLL links to an import library (.lib file) provided by the maker of the DLL. The operating system _loads the DLL when the executable is loaded_. 
 
