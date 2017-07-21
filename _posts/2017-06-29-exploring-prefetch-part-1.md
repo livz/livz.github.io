@@ -64,16 +64,16 @@ A very important detail to keep in mind: according to the first Forensic Magazin
 
 This linking method is also referred to as _static load_ or _load-time dynamic linking_. With implicit linking, the executable using the DLL links to an import library (.lib file) provided by the maker of the DLL. The operating system _loads the DLL when the executable is loaded_.
 
-  * **Result**: As expected, libraries loaded this way appear in the prefetch file.
+**Result**: As expected, libraries loaded this way appear in the prefetch file.
 * __Explicit linking__
 
 This linking method is sometimes referred to as dynamic load or run-time dynamic linking.With explicit linking, the executable using the DLL must make function calls to explicitly load and unload the DLL and to access the DLL's exported functions. 
-  * **Result**: Again, libraries are correctly recorded. Even if no function is called there is still a corresponding DLL entry in the .pf file.
+**Result**: Again, libraries are correctly recorded. Even if no function is called there is still a corresponding DLL entry in the .pf file.
 * __Explicit linking (with style)__
 
 This techniques is frequently used in exploits, which find first the base address of kernel32.dll and then find the address of LoadLibrary function manually. Very prevalent technique. 
 	Result: Loaded libraries mentioned correctly in the prefetch. 
-Result: In this case, any library loaded using this trick is also recorded in the prefetch file.  
+**Result**: In this case, any library loaded using this trick is also recorded in the prefetch file.  
 * __Delayed loading__
 
 Using this method, the libraries will be loaded only when needed. With Visual Studio, we can specify libraries for delayed loading using a [specific linker option](https://docs.microsoft.com/en-gb/cpp/build/reference/specifying-dlls-to-delay-load).
