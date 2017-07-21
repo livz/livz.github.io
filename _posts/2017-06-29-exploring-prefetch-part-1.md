@@ -56,43 +56,37 @@ Note that these settings need a *reboot* in order to become effective.
 * [Windows Prefetch Parser](https://tzworks.net/prototype_page.php?proto_id=1) by  TZWorks
 
 ## Recording loaded libraries
-* __no blanks after?__ - what is happening here?????
+So let’s see different ways of loading libraries and how they are recorded by the prefetching process. 
+A very important detail to keep in mind: according to the first Forensic Magazine article mentioned previously:
+> Monitoring occurs for ten seconds after an application is started.
+
 * __Implicit linking__ - This linking method is also referred to as _static load_ or _load-time dynamic linking_. With implicit linking, the executable using the DLL links to an import library (.lib file) provided by the maker of the DLL. The operating system _loads the DLL when the executable is loaded_.
-
   * **Result**: As expected, libraries loaded this way appear in the prefetch file.
-
 * __Explicit linking__
 
    This linking method is sometimes referred to as dynamic load or run-time dynamic linking.With explicit linking, the executable using the DLL must make function calls to explicitly load and unload the DLL and to access the DLL's exported functions. 
-
   * **Result**: Again, libraries are correctly recorded. Even if no function is called there is still a corresponding DLL entry in the .pf file.
-
 * __Explicit linking (with style)__
    This techniques is frequently used in exploits, which find first the base address of kernel32.dll and then find the address of LoadLibrary function manually. Very prevalent technique. 
 	Result: Loaded libraries mentioned correctly in the prefetch. 
 
 Result: In this case, any library loaded using this trick is also recorded in the prefetch file.  
-
 * __Delayed loading__
 
    Using this method, the libraries will be loaded only when needed. With Visual Studio, we can specify libraries for delayed loading using a [specific linker option](https://docs.microsoft.com/en-gb/cpp/build/reference/specifying-dlls-to-delay-load).
 
 Result: Delayed loaded libraries are also present in the prefetch files.
-
 * __DLL Injection__
 
    There are different ways to inject a library into another process. A quick way to see what’s happening is to use OpenSecurityResearch [Dll injector](https://github.com/OpenSecurityResearch/dllinjector), which implements multiple injection techniques.
 
 > dllInjector-x86.exe -p 3328 -l myDll.dll -P -c
 Result: From an offensive security standpoint, the news is that there is no mention of the library being injected in the prefetch file corresponding to the injected process. The other news (which is much worse for the forensic investigator) is that quickly injecting a library into a process, within its first seconds of activity, generates a crash of the Prefetch Manager and no prefetch files will be created until the next restart. At the moment this behaviour seems to reproduce systematically on a Windows 7 32bit VM. More tests to follow. See below a video.
-
 * __Reflective DLL loading__
 
    If you don’t know what reflective DLL loading is, go [read about it](https://github.com/stephenfewer/ReflectiveDLLInjection) now! In this case the library implements a minimal PE loader in order to load itself. 
 
 Result: Because the loader of the OS is not involved, there is no mention of the library being loaded in the prefetch file corresponding to the host process. 
-
-
 * __Artificially delayed loading__
 
    This technique relies on the observation above that Windows will monitor an application for 10 seconds after launch. We’ll introduce an artificial delay of 10 seconds.
