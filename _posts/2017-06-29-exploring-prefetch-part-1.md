@@ -67,19 +67,20 @@ This linking method is also referred to as _static load_ or _load-time dynamic l
 **Result**: As expected, libraries loaded this way appear in the prefetch file.
 
 **Code**: [static loading](https://gist.github.com/livz/30de9908a0f690f3f27173562efac463),
-[static loading using #pragma](https://gist.github.com/livz/0a99cfbe6947c7615beab7945c50f997)
+[static loading using #pragma](https://gist.github.com/livz/0a99cfbe6947c7615beab7945c50f997).
 * __Explicit linking__
 
 This linking method is sometimes referred to as _dynamic load_ or _run-time dynamic linking_. With explicit linking, the executable using the DLL must make function calls to explicitly load and unload the DLL and to access the DLL's exported functions.
 
 **Result**: Again, no surprises, libraries are correctly recorded. Even if no function is called there is still a corresponding DLL entry in the .pf file.
 
-**Code**: [dynamic load](https://gist.github.com/livz/7fb6d6a97ac8719748915f02ea477d14)
-* __Explicit linking (with style)__
+**Code**: [dynamic load](https://gist.github.com/livz/7fb6d6a97ac8719748915f02ea477d14).
+* __Explicit linking (with style:)__
 
 This techniques is frequently used in exploits, which find first the base address of kernel32.dll and then find the address of LoadLibrary function manually. Very prevalent technique. 
-	Result: Loaded libraries mentioned correctly in the prefetch. 
-**Result**: In this case, any library loaded using this trick is also recorded in the prefetch file.  
+
+**Result**: Again, loaded libraries are listed correctly. Although this trick works to defeat various host-based protection mechanisms, in this case the OS correctly keeps track of what has been loaded and the information in the prefetch files is correct.
+**Code**: [Program](https://gist.github.com/livz/f690953589e27f1f19c71d51aeb480ba) using inline assembly to jump inside a function, instead of _call_ing. Function parameters and the return address are adjusted and _push_ed manually.
 * __Delayed loading__
 
 Using this method, the libraries will be loaded only when needed. With Visual Studio, we can specify libraries for delayed loading using a [specific linker option](https://docs.microsoft.com/en-gb/cpp/build/reference/specifying-dlls-to-delay-load).
