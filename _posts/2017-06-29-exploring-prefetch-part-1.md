@@ -65,12 +65,12 @@ A very important detail to keep in mind: according to the first Forensic Magazin
 This linking method is also referred to as _static load_ or _load-time dynamic linking_. With implicit linking, the executable using the DLL links to an import library (.lib file) provided by the maker of the DLL. The operating system _loads the DLL when the executable is loaded_.
 
 **Result**: As expected, libraries loaded this way appear in the prefetch file.
+**Code**: [static linking](https://gist.github.com/livz/30de9908a0f690f3f27173562efac463),
+[static linking using #pragma](https://gist.github.com/livz/0a99cfbe6947c7615beab7945c50f997)
 * __Explicit linking__
 
 This linking method is sometimes referred to as dynamic load or run-time dynamic linking.With explicit linking, the executable using the DLL must make function calls to explicitly load and unload the DLL and to access the DLL's exported functions. 
 **Result**: Again, libraries are correctly recorded. Even if no function is called there is still a corresponding DLL entry in the .pf file.
-**Code**: [static linking](https://gist.github.com/livz/30de9908a0f690f3f27173562efac463),
-[static linking using #pragma](https://gist.github.com/livz/0a99cfbe6947c7615beab7945c50f997)
 * __Explicit linking (with style)__
 
 This techniques is frequently used in exploits, which find first the base address of kernel32.dll and then find the address of LoadLibrary function manually. Very prevalent technique. 
