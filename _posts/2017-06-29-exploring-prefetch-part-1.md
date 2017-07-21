@@ -6,8 +6,7 @@ Knowing that among the artefacts listed in the prefetch files are libraries load
 I wanted to understand how the process of recording these libraries works in different scenarios, and how it can be tricked. Can  Istill load my library without Prefetch knowing?
 Feel free to skip the background information, which is mostly for me to have things clear in my mind before starting to work. 
 If you’re not familiar with the topic, I strongly encourage you to go start with [Forensic Magazine](https://www.forensicmag.com/) 
-and read **Decoding Prefetch Files for Forensic Purposes**  [Part 1](https://www.forensicmag.com/article/2010/12/decoding-prefetch-files-forensic-purposes-part-1)  
-and [Part 2](https://www.forensicmag.com/article/2010/12/decoding-prefetch-files-forensic-purposes-part-2).
+and read **Decoding Prefetch Files for Forensic Purposes**  [Part 1](https://www.forensicmag.com/article/2010/12/decoding-prefetch-files-forensic-purposes-part-1) and [Part 2](https://www.forensicmag.com/article/2010/12/decoding-prefetch-files-forensic-purposes-part-2).
 
 ## Context
 Prefetch files are created by Windows when an application is run from a particular location for the very first time and 
@@ -108,10 +107,15 @@ This technique relies on the observation above that Windows will monitor an appl
 
 **Result**: Anything loaded after that period will not be recorded in the prefetch file.
 
-Markdown | Less | Pretty
---- | --- | ---
-*Still* | `renders` | **nicely**
-1 | 2 | 3
+Technique | Prefetch bypass
+--- | --- 
+**Implicit linkig** | NO
+**Explicit linking** | NO
+**Explicit linking (manual)** | NO
+**Delayed loading** | NO
+**Dll injection** | YES ( _+nasty bug_)
+**Reflective dll loading** | YES
+**Articifial delayed loading** | YES 
 
 * __Bonus__
 
