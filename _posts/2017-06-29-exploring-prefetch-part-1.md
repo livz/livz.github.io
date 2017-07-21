@@ -115,7 +115,7 @@ Another unexplained (yet!) behaviour can be seen in the video above. The script 
 
 **Code**: [cript](https://gist.github.com/livz/b3170940c578ded0e91d45e7cc845274) to (try to) reproduce the bug, [sample used](https://gist.github.com/livz/4c1a48c204df521fba562ac7087dd0e3).
 
-<iframe width="420" height="315" src="https://youtu.be/UUVd3mWC92E" frameborder="0" allowfullscreen></iframe>
+<iframe width="560" height="420" src="http://www.youtube.com/embed/oHg5SJYRHA0?color=white&theme=light"></iframe>
 
 Fortunately this bug cannot be reproduced reliably, so it won’t cause problems for forensic examinations.
 
