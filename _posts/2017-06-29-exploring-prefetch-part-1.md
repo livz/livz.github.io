@@ -4,6 +4,7 @@
 There is a lot of research on this subject already, so I won’t reinvent any wheels here.
 Knowing that among the artefacts listed in the prefetch files are libraries loaded by our applications,
 I wanted to understand how the process of recording these libraries works in different scenarios, and how it can be tricked. Could  I still load my library without Prefetch knowing?
+
 Feel free to skip the background information, which is mostly for me to have things clear in my mind before starting to work. 
 If you’re not familiar with the topic, I strongly encourage you to go start with [Forensic Magazine](https://www.forensicmag.com/) 
 and read **Decoding Prefetch Files for Forensic Purposes**  [Part 1](https://www.forensicmag.com/article/2010/12/decoding-prefetch-files-forensic-purposes-part-1) and [Part 2](https://www.forensicmag.com/article/2010/12/decoding-prefetch-files-forensic-purposes-part-2).
