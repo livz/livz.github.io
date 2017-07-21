@@ -59,11 +59,7 @@ Note that these settings need a *reboot* in order to become effective.
 So let’s see different ways of loading libraries and how they are recorded by the prefetching process. 
 A very important detail to keep in mind: according to the first Forensic Magazine article mentioned previously:
 > Monitoring occurs for ten seconds after an application is started.
-
-* a
-* __Implicit linking__ - This linking 
-* c 
-* __Implicit linking__ - This linking method is also referred to as _static load_ or _load-time dynamic linking_. With implicit linking, the executable using the DLL links to an import library (.lib file) provided by the maker of the DLL. The operating system _loads the DLL when the executable is loaded_. 
+* __Implicit linking__ - This linking method is also referred to as _static load_ or _load-time dynamic linking_. With implicit linking, the executable using the DLL links to an import library (.lib file) provided by the maker of the DLL. The operating system _loads the DLL when the executable is loaded_.
 
   * **Result**: As expected, libraries loaded this way appear in the prefetch file.
 
