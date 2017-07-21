@@ -75,7 +75,7 @@ This linking method is sometimes referred to as _dynamic load_ or _run-time dyna
 **Result**: Again, no surprises, libraries are correctly recorded. Even if no function is called there is still a corresponding DLL entry in the .pf file.
 
 **Code**: [dynamic load](https://gist.github.com/livz/7fb6d6a97ac8719748915f02ea477d14).
-* __Explicit linking (with style:)__
+* __Explicit linking (manual)__
 
 This techniques is frequently used in exploits, which find first the base address of kernel32.dll and then find the address of LoadLibrary function manually. Very prevalent technique. 
 
@@ -89,7 +89,7 @@ Using this method, the libraries will be loaded _only when needed_. With Visual 
 **Result**: Delayed loaded libraries are also present in the prefetch files.
 * __DLL Injection__
 
-Now things start to become interesting. There are multuple methods to inject a library into another process. The OpenSecurityResearch [Dll injector](https://github.com/OpenSecurityResearch/dllinjector) project implements some of these known injection techniques and references others. Download the source code, compile it and play with the options. Let's try for example the method using _CreateRemoteThread()_:
+Now things start to become interesting. There are multuple methods to inject a library into another process. The OpenSecurityResearch [Dll injector](https://github.com/OpenSecurityResearch/dllinjector) project implements some of these known injection techniques and references others. Download the source code, compile it and play with the options. Let's try for example the injection method using _CreateRemoteThread()_:
 
 ```bash
 > dllInjector-x86.exe -p 3328 -l myDll.dll -P -c
@@ -99,12 +99,22 @@ Now things start to become interesting. There are multuple methods to inject a l
 **Code**: [Simple dll](https://gist.github.com/livz/8794bf3bc3ec55d11c12fe5862da2eb8).
 * __Reflective DLL loading__
 
-If you don’t know what reflective DLL loading is, go [read about it](https://github.com/stephenfewer/ReflectiveDLLInjection) now! In this case the library implements a minimal PE loader in order to load itself. 
-Result: Because the loader of the OS is not involved, there is no mention of the library being loaded in the prefetch file corresponding to the host process. 
+If you don’t know what reflective DLL loading is, go [read about it](https://github.com/stephenfewer/ReflectiveDLLInjection) now! In this case the library implements a _minimal PE loader in order to load itself_.
+
+**Result**: Because the loader of the OS is not involved, there is no mention of the library being loaded in the prefetch file corresponding to the host process. 
 * __Artificially delayed loading__
 
-This technique relies on the observation above that Windows will monitor an application for 10 seconds after launch. We’ll introduce an artificial delay of 10 seconds.
-Result: Anything loaded after that period will not be recorded in the prefetch file.
-* __Bonus__ - Bug!
+This technique relies on the observation above that Windows will monitor an application for 10 seconds after launch. We’ll introduce an artificial delay of 10+ seconds.
+
+***Result**: Anything loaded after that period will not be recorded in the prefetch file.
+
+
+
+* __Bonus__
+
+Another unexplained (yet!) behaviour can be seen in the video above. The script shown on the left side is run two times. The first run produces the expected results - two prefetch files and correct output of Process Explorer.  But if you watch carefully the second run, you can see that although the program renamed as _Bug-Secret.exe_ is running (based on the title bar of the message box), Process Explorer lists something different - _Bug.exe_. Also no prefetch file gets created.
+
+**Code**: [cript](https://gist.github.com/livz/b3170940c578ded0e91d45e7cc845274) to (try to) reproduce the bug, [sample used](https://gist.github.com/livz/4c1a48c204df521fba562ac7087dd0e3).
+
 Fortunately this bug cannot be reproduced reliably, so it won’t cause problems for forensic examinations.
 
