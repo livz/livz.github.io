@@ -23,7 +23,7 @@ Prefetch files are named in a format containing the name of the application foll
 of the location where the application was run and the .PF extension.
 To understand how this hash is generated, check this very in-depth [Hexacorn blog post](http://www.hexacorn.com/blog/2012/06/13/prefetch-hash-calculator-a-hash-lookup-table-xpvistaw7w2k3w2k8/).
 
-**_This is important!_** The name of the corresponding .pf file depends on the path of the application.
+> The name of the corresponding .pf file depends on the path of the application.
 
 ## Prefetch settings 
 The prefetch related settings are held in the following registry key:
@@ -57,8 +57,12 @@ Note that these settings need a *reboot* in order to become effective.
 
 ## Recording loaded libraries
 So let’s see different ways of loading libraries and how they are recorded by the prefetching process. 
-A very important detail to keep in mind: according to the first Forensic Magazine article mentioned previously, _monitoring occurs for ten seconds after an application is started_.
+A very important detail to keep in mind: according to the first Forensic Magazine article mentioned previously:
+> Monitoring occurs for ten seconds after an application is started.
 
+* a
+* b 
+* c 
 * __Implicit linking__ - This linking method is also referred to as _static load_ or _load-time dynamic linking_. With implicit linking, the executable using the DLL links to an import library (.lib file) provided by the maker of the DLL. The operating system _loads the DLL when the executable is loaded_. 
 
   * **Result**: As expected, libraries loaded this way appear in the prefetch file.
