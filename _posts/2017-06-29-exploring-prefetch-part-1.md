@@ -81,19 +81,22 @@ This techniques is frequently used in exploits, which find first the base addres
 
 **Result**: Again, loaded libraries are listed correctly. Although this trick works to defeat various host-based protection mechanisms, in this case the OS correctly keeps track of what has been loaded and the information in the prefetch files is correct.
 
-**Code**: [This program](https://gist.github.com/livz/f690953589e27f1f19c71d51aeb480ba) is using inline assembly to jump inside a function, instead of _call_ing. Function parameters and the return address are adjusted and _push_ed manually.
+**Code**: [This program](https://gist.github.com/livz/f690953589e27f1f19c71d51aeb480ba) is using inline assembly to jump inside a function, instead of calling. Function parameters and the return address are adjusted and pushed manually.
 * __Delayed loading__
 
-Using this method, the libraries will be loaded only when needed. With Visual Studio, we can specify libraries for delayed loading using a [specific linker option](https://docs.microsoft.com/en-gb/cpp/build/reference/specifying-dlls-to-delay-load).
-Result: Delayed loaded libraries are also present in the prefetch files.
+Using this method, the libraries will be loaded _only when needed_. With Visual Studio, we can specify libraries for delayed loading using a [specific linker option](https://docs.microsoft.com/en-gb/cpp/build/reference/specifying-dlls-to-delay-load).
+
+**Result**: Delayed loaded libraries are also present in the prefetch files.
 * __DLL Injection__
 
-There are different ways to inject a library into another process. A quick way to see what’s happening is to use OpenSecurityResearch [Dll injector](https://github.com/OpenSecurityResearch/dllinjector), which implements multiple injection techniques.
+Now things start to become interesting. There are multuple methods to inject a library into another process. The OpenSecurityResearch [Dll injector](https://github.com/OpenSecurityResearch/dllinjector) project implements some of these known injection techniques and references others. Download the source code, compile it and play with the options. Let's try for example the method using _CreateRemoteThread()_:
 
 ```bash
 > dllInjector-x86.exe -p 3328 -l myDll.dll -P -c
 ```
-Result: From an offensive security standpoint, the news is that there is no mention of the library being injected in the prefetch file corresponding to the injected process. The other news (which is much worse for the forensic investigator) is that quickly injecting a library into a process, within its first seconds of activity, generates a crash of the Prefetch Manager and no prefetch files will be created until the next restart. At the moment this behaviour seems to reproduce systematically on a Windows 7 32bit VM. More tests to follow. See below a video.
+**Result**: As you migt have expected, there is no mention of the library being injected in the prefetch file corresponding to the injected process. While testing these techniques I've noticed something which can be much worse for the forensic investigator - injecting a library into a process, within its first seconds of activity, generates a crash of the Prefetch Manager and _no prefetch files will be created until the next restart_. This behaviour seems to reproduce very often on a Windows 7 32bit VM. Anyways, more tests to follow. 
+
+**Code**: [Simple dll](https://gist.github.com/livz/8794bf3bc3ec55d11c12fe5862da2eb8).
 * __Reflective DLL loading__
 
 If you don’t know what reflective DLL loading is, go [read about it](https://github.com/stephenfewer/ReflectiveDLLInjection) now! In this case the library implements a minimal PE loader in order to load itself. 
