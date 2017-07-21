@@ -122,7 +122,7 @@ Technique | Prefetch bypass
 
 Another unexplained (yet!) behaviour can be seen in the video above. The script shown on the left side is run two times. The first run produces the expected results - two prefetch files and correct output of Process Explorer.  But if you watch carefully the second run, you can see that although the program renamed as _Bug-Secret.exe_ is running (based on the title bar of the message box), Process Explorer lists something different - _Bug.exe_. Also no prefetch file gets created.
 
-**Code**: [script](https://gist.github.com/livz/b3170940c578ded0e91d45e7cc845274) to (try to) reproduce the bug, [sample used](https://gist.github.com/livz/4c1a48c204df521fba562ac7087dd0e3).
+**Code**: [script](https://gist.github.com/livz/b3170940c578ded0e91d45e7cc845274) to (try to) reproduce the bug and [the sample used](https://gist.github.com/livz/4c1a48c204df521fba562ac7087dd0e3).
 
 **Demo**: [Screencast](https://youtu.be/UUVd3mWC92E)
 
