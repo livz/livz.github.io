@@ -104,7 +104,7 @@ If you don’t know what reflective DLL loading is, go [read about it](https://g
 **Result**: Because the loader of the OS is not involved, there is no mention of the library being loaded in the prefetch file corresponding to the host process. 
 * __Artificially delayed loading__
 
-This technique relies on the observation above that Windows will monitor an application for 10 seconds after launch. We’ll introduce an artificial delay of 10+ seconds.
+This technique relies on the observation above that Windows will monitor an application only for 10 seconds after launch. We’ll introduce an artificial delay of 10+ seconds.
 
 **Result**: Anything loaded after that period will not be recorded in the prefetch file.
 
