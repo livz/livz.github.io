@@ -56,7 +56,7 @@ Note that these settings need a *reboot* in order to become effective.
 * [Windows Prefetch Parser](https://tzworks.net/prototype_page.php?proto_id=1) by  TZWorks
 
 ## Recording loaded libraries
-* __fsd fsd fsdf sdf sd__ - what is happening here?????
+* __no blanks after?__ - what is happening here?????
 * __Implicit linking__ - This linking method is also referred to as _static load_ or _load-time dynamic linking_. With implicit linking, the executable using the DLL links to an import library (.lib file) provided by the maker of the DLL. The operating system _loads the DLL when the executable is loaded_.
 
   * **Result**: As expected, libraries loaded this way appear in the prefetch file.
