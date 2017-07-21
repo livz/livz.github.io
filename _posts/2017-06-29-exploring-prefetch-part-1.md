@@ -60,7 +60,9 @@ So let’s see different ways of loading libraries and how they are recorded by 
 A very important detail to keep in mind: according to the first Forensic Magazine article mentioned previously:
 > Monitoring occurs for ten seconds after an application is started.
 
-* __Implicit linking__ - This linking method is also referred to as _static load_ or _load-time dynamic linking_. With implicit linking, the executable using the DLL links to an import library (.lib file) provided by the maker of the DLL. The operating system _loads the DLL when the executable is loaded_.
+* __Implicit linking__
+
+TTTThis linking method is also referred to as _static load_ or _load-time dynamic linking_. With implicit linking, the executable using the DLL links to an import library (.lib file) provided by the maker of the DLL. The operating system _loads the DLL when the executable is loaded_.
   * **Result**: As expected, libraries loaded this way appear in the prefetch file.
 * __Explicit linking__
    This linking method is sometimes referred to as dynamic load or run-time dynamic linking.With explicit linking, the executable using the DLL must make function calls to explicitly load and unload the DLL and to access the DLL's exported functions. 
