@@ -61,6 +61,7 @@ A very important detail to keep in mind: according to the first Forensic Magazin
 > Monitoring occurs for ten seconds after an application is started.
 
 * __Implicit linking__ - 
+
 This linking method is also referred to as _static load_ or _load-time dynamic linking_. With implicit linking, the executable using the DLL links to an import library (.lib file) provided by the maker of the DLL. The operating system _loads the DLL when the executable is loaded_.
 
   * **Result**: As expected, libraries loaded this way appear in the prefetch file.
@@ -69,7 +70,7 @@ This linking method is also referred to as _static load_ or _load-time dynamic l
 
   * **Result**: Again, libraries are correctly recorded. Even if no function is called there is still a corresponding DLL entry in the .pf file.
 
-* __Explicit linking (in style)__ - This techniques is frequently used in exploits, which find first the base address of kernel32.dll and then find the address of LoadLibrary function manually. Very prevalent technique. 
+* __Explicit linking (with style)__ - This techniques is frequently used in exploits, which find first the base address of kernel32.dll and then find the address of LoadLibrary function manually. Very prevalent technique. 
 	Result: Loaded libraries mentioned correctly in the prefetch. 
 
 Result: In this case, any library loaded using this trick is also recorded in the prefetch file.  
