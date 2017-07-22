@@ -6,7 +6,7 @@
 
 Let’s dissect that a bit. So **OPSEC** addresses the following key points:
 
-* Can friendly actions or information be observed* by an adversary?
+* Can friendly actions or information be observed by an adversary?
 * Can this observed information be interpreted to be useful to them?
 * How to eliminate or reduce adversary exploitation of this friendly critical information?
 
