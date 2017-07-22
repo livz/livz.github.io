@@ -28,7 +28,7 @@ A very simple one, suitable for phones, tablets and laptops alike:
 ## Privacy screen
 A privacy screen for mobile phones is absolutely necessary. For laptops it can be a bit inconvenient to work with the screen on, but luckily most of them can be taken off easily and fitted back when needed.
 
-![Privacy screen](/assets/images/opsec-basics/privacy-screen.png)
+![Privacy screen](/assets/images/opsec-basics/privacy_screen.png)
 
 ## Laptop lock
 Maybe having your laptop stolen is not something that happens every day, but it only needs to happen once. These locks come in different models (combination locks, keyed locks, etc). The most important thing is to do your research before buying one. 
