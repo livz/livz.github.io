@@ -47,9 +47,9 @@ As with the laptop locks, do your research before buying one. Historically there
 ![Encrypted USB](/assets/images/opsec-basics/enc_usb.png)
 
 ## Disable microphone
-Malware that [eavesdrops via computer microphones](http://inhomelandsecurity.com/malware-that-eavesdrops-via-computer-microphones-is-stealing-hundreds-of-gigs-of-data) is far from just a theoretical problem. Metasploit incorporated plugins for [recording webcam and microphone](https://null-byte.wonderhowto.com/how-to/hack-like-pro-remotely-record-listen-microphone-anyones-computer-0143966/) long long time ago. It’s very easy for anyone now to become the next Bond with a bit of social engineering. 
+Malware that [eavesdrops via computer microphones](http://inhomelandsecurity.com/malware-that-eavesdrops-via-computer-microphones-is-stealing-hundreds-of-gigs-of-data) is far from just a theoretical problem. Metasploit incorporated plugins for [recording webcam and microphone](https://null-byte.wonderhowto.com/how-to/hack-like-pro-remotely-record-listen-microphone-anyones-computer-0143966/) long long time ago. It’s effortless and straightforward for anyone now to become the next Bond with these tools a bit of social engineering. 
 
-Disabling the microphone is a very easy thing to do and very useful. A lot of laptops come with a button on the keyboard to disable the microphone and also a led for visual indication. No need to have it on while you’re not using it.
+Disabling the microphone is quick and easy and can be very useful. A lot of laptops come with a button on the keyboard to disable the microphone and also a led for visual indication. No need to have it on while you’re not using it.
 
 ![Disable mic](/assets/images/opsec-basics/disable_mic.png)
 
