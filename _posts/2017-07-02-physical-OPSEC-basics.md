@@ -10,7 +10,7 @@ Let’s dissect that a bit. So **OPSEC** addresses the following key points:
 * Can this observed information be interpreted to be useful to them?
 * How to eliminate or reduce adversary exploitation of friendly information?
 
-Strongly related to the concept of OPSEC is the process of **_aggregation_**: grouping individual pieces of not necessarily related information in order to obtain a bigger picture.
+Strongly related to the concept of OPSEC is the idea of **_aggregation_**: grouping individual pieces of not necessarily related information in order to obtain a bigger picture.
 
 Enough talking! Let’s see a few quick ways to improve our daily OPSEC:
 
