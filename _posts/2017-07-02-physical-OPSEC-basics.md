@@ -59,6 +59,9 @@ If you’ve watched [Citizenfour](http://www.imdb.com/title/tt4044364/) maybe yo
 
 ![Enter password under blanket](/assets/images/opsec-basics/snowden.png)
 
+
+##
+
 That’s it for now! Stay safe. And a piece of advice from an anonymous wise man:
 
 **_"Amateurs practice until they get it right. Professionals practice until they can’t get it wrong."_**
