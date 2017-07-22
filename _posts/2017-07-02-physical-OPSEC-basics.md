@@ -8,7 +8,7 @@ Let’s dissect that a bit. So **OPSEC** addresses the following key points:
 
 * Can friendly actions or information be observed by an adversary?
 * Can this observed information be interpreted to be useful to them?
-* How to eliminate or reduce adversary exploitation of this friendly critical information?
+* How to eliminate or reduce adversary exploitation of friendly information?
 
 Strongly related to the concept of OPSEC is the process of **_aggregation_**: grouping individual pieces of not necessarily related information in order to obtain a bigger picture.
 
