@@ -16,8 +16,10 @@ Enough talking! Let’s see a few quick ways to improve our daily OPSEC:
 
 ## Camera cover
 Reliable webcam covers should be applied whenever necessary: phone, laptop, external USB camera. There are a variety of model out there, ranging in price, but most very cheap. To chose a good cover and avoid having to buy it again in 2 months:
-Make sure it is robust, retractable. Avoid fancy stickers applied on the camera lens because you will need to take them off from time to time.
-A lot of companies offer promotional webcam covers with their logo. From experience, most of them are of poor quality. 
+
+* Make sure it is robust and easy to cover/uncover the lens.
+* Avoid fancy stickers applied on the camera lens because you will need to take them off from time to time.
+* A lot of companies offer promotional webcam covers with their logo. From experience, most of them are of poor quality. 
 
 A very simple one, suitable for phones, tablets and laptops alike:
 
