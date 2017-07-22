@@ -55,7 +55,7 @@ Disabling the microphone is quick and easy and can be very useful. A lot of lapt
 
 
 ## Visual surveillance
-If you’ve watched [Citizenfour](http://www.imdb.com/title/tt4044364/) maybe you remember the scene when Edward Snowden was introducing his password under a blanket, supposedly to mitigate any visual surveillance or possible hidden cameras. No need to be paranoid but it’s good to be aware of your surroundings and adversary surveillance capabilities.
+If you’ve watched [Citizenfour](http://www.imdb.com/title/tt4044364/) maybe you remember the scene when Edward Snowden was introducing his password under a blanket, supposedly to mitigate any _visual surveillance_ or possible _hidden cameras_. No need to be paranoid but it’s good to be aware of your surroundings and adversary surveillance capabilities.
 
 ![Enter password under blanket](/assets/images/opsec-basics/snowden.png)
 
