@@ -1,8 +1,6 @@
-Security is sometimes about simple things. Things we do in a certain way every day, without realising it. Security is also a mindset, is about doing things right, over and over again until it becomes internalised. 
-
 ![Logo](/assets/images/opsec-basics/loose-lips.png)
 
-Wikipedia defines [OPSEC](https://en.wikipedia.org/wiki/Operations_security) as:
+Operations Security is sometimes about simple things. Things we do in a certain way every day, without realising it. It is also a mindset, is about doing things right, over and over again until it becomes internalised. Wikipedia defines [OPSEC](https://en.wikipedia.org/wiki/Operations_security) as:
 
 > [..]  is a term originating in U.S. military jargon, as a process that identifies critical information to determine if friendly actions can be observed by enemy intelligence, determines if information obtained by adversaries could be interpreted to be useful to them, and then executes selected measures that eliminate or reduce adversary exploitation of friendly critical information.
 
@@ -31,9 +29,11 @@ A privacy screen for mobile phones is absolutely necessary. For laptops it can b
 ![Privacy screen](/assets/images/opsec-basics/privacy_screen.png)
 
 ## Laptop lock
-Maybe having your laptop stolen is not something that happens every day, but it only needs to happen once. These locks come in different models (combination locks, keyed locks, etc). The most important thing is to do your research before buying one. 
+Maybe having your laptop stolen is not something that happens every day, but it only needs to happen once. These locks come in [different](https://www.laptopmag.com/articles/best-laptop-locks) [models](https://www.kensington.com/en/gb/4480/security) (combination locks, keyed locks, etc). The most important thing is to do your research before buying one. 
 
 There are ways to bypass these locks, ranging from industrial wire cutters to clever lock picking techniques, however It's like locking your front door. Anyone can kick it in, but better than just leaving it open.
+
+![Laptop lock](/assets/images/opsec-basics/kensington_lock.png)
 
 ## Encrypted USBs
 As with the laptop locks, do your research before buying one. Historically there have been some problems in the past with software based encrypted USBs, however, the security of hardware based encrypted USB devices is pretty solid.  So a few tips:
@@ -42,18 +42,21 @@ As with the laptop locks, do your research before buying one. Historically there
 * Actually start using it!
 * Beware that if you go the corner shop to print your CV from it, encryption will not prevent malware from infecting it!
 
+![Encrypted USB](/assets/images/opsec-basics/enc_usb.png)
 
 ## Disable microphone
-Malware that eavesdrops via computer microphones is far from just a theoretical problem. Metasploit incorporated plugins for recording webcam and microphone long long time ago. It’s very easy for anyone now to become the next Bond with a bit of social engineering. 
+Malware that [eavesdrops via computer microphones](http://inhomelandsecurity.com/malware-that-eavesdrops-via-computer-microphones-is-stealing-hundreds-of-gigs-of-data) is far from just a theoretical problem. Metasploit incorporated plugins for [recording webcam and microphone](https://null-byte.wonderhowto.com/how-to/hack-like-pro-remotely-record-listen-microphone-anyones-computer-0143966/) long long time ago. It’s very easy for anyone now to become the next Bond with a bit of social engineering. 
 
 Disabling the microphone is a very easy thing to do and very useful. A lot of laptops come with a button on the keyboard to disable the microphone and also a led for visual indication. No need to have it on while you’re not using it.
 
+![Disable mic](/assets/images/opsec-basics/disable_mic.png)
+
+
 ## Visual surveillance
-If you’ve watched Citizenfour maybe you remember the scene when Edward Snowden was introducing his password under a blanket, supposedly to mitigate any visual surveillance or possible hidden cameras. No need to be paranoid but it’s good to be aware of your surroundings and adversary surveillance capabilities.
+If you’ve watched [Citizenfour](http://www.imdb.com/title/tt4044364/) maybe you remember the scene when Edward Snowden was introducing his password under a blanket, supposedly to mitigate any visual surveillance or possible hidden cameras. No need to be paranoid but it’s good to be aware of your surroundings and adversary surveillance capabilities.
 
-
-
+![Enter password under blanket](/assets/images/opsec-basics/snowden.png)
 
 That’s it for now! Stay safe. And a piece of advice from an anonymous wise man:
 
-Amateurs practice until they get it right. Professionals practice until they can’t get it wrong.
+**_"Amateurs practice until they get it right. Professionals practice until they can’t get it wrong."_**
