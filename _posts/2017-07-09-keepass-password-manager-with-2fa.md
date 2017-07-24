@@ -54,10 +54,10 @@ This is done when starting KeePass. More precisely, for Ubuntu we need the **mon
 $ sudo apt-get install mono-complete
 ```
 3. **Create a new database**:
-    * Create a new database (File->New)
-    * Setup a master password
-    * Select Key file/provider: One-Time Passwords (OATH HOTP)
-    * Click OK
+  * Create a new database (File->New)
+  * Setup a master password
+  * Select Key file/provider: One-Time Passwords (OATH HOTP)
+  * Click OK000
     
        ![Logo](/assets/images/keepass/kp1.png)
 4. **Configure the OTP parameters:**
