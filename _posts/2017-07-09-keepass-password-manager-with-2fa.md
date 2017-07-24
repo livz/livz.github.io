@@ -2,7 +2,7 @@
 
 In this post we’ll see how we can add a bit more security to password managers by using a second authentication factor. 
 [Multi-factor authentication](https://en.wikipedia.org/wiki/Multi-factor_authentication) in general and 
-Two Factor Authentication (2FA) in particular are very broad subjects covered extensively elsewhere. 
+[Two Factor Authentication (2FA)](http://searchsecurity.techtarget.com/definition/two-factor-authentication) in particular are very broad subjects covered extensively elsewhere. 
 
 First factor is represented by *something the the knows* - the password, 
 and the second one by *something he has* - a device for generating tokens. 
