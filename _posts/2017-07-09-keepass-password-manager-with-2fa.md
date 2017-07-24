@@ -17,23 +17,21 @@ So let’s dive in and see how to configure everything.
 
 ## HOWTO
 1. **Install [Keepass](http://keepass.info/download.html)**
-KeePass is available for a variety of platforms. So install it either from the repos of your distribution 
+  * KeePass is available for a variety of platforms. So install it either from the repos of your distribution 
 if already present, or download it from the official website. 
 I’ll focus on *Ubuntu 16.04* in this post, which has KeePass **2.32** already in the repositories. 
 ```bash
 $ sudo apt-get install keepass2
 ```
 2. **Install [OtpKeyProv plugin](http://keepass.info/plugins.html#otpkeyprov)**
-   Download the OtpKeyProv plugin. **Warning!** The latest version of the plugin - 2.5 is not compatible 
+  * Download the OtpKeyProv plugin. **Warning!** The latest version of the plugin - 2.5 is not compatible 
 with the latest version of KeePass from the repos - 2.32. 
 We need to get plugin version 2.4 from [Old Versions of KeePass Plugins](http://keepass.info/plugins_old.html).
   * Unzip the extension and copy the .plgx file to KeePass2 folder:
 ```bash
 $ sudo cp OtpKeyProv.plgx /usr/lib/keepass2/
 ```
-
   * Notice that **keepass2** command is just a wrapper to launch **KeePass.exe** using Mono.
-
 ```bash
 $ file `which keepass2`
 /usr/bin/keepass2: POSIX shell script, ASCII text executable
@@ -41,11 +39,9 @@ $ cat `which keepass2`
 #!/bin/sh
 exec /usr/bin/cli /usr/lib/keepass2/KeePass.exe "$@"
 ```
-
   * PLGX plugins are compiled and stored in a plugin cache directory on the user's system. 
 For Linux, the Mono C# 4.0 compiler is needed, in order to compile the plugin. 
 This is done when starting KeePass. More precisely, for Ubuntu we need the **mono-dmcs** package:
-
 ```bash
 $ sudo apt-get install mono-complete
 ```
