@@ -68,7 +68,7 @@ $ sudo apt-get install mono-complete
 
 
 ## Tips and Tricks
-* **Mind the synchronisation file** - 
+* **Mind the synchronisation gap** - 
 In order to successfully open a databse we need both the database file and the corresponding **.otp.xml** file.
 The XML file contains synchronisation related information.
 So if you backup you **.kdbx** database file, don't forget about the XML file!
