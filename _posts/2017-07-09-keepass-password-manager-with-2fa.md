@@ -58,8 +58,7 @@ $ sudo apt-get install mono-complete
     * Setup a master password
     * Select Key file/provider: One-Time Passwords (OATH HOTP)
     * Click OK
-
-![Logo](/assets/images/keepass/kp1.png)
+       test proper indent ![Logo](/assets/images/keepass/kp1.png)
 4. **Configure the OTP parameters:**
   * Length of one-time passwords: 6
   * Secret key: In order to be compatible with Google Authenticator, 
