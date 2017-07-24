@@ -16,7 +16,7 @@ So let’s dive in and see how to configure everything.
 
 
 ## HOWTO
-1. **Install [Keepass](http://keepass.info/download.html)**
+* **Install [Keepass](http://keepass.info/download.html)**
 
 KeePass is available for a variety of platforms. So install it either from the repos of your distribution 
 if already present, or download it from the official website. 
@@ -25,7 +25,7 @@ I’ll focus on *Ubuntu 16.04* in this post, which has KeePass **2.32** already 
 $ sudo apt-get install keepass2
 ```
 
-2. **Install [OtpKeyProv plugin](http://keepass.info/plugins.html#otpkeyprov)**
+* **Install [OtpKeyProv plugin](http://keepass.info/plugins.html#otpkeyprov)**
 
 Download the OtpKeyProv plugin. **Warning!** The latest version of the plugin - 2.5 is not compatible 
 with the latest version of KeePass from the repos - 2.32. 
@@ -56,11 +56,10 @@ $ sudo apt-get install mono-complete
 ```
 
 3. **Create a new database**:
-
-  * Create a new database (File -> New)
-  * Setup a master password
-  * Select Key file/provider: One-Time Passwords (OATH HOTP)
-  * Click OK
+    * Create a new database (File -> New)
+    * Setup a master password
+    * Select Key file/provider: One-Time Passwords (OATH HOTP)
+    * Click OK
 
 ![Logo](/assets/images/keepass/kp1.png)
 
