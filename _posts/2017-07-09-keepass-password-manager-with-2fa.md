@@ -68,23 +68,13 @@ $ sudo apt-get install mono-complete
 
 
 ## Tips and Tricks
-* __Implicit linking__
-
-This linking method is also referred to as _static load_ or _load-time dynamic linking_. With implicit linking, the executable using the DLL links to an import library (.lib file) provided by the maker of the DLL. The operating system _loads the DLL when the executable is loaded_.
-
-**Result**: As expected, libraries loaded this way appear in the prefetch file.
-
-**Code**: [static loading](https://gist.github.com/livz/30de9908a0f690f3f27173562efac463),
-[static loading using #pragma](https://gist.github.com/livz/0a99cfbe6947c7615beab7945c50f997).
-* __Explicit linking__
-
-This linking
 * **Mind the synchronisation file**
 
 In order to successfully open a databse we need both the database file and the corresponding **.otp.xml** file.
 The XML file contains synchronisation related information.
 So if you backup you **.kdbx** database file, don't forget about the XML file!
 * **Single point of failure**
+
 Password managers are usually regarded as [single points of failure](https://en.wikipedia.org/wiki/Single_point_of_failure). Apply common sense when using them:
   * Set an auto-lock timeout after a short period of inactivity
   * Use the [Two-Channel Auto-Type Obfuscation](http://keepass.info/help/v2/autotype_obfuscation.html) feature
