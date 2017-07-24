@@ -16,7 +16,7 @@ So let’s dive in and see how to configure everything.
 
 
 ## HOWTO
-* **Install [Keepass](http://keepass.info/download.html)**
+1. **Install [Keepass](http://keepass.info/download.html)**
 
 KeePass is available for a variety of platforms. So install it either from the repos of your distribution 
 if already present, or download it from the official website. 
@@ -24,20 +24,19 @@ I’ll focus on *Ubuntu 16.04* in this post, which has KeePass **2.32** already 
 ```bash
 $ sudo apt-get install keepass2
 ```
-
-* **Install [OtpKeyProv plugin](http://keepass.info/plugins.html#otpkeyprov)**
+2. **Install [OtpKeyProv plugin](http://keepass.info/plugins.html#otpkeyprov)**
 
 Download the OtpKeyProv plugin. **Warning!** The latest version of the plugin - 2.5 is not compatible 
 with the latest version of KeePass from the repos - 2.32. 
 We need to get plugin version 2.4 from [Old Versions of KeePass Plugins](http://keepass.info/plugins_old.html).
 
-    * Unzip the extension and copy the .plgx file to KeePass2 folder:
+  * Unzip the extension and copy the .plgx file to KeePass2 folder:
 
 ```bash
 $ sudo cp OtpKeyProv.plgx /usr/lib/keepass2/
 ```
 
-    * Notice that **keepass2** command is just a wrapper to launch **KeePass.exe** using Mono.
+  * Notice that **keepass2** command is just a wrapper to launch **KeePass.exe** using Mono.
 
 ```bash
 $ file `which keepass2`
@@ -47,22 +46,20 @@ $ cat `which keepass2`
 exec /usr/bin/cli /usr/lib/keepass2/KeePass.exe "$@"
 ```
 
-    * PLGX plugins are compiled and stored in a plugin cache directory on the user's system. 
+  * PLGX plugins are compiled and stored in a plugin cache directory on the user's system. 
 For Linux, the Mono C# 4.0 compiler is needed, in order to compile the plugin. 
 This is done when starting KeePass. More precisely, for Ubuntu we need the **mono-dmcs** package:
 
 ```bash
 $ sudo apt-get install mono-complete
 ```
-
 3. **Create a new database**:
-    * Create a new database (File -> New)
+    * Create a new database (File->New)
     * Setup a master password
     * Select Key file/provider: One-Time Passwords (OATH HOTP)
     * Click OK
 
 ![Logo](/assets/images/keepass/kp1.png)
-
 4. **Configure the OTP parameters:**
   * Length of one-time passwords: 6
   * Secret key: In order to be compatible with Google Authenticator, 
@@ -74,7 +71,6 @@ $ sudo apt-get install mono-complete
   before a recovery becomes necessary because the counters have become too far out of sync.
 
 ![Logo](/assets/images/keepass/kp2.png)
-
 5. **Set up [Google Authenticator](https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2&hl=en_GB):**
   * Enter the app and add a new authenticator
   * Select "Enter a provided key" and enter the previous key (e.g. **_abcdefghyz234567_**)
