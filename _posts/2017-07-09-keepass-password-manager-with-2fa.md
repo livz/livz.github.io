@@ -16,7 +16,7 @@ So let’s dive in and see how to configure everything.
 
 
 ## HOWTO
-1. **Install [Keepass](http://keepass.info/download.html)** 
+1. **Install [Keepass](http://keepass.info/download.html)**
   * KeePass is available for a variety of platforms. So install it either from the repos of your distribution 
 if already present, or download it from the official website. 
 I’ll focus on *Ubuntu 16.04* here, which has KeePass **2.32** already in the repositories. 
@@ -69,6 +69,7 @@ $ sudo apt-get install mono-complete
 
 ## Tips and Tricks
 * **Mind the synchronisation file**
+
    In order to successfully open a databse we need both the database file and the corresponding **.otp.xml** file.
 The XML file contains synchronisation related information.
 So if you backup you **.kdbx** database file, don't forget about the XML file!
