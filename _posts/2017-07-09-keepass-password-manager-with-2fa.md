@@ -17,7 +17,6 @@ So let’s dive in and see how to configure everything.
 
 ## HOWTO
 1. **Install [Keepass](http://keepass.info/download.html)**
-
 KeePass is available for a variety of platforms. So install it either from the repos of your distribution 
 if already present, or download it from the official website. 
 I’ll focus on *Ubuntu 16.04* in this post, which has KeePass **2.32** already in the repositories. 
@@ -25,8 +24,7 @@ I’ll focus on *Ubuntu 16.04* in this post, which has KeePass **2.32** already 
 $ sudo apt-get install keepass2
 ```
 2. **Install [OtpKeyProv plugin](http://keepass.info/plugins.html#otpkeyprov)**
-
-Download the OtpKeyProv plugin. **Warning!** The latest version of the plugin - 2.5 is not compatible 
+   Download the OtpKeyProv plugin. **Warning!** The latest version of the plugin - 2.5 is not compatible 
 with the latest version of KeePass from the repos - 2.32. 
 We need to get plugin version 2.4 from [Old Versions of KeePass Plugins](http://keepass.info/plugins_old.html).
 
