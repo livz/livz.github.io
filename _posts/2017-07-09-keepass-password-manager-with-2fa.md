@@ -80,7 +80,8 @@ This linking method is also referred to as _static load_ or _load-time dynamic l
 
 This linking
 * **Mind the synchronisation file**
-    In order to successfully open a databse we need both the database file and the corresponding **.otp.xml** file.
+
+In order to successfully open a databse we need both the database file and the corresponding **.otp.xml** file.
 The XML file contains synchronisation related information.
 So if you backup you **.kdbx** database file, don't forget about the XML file!
 * **Single point of failure**
