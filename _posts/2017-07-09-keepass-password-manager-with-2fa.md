@@ -19,7 +19,7 @@ So let’s dive in and see how to configure everything.
 1. **Install [Keepass](http://keepass.info/download.html)**
   * KeePass is available for a variety of platforms. So install it either from the repos of your distribution 
 if already present, or download it from the official website. 
-I’ll focus on *Ubuntu 16.04* in this post, which has KeePass **2.32** already in the repositories. 
+I’ll focus on *Ubuntu 16.04* here, which has KeePass **2.32** already in the repositories. 
 ```bash
 $ sudo apt-get install keepass2
 ```
