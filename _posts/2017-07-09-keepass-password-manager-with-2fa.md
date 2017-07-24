@@ -68,6 +68,7 @@ $ sudo apt-get install mono-complete
 
 ![Logo](/assets/images/keepass/beware.png)
 
+## Proceed with caution
 * **Mind the synchronisation gap** - 
 In order to successfully open a databse we need both the database file and the corresponding **.otp.xml** file.
 The XML file contains synchronisation related information.
