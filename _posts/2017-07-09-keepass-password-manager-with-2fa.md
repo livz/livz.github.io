@@ -48,7 +48,7 @@ $ sudo apt-get install mono-complete
 3. **Create a new database**:
   * Create a new database (File->New)
   * Setup a complex master password
-  * Select Key file/provider: One-Time Passwords (OATH HOTP)
+  * Select Key file/provider: One-Time Passwords (**OATH HOTP**)
   * Click OK    
      ![Logo](/assets/images/keepass/kp1.png)
 4. **Configure the OTP parameters:**
