@@ -71,12 +71,12 @@ $ sudo apt-get install mono-complete
 * In order to successfully open the databse we need both the database file and the corresponding **.otp.xml** file.
 The xml file contains synchronisation related information. 
 So if you backup you **.kdbx** database file, don't forget about it.
-* **Single poitn of failure**
+* **Single point of failure** 
    Password managers are usually regarded as [single points of failure](https://en.wikipedia.org/wiki/Single_point_of_failure). Apply common sense when using them:
   * blah
   * blah
   * blah
-* **Keep the secret key ..secret**
+* **Keep the secret key ..secret** 
    Because the secret key we set up in step 4 is used to seed the generation of one-time passwords, 
 obviously it needs to be kept secret. Anyone having access to it can bypass the 2nd authentication factor.
 * **Resident malware** 
@@ -86,6 +86,3 @@ after the database file has been unlocked on the infected user's machine. It is 
 will end up as a post-exploitation plugin for 
 [Metasploit](https://www.offensive-security.com/metasploit-unleashed/post-module-reference/). 
 Currently it works on Windows 7 and 8.1 systems. Again, don't asume it won't work on Linux.
-
-
-
