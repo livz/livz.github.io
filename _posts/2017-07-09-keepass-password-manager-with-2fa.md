@@ -45,13 +45,13 @@ This is done when starting KeePass. More precisely, for Ubuntu we need the **mon
 ```bash
 $ sudo apt-get install mono-complete
 ```
-3. **Create a new database**:
+3. **Create a new database**
   * Create a new database (File->New)
   * Setup a complex master password
   * Select Key file/provider: One-Time Passwords (**OATH HOTP**)
   * Click OK    
      ![Logo](/assets/images/keepass/kp1.png)
-4. **Configure the OTP parameters:**
+4. **Configure the OTP parameters**
   * Length of one-time passwords: 6
   * Secret key: In order to be compatible with Google Authenticator, 
   the secret key must be in [Base32](https://en.wikipedia.org/wiki/Base32). The charset is: **[a-z] + [2-7]**. 
@@ -61,7 +61,7 @@ $ sudo apt-get install mono-complete
   * Look-ahead count: 9. This allows for 3 failed KeePass unlock attempts using generated OTPs 
   before a recovery becomes necessary because the counters have become too far out of sync.
      ![Logo](/assets/images/keepass/kp2.png)
-5. **Set up [Google Authenticator](https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2&hl=en_GB):**
+5. **Set up [Google Authenticator](https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2&hl=en_GB)**
   * Enter the app and add a new authenticator
   * Select "Enter a provided key" and enter the previous key (e.g. **_abcdefghyz234567_**)
   * Select "counter based" instead of "time based"
