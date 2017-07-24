@@ -71,10 +71,16 @@ $ sudo apt-get install mono-complete
 * In order to successfully open the databse we need both the database file and the corresponding **.otp.xml** file.
 The xml file contains synchronisation related information. 
 So if you backup you **.kdbx** database file, don't forget about it.
-* Password managers are usually regarded as [single points of failure](https://en.wikipedia.org/wiki/Single_point_of_failure).
-* Because the secret key we set up in step 4 is used to seed the generation of one-time passwords, 
+* **Single poitn of failure**
+   Password managers are usually regarded as [single points of failure](https://en.wikipedia.org/wiki/Single_point_of_failure). Apply common sense when using them:
+  * blah
+  * blah
+  * blah
+* **Keep the secret key ..secret**
+   Because the secret key we set up in step 4 is used to seed the generation of one-time passwords, 
 obviously it needs to be kept secret. Anyone having access to it can bypass the 2nd authentication factor.
-* Various attacks exist against password managers. For KeePass specifically, we have 
+* **Resident malware** 
+   Various attacks exist against password managers. For KeePass specifically, we have 
 [KeeFarce](https://github.com/denandz/KeeFarce) which allows the extraction of password databases from memory, 
 after the database file has been unlocked on the infected user's machine. It is just a matter of time until this tool
 will end up as a post-exploitation plugin for 
