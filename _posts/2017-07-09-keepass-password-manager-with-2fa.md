@@ -66,8 +66,8 @@ $ sudo apt-get install mono-complete
   * Select "Enter a provided key" and enter the previous key (e.g. **_abcdefghyz234567_**)
   * Select "counter based" instead of "time based"
 
+![Logo](/assets/images/keepass/beware.png)
 
-## Tips and Tricks
 * **Mind the synchronisation gap** - 
 In order to successfully open a databse we need both the database file and the corresponding **.otp.xml** file.
 The XML file contains synchronisation related information.
