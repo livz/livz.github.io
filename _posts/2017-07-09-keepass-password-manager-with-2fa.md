@@ -83,7 +83,10 @@ obviously it needs to be kept secret. Anyone having access to it can bypass the 
 * **Watch out for resident malware** - 
 Various attacks exist against password managers. For KeePass specifically, we have 
 [KeeFarce](https://github.com/denandz/KeeFarce) which allows the extraction of password databases from memory, 
-after the database file has been unlocked on the infected user's machine. It is just a matter of time until this tool
-will end up as a post-exploitation plugin for 
-[Metasploit](https://www.offensive-security.com/metasploit-unleashed/post-module-reference/). 
-Currently it works on Windows 7 and 8.1 systems. Again, don't asume it won't work on Linux.
+after the database file has been unlocked on the infected user's machine.
+  * It is just a matter of time until this tool will end up as a post-exploitation plugin for 
+[Metasploit](https://www.offensive-security.com/metasploit-unleashed/post-module-reference/).
+  * Currently it works on Windows 7 and 8.1 systems. Again, don't asume it won't work on Linux.
+  
+##
+
