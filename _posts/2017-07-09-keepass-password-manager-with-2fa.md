@@ -79,9 +79,11 @@ So if you backup you **.kdbx** database file, don't forget about the XML file!
   * Use the [Two-Channel Auto-Type Obfuscation](http://keepass.info/help/v2/autotype_obfuscation.html) feature
   instead of copy-pasting passwords
 * **Keep the secret key .. you've guessed, secret** 
+
    Because the secret key we set up in step 4 is used to seed the generation of one-time passwords, 
 obviously it needs to be kept secret. Anyone having access to it can bypass the 2nd authentication factor.
 * **Watch out for resident malware**
+
    Various attacks exist against password managers. For KeePass specifically, we have 
 [KeeFarce](https://github.com/denandz/KeeFarce) which allows the extraction of password databases from memory, 
 after the database file has been unlocked on the infected user's machine. It is just a matter of time until this tool
