@@ -290,4 +290,5 @@ components (e.g. pinentry) and steal sensitive data (such as the smart-card PIN)
 (e.g. the hash to be signed)_  (gnupg-pkcs11-scd man page)
 
 ##
-Congratulations for reading that far! There are a lot more thigns we can do with an eToken and some of these will hopefully be materialised in another tutorials. For example we can integrate it with Thunderbird in order to **_sign and encrypt emails_**, with PAM for **_user login_**, use it for **_SSH authentication_** and of course **_VPN**_.
+#### Congratulations for reading that far! 
+There are a lot more things we can do with an eToken and some of these will hopefully be materialised in another tutorials. For example we can integrate it with Thunderbird in order to **_sign and encrypt emails_**, with PAM for **_user login_**, use it for **_SSH authentication_** and of course **_VPN**_.
