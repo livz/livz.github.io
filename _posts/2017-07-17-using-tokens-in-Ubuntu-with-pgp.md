@@ -36,7 +36,8 @@ $ sudo dpkg -i SafenetAuthenticationClient-9.0.43-0_amd64.deb
 
 * Install SafeNet client:
 ```bash
-aaa```
+aaa
+```
 
 * Verify that you can access the token:
 ```bash
