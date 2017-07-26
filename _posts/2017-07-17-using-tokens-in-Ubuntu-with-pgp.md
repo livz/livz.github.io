@@ -103,7 +103,7 @@ Private Key Object; RSA
 $ pkcs11-tool --module /usr/lib/libeToken.so --login --delete-object --type pubkey --id 1
 ```
 
-* **Create an X509 certificate** - We'll create a self-signed certificate for the keypair we just generated. This eToken only accepts certificates in *DER format*, so we need to convert to DER. We can do this from within OpenSSL prompt:
+* **Create an X509 certificate** - We'll create a self-signed certificate for the keypair we just generated. This eToken only accepts certificates in *DER format*, so we need to convert it to DER. We can do this from within OpenSSL prompt:
 ```bash
 OpenSSL> engine dynamic -pre SO_PATH:/usr/lib/engines/engine_pkcs11.so -pre ID:pkcs11 -pre LIST_ADD:1 -pre LOAD -pre MODULE_PATH:libeToken.so
 (dynamic) Dynamic engine loading support
@@ -139,13 +139,13 @@ Certificate Object, type = X.509 cert
 ```
 
 ## 3. GPG configuration
-* **Configure _gpg-agent_** - add the following to _~/.gnupg/gpg-agent.conf_ (create if it doesn't exist):
+* **Configure _gpg-agent_** - add the following to _~/.gnupg/gpg-agent.conf_ (create the file if it doesn't exist):
 ```
 scdaemon-program /usr/bin/gnupg-pkcs11-scd
 pinentry-program /usr/bin/pinentry-x11
 ```
 
-* **Configure the smart-card daemon** - add the following to _~/.gnupg/gnupg-pkcs11-scd.conf_ (create if it doesn't exist):
+* **Configure the smart-card daemon** - add the following to _~/.gnupg/gnupg-pkcs11-scd.conf_ (create the file if it doesn't exist):
 ```
 providers p1
 provider-p1-library /usr/lib/libeToken.so
