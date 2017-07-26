@@ -34,16 +34,7 @@ $ sudo apt-get install libhal1 libhal-storage1
 $ sudo dpkg -i SafenetAuthenticationClient-9.0.43-0_amd64.deb
 ```
 
-* Install SafeNet client:
-```bash
-aaa
-```
-
 * Verify that you can access the token:
-```bash
-aaa
-```
-* asdasdasdsadsa:
 ```bash
 $ pkcs11-tool --module /usr/lib/libeTPkcs11.so --show-info
 Cryptoki version 2.20
