@@ -101,9 +101,8 @@ Private Key Object; RSA
 $ pkcs11-tool --module /usr/lib/libeToken.so --login --delete-object --type pubkey --id 1
 ```
 
-* **Create an X509 certificate** - We'll create a self-signed certificate for the keypair we just generated. This eToken only accepts certificates in *DER format*, so we need to convert to DER:
+* **Create an X509 certificate** - We'll create a self-signed certificate for the keypair we just generated. This eToken only accepts certificates in *DER format*, so we need to convert to DER. We can do this from within OpenSSL prompt:
 ```bash
-$ openssl
 OpenSSL> engine dynamic -pre SO_PATH:/usr/lib/engines/engine_pkcs11.so -pre ID:pkcs11 -pre LIST_ADD:1 -pre LOAD -pre MODULE_PATH:libeToken.so
 (dynamic) Dynamic engine loading support
 [Success]: SO_PATH:/usr/lib/engines/engine_pkcs11.so
@@ -112,9 +111,11 @@ OpenSSL> engine dynamic -pre SO_PATH:/usr/lib/engines/engine_pkcs11.so -pre ID:p
 [Success]: LOAD
 [Success]: MODULE_PATH:libeToken.so
 Loaded: (pkcs11) pkcs11 engine
-OpenSSL> req -engine pkcs11 -new -key slot_0-id_01 -keyform engine
--x509 -out my.pem -text
+```
+```bash
+OpenSSL> req -engine pkcs11 -new -key slot_0-id_01 -keyform engine -x509 -out my.pem -text
 PKCS#11 token PIN: ****
+```
+```bash
 OpenSSL> x509 -in my.pem -out my.der -outform der
 ```
-
