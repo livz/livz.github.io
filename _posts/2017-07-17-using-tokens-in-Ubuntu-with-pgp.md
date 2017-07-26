@@ -36,6 +36,10 @@ $ sudo dpkg -i SafenetAuthenticationClient-9.0.43-0_amd64.deb
 
 * Verify that you can access the token:
 ```bash
+$ aaa
+```
+
+```bash
 $ pkcs11-tool --module /usr/lib/libeTPkcs11.so --show-info
 Cryptoki version 2.20
 Manufacturer     SafeNet, Inc.
