@@ -43,7 +43,8 @@ aaa
 ```bash
 aaa
 ```
-* asdasdasdsadsa
+* asdasdasdsadsa:
+```bash
 $ pkcs11-tool --module /usr/lib/libeTPkcs11.so --show-info
 Cryptoki version 2.20
 Manufacturer     SafeNet, Inc.
