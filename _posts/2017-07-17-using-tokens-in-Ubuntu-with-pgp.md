@@ -246,18 +246,18 @@ gpg: Good signature from "John Snow <john@snow.com>"
 $ sudo gpg2 --output test.out --decrypt test.sig
 ```
 
-* **Sign wit ha detached signature** - you'll need both the original document and the detached signature in order to verify it!
+* **Sign with a detached signature** - Remember, in this case you'll need both the original document and the detached signature in order to verify it!
 ```bash
 $ sudo gpg2 --output test.sig -u john@snow.com --detach-sig test
 ```
 
 ### 4.2 Encrypt and decrypt
-* **Encrypt message using the public key** - the token is obviously not required at this point:
+* **Encrypt a file for the user using his public key** - the token is obviously not required at this point:
 ```bash
 $ sudo gpg2 --output test.pgp --encrypt --armour --recipient john@snow.com test
 ```
 ```bash
-m@ubuntu:~$ cat test.pgp 
+$ cat test.pgp 
 -----BEGIN PGP MESSAGE-----
 Version: GnuPG v1
 [. . .]
