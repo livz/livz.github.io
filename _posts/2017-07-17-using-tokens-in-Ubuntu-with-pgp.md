@@ -209,13 +209,16 @@ pin-cache 5
 ```
 
 ## 4. Usage
-* **Create and verify signatures** - This will compress the document, sign it and the output will be *in binary format*. Signing will require the private key, so we're prompted for the token PIN:
+### 4.1 Sign and verify
+* **Sign a document** - This will compress the document, sign it and the output will be *in binary format*. Signing will require the private key, so we're prompted for the token PIN:
 ```bash
 $ echo hello > test
 $ sudo gpg2 --output test.sig -u john@snow.com --sign test 
 ```
 
-The content of the file is **not encrypted**. The option would need to be combined with **--enrypt** flag. We canalso generate a clear text signature as follows:
+The content of the file is **not encrypted**. The option would need to be combined with **--enrypt** flag. 
+
+* **Generate a clear text signature**:
 ```bash
 $ sudo gpg2 --output test.sig -u john@snow.com --clearsign test
 $ cat test.sig 
@@ -231,10 +234,22 @@ iQEcBAEBAgAGBQJZeLMUAAoJEHqOyUeEY/Owb7AH/1g747AasI9OMwghuRgMt6lX
 -----END PGP SIGNATURE-----
 ```
 
-To verify the signature:
+* **Verify the signature**:
 ```bash
 $ sudo gpg2 --verify test.sig 
 gpg: WARNING: unsafe ownership on configuration file `/home/m/.gnupg/gpg.conf'
 gpg: Signature made Wed 26 Jul 2017 04:19:48 PM BST using RSA key ID 8463F3B0
 gpg: Good signature from "John Snow <john@snow.com>"
 ```
+
+* **Verify the signature and recover the document**:
+```bash
+$ sudo gpg --output test.out --decrypt test.sig
+```
+
+* **Sign wit ha detached signature** - you'll need both the original document and the detached signature in order to verify it!
+```bash
+$ sudo gpg2 --output test.sig -u john@snow.com --detach-sig test
+```
+
+### 4.2 Encrypt and decrypt
