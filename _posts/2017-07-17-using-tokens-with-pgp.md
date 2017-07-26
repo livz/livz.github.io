@@ -1,1 +1,1 @@
-![Logo](/assets/images/token-pgp/key-logo.png)
+![Logo](/assets/images/token-pgp/key-logo.jpg)
