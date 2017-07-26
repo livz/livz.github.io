@@ -191,7 +191,7 @@ gpg: OpenPGP card not available: Unsupported certificate
 ```
 
 * **Verify the key has been imported correctly**:
-```bash
+```
 $ sudo gpg2 --list-secret-keys john@snow.com
 gpg: WARNING: unsafe ownership on configuration file `/home/m/.gnupg/gpg.conf'
 sec>  2048R/8463F3B0 2017-07-26 [expires: 2019-07-26]
@@ -201,8 +201,7 @@ ssb>  2048R/8463F3B0 2017-07-26 [expires: 2019-07-26]
 ssb>  2048R/8463F3B0 2017-07-26 [expires: 2019-07-26]
 ```
 
-This can now be used a normal PGP key. GnuPG will ask you for your user PIN on all operations. The default cache period 
-for the PIN is infinite, but it can be adjusted in *~/.gnupg/gnupg-pkcs11-scd.conf*:
+* **Adjsut PIN caching** - The key above can now be used a normal PGP key. GnuPG will ask you for your user PIN on all operations. The default cache period for the PIN is infinite, but it can be adjusted in *~/.gnupg/gnupg-pkcs11-scd.conf*:
 ```
 # Pin cache period in seconds; default is infinite.
 pin-cache 5
