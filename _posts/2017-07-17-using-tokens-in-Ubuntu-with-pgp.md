@@ -36,7 +36,7 @@ $ sudo dpkg -i SafenetAuthenticationClient-9.0.43-0_amd64.deb
 
 * Verify that you can access the token:
 ```bash
-$ aaa
+$ pkcs11-tool --module /usr/lib/libeTPkcs11.so --show-info
 ```
 
 ```bash
