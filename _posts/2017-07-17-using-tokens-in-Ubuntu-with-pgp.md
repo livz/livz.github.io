@@ -242,7 +242,7 @@ gpg: Good signature from "John Snow <john@snow.com>"
 
 * **Verify the signature and recover the document**:
 ```bash
-$ sudo gpg --output test.out --decrypt test.sig
+$ sudo gpg2 --output test.out --decrypt test.sig
 ```
 
 * **Sign wit ha detached signature** - you'll need both the original document and the detached signature in order to verify it!
@@ -251,3 +251,40 @@ $ sudo gpg2 --output test.sig -u john@snow.com --detach-sig test
 ```
 
 ### 4.2 Encrypt and decrypt
+* **Encrypt message using the public key** - the token is obviously not required at this point:
+```bash
+$ sudo gpg2 --output test.pgp --encrypt --armour --recipient john@snow.com test
+```
+```bash
+m@ubuntu:~$ cat test.pgp 
+-----BEGIN PGP MESSAGE-----
+Version: GnuPG v1
+[. . .]
+-----END PGP MESSAGE-----
+```
+
+* **Decrypt using private key** - token PIN **IS** needed now:
+```bash
+$ sudo gpg2 --output test.plain --decrypt test.pgp
+```
+
+### 4.3 Export and import keys
+* **Exporting keys** - If you want to use the PGP key on a different machine, you can export it, then import it in another
+key chain. Of course, you'll need the same token to use it:
+
+```bash
+$ sudo gpg --armor --export john@snow.com > my.pub
+$ sudo gpg --armor --export-secret-keys john@snow.com > my.sec
+```
+
+* **Import the private key**:
+```bash
+$ sudo gpg2 --import my.sec
+```
+
+![Logo](/assets/images/keepass/beware.png)
+### Smart-card daemon security
+> _All communication between components is currently unprotected and **in plain text** (that's how
+the Assuan protocol operates). It is trivial to trace (using e.g. the strace(1) program) individual
+components (e.g. pinentry) and steal sensitive data (such as the smart-card PIN) or even change it
+(e.g. the hash to be signed)_  (gnupg-pkcs11-scd man page)
