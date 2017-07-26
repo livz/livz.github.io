@@ -182,14 +182,14 @@ Please specify how long the key should be valid.
 gpg: key 8463F3B0 marked as ultimately trusted
 public and secret key created and signed.
 ```
+```
+gpg: selecting openpgp failed: Unsupported certificate
+gpg: OpenPGP card not available: Unsupported certificate
+```
 
-> **Note!** On certain GnuPG versions, [the smart card is only available to the root user](https://lists.gnupg.org/pipermail/gnupg-users/2011-August/042547.html). If _gpg2_ is not run as root,
-the following error messages are generated:
+> **Note!** On certain GnuPG versions, [the smart card is only available to the root user](https://lists.gnupg.org/pipermail/gnupg-users/2011-August/042547.html) and the above error messages 
+would be generated If _gpg2_ is not run as root!
 
-   ```
-   gpg: selecting openpgp failed: Unsupported certificate
-   gpg: OpenPGP card not available: Unsupported certificate
-   ```
 
 * **Verify the key has been imported correctly**:
 ```
