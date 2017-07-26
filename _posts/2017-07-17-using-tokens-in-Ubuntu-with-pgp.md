@@ -291,4 +291,4 @@ components (e.g. pinentry) and steal sensitive data (such as the smart-card PIN)
 
 ##
 #### Congratulations for reading that far! 
-There are a lot more things we can do with an eToken and some of these will hopefully be materialised in other tutorials. For example we can integrate it with Thunderbird in order to **_sign and encrypt emails_**, with PAM for **_user login_**, use it for **_SSH authentication_** and of course **_VPN**_.
+There are a lot more things we can do with an eToken and some of these will hopefully be materialised in other tutorials. For example we can integrate it with Thunderbird in order to **_sign and encrypt emails_**, with PAM for **_user login_**, use it for **_SSH authentication_** and of course **_VPN_**.
