@@ -41,7 +41,6 @@ Cryptoki version 2.20
 Manufacturer     SafeNet, Inc.
 Library          SafeNet eToken PKCS#11 (ver 9.0)
 Using slot 0 with a present token (0x0)
-  
 $ pkcs11-tool --module /usr/lib/libeTPkcs11.so --list-slots
 Available slots:
 Slot 0 (0x0): AKS ifdh 00 00
