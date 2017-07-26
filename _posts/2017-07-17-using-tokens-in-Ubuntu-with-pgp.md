@@ -55,6 +55,8 @@ Slot 0 (0x0): AKS ifdh 00 00
   serial num         : 00373fad
 ```
 
+> **Note!** If you have multiple tokens or card reader slots, you'll have to use the **--slot 0** parameter with all *pkcs11-tool* commands.
+
 ## 2. Token initialisation
 * **Create Security Office (SO) PIN (PUK)**:
 ```bash
