@@ -185,6 +185,7 @@ public and secret key created and signed.
 
 > **Note!** On certain GnuPG versions, [the smart card is only available to the root user](https://lists.gnupg.org/pipermail/gnupg-users/2011-August/042547.html). If _gpg2_ is not run as root,
 the following error messages are generated:
+
 ```
 gpg: selecting openpgp failed: Unsupported certificate
 gpg: OpenPGP card not available: Unsupported certificate
