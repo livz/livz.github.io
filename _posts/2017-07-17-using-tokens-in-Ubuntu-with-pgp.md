@@ -201,7 +201,7 @@ ssb>  2048R/8463F3B0 2017-07-26 [expires: 2019-07-26]
 ssb>  2048R/8463F3B0 2017-07-26 [expires: 2019-07-26]
 ```
 
-* **Adjsut PIN caching** - The key above can now be used a normal PGP key. GnuPG will ask you for your user PIN on all operations. The default cache period for the PIN is infinite, but it can be adjusted in *~/.gnupg/gnupg-pkcs11-scd.conf*:
+* **Adjust PIN caching timeout** - The key above can now be used a normal PGP key. GnuPG will ask you for your user PIN on all operations. The default cache period for the PIN is infinite, but it can be adjusted in *~/.gnupg/gnupg-pkcs11-scd.conf*:
 ```
 # Pin cache period in seconds; default is infinite.
 pin-cache 5
@@ -223,11 +223,10 @@ $ sudo gpg2 --output test.sig -u john@snow.com --clearsign test
 $ cat test.sig 
 -----BEGIN PGP SIGNED MESSAGE-----
 Hash: SHA1
-
 hello
 -----BEGIN PGP SIGNATURE-----
 Version: GnuPG v2.0.22 (GNU/Linux)
-
+[]
 iQEcBAEBAgAGBQJZeLMUAAoJEHqOyUeEY/Owb7AH/1g747AasI9OMwghuRgMt6lX
 [. . .]
 -----END PGP SIGNATURE-----
