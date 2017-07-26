@@ -103,5 +103,6 @@ $ pkcs11-tool --module /usr/lib/libeToken.so --login --delete-object --type cert
 ```
 
 * Create an X509 certificate
-Next, you’ll need to create a self-signed x509 certificate, since this is needed for most applications to recognise the keypair+certificate. Make sure you specify the key id you used to create the RSA keypair (-key). The certificate will be created in PEM format by default. Since the eToken only accepts certificates in DER format, you’ll need to convert it as well:
+
+   Next, you’ll need to create a self-signed x509 certificate, since this is needed for most applications to recognise the keypair+certificate. Make sure you specify the key id you used to create the RSA keypair (-key). The certificate will be created in PEM format by default. Since the eToken only accepts certificates in DER format, you’ll need to convert it as well:
 
