@@ -272,7 +272,6 @@ $ sudo gpg2 --output test.plain --decrypt test.pgp
 ### 4.3 Export and import keys
 * **Exporting keys** - If you want to use the PGP key on a different machine, you can export it, then import it in another
 key chain. Of course, you'll need the same token to use it:
-
 ```bash
 $ sudo gpg --armor --export john@snow.com > my.pub
 $ sudo gpg --armor --export-secret-keys john@snow.com > my.sec
