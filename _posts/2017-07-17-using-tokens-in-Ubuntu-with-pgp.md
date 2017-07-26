@@ -3,7 +3,7 @@
 In this tutorial we'll see how to use an eToken in Ubuntu with PGP for signing documents and also encryption/decryption. 
 We'll use the [*Aladdin eToken Pro*](https://github.com/OpenSC/OpenSC/wiki/Aladdin-eToken-PRO), a very popular token with good support for Linux. Our goal is to be able to correctly initialise the token, generate key pairs and certificates and integrate the token with GPG and PKCS11.
 
-While these instructions should work with other Linux distributions as well, your mileage may very. I did spend a good amount of times earching for fixes and workarounds. It was successfully tested on the following versions:
+While these instructions should work with other Linux distributions as well, *your mileage may very*. I did spend a good amount of times earching for fixes and workarounds. It was successfully tested on the following versions:
 * Token version: 4.28.1.1 2.7.195
 * Ubuntu: 14.04.5 x86_64
 * gpg (GnuPG) 2.0.22
@@ -34,9 +34,15 @@ $ sudo apt-get install libhal1 libhal-storage1
 $ sudo dpkg -i SafenetAuthenticationClient-9.0.43-0_amd64.deb
 ```
 
-* Verify that you can access the token:
-
+* Install SafeNet client:
 ```bash
+aaa```
+
+* Verify that you can access the token:
+```bash
+aaa
+```
+* asdasdasdsadsa
 $ pkcs11-tool --module /usr/lib/libeTPkcs11.so --show-info
 Cryptoki version 2.20
 Manufacturer     SafeNet, Inc.
