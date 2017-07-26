@@ -1,9 +1,9 @@
 ![Logo](/assets/images/token-pgp/key-logo.png)
 
 In this tutorial we'll see how to use an eToken in Ubuntu with PGP for signing documents and also encryption/decryption. 
-We'll use the [*Aladdin eToken Pro*](https://github.com/OpenSC/OpenSC/wiki/Aladdin-eToken-PRO), a very popular token with good support for Linux. Our goal is to be able to correctly initialise the token, generate key pairs and certificates and integrate the token with GPG and PKCS11. This was inspired and adapted from [eToken Pro 72k and Linux](https://r3blog.nl/index.php/etoken-pro-72k/)
+We'll use the [*Aladdin eToken Pro*](https://github.com/OpenSC/OpenSC/wiki/Aladdin-eToken-PRO), a very popular token with good support for Linux. The goal is to be able to correctly initialise the token, generate key pairs and certificates and integrate the token with GPG and PKCS11. This was inspired and adapted from [eToken Pro 72k and Linux](https://r3blog.nl/index.php/etoken-pro-72k/)
 
-While these instructions should work with other Linux distributions as well, *your mileage may very*. I did spend a good amount of times earching for fixes and workarounds. It was successfully tested on the following versions:
+While these instructions should work with other Linux distributions as well, *your mileage may very*. I did spend a good amount of time searching for fixes and workarounds. It was successfully tested on the following versions:
 * Token version: 4.28.1.1 2.7.195
 * Ubuntu: 14.04.5 x86_64
 * gpg (GnuPG) 2.0.22
@@ -14,7 +14,7 @@ While these instructions should work with other Linux distributions as well, *yo
 ![Aladdin](/assets/images/token-pgp/etoken-pro.png)
 
 ## 1. System configuration
-* First install all package requirements:
+* First install all packages required:
 ```bash
 $ sudo apt-get install opensc libpcsclite1 pcsc-tools pcscd
 $ sudo apt-get install libengine-pkcs11-openssl
@@ -36,14 +36,14 @@ $ sudo dpkg -i SafenetAuthenticationClient-9.0.43-0_amd64.deb
 
 * Verify that you can access the token:
 ```bash
-$ pkcs11-tool --module /usr/lib/libeTPkcs11.so --show-info
+$ pkcs11-tool --module /usr/lib/libeToken.so --show-info
 Cryptoki version 2.20
 Manufacturer     SafeNet, Inc.
 Library          SafeNet eToken PKCS#11 (ver 9.0)
 Using slot 0 with a present token (0x0) 
 ```
 ```bash
-$ pkcs11-tool --module /usr/lib/libeTPkcs11.so --list-slots
+$ pkcs11-tool --module /usr/lib/libeToken.so --list-slots
 Available slots:
 Slot 0 (0x0): AKS ifdh 00 00
   token label        : mytoken3
@@ -68,7 +68,7 @@ $ pkcs11-tool --module /usr/lib/libeToken.so --init-token --label mytoken3
 $ pkcs11-tool --module /usr/lib/libeToken.so --init-pin --login
 ```
 
-> **Note!** For both PUK and PIN, no comlexity requirements are enforced, allowing for weak pins. 
+> **Note!** For both PUK and PIN, no complexity requirements are enforced, allowing for weak pins. 
 The only requirement is that its length should be greater than 3. 
 Supposedly brute-forcing the token should be impossible.
 
@@ -77,7 +77,7 @@ Supposedly brute-forcing the token should be impossible.
 $ pkcs11-tool --module /usr/lib/libeToken.so --change-pin
 ```
 
-* **Create an RSA public and private key pair** - This will be generated on the token and will not leave the device:
+* **Create an RSA public and private key pair** - This will be generated **_on the token_** and will not leave the device:
 ```bash
 $ pkcs11-tool --module /usr/lib/libeToken.so --login --keypairgen --key-type RSA:2048 --id 1 --label "john@snow.com"
 ```
@@ -98,7 +98,7 @@ Private Key Object; RSA
   Usage:      decrypt, sign, unwrap
 ```  
 
-* **Delete objects from the token** - we need their id and type. Examples of type are *cert*, *privkey* and *pubkey*:
+* **Delete objects from the token** - If for any reason we want to delete objects, we need their id and type. Examples of type are *cert*, *privkey* and *pubkey*:
 ```bash
 $ pkcs11-tool --module /usr/lib/libeToken.so --login --delete-object --type pubkey --id 1
 ```
