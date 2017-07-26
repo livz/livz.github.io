@@ -1,7 +1,7 @@
 ![Logo](/assets/images/token-pgp/key-logo.png)
 
 In this tutorial we'll see how to use an eToken in Ubuntu with PGP for signing documents and also encryption/decryption. 
-We'll use the [*Aladdin eToken Pro*](https://github.com/OpenSC/OpenSC/wiki/Aladdin-eToken-PRO), a very popular token with good support for Linux. Our goal is to be able to correctly initialise the token, generate key pairs and certificates and integrate the token with GPG and PKCS11.
+We'll use the [*Aladdin eToken Pro*](https://github.com/OpenSC/OpenSC/wiki/Aladdin-eToken-PRO), a very popular token with good support for Linux. Our goal is to be able to correctly initialise the token, generate key pairs and certificates and integrate the token with GPG and PKCS11. This was inspired and adapted from [eToken Pro 72k and Linux](https://r3blog.nl/index.php/etoken-pro-72k/)
 
 While these instructions should work with other Linux distributions as well, *your mileage may very*. I did spend a good amount of times earching for fixes and workarounds. It was successfully tested on the following versions:
 * Token version: 4.28.1.1 2.7.195
@@ -13,7 +13,7 @@ While these instructions should work with other Linux distributions as well, *yo
 
 ![Aladdin](/assets/images/token-pgp/etoken-pro.png)
 
-## 1. Configuration
+## 1. System configuration
 * First install all package requirements:
 ```bash
 $ sudo apt-get install opensc libpcsclite1 pcsc-tools pcscd
@@ -52,7 +52,7 @@ Slot 0 (0x0): AKS ifdh 00 00
   token flags        : rng, login required, PIN initialized, token initialized, other flags=0x500200
   hardware version   : 4.28
   firmware version   : 2.7
-  serial num         : 00373fad
+  serial num         : 0947afab
 ```
 
 > **Note!** If you have multiple tokens or card reader slots, you'll have to use the **--slot 0** parameter with all *pkcs11-tool* commands.
@@ -120,4 +120,121 @@ PKCS#11 token PIN: ****
 ```
 ```bash
 OpenSSL> x509 -in my.pem -out my.der -outform der
+```
+
+* **Write the certificate to the token**:
+```bash
+$ pkcs11-tool --module /usr/lib/libeToken.so --login --write-object my.der --type cert --id 01 --label "john@snow.com"
+```
+
+* **Verify that it was correctly written** - you should see a new X.509 certificate object.
+```bash
+pkcs11-tool --module /usr/lib/libeToken.so --login --list-objects
+Using slot 0 with a present token (0x0)
+Logging in to "mytoken3".
+Please enter User PIN: 
+Certificate Object, type = X.509 cert
+  label:      john@snow.com
+  ID:         01
+```
+
+## 3. GPG configuration
+* **Configure _gpg-agent_** - add the following to _~/.gnupg/gpg-agent.conf_ (create if it doesn't exist):
+```
+scdaemon-program /usr/bin/gnupg-pkcs11-scd
+pinentry-program /usr/bin/pinentry-x11
+```
+
+* **Configure the smart-card daemon** - add the following to _~/.gnupg/gnupg-pkcs11-scd.conf_ (create if it doesn't exist):
+```
+providers p1
+provider-p1-library /usr/lib/libeToken.so
+emulate-openpgp
+openpgp-sign <FRIENDLY-HASH>
+openpgp-encr <FRIENDLY-HASH>
+openpgp-auth <FRIENDLY-HASH>
+```
+
+> **Note!** The *emulate-openpgp* line is needed for gnupg to be able to work with the token. 
+It can be removed after importing the key into the keyring. If you get the error message _"gpg: not an OpenPGP card"_ then probably you didn't enable openpgp emulation!
+
+* **Get the FRIEDNLY hash of the key** - replace the hash above with the one obtained as below:
+```
+$ gnupg-pkcs11-scd --daemon
+$ gpg-agent --daemon
+$ gpg-agent --server
+OK Pleased to meet you
+SCD LEARN
+gnupg-pkcs11-scd[9701.3922175808]: Listening to socket '/tmp/gnupg-pkcs11-scd.3UDcGR/agent.S'
+[. . .]
+gnupg-pkcs11-scd[9701]: chan_5 -> S KEY-FRIEDNLY 2DDDBA9C916270E59F69DAFF836FB811EE7B2D12 /C=UK/ST=Some-State/L=London/O=Internet Widgits Pty Ltd on mytoken3
+```
+
+* **Generate the PGP key** - Finally we'll generate the PGP key, sign it and import it into the keyring:
+```bash
+$ sudo gpg2 --card-edit
+gpg/card> admin
+Admin commands are allowed
+gpg/card> geneate
+Replace existing keys? (y/N) y
+Please specify how long the key should be valid.
+[. . .]
+gpg: key 8463F3B0 marked as ultimately trusted
+public and secret key created and signed.
+```
+
+> **Note!** On certain GnuPG versions, [the smart card is only available to the root user](https://lists.gnupg.org/pipermail/gnupg-users/2011-August/042547.html). If _gpg2_ is not run as root,
+the following error messages are generated:
+```
+gpg: selecting openpgp failed: Unsupported certificate
+gpg: OpenPGP card not available: Unsupported certificate
+```
+
+* **Verify the key has been imported correctly**:
+```bash
+$ sudo gpg2 --list-secret-keys john@snow.com
+gpg: WARNING: unsafe ownership on configuration file `/home/m/.gnupg/gpg.conf'
+sec>  2048R/8463F3B0 2017-07-26 [expires: 2019-07-26]
+      Card serial no. = 1111 11111111
+uid                  John Snow <john@snow.com>
+ssb>  2048R/8463F3B0 2017-07-26 [expires: 2019-07-26]
+ssb>  2048R/8463F3B0 2017-07-26 [expires: 2019-07-26]
+```
+
+This can now be used a normal PGP key. GnuPG will ask you for your user PIN on all operations. The default cache period 
+for the PIN is infinite, but it can be adjusted in *~/.gnupg/gnupg-pkcs11-scd.conf*:
+```
+# Pin cache period in seconds; default is infinite.
+pin-cache 5
+```
+
+## 4. Usage
+* **Create and verify signatures** - This will compress the document, sign it and the output will be *in binary format*. Signing will require the private key, so we're prompted for the token PIN:
+```bash
+$ echo hello > test
+$ sudo gpg2 --output test.sig -u john@snow.com --sign test 
+```
+
+The content of the file is **not encrypted**. The option would need to be combined with **--enrypt** flag. We canalso generate a clear text signature as follows:
+```bash
+$ sudo gpg2 --output test.sig -u john@snow.com --clearsign test
+$ cat test.sig 
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA1
+
+hello
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.22 (GNU/Linux)
+
+iQEcBAEBAgAGBQJZeLMUAAoJEHqOyUeEY/Owb7AH/1g747AasI9OMwghuRgMt6lX
+[. . .]
+-----END PGP SIGNATURE-----
+```
+
+To verify the signature:
+```bash
+$ sudo gpg2 --verify test.sig 
+gpg: WARNING: unsafe ownership on configuration file `/home/m/.gnupg/gpg.conf'
+gpg: Signature made Wed 26 Jul 2017 04:19:48 PM BST using RSA key ID 8463F3B0
+gpg: Good signature from "John Snow <john@snow.com>"
 ```
