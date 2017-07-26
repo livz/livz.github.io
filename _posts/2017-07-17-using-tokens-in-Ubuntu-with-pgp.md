@@ -56,12 +56,12 @@ Slot 0 (0x0): AKS ifdh 00 00
 ```
 
 ## 2. Token initialisation
-* Create Security Office (SO) PIN (PUK):
+* **Create Security Office (SO) PIN (PUK)**:
 ```bash
 $ pkcs11-tool --module /usr/lib/libeToken.so --init-token --label mytoken3
 ```
 
-* Create a user PIN:
+* **Create a user PIN**:
 ```bash
 $ pkcs11-tool --module /usr/lib/libeToken.so --init-pin --login
 ```
@@ -70,17 +70,17 @@ $ pkcs11-tool --module /usr/lib/libeToken.so --init-pin --login
 The only requirement is that its length should be greater than 3. 
 Supposedly brute-forcing the token should be impossible.
 
-* To change the current user PIN:
+* **Change the current user PIN**:
 ```bash
 $ pkcs11-tool --module /usr/lib/libeToken.so --change-pin
 ```
 
-* Create an RSA publicn and private key pair. This will be generated on the token and will not leave the device:
+* **Create an RSA public and private key pair** - This will be generated on the token and will not leave the device:
 ```bash
 $ pkcs11-tool --module /usr/lib/libeToken.so --login --keypairgen --key-type RSA:2048 --id 1 --label "john@snow.com"
 ```
 
-* Verify that the key was correctly generated. You should see two key objects, public and private:
+* **Verify that the key was correctly generated** - You should see two key objects, public and private:
 ```bash
 $ pkcs11-tool --module /usr/lib/libeToken.so --login --list-objects
 Using slot 0 with a present token (0x0)
@@ -96,12 +96,25 @@ Private Key Object; RSA
   Usage:      decrypt, sign, unwrap
 ```  
 
-* To delete objects from the token, we need their type and id:
+* **Delete objects from the token** - we need their id and type. Examples of type are *cert*, *privkey* and *pubkey*:
 ```bash
 $ pkcs11-tool --module /usr/lib/libeToken.so --login --delete-object --type pubkey --id 1
-$ pkcs11-tool --module /usr/lib/libeToken.so --login --delete-object --type cert --id 2
 ```
 
-* Create an X509 certificate
-   Next, you’ll need to create a self-signed x509 certificate, since this is needed for most applications to recognise the keypair+certificate. Make sure you specify the key id you used to create the RSA keypair (-key). The certificate will be created in PEM format by default. Since the eToken only accepts certificates in DER format, you’ll need to convert it as well:
+* **Create an X509 certificate** - We'll create a self-signed certificate for the keypair we just generated. This eToken only accepts certificates in *DER format*, so we need to convert to DER:
+```bash
+$ openssl
+OpenSSL> engine dynamic -pre SO_PATH:/usr/lib/engines/engine_pkcs11.so -pre ID:pkcs11 -pre LIST_ADD:1 -pre LOAD -pre MODULE_PATH:libeToken.so
+(dynamic) Dynamic engine loading support
+[Success]: SO_PATH:/usr/lib/engines/engine_pkcs11.so
+[Success]: ID:pkcs11
+[Success]: LIST_ADD:1
+[Success]: LOAD
+[Success]: MODULE_PATH:libeToken.so
+Loaded: (pkcs11) pkcs11 engine
+OpenSSL> req -engine pkcs11 -new -key slot_0-id_01 -keyform engine
+-x509 -out my.pem -text
+PKCS#11 token PIN: ****
+OpenSSL> x509 -in my.pem -out my.der -outform der
+```
 
