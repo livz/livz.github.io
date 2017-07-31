@@ -13,6 +13,14 @@ While these instructions should work with other Linux distributions as well, *yo
 
 ![Aladdin](/assets/images/token-pgp/etoken-pro.png)
 
+This post is part of the **Security Bricks tutorials** - simple methods and habits
+to build a deliberately secure MO, for personal and business use. The other parts below:
+
+* [Part 1 - Physical OPSEC basics](https://livz.github.io/2017/07/02/physical-OPSEC-basics.html)
+* [Part 2 - Preventing evil maid attacks](https://livz.github.io/2017/05/06/preventing-evil-maid-attacks.html)
+* [part 3 - KeePass password manager with 2FA](https://livz.github.io/2017/07/09/keepass-password-manager-with-2fa.html)
+* [Part 5 - Token-based authentication for SSH](https://livz.github.io/2017/07/25/token-based-authentication-for-ssh.html)
+
 ## 1. System configuration
 * First install all packages required:
 ```bash
