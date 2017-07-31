@@ -1,5 +1,13 @@
 ![Logo](/assets/images/maid12.png)
 
+This post is part of the **Security Bricks tutorials** - simple methods and habits
+to build a deliberately secure MO, for personal and business use. The other parts below:
+
+* [Part 1 - Physical OPSEC basics](https://livz.github.io/2017/07/02/physical-OPSEC-basics.html)
+* [Part 3 - KeePass password manager with 2FA](https://livz.github.io/2017/07/09/keepass-password-manager-with-2fa.html)
+* [Part 4 - Using tokens in Ubuntu with PGP](https://livz.github.io/2017/07/17/using-tokens-in-Ubuntu-with-pgp.html)
+* [Part 5 - Token-based authentication for SSH](https://livz.github.io/2017/07/25/token-based-authentication-for-ssh.html)
+
 ## 1. Context
 
 ["Evil Maid"](https://www.schneier.com/blog/archives/2009/10/evil_maid_attac.html) is an attack on systems 
