@@ -35,9 +35,9 @@ ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCGJ/[...]
 $ ssh-keygen -D /usr/lib/libeToken.so >> ~/.ssh/authorized_keys
 ```
 
-* **Login using private key** - Connect to the server using to token to provide the private key:
-```bash
-ssh -I /usr/lib/libeToken.so m@192.168.X.X   
+* **Login using the private key** - Connect to the server using the token to provide the private key. The PIN will be requested to access it:
+```
+$ ssh -I /usr/lib/libeToken.so m@192.168.X.X   
 Enter PIN for 'mytoken3': 
 Welcome to Ubuntu 14.04.5 LTS (GNU/Linux 3.19.0-66-generic x86_64)
 [...] 
