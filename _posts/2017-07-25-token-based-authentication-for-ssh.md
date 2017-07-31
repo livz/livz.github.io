@@ -23,9 +23,8 @@ Private Key Object; RSA
 Certificate Object, type = X.509 cert
   label:      john@snow.com
   ID:         01
-
 ```
-* **Export the public key**  - Download the RSA public key from the token, in a format recognised by OpenSSH:
+* **Export the public key** - Download the RSA public key from the token, in a format recognised by OpenSSH:
 ```bash
 $ ssh-keygen -D /usr/lib/libeToken.so
 ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCGJ/[...]1kf
