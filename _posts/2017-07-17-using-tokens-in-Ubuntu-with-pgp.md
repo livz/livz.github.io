@@ -18,7 +18,7 @@ to build a deliberately secure MO, for personal and business use. The other part
 
 * [Part 1 - Physical OPSEC basics](https://livz.github.io/2017/07/02/physical-OPSEC-basics.html)
 * [Part 2 - Preventing evil maid attacks](https://livz.github.io/2017/05/06/preventing-evil-maid-attacks.html)
-* [part 3 - KeePass password manager with 2FA](https://livz.github.io/2017/07/09/keepass-password-manager-with-2fa.html)
+* [Part 3 - KeePass password manager with 2FA](https://livz.github.io/2017/07/09/keepass-password-manager-with-2fa.html)
 * [Part 5 - Token-based authentication for SSH](https://livz.github.io/2017/07/25/token-based-authentication-for-ssh.html)
 
 ## 1. System configuration
