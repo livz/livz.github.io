@@ -54,7 +54,7 @@ As with the laptop locks, do your research before buying one. Historically there
 
 ![Encrypted USB](/assets/images/opsec-basics/enc_usb.png)
 
-**Update 01/08/17**: In the following Google research, the authors divided the attackers into hobbyist, professional, and nation state then went on to search for vulnerabilities in a number of different encrypted USB devices. Very impressive what they've found. A lot of failures on the hardware level, for example in the TEMPEST extraction prevention measures or epoxy security. A lot of these devices share the same microcontroller and implicitely the same bugs. 
+**Update 01/08/17**: In the following Google research, the authors divided the attackers into hobbyists, professionals, and nation states then went on to search for vulnerabilities in a number of different encrypted USB devices. Very impressive what they've found. A lot of failures on the hardware level, for example in the TEMPEST extraction prevention measures or epoxy security. A lot of these devices share the same microcontroller and implicitely the same bugs. 
 
 [Attacking encrypted USB keys the hard(ware) way](https://cdn.elie.net/talks/analyzing-secure-usb-the-hardware-way-slides.pdf) - Jean-Michel Picod, Remi Audebert, Sven Blumenstein, Elie Bursztein
 
