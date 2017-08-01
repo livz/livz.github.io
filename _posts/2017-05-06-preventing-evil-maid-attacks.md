@@ -43,7 +43,7 @@ Basically if you don't like having the /boot partition unencrypted on the same m
 * Update ```/etc/fstab``` with the UUID of the new partition:
 ```bash
 # blkid /dev/sdd1
-# vim /etc/fstab
+# vim /etc/fstab 
 ```
 Comment the existing line indicating the UUID of **/boot** and add the following:
 ```
