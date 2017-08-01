@@ -25,6 +25,7 @@ to build a deliberately secure MO, for personal and business use. The other part
 * [Part 2 - Preventing evil maid attacks](https://livz.github.io/2017/05/06/preventing-evil-maid-attacks.html)
 * [Part 4 - Using tokens in Ubuntu with PGP](https://livz.github.io/2017/07/17/using-tokens-in-Ubuntu-with-pgp.html)
 * [Part 5 - Token-based authentication for SSH](https://livz.github.io/2017/07/25/token-based-authentication-for-ssh.html)
+* [Part 6 - Use a Bluetooth device for better security](https://livz.github.io/2017/08/02/use-Bluetooth-device-for-better-security.html)
 
 ## HOWTO
 1. **Install [Keepass](http://keepass.info/download.html)**
