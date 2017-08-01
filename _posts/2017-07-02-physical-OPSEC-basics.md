@@ -1,3 +1,7 @@
+---
+title:  "Physical OPSEC Basics"
+---
+
 ![Logo](/assets/images/opsec-basics/loose-lips.png)
 
 **Operations Security** is sometimes about simple things. Things we do in a certain way every day, without realising it. It is also a mindset, is about doing things right, over and over again until it becomes internalised. Wikipedia defines [OPSEC](https://en.wikipedia.org/wiki/Operations_security) as:
