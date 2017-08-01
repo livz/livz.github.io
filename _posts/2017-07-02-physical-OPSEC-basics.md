@@ -33,7 +33,7 @@ A very simple one, suitable for phones, tablets and laptops alike:
 
 ![Camera cover](/assets/images/opsec-basics/webcam_cover.png)
 
-## Privacy screen
+## Privacy screen 
 A privacy screen for mobile phones is absolutely necessary. For laptops it can be a bit inconvenient to work with the screen on, but luckily most of them can be taken off easily and fitted back when needed.
 
 ![Privacy screen](/assets/images/opsec-basics/privacy_screen.png)
