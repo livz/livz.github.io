@@ -1,3 +1,7 @@
+---
+title:  "[CTF] Binary Master Ensign - 1"
+---
+
 ![Logo](/assets/images/belts-white.png)
 
 At one point I _stumbled_  over the **Certified Secure Binary Mastery** challenges. 
