@@ -1,3 +1,8 @@
+---
+title:  "Using Tokens in Ubuntu with PGP"
+---
+
+
 ![Logo](/assets/images/token-pgp/key-logo.png)
 
 In this tutorial we'll see how to use an eToken in Ubuntu with PGP for signing documents and also encryption/decryption. 
