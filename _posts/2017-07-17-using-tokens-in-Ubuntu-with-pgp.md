@@ -25,6 +25,7 @@ to build a deliberately secure MO, for personal and business use. The other part
 * [Part 2 - Preventing evil maid attacks](https://livz.github.io/2017/05/06/preventing-evil-maid-attacks.html)
 * [Part 3 - KeePass password manager with 2FA](https://livz.github.io/2017/07/09/keepass-password-manager-with-2fa.html)
 * [Part 5 - Token-based authentication for SSH](https://livz.github.io/2017/07/25/token-based-authentication-for-ssh.html)
+* [Part 6 - Use a Bluetooth device for better security](https://livz.github.io/2017/08/02/use-Bluetooth-device-for-better-security.html)
 
 ## 1. System configuration
 * First install all packages required:
