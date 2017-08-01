@@ -85,7 +85,7 @@ Now let's do the scan again, this time having the settings window open on the mo
 ```
  ~ hcitool scan
 Scanning ...
-        E0:CB:EE:13:4D:21       SS5
+        E0:CB:EE:13:4D:21       SS5   <--- my phone
 ```
 
 Perfect! Now we have the device's MAC address, which we'll use in _blueproximity_
