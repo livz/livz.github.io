@@ -25,7 +25,7 @@ to build a deliberately secure MO, for personal and business use. The other part
 * First install all packages required:
 ```bash
 $ sudo apt-get install opensc libpcsclite1 pcsc-tools pcscd
-$ sudo apt-get install libengine-pkcs11-openssl
+$ sudo apt-get install libengine-pkcs11-openssl 
 $ sudo apt-get install gnupg-pkcs11-scd 
 $ sudo apt-get install gnupg2
 ```
