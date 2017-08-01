@@ -1,3 +1,8 @@
+---
+title:  "[CTF] Binary Master Ensign - 3"
+categories: ctf binary
+---
+
 ![Logo](/assets/images/belts-orange.png)
 
 In this post we'll continue with level3 of the **Certified Secure Binary Mastery**, [Ensign](https://www.certifiedsecure.com/certification/view/37). 
