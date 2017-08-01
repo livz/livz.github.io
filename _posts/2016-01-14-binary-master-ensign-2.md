@@ -1,3 +1,8 @@
+---
+title:  "[CTF] Binary Master Ensign - 2"
+categories: ctf binary
+---
+
 ![Logo](/assets/images/belts-yellow.png)
 
 We'll continue with level2 of the **Certified Secure Binary Mastery**, [Ensign](https://www.certifiedsecure.com/certification/view/37). This time it will be another classic issues that needs no introduction - _uncontrolled format strings attacks_. To review the previous level, check the link below:
