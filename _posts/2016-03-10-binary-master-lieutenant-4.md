@@ -1,3 +1,8 @@
+---
+title:  "[CTF] Binary Master Lieutenant - 4"
+categories: ctf binary
+---
+
 ![Logo](/assets/images/belts-black.png)
 
 
