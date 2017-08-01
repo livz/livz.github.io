@@ -1,3 +1,7 @@
+---
+title:  "KeePass Password Manager with 2FA"
+---
+
 ![Logo](/assets/images/keepass/vault.png)
 
 In this post we’ll see how we can add a bit more security to password managers by using a second authentication factor. 
