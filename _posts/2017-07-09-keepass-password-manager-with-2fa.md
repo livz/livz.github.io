@@ -43,7 +43,7 @@ $ sudo cp OtpKeyProv.plgx /usr/lib/keepass2/
 $ file `which keepass2`
 /usr/bin/keepass2: POSIX shell script, ASCII text executable
 $ cat `which keepass2`
-#!/bin/sh
+#!/bin/sh 
 exec /usr/bin/cli /usr/lib/keepass2/KeePass.exe "$@"
 ```
   * PLGX plugins are compiled and stored in a plugin cache directory on the user's system. 
