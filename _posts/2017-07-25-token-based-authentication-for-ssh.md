@@ -1,3 +1,7 @@
+---
+title:  "Token-based Authentication for SSH"
+---
+
 ![Logo](/assets/images/token-ssh/smart-card.png)
 
 This is a short step-by-step tutorial for how to get an [Aladdin eToken PRO](https://github.com/OpenSC/OpenSC/wiki/Aladdin-eToken-PRO)
