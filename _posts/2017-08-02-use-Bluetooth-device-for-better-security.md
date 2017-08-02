@@ -106,7 +106,7 @@ i3lock --image ~/Documents/wallpapers/dark-earth.png --tiling
 * **Verify** - You can check the icon and tooltip of Blueproximity to see its status.
    ![Tooltips](/assets/images/bluetooth/blueprox-rundisc.png)
 
-You can also enable logging to a file:
+   You can also enable logging to a file:
 ```
 ~ tail -f ~/blueproximity.log
 Tue Aug  1 14:28:22 2017 blueproximity: screen is locked
