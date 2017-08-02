@@ -113,7 +113,7 @@ Tue Aug  1 14:35:59 2017 blueproximity: screen is locked
 Tue Aug  1 14:36:15 2017 blueproximity: screen is unlocked
 ```
 
-## 4. 
+## 4. Tips and tricks
 ![Issues](/assets/images/bluetooth/band-aid.png) 
 
 ### Simulation mode
