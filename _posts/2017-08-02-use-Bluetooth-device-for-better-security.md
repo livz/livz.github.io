@@ -78,7 +78,7 @@ Scanning ...
         28:ED:6A:82:33:BF       iPhone
         78:AB:BB:9B:3C:56       TVBluetooth
 ```
-Surprise surprise! By default, my Android S5 is not discoverable, even if the Bluetooth is activated. After a bit of checking through the options, I've noticed the following message:
+Surprise surprise! By default, my Android S5 is not discoverable, even if the blue tooth is activated. After a bit of checking through the options, I've noticed the following message:
 > _"[..] is visible to nearby devices while Bluetooh settings is open"_
 
 Now let's do the scan again, this time having the settings window open on the mobile phone:
@@ -88,7 +88,7 @@ Scanning ...
         E0:CB:EE:13:4D:21       SS5   <--- my phone
 ```
 
-Perfect! Now we have the device's MAC address, which we'll use in _blueproximity_
+Perfect! Now we have the device's MAC address, which we'll use in _blueproximity_.
 
 ## 3. Set up blueproximity
 
@@ -121,15 +121,15 @@ Notice that when the settings window is raised, the application is in _simulatio
 the locking/unlocking events. So to function properly, the settings window needs to be closed.
 
 ### Unintended locking
-If the associated Bluetooth device moves out of range, or the signal is lost, the application will lock the workstation _even if there is activity_. This might be a bit anoying butnot very likely to happen often.
+If the associated Bluetooth device moves out of range, or the signal is lost, the application will lock the workstation _even if there is activity_. This might be a bit anoying but not very likely to happen often.
 
 ## 5. Security considerations
 ![beware](/assets/images/keepass/beware.png)
 
-### Spoofing phone bluetooth
+### Spoofing the phone bluetooth
 There is a good reason why we use this trick to lock the workstation but not to unlock it. Because somebody could just 
 spoof the phone, [Mr. Robot style](https://null-byte.wonderhowto.com/how-to/hacks-mr-robot-hack-bluetooth-0163586/), and unlock the machine without the password.
 
-### Having Bluetooth enabled all the times
+### Having Bluetooth enabled all the time
 There are a number of [Bluetooth attacks](http://www.makeuseof.com/tag/3-ways-bluetooth-device-security-risk/) that you expose yourself to when you enable it on the phone, even if the device is not broadcasting and is "undiscoverable". 
-These range from information disclosures and tracking device's movements to eavesdropping, denial of service and even controlling the device (e.g. placing phone calls, sending text messages)
+These range from information disclosures and tracking the device's movements to eavesdropping, denial of service and even controlling the device (e.g. placing phone calls, sending text messages).
