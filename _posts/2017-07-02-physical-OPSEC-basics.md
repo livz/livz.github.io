@@ -9,7 +9,7 @@ title:  "Physical OPSEC Basics"
 > [..] a term originating in U.S. military jargon, as a process that identifies critical information to determine if friendly actions can be observed by enemy intelligence, determines if information obtained by adversaries could be interpreted to be useful to them, and then executes selected measures that eliminate or reduce adversary exploitation of friendly critical information.
 
 This post is part of the **Security Bricks tutorials** - simple methods and habits
-to build a deliberately secure MO, for personal and business use. The other parts below:
+to build a deliberately secure operational environment, for personal and business use. The other parts below:
 
 * [Part 2 - Preventing evil maid attacks](https://livz.github.io/2017/05/06/preventing-evil-maid-attacks.html)
 * [Part 3 - KeePass password manager with 2FA](https://livz.github.io/2017/07/09/keepass-password-manager-with-2fa.html)
