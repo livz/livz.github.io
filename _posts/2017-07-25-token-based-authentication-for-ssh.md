@@ -10,7 +10,7 @@ An Aladdin Pro token is needed (obviously!) with drivers and necessary libraries
 Check the [previous guide](https://livz.github.io/2017/07/17/using-tokens-in-Ubuntu-with-pgp.html) for details.
 
 This post is part of the **Security Bricks tutorials** - simple methods and habits
-to build a deliberately secure MO, for personal and business use. The other parts below:
+to build a deliberately secure operation environment, for personal and business use. The other parts below:
 
 * [Part 1 - Physical OPSEC basics](https://livz.github.io/2017/07/02/physical-OPSEC-basics.html)
 * [Part 2 - Preventing evil maid attacks](https://livz.github.io/2017/05/06/preventing-evil-maid-attacks.html)
