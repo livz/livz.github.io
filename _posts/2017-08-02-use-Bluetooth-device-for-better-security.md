@@ -113,6 +113,17 @@ Tue Aug  1 14:35:59 2017 blueproximity: screen is locked
 Tue Aug  1 14:36:15 2017 blueproximity: screen is unlocked
 ```
 
+## 4. 
+![Issues](/assets/images/bluetooth/band-aid.png) 
+
+### Simulation mode
+Notice that when the settings window is raised, the application is in _simulation mode_ and it will not actually trigger
+the locking/unlocking events. So to function properly, the settings window needs to be closed.
+
+### Unintended locking
+If the associated Bluetooth device moves out of range, or the signal is lost, the application will lock the workstation _even if there is activity_. This might be a bit anoying butnot very likely to happen often.
+
+## 5. Security considerations
 ![beware](/assets/images/keepass/beware.png)
 
 ### Spoofing phone bluetooth
