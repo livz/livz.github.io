@@ -103,7 +103,7 @@ At this point we'll have to accept the pairing on the device. After the scan end
 i3lock --image ~/Documents/wallpapers/dark-earth.png --tiling
 ```
 > Adjust any locking parameters (e.g. distance, duration) in the _Proximity details_ tab. 
-* **Verify** - You can check the icon and tooltip of Blueproximity to see its status. 
+* **Verify** - You can check the icon and tooltip of Blueproximity to see its status. And also enable logging to a file, if needed.
    ![Tooltips](/assets/images/bluetooth/blueprox-rundisc.png) 
    ```
 ~ tail -f ~/blueproximity.log
