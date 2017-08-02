@@ -105,8 +105,7 @@ i3lock --image ~/Documents/wallpapers/dark-earth.png --tiling
 > Adjust any locking parameters (e.g. distance, duration) in the _Proximity details_ tab. 
 * **Verify** - You can check the icon and tooltip of Blueproximity to see its status. 
    ![Tooltips](/assets/images/bluetooth/blueprox-rundisc.png) 
-   Also enable logging to a file, if needed.
-```
+   ```
 ~ tail -f ~/blueproximity.log
 Tue Aug  1 14:28:22 2017 blueproximity: screen is locked
 Tue Aug  1 14:34:56 2017 blueproximity: screen is unlocked
