@@ -116,8 +116,9 @@ Tue Aug  1 14:36:15 2017 blueproximity: screen is unlocked
 ![beware](/assets/images/keepass/beware.png)
 
 ### Spoofing phone bluetooth
-sdfds
-fsd
-fsd
+There is a good reason why we use this trick to lock the workstation but not to unlock it. Because somebody could just 
+spoof the phone, [Mr. Robot style](https://null-byte.wonderhowto.com/how-to/hacks-mr-robot-hack-bluetooth-0163586/), and unlock the machine without the password.
 
-### Have bt ON all the time
+### Having Bluetooth enabled all the times
+There are a number of [Bluetooth attacks](http://www.makeuseof.com/tag/3-ways-bluetooth-device-security-risk/) that you expose yourself to when you enable it on the phone, even if the device is not broadcasting and is "undiscoverable". 
+These range from information disclosures and tracking device's movements to eavesdropping, denial of service and even controlling the device (e.g. placing phone calls, sending text messages)
