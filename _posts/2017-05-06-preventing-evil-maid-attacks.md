@@ -1,7 +1,7 @@
 ![Logo](/assets/images/maid12.png)
 
 This post is part of the **Security Bricks tutorials** - simple methods and habits
-to build a deliberately secure MO, for personal and business use. The other parts below:
+to build a deliberately secure operational environment, for personal and business use. The other parts below:
 
 * [Part 1 - Physical OPSEC basics](https://livz.github.io/2017/07/02/physical-OPSEC-basics.html)
 * [Part 3 - KeePass password manager with 2FA](https://livz.github.io/2017/07/09/keepass-password-manager-with-2fa.html)
