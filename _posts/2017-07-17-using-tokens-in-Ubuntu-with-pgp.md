@@ -19,7 +19,7 @@ While these instructions should work with other Linux distributions as well, *yo
 ![Aladdin](/assets/images/token-pgp/etoken-pro.png)
 
 This post is part of the **Security Bricks tutorials** - simple methods and habits
-to build a deliberately secure MO, for personal and business use. The other parts below:
+to build a deliberately secure operational environment, for personal and business use. The other parts below:
 
 * [Part 1 - Physical OPSEC basics](https://livz.github.io/2017/07/02/physical-OPSEC-basics.html)
 * [Part 2 - Preventing evil maid attacks](https://livz.github.io/2017/05/06/preventing-evil-maid-attacks.html)
