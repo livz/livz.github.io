@@ -112,3 +112,12 @@ Tue Aug  1 14:34:56 2017 blueproximity: screen is unlocked
 Tue Aug  1 14:35:59 2017 blueproximity: screen is locked
 Tue Aug  1 14:36:15 2017 blueproximity: screen is unlocked
 ```
+
+![beware](/assets/images/keepass/beware.png)
+
+### Spoofing phone bluetooth
+sdfds
+fsd
+fsd
+
+### Have bt ON all the time
