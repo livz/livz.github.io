@@ -113,7 +113,7 @@ Now let's see if we can break it:
 Although one might expect that a GCC compiler error would be generated in situations like this, it is not actually the case. Moreover, even eanbling _all warnings_ and _extra warnings_ doesn't produce any relevant message. These flags are actually misleading, since it is not possible (nor desirable!) to show _ALL_ compilation errors supported by GCC. See [here](https://stackoverflow.com/questions/11714827/how-to-turn-on-literally-all-of-gccs-warnings) why. That's why I was saying it is slighly more difficult to spot this class of vulnerabilities in practice. 
 
 ```bash
-$ gcc  -m32 -fstack-protector level2.c -o level2       
+$ gcc -m32 -fstack-protector level2.c -o level2       
 $ gcc -Wall -Wextra -m32 -fstack-protector level2.c -o level2
 $ 
 ```
