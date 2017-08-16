@@ -77,7 +77,7 @@ This linking method is sometimes referred to as _dynamic load_ or _run-time dyna
 **Code**: [dynamic load](https://gist.github.com/livz/7fb6d6a97ac8719748915f02ea477d14).
 * __Explicit linking (manual)__
 
-This techniques is frequently used in exploits, which find first the base address of kernel32.dll and then find the address of LoadLibrary function manually. Very prevalent technique. 
+This technique is frequently used in exploits, which need to first find the base address of kernel32.dll and then the address of LoadLibrary function manually. Very prevalent technique. 
 
 **Result**: Again, loaded libraries are listed correctly. Although this trick works to defeat various host-based protection mechanisms, in this case the OS correctly keeps track of what has been loaded and the information in the prefetch files is correct.
 
