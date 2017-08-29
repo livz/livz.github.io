@@ -1,13 +1,13 @@
 ![Logo](/assets/images/tricks2.png)
 
 In the [first part](https://livz.github.io/2017/06/29/exploring-prefetch-part-1.html) of this blog post we explored 
-the way Windows records information in the prefetch files, more specifically the loaded libraries and opened files.
+the way Windows stores information in the prefetch files, more specifically the loaded libraries and opened files.
 We saw how in some cases one could prevent this completely and no library traces will be present in the .pf files. 
 Next let's check whether one could hide even the traces of a binar ybeing run from the prefetching process. 
 
 For a bit of context on the subject of prefetch files, check the first part of this blog or use your favourite search engine.  
 
-## Recording executables
+## Listing executables
 So let’s see different ways of *running code*, using either slightly manipulated traditional binaries
 or normal executables started in unusual ways.
 
@@ -25,10 +25,10 @@ prefetch file will still be created for the application.
 
 ###  __Vary the executable file type__
 
-Next let's check whether all the executable files supported by Windows are recorded properly. We can rename an EXE to one of the following extensions, and Windows will happily run it without any problems: *.bat, .cmd, .scr, .com, .pif**. For an extensive list of 
+Next let's check whether all the executable files supported by Windows are logged properly. We can rename an EXE to one of the following extensions, and Windows will happily run it without any problems: *.bat, .cmd, .scr, .com, .pif**. For an extensive list of 
 executable file extensions, check [this](https://www.lifewire.com/list-of-executable-file-extensions-2626061).
 
-**Result**: All the executable formats are correctly recorded by the prefetching process. 
+**Result**: All the executable formats are correctly logged by the prefetching process. 
 
 ### __Use random extensions__
 
