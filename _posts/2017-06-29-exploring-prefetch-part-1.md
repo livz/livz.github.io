@@ -110,7 +110,7 @@ This technique relies on the observation above that Windows will monitor an appl
 
 Technique | Prefetch bypass
 --- | --- 
-**Implicit linkig** | NO
+**Implicit linking** | NO
 **Explicit linking** | NO
 **Explicit linking (manual)** | NO
 **Delayed loading** | NO
