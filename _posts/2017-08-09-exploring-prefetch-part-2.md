@@ -22,9 +22,18 @@ If the debugger is not configured properly, it will break the execution on the m
 prefetch file will still be created for the application.
 
 **Code**: [TLS callbacks](https://gist.github.com/livz/47d128220af3357a0616fb2f762ddcfd).
-* __Vary the file extension__
+* __Vary the executable file type__
 
 Next let's check whether all the executable files supported by Windows are recorded properly. We can rename an EXE to one of the following extensions, and Windows will happily run it without any problems: *.bat, .cmd, .scr, .com, .pif**. For an extensive list of 
 executable file extensions, check [this](https://www.lifewire.com/list-of-executable-file-extensions-2626061).
 
 **Result**: All the executable formats are correctly recorded by the prefetching process. 
+* __Use random extensions__
+
+Instead of changing the executable file type, we can use any extension for the file we want to run. The code below uses
+the standard [CreateProcess API](https://msdn.microsoft.com/en-us/library/windows/desktop/ms682425(v=vs.85).aspx) in order to launch binaries with random extensions.
+
+**Result**: No matter what file extension we use for the binary, a prefetch file will still be created, having the corresponding name.
+
+**Code**: [CreateProcess with any extension](https://gist.github.com/livz/1c541884f88aac382392344137be9620)
+
