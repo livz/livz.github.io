@@ -11,7 +11,7 @@ For a bit of context on the subject of prefetch files, check the first part of t
 So let’s see different ways of *running code*, using either slightly manipulated traditional binaries
 or normal executables started in unusual ways.
 
-* __TLS callbacks only__
+1. __TLS callbacks only__
 
 [**Threa local storage (TLS)**](https://msdn.microsoft.com/en-us/library/windows/desktop/ms686749(v=vs.85).aspx) is a mechanism 
 to provide unique data for each thread within a process. We can define *TLS callbacks* functions, which are executed 
@@ -22,13 +22,13 @@ If the debugger is not configured properly, it will break the execution on the m
 prefetch file will still be created for the application.
 
 **Code**: [TLS callbacks](https://gist.github.com/livz/47d128220af3357a0616fb2f762ddcfd).
-* __Vary the executable file type__
+2. __Vary the executable file type__
 
 Next let's check whether all the executable files supported by Windows are recorded properly. We can rename an EXE to one of the following extensions, and Windows will happily run it without any problems: *.bat, .cmd, .scr, .com, .pif**. For an extensive list of 
 executable file extensions, check [this](https://www.lifewire.com/list-of-executable-file-extensions-2626061).
 
 **Result**: All the executable formats are correctly recorded by the prefetching process. 
-* __Use random extensions__
+3. __Use random extensions__
 
 Instead of changing the executable file type, we can use any extension for the file we want to run. The code below uses
 the standard [CreateProcess API](https://msdn.microsoft.com/en-us/library/windows/desktop/ms682425(v=vs.85).aspx) in order to launch binaries with random extensions.
@@ -36,4 +36,11 @@ the standard [CreateProcess API](https://msdn.microsoft.com/en-us/library/window
 **Result**: No matter what file extension we use for the binary, a prefetch file will still be created, having the corresponding name.
 
 **Code**: [CreateProcess with any extension](https://gist.github.com/livz/1c541884f88aac382392344137be9620)
+4. __Create suspended process__
 
+What if we create the process in suspended mode, wait for a while, then resume execution?
+
+**Result**: Even if its execution is delayed by more than 10 seconds - the default time the prefetching process 
+monitors new processes for loaded libraries, a prefetch file is still created after the process resumes execution by itself or if it is resumed manually.
+
+**Code**: [CreateProcess suspended](https://gist.github.com/livz/cea4225c96036c4cbdc567d059c07487)
