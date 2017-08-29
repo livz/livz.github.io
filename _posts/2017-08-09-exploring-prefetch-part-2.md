@@ -48,14 +48,11 @@ monitors new processes for loaded libraries, a prefetch file is still created af
 
 **Code**: [CreateProcess suspended](https://gist.github.com/livz/cea4225c96036c4cbdc567d059c07487)
 
-### __Start application from ADS
+### Start application from ADS
 
 We can hide an application in an [*alternate data stream*](https://blogs.technet.microsoft.com/askcore/2013/03/24/alternate-data-streams-in-ntfs/). This is an ancient feature of NTFS filesystem, already documented and covered elsewhere. What is not so well-known is that you can have ADSs attached to files *but also to folders*. 
 
 **Result**: When launching an application hidden in an ADS for a file/folder, a prefetch file *does get created*,  but has the name of the file/folder containing the ADS. Although this is good news, it opens the possibility to hide executed binaries in files/folders *havine the same name as already existing files/folders in the Prefetch folder*. If in doubt, try this for yourself using the code below.
 
 **Code**: [CreateProcess from ADS])https://gist.github.com/livz/bfcdef45aae1e4a3e789097333e442d3)
-
-for file		→ name of file recorded
-for directory	→ name of file recorded
 
