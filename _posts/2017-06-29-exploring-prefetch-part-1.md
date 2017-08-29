@@ -3,7 +3,7 @@
 [The Prefetch file](http://www.forensicswiki.org/wiki/Windows_Prefetch_File_Format) format has been studied extensively. 
 There is a lot of research on this subject already, so I won’t reinvent any wheels here.
 Knowing that among the artefacts listed in the prefetch files are libraries loaded by our applications,
-I wanted to understand how the process of recording these libraries works in different scenarios, and how it can be tricked. Could  I still load my library without Prefetch knowing?
+I wanted to understand how the process of logging these libraries works in different scenarios, and how it can be tricked. Could  I still load my library without Prefetch knowing?
 
 Feel free to skip the background information, which is mostly for me to have things clear in my mind before starting to work. 
 If you’re not familiar with the topic, I strongly encourage you to go start with [Forensic Magazine](https://www.forensicmag.com/) 
@@ -46,7 +46,7 @@ Note that these settings need a *reboot* in order to become effective.
 * __Application running count__ - At every re-run from the same location, the corresponding .pf file will be updated with the number of times it was executed.
 * __Artefacts from malicious files__ - Using forensic tools, we can list libraries loaded by an application or even opened files.
 * __Original application path__ - It’s possible to calculate the application path based on the hash in the name. Depending on the version of Windows the file was taken from, a different hashing function is used. Definitely worth checking [Prefetch file names and UNC paths](http://www.hexacorn.com/blog/2012/10/29/prefetch-file-names-and-unc-paths/).
-* __First and last time of execution__ - Creation date  of the prefetch file shows the first time an application was executed, while the last time is recorded in the .pf file. This can also reveal “time stomping” attempts. If malware alters the timestamp of an application, it might not be aware of the information captured in the corresponding prefetch file.
+* __First and last time of execution__ - Creation date  of the prefetch file shows the first time an application was executed, while the last time is stored in the .pf file. This can also reveal “time stomping” attempts. If malware alters the timestamp of an application, it might not be aware of the information captured in the corresponding prefetch file.
 
 ## Prefetch parsers and libraries
 * [Windows Prefetch File (PF) format](https://github.com/libyal/libscca/blob/master/documentation/Windows%20Prefetch%20File%20(PF)%20format.asciidoc) by [Joachim Metz](https://twitter.com/joachimmetz)
@@ -55,8 +55,8 @@ Note that these settings need a *reboot* in order to become effective.
 * [Windows-Prefetch-Carver](https://github.com/PoorBillionaire/Windows-Prefetch-Carver) by [Adam Witt](https://twitter.com/_TrapLoop)
 * [Windows Prefetch Parser](https://tzworks.net/prototype_page.php?proto_id=1) by  TZWorks
 
-## Recording loaded libraries
-So let’s see different ways of loading libraries and how they are recorded by the prefetching process. 
+## Logging loaded libraries
+So let’s see different ways of loading libraries and how they are logged by the prefetching process. 
 A very important detail to keep in mind: according to the first Forensic Magazine article mentioned previously:
 > Monitoring occurs for ten seconds after an application is started.
 
@@ -72,7 +72,7 @@ execution.before the main function. However, a prefetch file is still created ac
 
 This linking method is sometimes referred to as _dynamic load_ or _run-time dynamic linking_. With explicit linking, the executable using the DLL must make function calls to explicitly load and unload the DLL and to access the DLL's exported functions.
 
-**Result**: Again, no surprises, libraries are correctly recorded. Even if no function is called there is still a corresponding DLL entry in the .pf file.
+**Result**: Again, no surprises, libraries are correctly mentioned. Even if no function is called there is still a corresponding DLL entry in the .pf file.
 
 **Code**: [dynamic load](https://gist.github.com/livz/7fb6d6a97ac8719748915f02ea477d14).
 * __Explicit linking (manual)__
