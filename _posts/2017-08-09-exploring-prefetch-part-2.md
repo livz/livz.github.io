@@ -54,5 +54,12 @@ We can hide an application in an [*alternate data stream*](https://blogs.technet
 
 **Result**: When launching an application hidden in an ADS for a file/folder, a prefetch file *does get created*,  but has the name of the file/folder containing the ADS. Although this is good news, it opens the possibility to hide executed binaries in files/folders *havine the same name as already existing files/folders in the Prefetch folder*. If in doubt, try this for yourself using the code below.
 
-**Code**: [CreateProcess from ADS])https://gist.github.com/livz/bfcdef45aae1e4a3e789097333e442d3)
+**Code**: [CreateProcess from ADS](https://gist.github.com/livz/bfcdef45aae1e4a3e789097333e442d3)
 
+### CreateProcess winth runtime loading
+
+Another idea to trick the prefetching system is to load the APIs relevant to process creation at run-time, similarly with the technique from the part 1 of this blog post.
+
+**Result**: As expected, a corresponding prefetch file is still created, no matter how we call the API.
+
+**Code**: [CreateProcess run-time loading of libraries](https://gist.github.com/livz/7be971ca570434ed9e0700fa0bd18a21)
