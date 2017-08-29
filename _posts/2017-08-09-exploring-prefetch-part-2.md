@@ -3,7 +3,7 @@
 In the [first part](https://livz.github.io/2017/06/29/exploring-prefetch-part-1.html) of this blog post we explored 
 the way Windows stores information in the prefetch files, more specifically the loaded libraries and opened files.
 We saw how in some cases one could prevent this completely and no library traces will be present in the .pf files. 
-Next let's check whether one could hide even the traces of a binar ybeing run from the prefetching process. 
+Next let's check whether one could hide even the traces of a binary being run from the prefetching process. 
 
 For a bit of context on the subject of prefetch files, check the first part of this blog or use your favourite search engine.  
 
@@ -90,4 +90,20 @@ In a final effort to bypass the prefetching process, I was curious what happens 
 
 **Result**: The file name is not logged but then again 16-bit??? Not the most useful trick. Even though a corresponding .pf file is not created for the COM file, one is created for [NTVDM](https://en.wikipedia.org/wiki/Virtual_DOS_machine), the virtual machine responsible for running 16-bit DOS files. A weird thing I've noticed, if the prefetch file for NTVDM is deleted, it won't be created again on subsequent runs of the application.
 
-**Code**: X5O!P%@AP[4\PZX54(P^)7CC)7}$EICAR-STANDARD-ANTIVIRUS-TEST-FILE!$H+H*
+**Code**: ```X5O!P%@AP[4\PZX54(P^)7CC)7}$EICAR-STANDARD-ANTIVIRUS-TEST-FILE!$H+H*```
+
+
+### Summary
+
+Technique | Prefetch bypass
+--- | --- 
+**TLS Callbacks** | NO
+**Other executable extension** | NO
+**Random extension** | NO
+**Suspended process** | NO
+**File/folder ADSs** | YES
+**Run-time dll loading** | NO
+**Process hollowing** | Partially
+**Rundll32** | Partially
+**Regsvr32** | Partially
+**DOS files** | YES
