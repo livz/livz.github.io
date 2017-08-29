@@ -66,6 +66,28 @@ Another idea to trick the prefetching system is to load the APIs relevant to pro
 
 ### Process hollowing
 
-[*Process hollowing*](http://resources.infosecinstitute.com/process-hallowing) or [*RunPE*](https://www.adlice.com/runpe-hide-code-behind-legit-process/) is another well-known technique for malware writers. The side-effect of this method - a prefectch file is created for the initial legitimate host process, before being injected with malicious code.
+[*Process hollowing*](http://resources.infosecinstitute.com/process-hallowing) or [*RunPE*](https://www.adlice.com/runpe-hide-code-behind-legit-process/) is another well-known technique for malware writers. The side-effect of this method: a prefectch file is created for the initial legitimate host process, before being injected with malicious code.
 
 **Result**: As it performs process injection, only the original host process is logged. However, there should be a corresponding entry in Prefetch folder for the process which performed the process injection in the first place.
+
+### RunDLL
+
+Another heavily abused legitimate Windows binary is RunDll32.exe. We could store our code in a shared library and launch it using RunDLL32, which is normally used to start functions inside DLL libraries.
+
+**Result**: We would achieve the goal of bypassing Prefetch only partially, because rundll32 binary will still get logged.
+
+### Regsvr
+
+Similarly, the [regsvr32 utility](https://en.wikipedia.org/wiki/Regsvr32) is used to register and unregister DLLs and ActiveX controls. If the library exports two functions named *DllRegisterServer* and *DllUnregisterServer*, they will be called when register/unregister the library. 
+
+**Code**: [This code](https://gist.github.com/subTee/f6123584a3258783e497481690ccc38d) uses the technique mainly to bypass application whitelisting software. You can use it to play with Prefetch creation as well.
+
+**Result**: Same as before, only partial stealth is achieved, because regsvr32 binary will still get logged.
+
+### 16 bit executables
+
+In a final effort to bypass the prefetching process, I was curious what happens with 16-bit (yes, *sixteen!*) COM executables. 
+
+**Result**: The file name is not logged but then again 16-bit??? Not the most useful trick. Even though a corresponding .pf file is not created for the COM file, one is created for [NTVDM](https://en.wikipedia.org/wiki/Virtual_DOS_machine), the virtual machine responsible for running 16-bit DOS files. A weird thing I've noticed, if the prefetch file for NTVDM is deleted, it won't be created again on subsequent runs of the application.
+
+**Code**: X5O!P%@AP[4\PZX54(P^)7CC)7}$EICAR-STANDARD-ANTIVIRUS-TEST-FILE!$H+H*
