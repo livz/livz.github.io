@@ -56,10 +56,16 @@ We can hide an application in an [*alternate data stream*](https://blogs.technet
 
 **Code**: [CreateProcess from ADS](https://gist.github.com/livz/bfcdef45aae1e4a3e789097333e442d3)
 
-### CreateProcess winth runtime loading
+### CreateProcess with run-time loading
 
 Another idea to trick the prefetching system is to load the APIs relevant to process creation at run-time, similarly with the technique from the part 1 of this blog post.
 
 **Result**: As expected, a corresponding prefetch file is still created, no matter how we call the API.
 
 **Code**: [CreateProcess run-time loading of libraries](https://gist.github.com/livz/7be971ca570434ed9e0700fa0bd18a21)
+
+### Process hollowing
+
+[*Process hollowing*](http://resources.infosecinstitute.com/process-hallowing) or [*RunPE*](https://www.adlice.com/runpe-hide-code-behind-legit-process/) is another well-known technique for malware writers. The side-effect of this method - a prefectch file is created for the initial legitimate host process, before being injected with malicious code.
+
+**Result**: As it performs process injection, only the original host process is logged. However, there should be a corresponding entry in Prefetch folder for the process which performed the process injection in the first place.
