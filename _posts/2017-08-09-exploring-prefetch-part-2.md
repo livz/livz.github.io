@@ -16,7 +16,7 @@ or normal executables started in unusual ways.
 [**Threa local storage (TLS)**](https://msdn.microsoft.com/en-us/library/windows/desktop/ms686749(v=vs.85).aspx) is a mechanism 
 to provide unique data for each thread within a process. We can define *TLS callbacks* functions, which are executed 
 *before the main entry point* of the application. This trick is already abused by malware in order to evade debuggers. 
-If the debugger is not configured properly, it will break the execution on the main function, which is *after* the TLS callbacks hae been executed. For more on TLS callbacks, check [these](http://waleedassar.blogspot.co.uk/2010/10/quick-look-at-tls-callbacks.html) [posts](http://www.hexblog.com/?p=9).
+If a debugger is not configured properly, it will break the execution on the main function, which is *after* the TLS callbacks hae been executed. For more on TLS callbacks, check [these](http://waleedassar.blogspot.co.uk/2010/10/quick-look-at-tls-callbacks.html) [posts](http://www.hexblog.com/?p=9).
 
 **Result**: Even if a TLS callback terminates the execution of the program way before the main function, a corresponding 
 prefetch file will still be created for the application.
@@ -25,7 +25,7 @@ prefetch file will still be created for the application.
 
 ###  __Vary the executable file type__
 
-Next let's check whether all the executable files supported by Windows are logged properly. We can rename an EXE to one of the following extensions, and Windows will happily run it without any problems: *.bat, .cmd, .scr, .com, .pif**. For an extensive list of 
+Next let's check whether all the executable files supported by Windows are logged properly. We can rename an EXE to one of the following extensions, and Windows will happily run it without any problems: **.bat, .cmd, .scr, .com, .pif**. For an extensive list of 
 executable file extensions, check [this](https://www.lifewire.com/list-of-executable-file-extensions-2626061).
 
 **Result**: All the executable formats are correctly logged by the prefetching process. 
