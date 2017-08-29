@@ -64,10 +64,10 @@ A very important detail to keep in mind: according to the first Forensic Magazin
 
 This linking method is also referred to as _static load_ or _load-time dynamic linking_. With implicit linking, the executable using the DLL links to an import library (.lib file) provided by the maker of the DLL. The operating system _loads the DLL when the executable is loaded_.
 
-**Result**: As expected, libraries loaded this way appear in the prefetch file.
+**Result**: To test this, the application below executes something inside a TLS callback then immediately terminates 
+execution.before the main function. However, a prefetch file is still created accordingly.
 
-**Code**: [static loading](https://gist.github.com/livz/30de9908a0f690f3f27173562efac463),
-[static loading using #pragma](https://gist.github.com/livz/0a99cfbe6947c7615beab7945c50f997).
+**Code**: [static loading](https://gist.github.com/livz/30de9908a0f690f3f27173562efac463)
 * __Explicit linking__
 
 This linking method is sometimes referred to as _dynamic load_ or _run-time dynamic linking_. With explicit linking, the executable using the DLL must make function calls to explicitly load and unload the DLL and to access the DLL's exported functions.
@@ -128,3 +128,6 @@ Another unexplained (yet!) behaviour can be seen in the video above. The script 
 
 Fortunately this bug cannot be reproduced reliably, so it won’t cause problems for forensic examinations.
 
+##
+
+In the [next part](https://livz.github.io/2017/08/09/exploring-prefetch-part-2.html) of this blogpost we'll look at the way these incredibly important forensic artefacts, the prefetch files, are actually created and how (*and if!*) an intruder trying to hide its traces could work around them.
