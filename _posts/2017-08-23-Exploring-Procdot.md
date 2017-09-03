@@ -54,7 +54,7 @@ To get a feeling of its features, I’ll use Procmon data only (no PCAP), captur
 * The final nice feature I wanted to mention is **filters**. Also to reduce clutter, you can create exclusion rules for IP addresses or hostnames, registry entries and files. There are also some already configured filters related to common windows events and false positives (Remember, *Procmon* also has something similar). 
 
 ## Conclusion
-One missing feature I would like to see is *quicker navigation between the an event and its trigger*, à la IDA Pro graph view (e.g. clicking an edge named “Create Thread” should go to the the source of the event). And since I've mention IDA, the possibility to reposition nodes on the graph  would be good also, but not essential.
+One missing feature I would like to see is *quicker navigation between an event and its trigger*, à la IDA Pro graph view (e.g. clicking an edge named _Create Thread_ should go to the the source of the event). And since I've mention IDA, the possibility to reposition nodes on the graph  would be nice also, but not essential ;)
 
-The question is “Will I use it for the future?” I believe Procdot is useful and will test it to in different scenarios. I’m planning to analyse a few different infections: a stealthy process injection technique, ransomware and a remote access trojan. 
+The question is “Will I use it in the future?” I believe Procdot is useful and will test it in different scenarios. I’m planning to analyse a few different infections: a stealthy process injection technique, ransomware and a remote access trojan, and update this in case I find more cool features.
 
