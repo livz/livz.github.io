@@ -63,6 +63,6 @@ and interact with people at Infosec events. In a nutshell:
 * Be genuinely interested in people. Hear their stories. 
 
 
-I hope this will be helpful as I plan to update this and use it as a checklist for myself to keep my on track.
+I hope this will be helpful as I plan to update this and use it as a checklist for myself to keep me on track.
 
 ![Bow](/assets/images/bow.png)
