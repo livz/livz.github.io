@@ -43,7 +43,7 @@ To get a feeling of its features, I’ll use Procmon data only (no PCAP), captur
 ![Tmeline](/assets/images/procdot/timeline.gif)
 
 
-* There is a good **search functionality**. Results are *visually highlighted on the graph* and *on the timeline*:
+* There is a good **search functionality**. Results are *visually highlighted on the graph* and *on the timeline*. In the screenshot below I was searching for *iexplore*, a good candidate for drive-by infections:
 
 [ ![](/assets/images/procdot/pd3.png) ](/assets/images/procdot/pd3-large.png)
 
