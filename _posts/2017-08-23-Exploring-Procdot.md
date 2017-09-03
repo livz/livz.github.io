@@ -33,15 +33,27 @@ Understand the correlation between events (processes, file writes, registry keys
 
 [ ![](/assets/images/procdot/pd1.png) ](/assets/images/procdot/pd1-large.png)
 
-Timeline of the events frame by frame
-Color codes and thickness of the lines
-Search within the graph
-With visual representation of the results 
-And show when they occurred on the timeline
-Group nodes by categories to reduce clutter and make navigation easier (e.g. Cookies, htmL, JS)
+* **Colors code** and thickness of the lines quickly show *hot places*:
+
+![Colors code](/assets/images/procdot/pd2.png)
+
+* Events are aranged on a **timeline**, and you can actually *watch* them as they happened. You can adjust the number of frames per second and switch between the normal and frame mode using Enter key:
+
+![Tmeline](/assets/images/procdot/timeline.gif)
+
+
+* There is a good **search functionality**. Results are *visually highlighted on the graph* and *on the timeline*:
+
+[ ![](/assets/images/procdot/pd3.png) ](/assets/images/procdot/pd3-large.png)
+
+* Ability to **group multiple nodes** into pre-established categories (e.g. Cookies, htmL, JS) to reduce clutter and make navigation easier. Observe in the image below how the suspicious *C0DE.tmp* is immediately visible once we de-cluttered the graph:
+
+[ ![](/assets/images/procdot/pd4.png) ](/assets/images/procdot/pd4-large.png)
+
 Filters (for IP addresses/hostnames, registry, files) to reduce clutter
 Already set up filters to exclude common events and false positives
 The only missing feature I would like to see is easier navigation between the an event and its trigger (e.g. click a “Create Thread” edge and go to the source, as in IDA Pro graph view)
+Possibility to reposition nodes
 
 ## Conclusion
 The question is “Will I use it for the future?” I believe Procdot is useful and will test it to in different scenarios. I’m planning to analyse a few different infections: a stealthy process injection technique, ransomware and a remote access trojan. 
