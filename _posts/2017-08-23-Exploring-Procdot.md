@@ -29,7 +29,9 @@ provide me with some starting points for in-depth analysis,
 Understand the correlation between events (processes, file writes, registry keys)
 
 ## Features
-Intuitive, easy to use GUI interface.
+* The GUI interface is intuitive and easy to use. You can nagivate quickly between events, zoom in/out, and get a picture of what's happened:
+[ ![](/assets/images/procdot/pd1.png) ](/assets/images/procdot/pd1-large.png)
+
 Timeline of the events frame by frame
 Color codes and thickness of the lines
 Search within the graph
