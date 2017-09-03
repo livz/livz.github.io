@@ -3,7 +3,7 @@
 Everybody has their own personal stories and their own ideas about how to **_get started and progress_** in InfoSec 
 (whether it's Pentesting or Digital Forensics or Incident Response, etc.). Getting started is just the beginning; 
 making relevant progress is key.
-People way smarter and more accomplished have documented their opinions about 
+Smart and  accomplished people have already documented their opinions about 
 [getting started](http://windowsir.blogspot.co.uk/2017/04/getting-started.html) and 
 [beyond](http://windowsir.blogspot.co.uk/2017/08/beyond-getting-started.html). 
 
