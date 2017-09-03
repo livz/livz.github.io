@@ -3,7 +3,7 @@
 ## Motivation
 There are numerous free security related analysis tools online and more of them are being written every day. A lot of times we see them, share some Twitter links and that’s about it. Which is a shame because many are useful and potentially extendable to suit our very specific needs. 
 
-Next time we see an interesting project on Github, why not spend a little time to see what the tool can do, whether it's really suitable for our current tasks, and if so, how to use it properly? In this post I want to look at one such tool - ProcDOT. 
+Next time we see an interesting project on Github, why not spend a little time to see what the tool can do, whether it's really suitable for our current tasks, and if so, how to use it properly? In this post I want to look at one such tool - [ProcDOT](http://procdot.com/). 
 
 ## Tool
 Procdot is a free tool created by Christian Wojne from CERT.at. It runs on Windows and Linux with very few dependencies. The tool has the capability to parse Procmon data *and* correlate it with PCAP information to produce a graph of the events that have taken place. In some cases this makes the visual analysis of malware a lot easier and helps to spot oddities quicker. More about cool features later.
