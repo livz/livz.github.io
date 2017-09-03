@@ -47,7 +47,7 @@ To get a feeling of its features, I’ll use Procmon data only (no PCAP), captur
 
 [ ![](/assets/images/procdot/pd3.png) ](/assets/images/procdot/pd3-large.png)
 
-* Ability to **group multiple nodes** into pre-established categories (e.g. Cookies, htmL, JS) to reduce clutter and make navigation easier. Observe in the image below how the suspicious *C0DE.tmp* is immediately visible once we de-cluttered the graph:
+* Ability to **group multiple nodes** into pre-established categories (e.g. Cookies, HTML, JS) to reduce clutter and make navigation easier. Observe in the image below how the suspicious file __*C0DE.tmp*__ is immediately visible once we de-cluttered the graph:
 
 [ ![](/assets/images/procdot/pd4.png) ](/assets/images/procdot/pd4-large.png)
 
