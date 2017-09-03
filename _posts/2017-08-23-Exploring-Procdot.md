@@ -12,7 +12,7 @@ Procdot is a free tool created by Christian Wojne from CERT.at. It runs on Windo
 First make sure to check the official [documentation](http://www.procdot.com/onlinedocumentation.htm). Then, to quickly get going with the analysis:
 * Download [Procdot binaries](http://procdot.com/downloadprocdotbinaries.htm) for your platform
 * Download and install [Windump](http://www.winpcap.org/windump/install/default.htm)
-* Download and and install [Graphviz](http://www.graphviz.org/download_windows.php)
+* Download and install [Graphviz](http://www.graphviz.org/download_windows.php)
 * Configure Procdot options as suggested [here](http://www.procdot.com/onlinedocumentation.htm)
 * Very important, configure Procmon also as suggested in the readme.txt file (yes, you have to read the readme.txt file!):
 * Disable (uncheck) *"Show Resolved Network Addresses"* (*Options* menu)
@@ -20,14 +20,14 @@ First make sure to check the official [documentation](http://www.procdot.com/onl
 * Don’t show the the *"Sequence"* column (*Options -> Select Columns*)
 * Show the *"Thread ID"* column (*Options -> Select Columns*)
 
-Finally, when exporting from Procmon, use the CSV output file format.
+Finally, when exporting from Procmon, remember to use the CSV output file format.
 
 ## Walkthrough 
 This section and the next are a concise overview of some of the features *I* found to be interesting and useful. For the full list of features check the website. In a nutshell, ProcDOT shows information about the files accessed by the processes, Windows registry keys, network communication, spawned processes and threads and more. Also, a few [analysis tutorials](http://www.procdot.com/videos.htm) are available on the official website. Check them out as well.
 
-To get a feeling of its features, I’ll use Procmon data only (no PCAP), captured during a drive-by infection, exploiting a vulnerable Flash player. The attack vector is not important here really. I want to understand if I can use Procdot to :
-provide me with some starting points for in-depth analysis,
-Understand the correlation between events (processes, file writes, registry keys)
+To get a feeling of its features, I’ll use Procmon data only (no PCAP), captured during a drive-by infection, exploiting a vulnerable Flash player. The attack vector is not important here really. I want to understand if I can use Procdot to:
+* Provide me with some starting points for in-depth analysis
+* Understand the correlation between events (processes, file writes, registry keys)
 
 ## Features
 * The GUI interface is **intuitive and easy to use**. You can nagivate quickly between events, zoom in/out, and get a picture of what's happened:
