@@ -1,6 +1,5 @@
 ---
-title:  "[CTF] Binary Master Ensign - 2"
-categories: ctf binary
+categories: tools
 ---
 
 ![Logo](/assets/images/procdot/logo.png)
