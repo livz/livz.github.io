@@ -57,14 +57,14 @@ Funny enough, in this case in the LOG.TXT file there was even a session recorded
 
 Before starting, let's mention that the HKL has a **_default 3-key combination password_**, the same for all devices out of the factory.
 It can be configured later very easily, and the steps are clearly described in its manual, but some people don't bother. 
-More importantly, it also had a 3-key combination **_kill switch_**, which is meant to prevent brute-force attacks. 
-If you try to brute-force the password and hit that combination, the device will erase itself, _or so it should..._
+More importantly, it also has a 3-key combination **_kill switch_**, which is meant to prevent brute-force attacks. 
+If you try to brute-force the password and hit the unlucky numbers, the device will erase itself, _or so it should_.
 This is not specified in the manual and it's supposed to be secret. 
-Also it is not configurable but it is the same for all devices.
+Also it is not configurable but, as i found out later, it is the same for all devices.
 
-To find the 3-key combination password, my idea was to use a Teensy USB development board in order to simulate all the keystroke combinations.
+To find the 3-key combination password, our idea was to use a Teensy USB development board in order to simulate all the keystroke combinations.
 I went for this [Teensy 3.1](https://www.pjrc.com/store/teensy31.html). Getting started with Ubuntu and Arduino went smoothly,
-following the official [guides](https://www.pjrc.com/teensy/tutorial.html). If you're anxious to see the code, it's quite simple:
+following the official [guides](https://www.pjrc.com/teensy/tutorial.html). If you're anxious to see the code:
 ```c
 /* USB Keyboard brute forcer for key loggers that require a 3 letter combination
     in sequence to mount the hidden files
@@ -125,42 +125,55 @@ void loop() {
 }
 ```
 
-So using the code above I've found out the combination which, no surprise here, was the same as the default one:
+So using the code above we found the combination which, no surprise here, was the default one:
 
 ![Logo](/assets/images/hkl/combo.png)
 
-Next step I did was to take a bit-by-bit image of thenewly mounted 16MB usb partition and see what else was there, besides
-LOG.TXT. My guess was that maybe the guys behind this used the device before and I might find more intereseting logs within the slack space or unallocated bytes. Using Autopsy and [The Sleuth Kit](https://www.sleuthkit.org/), quickly some more files were revealed.
+Next step I did was to take a bit-by-bit image of the 16MB USB partition and see what else was there, besides
+LOG.TXT. My guess was that maybe the guys behind this used the device before and I might find more intereseting logs within the _slack space_ or _unallocated bytes_. Using Autopsy and [The Sleuth Kit](https://www.sleuthkit.org/), quickly some more files were revealed.
 
 ![Logo](/assets/images/hkl/file-times.PNG)
 
-A few deleted files and one very interesting config.txt:
+A few deleted files and one very interesting _config.txt_:
 
 ![Logo](/assets/images/hkl/config-file.PNG)
 
 ### Finding the kill-switch
 
-Because I didn't want to accidentally trigger the kill switch and erase valueable evidence, I bought a second HKL, same model, and ran the brute-force script on that one. It was obvious when I've stumbled upon the kill switch during the password guessing process process because the LOG.TXT file had only keystrokes sent after it, and the ones before were erased. So far it seemed to be working fine.
+Because I didn't want to accidentally trigger the kill switch and erase valueable evidence, I bought a second HKL, same model, and ran the brute-force script on that one. It was obvious when I've stumbled upon the kill switch during the password guessing process process because the LOG.TXT file had only the keystrokes which were sent after it, and the ones sent before were deleted. So far it seemed to be working fine.
 
-So what if I would had accidentaly 'pressed' the kill-switch combo during the brute-force attack? Would that erase everything? Not necessarily! To test this hypothesis, I've done the following stepts:
+So what if I would had accidentaly 'pressed' the kill-switch combo during the brute-force attack? Would that erase everything? Not necessarily! To test this hypothesis, I've done the following steps:
 * Mount the HKL using the default password.
-* Create a large (~20Kb) LOG.TXT file and 3 additional files on the drive.
+* Create a large (~20Kb) LOG.TXT file and 3 more additional files on the drive.
 
 ```bash
 python -c 'print "the lazy dog\n"*20000' > /media/me/KEYGRABBER/LOG.TXT   
 ```
-* Trigger the _erase_ process using the default kill-switch combo discovered before.
+* Trigger the _erase_ process using the default kill switch combo discovered before.
 * Type some more stuff, then enter the unlock password
-* Take a memory image of the disk.
-* Examine unallocated space.
+* Take a full image of the disk.
+* Examine everything, including unallocated space and slack.
 
-When performing the _autopsy_ of the drive, the LOG.TXT was there, sure enough, everything before the kill-switch deleted:
+When performing the _autopsy_ of the drive, the LOG.TXT was there, sure enough, but everything before the kill switch had been deleted:
 
 ![Logo](/assets/images/hkl/autopsy.png)
 
 But more interestingly, the unallocated space contained exactly the content of LOG.TXT file _before_ supposedly being erased:
 
 ![Logo](/assets/images/hkl/unalloc.png)
+
+## Conclusion
+This was a very fun and interesting project for me. I've learnt to work with the Teensy board and Arduino and managed to find the data that was about to be exfiltrated. I wish I were able to recover the actual code of the HKL as well, but this is another story.
+
+A few vulnerabilities have been discovered along the way. Luckily, there was no moral disputes here about responsible dislosure:
+
+**Summary of vulns:**
+1. Vuln #1 - Default 3-key combo password, same on all devices
+2. Vuln #3 - Security by obscurity - secret kill switch combo
+3. Vuln #2 - Default and unchangeable 3-key combo kill switch on all devices
+4. Vuln #4 - Logs are not erased securely
+
+![End](/assets/images/hkl/borat.png)
 
 ## Miscellaneous technical bits
 
@@ -171,7 +184,7 @@ But more interestingly, the unallocated space contained exactly the content of L
 * Click OK to save your changes and power on the VM.
 
 ### Create an image of a USB drive
-* Check first that is indeed the right device you want to image:
+* Check first that it is indeed the right device you want to image:
 ```bash
 $ sudo fdisk -l /dev/sdc
 ```
@@ -179,16 +192,3 @@ $ sudo fdisk -l /dev/sdc
 ```bash
 $ sudo dd if=/dev/sdc of=./USB_image status=progress
 ```
-
-## Conclusion
-This was a very fun and interesting project for me. I've learnt to work with the Teensy board and Arduino and managed to find the data that was about to be exfiltrated. I wish i were able to recover the actual code of the HKL, but this is another story.
-
-A few vulnerabilities have been discovered along the way. There was no moral dispute here about responsible dislosure:
-
-**Summary of vulns:**
-1. Vuln #1 - Default 3-key combo password
-2. Vuln #3 - Security by obscurity - secret kill-switch combo
-3. Vuln #2 - Default 3-key combo kill switch
-4. Vuln #4 - Logs not erased securely
-
-![End](/assets/images/hkl/borat.png)
