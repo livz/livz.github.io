@@ -169,7 +169,7 @@ But more interestingly, the unallocated space contained exactly the content of L
 
 ### Use USB HID devices in a virtual machine in VMWare
 * Select the virtual machine and go to VM > Settings.
-* On the Hardware tab, select USB Controller.
+* On the Hardware tab, select USB Controller.hkl
 * Select _Show all USB input devices_. This option will enable the usage of USB HIDs inside the virtual machine.
 * Click OK to save your changes and power on the VM.
 
@@ -194,6 +194,4 @@ A few vulnerabilities have been discovered along the way. There was no moral dis
 3. Vuln #2 - Default 3-key combo kill switch
 4. Vuln #4 - Logs not erased securely
 
-
-Recover default password fro mconfig files ⇒ usb not wiped
-Test with a larger log file ⇒ reat succes
+![End](/assets/images/hkl/borat.png)
