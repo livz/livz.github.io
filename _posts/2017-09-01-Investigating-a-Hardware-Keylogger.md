@@ -2,8 +2,7 @@
 
 ## Context
 While going through some old folders I found source code and 
-other files related to a previous incident involving a hardware keylogger (I'll use the term _HKL_ in the rest of the post 
-since the model of the device is not really relevant here) for which I was doing the forensic analysis. 
+other files related to a previous incident involving a hardware keylogger (_I'll use the term **HKL** for the rest of the post since the model of the device is not relevant here_) for which I was doing the forensic analysis. 
 Since I have some spare time and because I was suspecting a few possible issues with the HKL, I decided now it's the time to 
 dig a bit deeper.
 
@@ -14,11 +13,11 @@ without any advance pre-configuration, making it ideal for a non-technical attac
 
 ![keylogger](/assets/images/hkl/hkl-out.png)
 
-And if you're curious here's what's under the hood:
+And if you're curious what's under the bonnet:
 
 ![keylogger inside](/assets/images/hkl/hkl-in.jpg)
 
-Let's go a bit deeper and use a microscope to see what chips we have here inside. Click on the items below to enlarge the images. Some NXP chip:
+Let's go a bit deeper and use a microscope to see what chips we have on the board. Click on the items below to enlarge the images. An _NXP HC4015_ chip:
 
 [![](/assets/images/hkl/hkl-in1-small.jpg)](/assets/images/hkl/hkl-in1.jpg)
 
@@ -37,13 +36,12 @@ And an [HC4066](https://assets.nexperia.com/documents/data-sheet/74HC_HCT4066.pd
 ## Findings
 ### How it works
 The way this keylogger works is quite clever. It stays inline between the keyboard and the computer and is **_completely
-invisible_** to the operating until a correct 3-key combination is entered. The first screenshot below shows connected 
-USB devices _before_ inserting the keylogger:
+invisible_** to the operating system until a correct 3-key combination is entered. So it works seamlessly with any OS and keyboard. The first screenshot below shows the USB devices _before_ inserting the keylogger, on a Windows box:
 
 ![USB devices](/assets/images/hkl/usb-devices-before.PNG)
 
-That doesn't change at all after we insert the keylogger. There's no new USB device. But aftter we enter the correct 
-combination (_read below how to recover this password_) we see a new mass storage device:
+That doesn't change at all after we insert the keylogger! There's no new USB device. But aftter we enter the correct 
+three letter combination (_read below how to recover this password_) we seea new mass storage device:
 
 ![USB devices](/assets/images/hkl/usb-devices-after-pw.PNG)
 
@@ -53,8 +51,7 @@ the user entering his login credentials after _Ctrl-Alt-Del_:
 
 ![USB devices](/assets/images/hkl/creds.png)
 
-Funny enough, in this case there was even a session recorded most probably on the attacker's machine while he was testing 
-the device. Nothing incriminating unfortunately.
+Funny enough, in this case in the LOG.TXT file there was even a session recorded most probably on the attacker's machine while he was testing the device. Nothing to incriminate him/her though.
 
 ### Brute force the password
 
