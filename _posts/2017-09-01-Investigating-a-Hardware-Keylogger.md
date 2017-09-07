@@ -18,11 +18,11 @@ And if you're curious here's what's under the hood:
 
 ![keylogger inside](/assets/images/hkl/hkl-in.jpg)
 
-Let's go a bit deeper and use a microscope to see what chips we have here inside. Some NXP chip:
+Let's go a bit deeper and use a microscope to see what chips we have here inside. Click on the items below to enlarge the images. Some NXP chip:
 
 [![](/assets/images/hkl/hkl-in1-small.jpg)](/assets/images/hkl/hkl-in1.jpg)
 
-The we have a [Winbod 25Q128FV](https://cdn.hackaday.io/files/7758331918272/W25Q128F.pdf) serial flash memory:
+Next we have a [Winbod 25Q128FV](https://cdn.hackaday.io/files/7758331918272/W25Q128F.pdf) serial flash memory:
 
 [![](/assets/images/hkl/hkl-in2-small.jpg)](/assets/images/hkl/hkl-in2.jpg)
 
@@ -132,9 +132,38 @@ So using the code above I've found out the combination which, no surprise here, 
 
 ![Logo](/assets/images/hkl/combo.png)
 
+Next step I did was to take a bit-by-bit image of thenewly mounted 16MB usb partition and see what else was there, besides
+LOG.TXT. My guess was that maybe the guys behind this used the device before and I might find more intereseting logs within the slack space or unallocated bytes. Using Autopsy and [The Sleuth Kit](https://www.sleuthkit.org/), quickly some more files were revealed.
 
-- recover conf file
-- files not deleted 
+![Logo](/assets/images/hkl/file-times.PNG)
+
+A few deleted files and one very interesting config.txt:
+
+![Logo](/assets/images/hkl/config-file.PNG)
+
+### Finding the kill-switch
+
+Because I didn't want to accidentally trigger the kill switch and erase valueable evidence, I bought a second HKL, same model, and ran the brute-force script on that one. It was obvious when I've stumbled upon the kill switch during the password guessing process process because the LOG.TXT file had only keystrokes sent after it, and the ones before were erased. So far it seemed to be working fine.
+
+So what if I would had accidentaly 'pressed' the kill-switch combo during the brute-force attack? Would that erase everything? Not necessarily! To test this hypothesis, I've done the following stepts:
+* Mount the HKL using the default password.
+* Create a large (~20Kb) LOG.TXT file and 3 additional files on the drive.
+
+```bash
+python -c 'print "the lazy dog\n"*20000' > /media/me/KEYGRABBER/LOG.TXT   
+```
+* Trigger the _erase_ process using the default kill-switch combo discovered before.
+* Type some more stuff, then enter the unlock password
+* Take a memory image of the disk.
+* Examine unallocated space.
+
+When performing the _autopsy_ of the drive, the LOG.TXT was there, sure enough, everything before the kill-switch deleted:
+
+![Logo](/assets/images/hkl/autopsy.png)
+
+But more interestingly, the unallocated space contained exactly the content of LOG.TXT file _before_ supposedly being erased:
+
+![Logo](/assets/images/hkl/unalloc.png)
 
 ## Miscellaneous technical bits
 
@@ -155,13 +184,15 @@ $ sudo dd if=/dev/sdc of=./USB_image status=progress
 ```
 
 ## Conclusion
-- Very fun project working with Teensy board and arduino
-- Vulnerabilities to discover, but should report them to vendor?
+This was a very fun and interesting project for me. I've learnt to work with the Teensy board and Arduino and managed to find the data that was about to be exfiltrated. I wish i were able to recover the actual code of the HKL, but this is another story.
 
-### Summary of vulns
+A few vulnerabilities have been discovered along the way. There was no moral dispute here about responsible dislosure:
+
+**Summary of vulns:**
 1. Vuln #1 - Default 3-key combo password
 2. Vuln #3 - Security by obscurity - secret kill-switch combo
 3. Vuln #2 - Default 3-key combo kill switch
+4. Vuln #4 - Logs not erased securely
 
 
 Recover default password fro mconfig files ⇒ usb not wiped
