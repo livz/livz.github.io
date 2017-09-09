@@ -5,7 +5,7 @@ title:  "[CTF] Binary Master Ensign - 2"
 ![Logo](/assets/images/belts-yellow.png)
 
 We'll continue with level2 of the **Certified Secure Binary Mastery**, [Ensign](https://www.certifiedsecure.com/certification/view/37). This time it will be another classic issues that needs no introduction - _uncontrolled format strings attacks_. To review the previous level, check the link below:
-* [Binary Master: Ensign - Level 1](https://livz.github.io/2016/01/07/binary-master-ensign-1.html)
+* [Binary Master: Ensign - Level 1]({{ site.baseurl }}{% post_url 2016-01-07-binary-master-ensign-1 %})
 
 ## 0 - Discovery
 
@@ -200,4 +200,4 @@ You can now start with level3. If you want, you can log in
 as level3 with password  [REDACTED]
 ```
 
-In the [next level](https://livz.github.io/2016/01/21/binary-master-ensign-3.html) we'll deal with more buffer related issues and some logical vulnerabilities as well.
+In the [next level]({{ site.baseurl }}{% post_url 2016-01-21-binary-master-ensign-3 %}) we'll deal with more buffer related issues and some logical vulnerabilities as well.
