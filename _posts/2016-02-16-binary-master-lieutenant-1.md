@@ -16,11 +16,11 @@ Now because the stack is NOT executable, the program would just crash. So we nee
 One known trick is to return insted to the function **system()** from the standard _libc_ library, which accepts an argument to execute.
 
 To review the previous levels, check the links below:
-* [Binary Master: Ensign - Level 1](https://livz.github.io/2016/01/07/binary-master-ensign-1.html)
-* [Binary Master: Ensign - Level 2](https://livz.github.io/2016/01/14/binary-master-ensign-2.html)
-* [Binary Master: Ensign - Level 3](https://livz.github.io/2016/01/21/binary-master-ensign-3.html)
-* [Binary Master: Ensign - Level 4](https://livz.github.io/2016/01/28/binary-master-ensign-4.html)
-* [Binary Master: Ensign - Level 5](https://livz.github.io/2016/02/09/binary-master-ensign-5.html)
+* [Binary Master: Ensign - Level 1]({{ site.baseurl }}{% post_url 2016-01-07-binary-master-ensign-1 %})
+* [Binary Master: Ensign - Level 2]({{ site.baseurl }}{% post_url 2016-01-14-binary-master-ensign-2 %})
+* [Binary Master: Ensign - Level 3]({{ site.baseurl }}{% post_url 2016-01-21-binary-master-ensign-3 %})
+* [Binary Master: Ensign - Level 4]({{ site.baseurl }}{% post_url 2016-01-28-binary-master-ensign-4 %})
+* [Binary Master: Ensign - Level 5]({{ site.baseurl }}{% post_url 2016-02-09-binary-master-ensign-5 %})
 
 If you want to know more about the techniques to bypass the NX bit, make usre to check the following great resources:
 * [Bypassing NX bit using return-to-libc](https://sploitfun.wordpress.com/2015/05/08/bypassing-nx-bit-using-return-to-libc/)
@@ -173,4 +173,4 @@ You can now start with level2. If you want, you can log in
 as level2 with password    [REDACTED]
 ```
 
-That's it for now! In the [next post](https://livz.github.io/2016/02/23/binary-master-lieutenant-2.html) we'll discuss another class of vulnerabilities involving a more subtle error which is usually more difficult to spot - _integer signess errors_.
+That's it for now! In the [next post]({{ site.baseurl }}{% post_url 2016-02-23-binary-master-lieutenant-2 %}) we'll discuss another class of vulnerabilities involving a more subtle error which is usually more difficult to spot - _integer signess errors_.
