@@ -10,12 +10,12 @@ Another buffer overflow, similar mitigatiopn techniques as we've seen in the pre
 but this time we have another flaw, a little more subtle: _integer signedness error_.
 
 To review the previous levels, check the links below:
-* [Binary Master: Ensign - Level 1](https://livz.github.io/2016/01/07/binary-master-ensign-1.html)
-* [Binary Master: Ensign - Level 2](https://livz.github.io/2016/01/14/binary-master-ensign-2.html)
-* [Binary Master: Ensign - Level 3](https://livz.github.io/2016/01/21/binary-master-ensign-3.html)
-* [Binary Master: Ensign - Level 4](https://livz.github.io/2016/01/28/binary-master-ensign-4.html)
-* [Binary Master: Ensign - Level 5](https://livz.github.io/2016/02/09/binary-master-ensign-5.html)
-* [Binary Master: Lieutenant - Level 1](https://livz.github.io/2016/02/16/binary-master-lieutenant-1.html)
+* [Binary Master: Ensign - Level 1]({{ site.baseurl }}{% post_url 2016-01-07-binary-master-ensign-1 %})
+* [Binary Master: Ensign - Level 2]({{ site.baseurl }}{% post_url 2016-01-14-binary-master-ensign-2 %})
+* [Binary Master: Ensign - Level 3]({{ site.baseurl }}{% post_url 2016-01-21-binary-master-ensign-3 %})
+* [Binary Master: Ensign - Level 4]({{ site.baseurl }}{% post_url 2016-01-28-binary-master-ensign-4 %})
+* [Binary Master: Ensign - Level 5]({{ site.baseurl }}{% post_url 2016-02-09-binary-master-ensign-5 %})
+* [Binary Master: Lieutenant - Level 1]({{ site.baseurl }}{% post_url 2016-02-16-binary-master-lieutenant-1 %})
 
 ## 0 - Discovery
 Let's connect to the server and check the binary we're dealing with:
@@ -203,4 +203,4 @@ You can now start with level3. If you want, you can log in
 as level3 with password     [REDACTED]
 ```
 
-That's it for now. It the [next level](https://livz.github.io/2016/03/02/binary-master-lieutenant-3.html) we'll look at a new calss of issues - _command injection vulnerabilities_.
+That's it for now. It the [next level]({{ site.baseurl }}{% post_url 2016-03-02-binary-master-lieutenant-3 %}) we'll look at a new calss of issues - _command injection vulnerabilities_.
