@@ -21,11 +21,11 @@ While these instructions should work with other Linux distributions as well, *yo
 This post is part of the **Security Bricks tutorials** - simple methods and habits
 to build a deliberately secure operational environment, for personal and business use. The other parts below:
 
-* [Part 1 - Physical OPSEC basics](https://livz.github.io/2017/07/02/physical-OPSEC-basics.html)
-* [Part 2 - Preventing evil maid attacks](https://livz.github.io/2017/05/06/preventing-evil-maid-attacks.html)
-* [Part 3 - KeePass password manager with 2FA](https://livz.github.io/2017/07/09/keepass-password-manager-with-2fa.html)
-* [Part 5 - Token-based authentication for SSH](https://livz.github.io/2017/07/25/token-based-authentication-for-ssh.html)
-* [Part 6 - Use a Bluetooth device for better security](https://livz.github.io/2017/08/02/use-Bluetooth-device-for-better-security.html)
+* [Part 1 - Physical OPSEC basics]({{ site.baseurl }}{% post_url 2017-07-02-physical-OPSEC-basics %})
+* [Part 2 - Preventing evil maid attacks]({{ site.baseurl }}{% post_url 2017-05-06-preventing-evil-maid-attacks %})
+* [Part 3 - KeePass password manager with 2FA]({{ site.baseurl }}{% post_url 2017-07-09-keepass-password-manager-with-2fa %})
+* [Part 5 - Token-based authentication for SSH]({{ site.baseurl }}{% post_url 2017-07-25-token-based-authentication-for-ssh %})
+* [Part 6 - Use a Bluetooth device for better security]({{ site.baseurl }}{% post_url 2017-08-02-use-Bluetooth-device-for-better-security %})
 
 ## 1. System configuration
 * First install all packages required:
