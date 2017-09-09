@@ -9,10 +9,10 @@ In this post we'll continue with level5, the last one from **Certified Secure Bi
 This time we will be dealing again with more buffer overflow issues but we'll have to defeat a homemade implementation of buffer overflow detection. This is the most interesting level so far and it hides yet another logical vulnerability that will allow us to defeat the random stack canary.
 
 To review the previous levels, check the links below:
-* [Binary Master: Ensign - Level 1](https://livz.github.io/2016/01/07/binary-master-ensign-1.html)
-* [Binary Master: Ensign - Level 2](https://livz.github.io/2016/01/14/binary-master-ensign-2.html)
-* [Binary Master: Ensign - Level 3](https://livz.github.io/2016/01/21/binary-master-ensign-3.html)
-* [Binary Master: Ensign - Level 4](https://livz.github.io/2016/01/28/binary-master-ensign-4.html)
+* [Binary Master: Ensign - Level 1]({{ site.baseurl }}{% post_url 2016-01-07-binary-master-ensign-1 %})
+* [Binary Master: Ensign - Level 2]({{ site.baseurl }}{% post_url 2016-01-14-binary-master-ensign-2 %})
+* [Binary Master: Ensign - Level 3]({{ site.baseurl }}{% post_url 2016-01-21-binary-master-ensign-3 %})
+* [Binary Master: Ensign - Level 4]({{ site.baseurl }}{% post_url 2016-01-28-binary-master-ensign-4 %})
 
 ## 0 - Discovery
 
@@ -185,4 +185,4 @@ send an e-mail to unlock@certifiedsecure.com and include:
    * the exploit
 ```
 
-This was the last level in this challenge set. Next set of levels, [Binary Mastery: Lieutenant](https://www.certifiedsecure.com/certification/view/37) will be even more fun :) as they include modern day vulnerabilities and mitigation techniques. In the [next part](https://livz.github.io/2016/02/16/binary-master-lieutenant-1.html) we'll look at bypassing the **NX** bit using **return to libc** technique.
+This was the last level in this challenge set. Next set of levels, [Binary Mastery: Lieutenant](https://www.certifiedsecure.com/certification/view/37) will be even more fun :) as they include modern day vulnerabilities and mitigation techniques. In the [next part]({{ site.baseurl }}{% post_url 2016-02-16-binary-master-lieutenant-1 %}) we'll look at bypassing the **NX** bit using **return to libc** technique.
