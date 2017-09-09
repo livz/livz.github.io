@@ -11,14 +11,14 @@ We're finally getting closer to the end of the [Lieutenant](https://www.certifie
 The vulnerability in this level is actually pretty straight-forward to spot. Although race-conditions are usually difficult to exploit reliably, in this case things are easier, as we'll see.
 
 To review the previous levels, check the links below:
-* [Binary Master: Ensign - Level 1](https://livz.github.io/2016/01/07/binary-master-ensign-1.html)
-* [Binary Master: Ensign - Level 2](https://livz.github.io/2016/01/14/binary-master-ensign-2.html)
-* [Binary Master: Ensign - Level 3](https://livz.github.io/2016/01/21/binary-master-ensign-3.html)
-* [Binary Master: Ensign - Level 4](https://livz.github.io/2016/01/28/binary-master-ensign-4.html)
-* [Binary Master: Ensign - Level 5](https://livz.github.io/2016/02/09/binary-master-ensign-5.html)
-* [Binary Master: Lieutenant - Level 1](https://livz.github.io/2016/02/16/binary-master-lieutenant-1.html)
-* [Binary Master: Lieutenant - Level 2](https://livz.github.io/2016/02/23/binary-master-lieutenant-2.html)
-* [Binary Master: Lieutenant - Level 3](https://livz.github.io/2016/03/02/binary-master-lieutenant-3.html)
+* [Binary Master: Ensign - Level 1]({{ site.baseurl }}{% post_url 2016-01-07-binary-master-ensign-1 %})
+* [Binary Master: Ensign - Level 2]({{ site.baseurl }}{% post_url 2016-01-14-binary-master-ensign-2 %})
+* [Binary Master: Ensign - Level 3]({{ site.baseurl }}{% post_url 2016-01-21-binary-master-ensign-3 %})
+* [Binary Master: Ensign - Level 4]({{ site.baseurl }}{% post_url 2016-01-28-binary-master-ensign-4 %})
+* [Binary Master: Ensign - Level 5]({{ site.baseurl }}{% post_url 2016-02-09-binary-master-ensign-5 %})
+* [Binary Master: Lieutenant - Level 1]({{ site.baseurl }}{% post_url 2016-02-16-binary-master-lieutenant-1 %})
+* [Binary Master: Lieutenant - Level 2]({{ site.baseurl }}{% post_url 2016-02-23-binary-master-lieutenant-2 %})
+* [Binary Master: Lieutenant - Level 3]({{ site.baseurl }}{% post_url 2016-03-02-binary-master-lieutenant-3 %})
 
 ## 0 - Discovery
 
@@ -147,5 +147,5 @@ You can now start with level5. If you want, you can log in
 as level5 with password   [REDACTED]
 ```
 
-That's it for now. The [final level](https://livz.github.io/2016/03/17/binary-master-lieutenant-5.html) which we'll see next was the most interesting for me. We'll perform a Man-in-the-Middle attack on a well-known cryptographic encryption scheme.
+That's it for now. The [final level]({{ site.baseurl }}{% post_url 2016-03-17-binary-master-lieutenant-5 %}) which we'll see next was the most interesting for me. We'll perform a Man-in-the-Middle attack on a well-known cryptographic encryption scheme.
 
