@@ -9,9 +9,9 @@ This time we will be dealing with another buffer overflow issue but now we'll ha
 On top of that, there is a logical error which leads to a subtle input validation error. 
 
 To review the previous levels, check the links below:
-* [Binary Master: Ensign - Level 1](https://livz.github.io/2016/01/07/binary-master-ensign-1.html)
-* [Binary Master: Ensign - Level 2](https://livz.github.io/2016/01/14/binary-master-ensign-2.html)
-* [Binary Master: Ensign - Level 3](https://livz.github.io/2016/01/21/binary-master-ensign-3.html)
+* [Binary Master: Ensign - Level 1]({{ site.baseurl }}{% post_url 2016-01-07-binary-master-ensign-1 %})
+* [Binary Master: Ensign - Level 2]({{ site.baseurl }}{% post_url 2016-01-14-binary-master-ensign-2 %})
+* [Binary Master: Ensign - Level 3]({{ site.baseurl }}{% post_url 2016-01-21-binary-master-ensign-3 %})
 
 ## 0 - Discovery
 
@@ -277,4 +277,4 @@ You can now start with level5. If you want, you can log in
 as level5 with password  [REDACTED]
 ```
 
-In the next and [final level](https://livz.github.io/2016/02/09/binary-master-ensign-5.html) of this set of challenges we'll work with more stack smashing, but this time we'll have to defeat some homemade canaries. Good fun!
+In the next and [final level]({{ site.baseurl }}{% post_url 2016-02-09-binary-master-ensign-5 %}) of this set of challenges we'll work with more stack smashing, but this time we'll have to defeat some homemade canaries. Good fun!
