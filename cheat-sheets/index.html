@@ -3,8 +3,11 @@ layout: default
 title: Bits of security
 ---
 	<h1>{{ page.title }}</h1>
-Hello
-	  {% for sheet in site.cheat_sheets %}
+{{ site.collections }}
+{{ site.posts }}
+{{ site.cheat_sheets }}
+end
+          {% for sheet in site.cheat_sheets %}
 	    <li><a href="{{ sheet.url }}" title="{{ sheet.title }}">{{ sheet.title }}</a></li>
 	  {% endfor %}
 
