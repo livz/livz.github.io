@@ -3,11 +3,8 @@ layout: default
 title: Bits of security
 ---
 	<h1>{{ page.title }}</h1>
-col3
-{{ site.collections }}
-col3
-{{ site.cheat_sheets }}
-col3
+
           {% for sheet in site.cheat_sheets %}
-	    <li><a href="{{ sheet.url }}" title="{{ sheet.title }}">{{ sheet.title }}</a></li>
+	    <li><a href="{{ sheet.url | prepend: site.baseurl }}" title="{{ sheet.title }}">{{ sheet.title }}</a></li>
 	  {% endfor %}
+
