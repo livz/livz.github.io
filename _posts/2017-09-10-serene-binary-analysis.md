@@ -49,6 +49,7 @@ and [monkeyhex](https://pypi.python.org/pypi/monkeyhex/1.3) **_inside_** your vi
 ```bash
 (angr) $ pip install -I --no-binary :all:  capstone
 (angr) $ pip install -I monkeyhex
+```
 
 ## Symbolic variables and state solvers
 angr's power comes not from it being an emulator, but from being able to execute with what we call symbolic variables
