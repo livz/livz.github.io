@@ -6,7 +6,7 @@ title:  "Serene Binary Analysis with Angr"
 
 ## Context
 
-Recently I have found out about the [angr](angr.io) framework for binary analysis. 
+Recently I have found out about the [angr](http://angr.io) framework for binary analysis. 
 According to the official website its capabilities are very exciting: _symbolic execution_, 
 _automatic ROP chain building_, _automatic exploit generation. But what impressed me even more was the amount of
 [documentation](https://docs.angr.io/) available, both for installing and getting started with real projects. 
