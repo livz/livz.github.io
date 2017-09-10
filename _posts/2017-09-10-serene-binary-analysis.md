@@ -55,8 +55,8 @@ and [monkeyhex](https://pypi.python.org/pypi/monkeyhex/1.3) **_inside_** your vi
 
 Enough talking. Let's see angr in action. The test subject for today is a simple crackme exercise,
 which expects a 6 characters password. Going beyond the simple _strcmp_ in the fauxware, now we have a routine
-that derives a password from  your input and compares that with a hard-coded value. A sort of dumb hash if you want, 
-but will force us to go beyond the [_fauxware_](https://github.com/angr/angr-doc/tree/master/examples/fauxware) example.
+that derives a password from  our input and compares that with a hard-coded value. A sort of dumb hash if you want, 
+but will force us to not limit ourselves to the [_fauxware_](https://github.com/angr/angr-doc/tree/master/examples/fauxware) example.
 Source code is below:
 ```c
 #include <stdio.h>
@@ -120,7 +120,7 @@ manual analysis to get the flag.
 Of course there are other approaches to solve this crackme, like just patching the binary for example. 
 Or work out what is the expected password by reversing the _hashing_ procedure. 
 For my current purpose I'll execute it [with symbolic variables](https://docs.angr.io/docs/solver.html). 
-In this case where the binary takes the password from standard input, _stdin_ will be treated as 
+In this case where the binary takes the password from standard input, and _stdin_ will be treated as 
 a stream of symbolic data, for which we will be able to impose various constraints and solve problems based on it. 
 All this is controlled through the [_SimulationManager_]((https://docs.angr.io/docs/pathgroups.html)). 
 
