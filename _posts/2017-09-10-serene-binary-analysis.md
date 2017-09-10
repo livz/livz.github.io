@@ -124,8 +124,8 @@ In this case where the binary takes the password from standard input, and _stdin
 a stream of symbolic data, for which we will be able to impose various constraints and solve problems based on it. 
 All this is controlled through the [_SimulationManager_](https://docs.angr.io/docs/pathgroups.html). 
 
-The solver takes about 10 minutes for this 6-characters password. 
-It could probably be improved by adding more cpnstraints.
+The solver takes about 10 minutes for a 6-characters password. 
+It could probably be improved by adding more constraints, but it's out of scope for now.
 
 ```python
 import angr 
