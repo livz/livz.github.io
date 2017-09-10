@@ -8,7 +8,7 @@ title:  "Serene Binary Analysis with Angr"
 
 Recently I have found out about the [angr](http://angr.io) framework for binary analysis. 
 According to the official website its capabilities are very exciting: _symbolic execution_, 
-_automatic ROP chain building_, _automatic exploit generation. But what impressed me even more was the amount of
+_automatic ROP chain building_, _automatic exploit generation_. But what impressed me even more was the amount of
 [documentation](https://docs.angr.io/) available, both for installing and getting started with real projects. 
 It looks like a lot of work has been put into this project. The people behind it are security researchers from 
 [Computer Security Lab at UC Santa Barbara](http://seclab.cs.ucsb.edu) with a long tradition of winning CTFs.
