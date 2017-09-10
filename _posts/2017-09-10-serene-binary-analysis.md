@@ -174,6 +174,6 @@ python angr_sol.py  600.32s user 9.14s system 99% cpu 10:10.03 total
 ```
 
 ## Conclusions
-I believe angr_ is very useful to know framework, _especially if you’re not doing CTFs_. 
+I believe _angr_ is very useful to know framework, _especially if you’re not doing CTFs_. 
 If you are, you probably know more about it and use it already but if you don't, 
 then you're missing out on a cool tool.
