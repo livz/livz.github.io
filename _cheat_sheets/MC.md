@@ -4,4 +4,4 @@ layout: cheat_sheet
 date: 2014-09-01
 ---
 
-# Midnight Commander - Cheat Sheet
+## Intro
