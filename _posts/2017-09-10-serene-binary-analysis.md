@@ -54,7 +54,7 @@ and [monkeyhex](https://pypi.python.org/pypi/monkeyhex/1.3) **_inside_** your vi
 ## Symbolic variables and state solvers
 
 Enough talking. Let's see angr in action. The test subject for today is a simple crackme exercise,
-which expects a 6 characters password. Going beyond the simple _strcmp_, now we have a routine
+which expects a 6 characters password. Going beyond the simple _strcmp_ in the fauxware, now we have a routine
 that derives a password from  your input and compares that with a hard-coded value. A sort of dumb hash if you want, 
 but will force us to go beyond the [_fauxware_](https://github.com/angr/angr-doc/tree/master/examples/fauxware) example.
 Source code is below:
