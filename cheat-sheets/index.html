@@ -4,7 +4,9 @@ title: Bits of security
 ---
 	<h1>{{ page.title }}</h1>
 
-          {% for sheet in site.cheat_sheets %}
+	{% for sheet in site.cheat_sheets %}
+	  <div class="cheat_sheet">
 	    <li><span>{{ post.date | date_to_string }}</span> » <a href="{{ sheet.url | prepend: site.baseurl }}" title="{{ sheet.title }}">{{ sheet.title }}</a></li>
-	  {% endfor %}
+ 	  </div>		  
+	{% endfor %}
 
