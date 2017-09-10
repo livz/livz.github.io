@@ -13,21 +13,21 @@ _automatic ROP chain building_, _automatic exploit generation_. But what impress
 It looks like a lot of work has been put into this project. The people behind it are security researchers from 
 [Computer Security Lab at UC Santa Barbara](http://seclab.cs.ucsb.edu) with a long tradition of winning CTFs.
 
-I've decided I wanted to learn how to use. Because most of the examples available out there deal with various CTF challenges, 
+I decided I need to learn how to use it. Because most of the examples available out there deal with various CTF challenges, 
 which are not exactly the most approachable problems, I chose a challange a bit more difficult than the 
-one in the official docs - [fauxware](https://github.com/angr/angr-doc/tree/master/examples/fauxware) 
-but not exaclty DEFCON CTF. 
+one in the official docs ([fauxware](https://github.com/angr/angr-doc/tree/master/examples/fauxware)) 
+but not exaclty DEFCON material. 
 
 So **_angr_** is:
-* _a multi-architecture binary analysis toolkit, with the capability to perform dynamic symbolic execution_
-* _a user-friendly binary analysis suite, allowing a user to simply start up iPython and easily perform intensive binary analyses with a couple of commands_
-* _[..] binary analysis is complex, which makes angr complex_ - No surprise here! _No pain, no gain!_
+* _"a multi-architecture binary analysis toolkit, with the capability to perform dynamic symbolic execution"_
+* _"a user-friendly binary analysis suite, allowing a user to simply start up iPython and easily perform intensive binary analyses with a couple of commands"_
+* _"[..] binary analysis is complex, which makes angr complex"_ - No surprise here! _No pain, no gain!_
 
 Don't get discouraged by the apparent steep learning curve. The book covers everything to get going.
 
 ## Installation 
 
-The [installation procedure](https://docs.angr.io/INSTALL.html) covers mostly everything.  
+The [installation procedure](https://docs.angr.io/INSTALL.html) covers mostly everything.
 I will mention only a few bits and workarounds I needed on my Ubuntu 16.04 box. 
 To avoid messing up with your system's libraries, the authors highly recommend a python virtual environment
 to install and use angr. This will be an isolated Python work environment, complete with an interpreter and 
@@ -124,7 +124,7 @@ In this case where the binary takes the password from standard input, _stdin_ wi
 a stream of symbolic data, for which we will be able to impose various constraints and solve problems based on it. 
 All this is controlled through the [_SimulationManager_]((https://docs.angr.io/docs/pathgroups.html)). 
 
-The solver below takes about 10 minutes for this 6-characters password. 
+The solver takes about 10 minutes for this 6-characters password. 
 It could probably be improved by adding more cpnstraints.
 
 ```python
@@ -163,6 +163,15 @@ for s in sm.deadended:
         print "Input password: ", s.posix.dumps(0)
 ```
 
+And the results:
+```
+(angr) ~ time python angr_solver.py
+Message:  [*] Hello! Please enter the password: [*] Congratulations! You have found the flag.
+Input password:  624157
+
+python angr_sol.py  600.32s user 9.14s system 99% cpu 10:10.03 total
+
+```
 
 ## Conclusions
 I believe angr_ is very useful to know framework, _especially if you’re not doing CTFs_. 
