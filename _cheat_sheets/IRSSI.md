@@ -1,5 +1,5 @@
 ---
-title: Irssi - The client of the Future
+title: Irssi - The Client of the Future
 layout: cheat_sheet
 date: 2014-11-03
 ---
