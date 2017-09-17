@@ -4,4 +4,4 @@ layout: cheat_sheet
 date: 2014-09-01
 ---
 
-## Intro
+[![](/assets/images/cheat-sheets/mc-1-small.png)](/assets/images/cheat-sheets/mc-1.png)
