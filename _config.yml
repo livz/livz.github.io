@@ -1,5 +1,7 @@
 theme: jekyll-theme-hacker
 google_analytics: UA-100791701-1
+plugins:
+  - jemoji
 collections:
     cheat_sheets:
         output: true
