@@ -7,9 +7,9 @@ title:  "Hacking GNOME Minesweeper"
 ## Context
 First I would like to give credit to the author of the picture I've used above, taken from [pxleyes](http://www.pxleyes.com/photoshop-pictures/minesweeper/). It's awesome, thank you! :pray: 
 
-After reading [Game Hacking: WinXP Minesweeper](https://0x00sec.org/t/game-hacking-winxp-minesweeper/1266) I realised I wanted to do something similar but on a Linux system. This would be a great opportunity for me to learn some new skills, like debuging stripped GTK applications or becoming a GDB ninja (not!) while doing something interesting all along and with potential applications outside this gaming area.
+After reading [Game Hacking: WinXP Minesweeper](https://0x00sec.org/t/game-hacking-winxp-minesweeper/1266) I realised I wanted to do something similar but on a Linux system. This would be a great opportunity for me to learn some new skills, like debuging stripped GTK applications or becoming a GDB ninja (not!) while doing something interesting all along and with potential applications outside the gaming area.
 
-My goal in this post is to reverse engineer the GNOME Minesweeper game and locate relevant areas in memory to patch. As a bonus, let's make this as visually pleasing as possible! No pre-requisites are strictly necessary to follow along, but basic reversing knowledge and familiarity with GDB is always nice to have! Most important of course is a desire to learn. So let's begin. 
+My goal in this post is to reverse engineer the GNOME Minesweeper game and locate relevant areas in memory to patch. As a bonus, the result has to be as visually pleasing as possible! No pre-requisites are strictly necessary to follow along, but basic reversing knowledge and familiarity with GDB is always nice to have! Most important of course is a desire to learn. So let's begin. 
 
 ## Debugging GTK applications
 To perform debugging and inspection of GTK applications, we have two quite stable options: [GTKInspector](https://wiki.gnome.org/Projects/GTK+/Inspector) and [gtkparasite](http://chipx86.github.io/gtkparasite/) (on which the GTKInspector is also based). I opted for the Parasite, which seems to be more established and has interesting features, like the ability to interact with GTK widgets from a Python shell, and apply CSS styles globally or individually per objects. A few things are needed to quickly get it working:
@@ -33,7 +33,7 @@ $ ldd `which gnome-mines` | grep gtk
     libgtk-3.so.0 => /usr/lib/x86_64-linux-gnu/libgtk-3.so.0 (0x00007f2dc7f18000)
 ```
 
-* If you still get an error when trying to lunch GTK apps, make sure the libraries are placed in the correct location. The following applies for Ubuntu 16.04:
+* If you still get an error when trying to lunch GTK apps, make sure the libraries are placed in the correct location. The following workaround applies for Ubuntu 16.04:
 ```bash
 $ gnome-calculator                                  
 Gtk-Message: Failed to load module "gtkparasite"
@@ -52,9 +52,9 @@ Now that `gtkparasire` is up and running, let's make sure we can perform some ba
 [![](/assets/images/mines/calc-small.png)](/assets/images/mines/calc.png)
 
 ## Static analysis 
-To be able to mess with objects in memory, we need to understand the internals of Minesweeper first. Luckily, the source code is available [online](https://github.com/GNOME/gnome-mines). The goal for this section is to perform simple identification of data structures in memory, like obtaining the number of mines and details of the board (width, height) for example. Let's begin.
+To be able to mess with objects in memory, we need to understand the internals of Minesweeper first. Luckily, the source code is available [online](https://github.com/GNOME/gnome-mines). The goal for this section is to perform simple identification of data structures in memory, like obtaining the number of mines and details of the board (width, height) for example.
 
-* From gtk-parasite we can see that the mine field is stored in a *MinefieldView* class. This will be the starting point. In the source code ([minefield.vala](https://github.com/GNOME/gnome-mines/blob/3190bf2afee96110ad15bb10016c10396d107830/src/minefield.vala) we see however that all the interesting fields are stored in a *minefield* class:
+* From gtkparasite we can see that the mine field is stored in a *MinefieldView* class. This will be the starting point. In the source code ([minefield.vala](https://github.com/GNOME/gnome-mines/blob/3190bf2afee96110ad15bb10016c10396d107830/src/minefield.vala)) we see however that all the interesting fields are stored in a *minefield* class:
 ```c
 public class Minefield : Object
 {
@@ -70,7 +70,7 @@ public class Minefield : Object
     [...]
 ```
 
-* After a bit of poking around with IDA Pro, we find the link between the _MineFieldView_ object and the _minefield_ class. All the interesting funtions and classes below (e.g. MFView) have been renamed manually :
+* After a bit of poking around with IDA Pro, we find the link between the _MineFieldView_ object and the _minefield_ class. Note that funtions and classes below (e.g. MFView) have been renamed manually:
 ```c
 __int64 __fastcall get_minefield(__int64 MFView)
 {
@@ -84,13 +84,13 @@ __int64 __fastcall get_minefield(__int64 MFView)
 }
 ```
 
-* That means that to obtain a pointer to the most important structure - _minefield_, we can perform the following steps in GDB using [convenience variables](https://sourceware.org/gdb/onlinedocs/gdb/Convenience-Vars.html):
+* This means that to obtain a pointer to the most important structure - _minefield_, we can perform the following steps in GDB using [convenience variables](https://sourceware.org/gdb/onlinedocs/gdb/Convenience-Vars.html):
 ```
 gdb$ set $minefieldview = 0x816dd0
 gdb$ set $minefield = *($minefieldview+0x30)+0x28
 ```
 
-* Going further, let's locate where exactly in the _minefield_ structure we have the _width_, _height_ and _n_mines_ fields. for the sake of brevity I won't list all the steps to locate those fields, however, the minefield class looks like this:
+* Going further, let's locate where exactly in the _minefield_ structure we have the _width_, _height_ and _n_mines_ fields. for the sake of brevity I won't list all the steps to locate those fields, however, the minefield class looks like this after identifyng the key fields:
 ```
 00000000 minefield_class struc ; (sizeof=0x44, mappedto_9)
 00000000 field_0         dd ?
@@ -123,7 +123,6 @@ gdb$ print $height
 $2 = 0x8
 gdb$ print $n_mines
 $3 = 0xa
-
 ```
 
 ## GDB Kung-Fu
