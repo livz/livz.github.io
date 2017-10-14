@@ -156,7 +156,7 @@ print $has_mine_xy
 $20 = 0x0
 ```
 
-* Note that mines are actually placed on the map on first attempt to clear a spot. So attempt the previous procedure only after a few spots have already been revealed.
+* Note that mines are actually placed on the map on first attempt to clear a spot. So run the previous procedure only after a few spots have already been revealed.
 
 * Below is the full GDB script that can be used to reveal al lthe mines. While debugging, stope the execution (Ctrl+C) and define the following function:
 ```c
@@ -165,19 +165,15 @@ define discover_minefield
     # Initialise MiefieldView with the value from gtkparasite
     # Usage: discover_minefield 0x816dd0
     #
-    set $minefieldview=$arg0   
-    
+    set $minefieldview=$arg0       
     # Reconnaissance
     set $minefield=*($minefieldview+0x30)+0x28
-
     set $width=*(*$minefield+0x20)
     printf "Minefield width: %d\n", $width
     set $height=*(*$minefield+0x24) 
     printf "Minefield height: %d\n", $height
     set $n_mines=*(*$minefield+0x28)
     printf "Number of mines: %d\n", $n_mines
-
-
     set $x=0
     set $y=0
     set $mf = (char*)malloc(100)
@@ -190,19 +186,16 @@ define discover_minefield
     set $gtk_style = (char*)malloc(2048)
     set $saved_gtk_style = $gtk_style
     set $child_num = 1
-    set $buf = (char*)malloc(64)
-   
+    set $buf = (char*)malloc(64)   
     # Go from left to right, line by line, so we can build the matrix string   
     while $y<$height
         # Convert address to (QWORD*)
         set $has_mine_xy = *(long*)(*(*$minefield+0x30) +8*(*(*$minefield+0x3c)*$x+$y))+0x20
-        #print $has_mine_xy
-        
+        #print $has_mine_xy        
         if *$has_mine_xy==1
             #printf "[%d,%d] %s\n", $x, $y, $mine
             # Saved the result of the function to avoid printing
-            set $unused = strncpy($mf++, $mine, 1)
-            
+            set $unused = strncpy($mf++, $mine, 1)            
             # Transpose the child number
             set $x_child = $child_num % $width
             set $y_child = $child_num / $width + 1
@@ -211,7 +204,6 @@ define discover_minefield
                 set $y_child = $y_child - 1 
             end
             set $child_num_trans = $height * ($x_child-1) + $y_child
-
             set $unused = sprintf($buf, ".tile:nth-child(%3d){ background: pink; }\n", $child_num_trans)
             set $unused = strcpy($gtk_style, $buf)
             set $gtk_style = $gtk_style + strlen($buf)
@@ -220,30 +212,24 @@ define discover_minefield
             #printf "[%d,%d] %s\n", $x, $y, $clear
             set $unused = strncpy($mf++, $clear, 1)        
         end
-
         set $child_num = $child_num + 1
-
         set $x=$x+1
         if $x==$width
             set $x=0
             set $y=$y+1
             set $unused = strncpy($mf++, "\n", 1)        
         end    
-    end
-    
+    end    
     set $unused = strncpy($mf, "\0", 1)        
     printf "Mines discovered: %d/%d\n", $mines_discovered, $n_mines
-    printf "%s\n\n", $saved_mf
-    
+    printf "%s\n\n", $saved_mf    
     # Log css to file
     set logging on
     set logging file gtk.css    
     set logging redirect on             # Log only to file not stdout
     printf "%s\n", $saved_gtk_style
-    set logging off
-        
-    printf "CSS style saved to gtk.css. Apply the style to view mines.\n"
- 
+    set logging off        
+    printf "CSS style saved to gtk.css. Apply the style to view mines.\n" 
 end
 ```
 
@@ -262,7 +248,7 @@ X-------
 ---X----
 --------
 ----X---
-
+       
 CSS style saved to gtk.css. Apply the style to view mines.
 ```
 
