@@ -126,7 +126,7 @@ $3 = 0xa
 ```
 
 ## GDB Kung-Fu
-Using similar logic as before, we can map all the needed information related to the position of the mines. The _**has_mine**_ function queries the _locations_ array:
+* Using similar logic as before, we can map all the needed information related to the position of the mines. The _**has_mine**_ function queries the _locations_ array:
 ```
 public bool has_mine (uint x, uint y)
 {
