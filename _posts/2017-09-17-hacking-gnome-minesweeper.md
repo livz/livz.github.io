@@ -151,7 +151,6 @@ __int64 __fastcall has_mine(minefield_class *minefield, int x, int y)
 ```
 set $x=1
 set $y=1
-
 set $has_mine_xy = *(*(*(*$minefield+0x30) +8*(*(*$minefield+0x3c)*$x+$y))+0x20)
 print $has_mine_xy
 $20 = 0x0
