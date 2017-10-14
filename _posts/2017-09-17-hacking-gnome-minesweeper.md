@@ -54,7 +54,7 @@ Now that `gtkparasire` is up and running, let's make sure we can perform some ba
 ## Static analysis 
 To be able to mess with objects in memory, we need to understand the internals of Minesweeper first. Luckily, the source code is available [online](https://github.com/GNOME/gnome-mines). The goal for this section is to perform simple identification of data structures in memory, like obtaining the number of mines and details of the board (width, height) for example.
 
-* From gtkparasite we can see that the mine field is stored in a *MinefieldView* class. This will be the starting point. In the source code ([minefield.vala](https://github.com/GNOME/gnome-mines/blob/3190bf2afee96110ad15bb10016c10396d107830/src/minefield.vala)) we see however that all the interesting fields are stored in a *minefield* class:
+* From gtkparasite we can see that the mine field is stored in a **_MinefieldView**_ class. This will be the starting point. In the source code ([minefield.vala](https://github.com/GNOME/gnome-mines/blob/3190bf2afee96110ad15bb10016c10396d107830/src/minefield.vala)) we see however that all the interesting fields are stored in a **_minefield**_ class:
 ```c
 public class Minefield : Object
 {
@@ -126,8 +126,8 @@ $3 = 0xa
 ```
 
 ## GDB Kung-Fu
-* Using similar logic as before, we can map all the needed information related to the position of the mines. The _**has_mine**_ function queries the _locations_ array:
-```
+* Using similar logic as before, we can map all the needed information related to the position of the mines. The _**has_mine**_ function queries the _**locations**_ array:
+```c
 public bool has_mine (uint x, uint y)
 {
     return locations[x, y].has_mine
