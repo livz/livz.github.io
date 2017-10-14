@@ -44,7 +44,15 @@ $ find / -name  "libgtkparasite*.so" 2>/dev/null
 $ sudo cp /usr/local/lib/gtk-3.0/modules/libgtkparasite.so /usr/lib/x86_64-linux-gnu/gtk-3.0/modules
 ```
 
+Now that `gtkparasire` is up and running, let's make sure we can perform some basic inspection of GUI widgets:
+* If everything worked fine, when  launching the calculator (`gnome-calc`) you should also see also the gtk-parasite window.
+* Use the magnifying glass to select the text box.
+* In the right pane with the object's properties, double-click on the buffer's value. 
+* Then navigate to the properties of `text` field and change it to whatever you like. Voila!
+[![](/assets/images/mines/calc-small.png)](/assets/images/mines/calc.png)
+
 ## Static analysis 
+
 
 ## Reverse engineering GTK 
 
