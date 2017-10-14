@@ -12,10 +12,37 @@ After reading [Game Hacking: WinXP Minesweeper](https://0x00sec.org/t/game-hacki
 My goal in this post is to reverse engineer the GNOME Minesweeper game and locate relevant areas in memory to patch. As a bonus, let's make this as visually pleasing as possible! No pre-requisites are strictly necessary to follow along, but basic reversing knowledge and familiarity with GDB is always nice to have! Most important of course is a desire to learn. So let's begin. 
 
 ## Debugging GTK applications
-To perform debugging and inspection of GTK applications, we have two quite stable options: [GTKInspector](https://wiki.gnome.org/Projects/GTK+/Inspector) and [gtkparasite](http://chipx86.github.io/gtkparasite/) (on which the GTKInspector is also based). I opted for the Parasite, which seems to be more established and has interesting features, like the ability to interact with GTK widgets from a Python shell, and apply CSS styles globally or individually per objects. A few things are neededt to quickly get it working:
-* A
-* b
-* c
+To perform debugging and inspection of GTK applications, we have two quite stable options: [GTKInspector](https://wiki.gnome.org/Projects/GTK+/Inspector) and [gtkparasite](http://chipx86.github.io/gtkparasite/) (on which the GTKInspector is also based). I opted for the Parasite, which seems to be more established and has interesting features, like the ability to interact with GTK widgets from a Python shell, and apply CSS styles globally or individually per objects. A few things are needed to quickly get it working:
+* Download and install: 
+```bash
+$ git clone git://github.com/chipx86/gtkparasite
+$ cd gtkparasite
+$ ./autogen.sh --with-gtk=3.0
+$ make
+$ sudo make install
+```
+
+* Set the `GTK_modules` environment variable:
+```bash
+ export GTK_MODULES=gtkparasite:$GTK_MODULES
+```
+
+* Make sure the application to be debugged is built using GTK3, because gtkparasite [dropped support for GTK2](https://bbs.archlinux.org/viewtopic.php?id=160197). Check out which version of GTK `gnome-mines` was built against:
+```bash
+$ ldd `which gnome-mines` | grep gtk
+    libgtk-3.so.0 => /usr/lib/x86_64-linux-gnu/libgtk-3.so.0 (0x00007f2dc7f18000)
+```
+
+* If you still get an error when trying to lunch GTK apps, make sure the libraries are placed in the correct location. The following applies for Ubuntu 16.04:
+```bash
+$ gnome-calculator                                  
+Gtk-Message: Failed to load module "gtkparasite"
+$ find / -name  "libgtkparasite*.so" 2>/dev/null
+/home/liv/Downloads/gtkparasite/src/.libs/libgtkparasite.so
+/usr/lib/x86_64-linux-gnu/gtk-3.0/modules/libgtkparasite.so
+/usr/local/lib/gtk-3.0/modules/libgtkparasite.so
+$ sudo cp /usr/local/lib/gtk-3.0/modules/libgtkparasite.so /usr/lib/x86_64-linux-gnu/gtk-3.0/modules
+```
 
 ## Static analysis 
 
