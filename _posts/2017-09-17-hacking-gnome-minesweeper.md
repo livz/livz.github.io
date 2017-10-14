@@ -127,8 +127,7 @@ $3 = 0xa
 ```
 
 ## GDB Kung-Fu
-Using similar logic as before, we can map all the needed information related to the position of the mines. The _**has_mine**_ function :
-
+Using similar logic as before, we can map all the needed information related to the position of the mines. The _**has_mine**_ function queries the _locations_ array:
 ```
 public bool has_mine (uint x, uint y)
 {
@@ -136,12 +135,162 @@ public bool has_mine (uint x, uint y)
 }
 ```    
 
+* Back to IDA Pro, the disassembly of the function shows the offset shows the offsets inside the _minefield_ class:
+```c
+__int64 __fastcall has_mine(minefield_class *minefield, int x, int y)
+{
+  if ( minefield )
+    return *(unsigned int *)(*(_QWORD *)(*(_QWORD *)&minefield->locations
+                                       + 8LL * (unsigned int)(minefield->field_3C * x + y))
+                           + 0x20LL);
+  g_return_if_fail_warning(0LL, "minefield_has_mine", "self != NULL");
+  return 0LL;
+}
+```
+
+* Using the information from above, we can construct a query in GDB to verify whether the location at [x,y] has a mine or not:
+```
 set $x=1
 set $y=1
 
 set $has_mine_xy = *(*(*(*$minefield+0x30) +8*(*(*$minefield+0x3c)*$x+$y))+0x20)
 print $has_mine_xy
 $20 = 0x0
+```
 
+* Note that mines are actually placed on the map on first attempt to clear a spot. So attempt the previous procedure only after a few spots have already been revealed.
+
+* Below is the full GDB script that can be used to reveal al lthe mines. While debugging, stope the execution (Ctrl+C) and define the following function:
+```c
+define discover_minefield    
+    #
+    # Initialise MiefieldView with the value from gtkparasite
+    # Usage: discover_minefield 0x816dd0
+    #
+    set $minefieldview=$arg0   
+    
+    # Reconnaissance
+    set $minefield=*($minefieldview+0x30)+0x28
+
+    set $width=*(*$minefield+0x20)
+    printf "Minefield width: %d\n", $width
+    set $height=*(*$minefield+0x24) 
+    printf "Minefield height: %d\n", $height
+    set $n_mines=*(*$minefield+0x28)
+    printf "Number of mines: %d\n", $n_mines
+
+
+    set $x=0
+    set $y=0
+    set $mf = (char*)malloc(100)
+    set $saved_mf = $mf
+    set $mine = "X"
+    set $clear = "-"
+    set $mines_discovered = 0
+    
+    # Style for discovered mines
+    set $gtk_style = (char*)malloc(2048)
+    set $saved_gtk_style = $gtk_style
+    set $child_num = 1
+    set $buf = (char*)malloc(64)
+   
+    # Go from left to right, line by line, so we can build the matrix string   
+    while $y<$height
+        # Convert address to (QWORD*)
+        set $has_mine_xy = *(long*)(*(*$minefield+0x30) +8*(*(*$minefield+0x3c)*$x+$y))+0x20
+        #print $has_mine_xy
+        
+        if *$has_mine_xy==1
+            #printf "[%d,%d] %s\n", $x, $y, $mine
+            # Saved the result of the function to avoid printing
+            set $unused = strncpy($mf++, $mine, 1)
+            
+            # Transpose the child number
+            set $x_child = $child_num % $width
+            set $y_child = $child_num / $width + 1
+            if $x_child ==0
+                set $x_child = $width
+                set $y_child = $y_child - 1 
+            end
+            set $child_num_trans = $height * ($x_child-1) + $y_child
+
+            set $unused = sprintf($buf, ".tile:nth-child(%3d){ background: pink; }\n", $child_num_trans)
+            set $unused = strcpy($gtk_style, $buf)
+            set $gtk_style = $gtk_style + strlen($buf)
+            set $mines_discovered = $mines_discovered + 1
+        else
+            #printf "[%d,%d] %s\n", $x, $y, $clear
+            set $unused = strncpy($mf++, $clear, 1)        
+        end
+
+        set $child_num = $child_num + 1
+
+        set $x=$x+1
+        if $x==$width
+            set $x=0
+            set $y=$y+1
+            set $unused = strncpy($mf++, "\n", 1)        
+        end    
+    end
+    
+    set $unused = strncpy($mf, "\0", 1)        
+    printf "Mines discovered: %d/%d\n", $mines_discovered, $n_mines
+    printf "%s\n\n", $saved_mf
+    
+    # Log css to file
+    set logging on
+    set logging file gtk.css    
+    set logging redirect on             # Log only to file not stdout
+    printf "%s\n", $saved_gtk_style
+    set logging off
+        
+    printf "CSS style saved to gtk.css. Apply the style to view mines.\n"
+ 
+end
+```
+
+* The first parameter to the function is the pointer to the _MineFieldView_ object, obtained from gtk-parasite window:
+```
+gdb$ discover_minefield 0x816dd0
+Minefield width: 8
+Minefield height: 8
+Number of mines: 10
+Mines discovered: 10/10
+X---X---
+X---X---
+--------
+X-------
+-X-X---X
+---X----
+--------
+----X---
+
+CSS style saved to gtk.css. Apply the style to view mines.
+```
 
 ## CSS beautification
+A very nice feature of gtk-parasite is that it allows us to apply CSS styles globally per application or individually to each of its elements. GNOME developer center provides a nice [overview of CSS features supported in GTK+](https://developer.gnome.org/gtk3/stable/chap-css-overview.html). 
+
+* In this case we need a way to apply a style to an invidual _Tile_, identified by its [x,y] coordinates. For this we need to identify which child number each tile has, then apply the style _to n-th child_. For example to apply a CSS to the element on (0, 1), we would do the following:
+
+```css
+.button:nth-child(1) {
+    background: pink; 
+}
+```
+
+* After correctly identifying the status of each square, with some CSS hacking we assign colours individually. For the example above, the stylesheet (which is saved to gtk.css file) is:
+```css
+.tile:nth-child(  1){ background: pink; }
+.tile:nth-child( 33){ background: pink; }
+.tile:nth-child(  2){ background: pink; }
+.tile:nth-child( 34){ background: pink; }
+.tile:nth-child(  4){ background: pink; }
+.tile:nth-child( 13){ background: pink; }
+.tile:nth-child( 29){ background: pink; }
+.tile:nth-child( 61){ background: pink; }
+.tile:nth-child( 30){ background: pink; }
+.tile:nth-child( 40){ background: pink; }
+```
+
+[![](/assets/images/mines/css-small.png)](/assets/images/mines/css.png)
