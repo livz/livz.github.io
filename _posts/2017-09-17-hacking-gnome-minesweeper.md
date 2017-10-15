@@ -260,7 +260,6 @@ CSS style saved to gtk.css. Apply the style to view mines.
 A very nice feature of gtk-parasite is that it allows us to apply CSS styles globally per application or individually to each of its elements. GNOME developer center provides a good [overview of CSS features supported in GTK+](https://developer.gnome.org/gtk3/stable/chap-css-overview.html). 
 
 * In this case we need a way to apply a style to an invidual _**Tile**_, identified by its [x,y] coordinates. For this we need to identify which child number each tile has, then apply the style _to n-th child_. For example to apply a CSS to the element at [0, 1], we would do the following:
-
 ```css
 .button:nth-child(1) {
     background: pink; 
