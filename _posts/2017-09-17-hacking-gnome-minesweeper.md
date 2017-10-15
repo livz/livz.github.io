@@ -187,6 +187,7 @@ define discover_minefield
     set $saved_gtk_style = $gtk_style
     set $child_num = 1
     set $buf = (char*)malloc(64)   
+    
     # Go from left to right, line by line, so we can build the matrix string   
     while $y<$height
         # Convert address to (QWORD*)
@@ -196,6 +197,7 @@ define discover_minefield
             #printf "[%d,%d] %s\n", $x, $y, $mine
             # Saved the result of the function to avoid printing
             set $unused = strncpy($mf++, $mine, 1)            
+    
             # Transpose the child number
             set $x_child = $child_num % $width
             set $y_child = $child_num / $width + 1
@@ -203,6 +205,7 @@ define discover_minefield
                 set $x_child = $width
                 set $y_child = $y_child - 1 
             end
+            
             set $child_num_trans = $height * ($x_child-1) + $y_child
             set $unused = sprintf($buf, ".tile:nth-child(%3d){ background: pink; }\n", $child_num_trans)
             set $unused = strcpy($gtk_style, $buf)
@@ -212,6 +215,7 @@ define discover_minefield
             #printf "[%d,%d] %s\n", $x, $y, $clear
             set $unused = strncpy($mf++, $clear, 1)        
         end
+        
         set $child_num = $child_num + 1
         set $x=$x+1
         if $x==$width
@@ -219,10 +223,12 @@ define discover_minefield
             set $y=$y+1
             set $unused = strncpy($mf++, "\n", 1)        
         end    
-    end    
+    end 
+    
     set $unused = strncpy($mf, "\0", 1)        
     printf "Mines discovered: %d/%d\n", $mines_discovered, $n_mines
     printf "%s\n\n", $saved_mf    
+        
     # Log css to file
     set logging on
     set logging file gtk.css    
@@ -233,7 +239,7 @@ define discover_minefield
 end
 ```
 
-* The first parameter to the function is the pointer to the _MineFieldView_ object, obtained from gtk-parasite window:
+* The first parameter to the function is the pointer to the _MineFieldView_ object, obtained from gtkparasite window:
 ```
 gdb$ discover_minefield 0x816dd0
 Minefield width: 8
@@ -248,7 +254,7 @@ X-------
 ---X----
 --------
 ----X---
-       
+                  
 CSS style saved to gtk.css. Apply the style to view mines.
 ```
 
