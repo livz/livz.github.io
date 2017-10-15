@@ -253,8 +253,7 @@ X-------
 -X-X---X
 ---X----
 --------
-----X---
-                  
+----X---                  
 CSS style saved to gtk.css. Apply the style to view mines.
 ```
 
