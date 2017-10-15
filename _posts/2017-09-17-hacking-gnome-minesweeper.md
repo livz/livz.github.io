@@ -283,4 +283,5 @@ A very nice feature of gtk-parasite is that it allows us to apply CSS styles glo
 .tile:nth-child( 40){ background: pink; }
 ```
 
+* The final product after applying the styles looks like this:
 [![](/assets/images/mines/css-small.png)](/assets/images/mines/css.png)
