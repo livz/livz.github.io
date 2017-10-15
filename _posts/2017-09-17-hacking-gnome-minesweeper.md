@@ -157,7 +157,6 @@ $20 = 0x0
 ```
 
 * Note that mines are actually placed on the map on first attempt to clear a spot. So run the previous procedure only after a few spots have already been revealed.
-
 * Below is the full GDB script that can be used to reveal al lthe mines. While debugging, stope the execution (Ctrl+C) and define the following function:
 ```c
 define discover_minefield    
