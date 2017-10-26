@@ -1,5 +1,5 @@
 ---
-title: GiT basic survival cheat-sheet
+title: Git basic survival cheat-sheet
 layout: cheat_sheet
 date: 2015-06-10
 ---
