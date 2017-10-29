@@ -29,24 +29,25 @@ If you want to know more about the techniques to bypass the NX bit, make usre to
 ## 0 - Discovery
 Let's connect to the server and check the binary we're dealing with:
 ```
-$ ssh level5@hacking.certifiedsecure.com -p 8266
-level4@hacking.certifiedsecure.com's password: 
-Welcome to Ubuntu 14.04.5 LTS (GNU/Linux 3.13.0-119-generic x86_64)
+$ ssh level1@hacking.certifiedsecure.com -p 8267
+level1@hacking.certifiedsecure.com's password: 
+Welcome to Ubuntu 14.04.5 LTS (GNU/Linux 3.13.0-133-generic x86_64)
 
  * Documentation:  https://help.ubuntu.com/
 
-New release '16.04.2 LTS' available.
-Run 'do-release-upgrade' to upgrade to it.
+0 packages can be updated.
+0 updates are security updates.
 
-   ___  _                      __  ___         __              
-  / _ )(_)__  ___ _______ __  /  |/  /__ ____ / /____ ______ __
- / _  / / _ \/ _ `/ __/ // / / /|_/ / _ `(_-</ __/ -_) __/ // /
-/____/_/_//_/\_,_/_/  \_, / /_/  /_/\_,_/___/\__/\__/_/  \_, / 
-                     /___/                 _            /___/  
-                             ___ ___  ___ (_)__ ____ 
-                            / -_) _ \(_-</ / _ `/ _ \
-                            \__/_//_/___/_/\_, /_//_/
-                                          /___/      
+   ___  _                    __  ___          __              
+  / _ )(_)___ ___ _______ __/  |/  /___ ____ / /____ ______ __
+ / _  / // _ | _ `/ __/ // / /|_/ // _ `(_-</ __/ -_) __/ // /
+/____/_//_//_|_,_/_/  \_, /_/  /_/ \_,_/___/\__/\__/_/  \_, / 
+                     /___/                             /___/  
+
+             ___           __                   __ 
+            / (_)___ __ __/ /____ ___ ___ ____ / /_
+           / / // -_) // / __/ -_) _ | _ `/ _ | __/
+          /_/_/ \__/\_,_/\__/\__/_//_|_,_/_//_|__/ 
 ```
 
 Let's see if we have any mitigation techniques using [checksec.sh](http://www.trapkit.de/tools/checksec.html), downloaded and run locally:
