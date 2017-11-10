@@ -157,9 +157,7 @@ printf("\n Size of string: %d. String length: %d.\n", sizeof(String), strlen(Str
 char *ptr = "Hello";
 printf("For ptr: sizeof = %u, strlen = %u.\n", sizeof ptr, strlen(ptr));
   ```
-  * __*strlen()* is NOT safe to call!__:
-    * Unless you positively know that the string IS null-terminated.
-    * When you call strlen() on an improperly terminated string, strlen scans until a null character is found and thus can scan outside the buffer if string is not null-terminated. usually this results in a segmentation fault or bus error.
+  * __*strlen()* is NOT safe to call!__ - Unless you positively know that the string IS null-terminated. When you call strlen() on an improperly terminated string, strlen scans until a null character is found and thus can scan outside the buffer if string is not null-terminated. usually this results in a segmentation fault or bus error.
   
 ## Good external links
 1. [Defensive programming](http://en.wikipedia.org/wiki/Defensive_programming)
