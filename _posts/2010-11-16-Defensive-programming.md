@@ -80,7 +80,6 @@ A good reference for C++ is [Google C++ Style Guide](https://google.github.io/st
 
 ## Case study 
 1. **Initial version** - _PF_SafeStrCpy_ function:
-
 ```c
 /* 
 ** This function copies the null terminated string str2 to str1. 
@@ -109,14 +108,11 @@ IM_word len1)
 }
 ```
 2. **Problem discovered** - A simple test proves that this function is not so safe though. The call to _PF_SafeStrCpy (str1, str2, 100);_ goes through the _else_ branch and writes past the end of _str1_:
-
-
 ```c
 char str1 [100]; 
 char str2 [100]; /* strlen (str2) == 99 */
 ```
 3. **Corrected version**:
-
 ```c
 /**
 * \see PF_Basic.h 
@@ -146,27 +142,24 @@ As a rule of thumb, the return string buffer must be at least large enough to ho
 * If the final character (i.e., _sizeof(dest) - 1_) of dest is no longer null, then the buffer was overrun.
 
 6. **Observations**
-* **strlen() vs sizeof()** - The code below prints *Size of string: 6. String length: 5*:
-
-```c
+  * **strlen() vs sizeof()** - The code below prints *Size of string: 6. String length: 5*:
+  ```c
 char String[]="Hello";
 printf("\n Size of string: %d. String length: %d.\n", sizeof(String), strlen(String) );
 ```
-* **Non NULL-terminated strings** - The code below prints: *Size of string: 5. String length: 19*. String length is unknown. The function _strlen()_ searches until it finds a NULL terminator:
-
-```c
+  * **Non NULL-terminated strings** - The code below prints: *Size of string: 5. String length: 19*. String length is unknown. The function _strlen()_ searches until it finds a NULL terminator:
+  ```c
 char String[5] = { 'H', 'e', 'l', 'l', 'o' };
 printf("\n Size of string: %d. String length: %d.\n", sizeof(String), strlen(String) );
-```
-* **strlen() with pointers** - The code below prints: *For ptr: sizeof = 4, strlen = 5*. _ptr_ is a pointer, so _sizeof(ptr)_ is the size of the pointer, in this case 4 bytes:
-
-```c
+  ```
+  * **strlen() with pointers** - The code below prints: *For ptr: sizeof = 4, strlen = 5*. _ptr_ is a pointer, so _sizeof(ptr)_ is the size of the pointer, in this case 4 bytes:
+  ```c
 char *ptr = "Hello";
 printf("For ptr: sizeof = %u, strlen = %u.\n", sizeof ptr, strlen(ptr));
-```
-* __*strlen()* is NOT safe to call!__:
-  * Unless you positively know that the string IS null-terminated.
-  * When you call strlen() on an improperly terminated string, strlen scans until a null character is found and thus can scan outside the buffer if string is not null-terminated. usually this results in a segmentation fault or bus error.
+  ```
+  * __*strlen()* is NOT safe to call!__:
+    * Unless you positively know that the string IS null-terminated.
+    * When you call strlen() on an improperly terminated string, strlen scans until a null character is found and thus can scan outside the buffer if string is not null-terminated. usually this results in a segmentation fault or bus error.
   
 ## Good external links
 1. [Defensive programming](http://en.wikipedia.org/wiki/Defensive_programming)
