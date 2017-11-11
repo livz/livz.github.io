@@ -38,24 +38,6 @@ Acquiring the MBR can be done also with **dd** command (from [UnxUtils](http://u
 
 Then, the following small python script can be used to extract information, similar with file utility:
 ```python
-Skip to content
-This repository
-Search
-Pull requests
-Issues
-Marketplace
-Explore
- @livz
- Sign out
- Stop ignoring 0
-  Star 0  Fork 0 livz/py-misc-scripts
- Code  Issues 0  Pull requests 0  Projects 0  Insights  Settings
-Branch: master Find file Copy pathpy-misc-scripts/parse_mbr.py
-3077a73  on 18 Jun 2012
- liviu - fix parse boot sig
-0 contributors
-RawBlameHistory    
-134 lines (109 sloc)  4.2 KB
 ''' Decode partition table from MBR file
     In: file containing MBR data. Obtained with:
     dd if=/dev/sda of=mbr count=512   (on Linux)
