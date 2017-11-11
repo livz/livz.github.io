@@ -1,11 +1,11 @@
 ---
-title:  "Parsing the MbR"
+title:  "Parsing the MBR"
 ---
 
 ![Logo](/assets/images/mbr.png)
 
 ## Overview
-The Master Boot Record([MBR](http://en.wikipedia.org/wiki/Master_boot_record)) contains the boot code and information about the partition table. It resides in the first 512 bytes (first sector) of a bootable disk.  The boot loader is in the **first 446 bytes of MBR**. A backup of MBR can help recover after a partition table corruption. Let's understand the MBR info and disk geometry in an easy way.
+The Master Boot Record ([MBR](http://en.wikipedia.org/wiki/Master_boot_record)) contains the boot code and information about the partition table. It resides in the first 512 bytes (first sector) of a bootable disk.  The boot loader is in the **first 446 bytes of MBR**. A backup of MBR can help with recovery after a partition table corruption. Let's understand the MBR info and disk geometry in a structured way.
 
 ## Linux: *dd* and *file* commands
 
@@ -189,6 +189,31 @@ if __name__=="__main__":
     
     f.close()
 ```    
+
+On [this](/assets/misc/mbr) mbr file, it will recognise the following structure:
+```bash
+ ~ python parse_mbr.py -i mbr
+Read: 512 bytes
+Read MBR signature: 0xAA55
+Correct MBR signature
+Disk signature: 0x0009DA9A
+
+Non bootable
+CHS of first sector: 0 32 33
+Part type: 0x83
+CHS of last sector: 1023 254 63
+LBA of first absolute sector: 2048
+Number of sectors in partition: 39061504
+
+Bootable
+CHS of first sector: 1023 254 63
+Part type: 0x07
+CHS of last sector: 1023 254 63
+LBA of first absolute sector: 39070080
+Number of sectors in partition: 44998065
+
+[...]
+```
 
 ### Other useful tools in Windows
 
