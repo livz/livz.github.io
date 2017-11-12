@@ -59,7 +59,7 @@ This is similar to sealing of an envelope with a personal wax seal. The message 
 
 ## 5. Deriving keys from passwords
 
-## Explanation
+### Explanation
 Lots of programs we're using to encrypt and protect our data (Wi-Fi Protected Access, WinZip, Word, TrueCrypt, EFS, ..) use very long keys (128 bits, 160 bits, 256 bits, ...) for the encryption algorithms. But we don't have to remember those exceedingly long keys. Insted we enter a password to secure things, and that same password to access them. The process of deriving a key from a password is standardized as [Password-Based Key Derivation Function](https://en.wikipedia.org/wiki/PBKDF2). Basically this applies a pseudo-random function (such as a cryptographic hash, or HMAC) to the input passphrase, _along with a salt value_ and repeats the process many times to produce a derived key. Adding a salt reduces the ability to use precomputed hashes (rainbow tables).
 
 ## 6. Blind signatures
