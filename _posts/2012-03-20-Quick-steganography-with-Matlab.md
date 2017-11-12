@@ -159,7 +159,7 @@ end
 
 
 
-B. DCT Steganography
+## DCT Steganography
 * This idea of hiding information in DCT coefficients is implemented by the [JSTEG](https://zooid.org/~paul/crypto/jsteg/) tool, which is the software from Independent JPEG Group JPEG, modifed for 1-bit steganography, developed by Derek Upham. Its  source is readily available. From the README file, *The JPEG encoding procedure divides an image into 8x8 blocks of pixels in the YCbCr colorspace.  Then they are run through a __discrete cosine transform (DCT)__ and the resulting frequency coefficients are scaled to remove the ones which a human viewer would not detect under normal conditions.  If steganographic data is being loaded into the JPEG image, the loading occurs after this step.  __The lowest-order bits of all non-zero frequency coefficients are replaced with successive bits from the steganographic source file__, and these modified coefficients are sent to the Huffmann coder.*
 * It's a variation of Least significant Bit steganography, using DCT quantization coefficients.
 * [This website](http://www.guillermito2.net/stegano/jsteg/index.html) describes the whole process very clearly + a tool for extraction (not detection)
