@@ -1,5 +1,5 @@
 ---
-title:  "Nebula Wargame Walkthrough"
+title:  "[CTF] Nebula Wargame Walkthrough"
 ---
 
 ![Logo](/assets/images/nebula.jpg)
