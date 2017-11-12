@@ -6,10 +6,10 @@ title:  "Quick Steganography with Matlab"
 
 ## Overview
 Although there are many ways to conceal information within media file types, in this blog I want to talk about implementing two such techniques in Matlab: 
-1. The well-known LSB technique 
+1. The well-known LSB technique.
 2. A lesser known but very interesting technique using *DCT quantization quotients* from JPEG compression algorithms.
 
-This research is part of a project to implement *eraseable and semi-fragile watermarks* using Matlab, and the full source code for all the modules is available [here](https://github.com/livz/watermark-steg).
+This research is part of a project to implement __*eraseable and semi-fragile watermarks*__ using Matlab, and the full source code for all the modules is available [here](https://github.com/livz/watermark-steg).
 
 ## LSB (Least Significant Bit) Steganography
 
@@ -165,7 +165,8 @@ end
 
 
 ## DCT Steganography
-* This idea of hiding information in DCT coefficients is implemented by the [JSTEG](https://zooid.org/~paul/crypto/jsteg/) tool, which is the software from Independent JPEG Group JPEG, modifed for 1-bit steganography, developed by Derek Upham. Its  source is readily available. From the README file, *The JPEG encoding procedure divides an image into 8x8 blocks of pixels in the YCbCr colorspace.  Then they are run through a __discrete cosine transform (DCT)__ and the resulting frequency coefficients are scaled to remove the ones which a human viewer would not detect under normal conditions.  If steganographic data is being loaded into the JPEG image, the loading occurs after this step.  __The lowest-order bits of all non-zero frequency coefficients are replaced with successive bits from the steganographic source file__, and these modified coefficients are sent to the Huffmann coder.*
+* This idea of hiding information in DCT coefficients is implemented by the [JSTEG](https://zooid.org/~paul/crypto/jsteg/) tool, which is the software from Independent JPEG Group JPEG, modifed for 1-bit steganography, developed by Derek Upham. Its  source is readily available. From the README file:
+> The JPEG encoding procedure divides an image into 8x8 blocks of pixels in the YCbCr colorspace.  Then they are run through a __discrete cosine transform (DCT)__ and the resulting frequency coefficients are scaled to remove the ones which a human viewer would not detect under normal conditions.  If steganographic data is being loaded into the JPEG image, the loading occurs after this step.  __The lowest-order bits of all non-zero frequency coefficients are replaced with successive bits from the steganographic source file__, and these modified coefficients are sent to the Huffmann coder.
 * It's a variation of Least significant Bit steganography, using DCT quantization coefficients.
 * [This website](http://www.guillermito2.net/stegano/jsteg/index.html) describes the whole process very clearly + a tool for extraction (not detection)
 * Phil Sallee's [**_JPEG Toolbox for Matlab_**](http://www.philsallee.com/jpegtbx/index.html) can be used to access the DCT coefficients (and other cool stuff not available directly from Matlab  like _quantization tables, Huffman coding tables, color space information, and comment markers_). In the JPEG encoding process, these coefficients are quantized (1), zig-zag ordered (2) and then compressed, Run-Length-Encding and Hufffman (3), so they aren't accessible from Matlab directly. 
