@@ -6,7 +6,7 @@ title:  "[CTF] Nebula Wargame Walkthrough"
 
 ## Overview
 
-Recently at work someone introduced a modified version of the [Nebula](https://exploit-exercises.com/nebula/) wargame.  The goal of the game is local privilege escalation on a Linux machine (a virtual machine is provided). It's very interesting and covers many areas: SUID files, race conditions, format string vulnerabilities, library manipulations, etc. It comprises 20 levels and solutions to some of them are already posted on different sites. Keep in mind that many levels can be solved in different ways. So here's mine.
+Recently at work someone introduced a modified version of the [Nebula](https://exploit-exercises.com/nebula/) wargame.  The goal of the game is local privilege escalation on a Linux machine (a virtual machine is provided). It's very interesting and covers many areas: SUID files, race conditions, format string vulnerabilities, library manipulations, etc. It comprises 20 levels and solutions to some of them are already posted on different sites. Keep in mind netthat many levels can be solved in different ways. So here's mine.
 
 ## Level 0
 The instructions here are pretty clear: _find a Set User ID program that will run as the "flag00" account"_.
@@ -462,7 +462,7 @@ You have successfully executed getflag on a target account
 
 Nice! Any command can be injected this way.
 
-### Level 18
+## Level 18
 Here we have a [vulnerable C program](https://exploit-exercises.com/nebula/level18/) and we're told there are 3 ways to exploit it: an easy way, an intermediate way and a more difficult/unreliable way. First some things that didn't work (for me) and need further investigation. There is a possible buffer overflow in the code that parses the input for the _`setuser`_ command:
 ```c
 char msg[128];
