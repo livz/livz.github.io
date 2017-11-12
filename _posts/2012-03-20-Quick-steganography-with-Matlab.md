@@ -2,7 +2,7 @@
 title:  "Quick Steganography with Matlab"
 ---
 
-![Logo](/assets/images/stego.png)
+![Logo](/assets/images/hidden.jpg)
 
 Although there are many ways to conceal information within media file types, in this blog I want to talk about two such implementations in Matlab: one for the well-known LSB technique and another one less well-known but very interesting -  *DCT quantization quotients* used in JPEG compression algorithms. This research is part of a project to implement *eraseable and semi-fragile watermarks* using Matlab, and the full source code for all the modules is available [here](https://github.com/livz/watermark-steg).
 
@@ -165,18 +165,10 @@ B. DCT Steganography
 
 * It's a variation of Least significant Bit steganography, using DCT quantization coefficients.
 
-* [Thi website](http://www.guillermito2.net/stegano/jsteg/index.html) describes the whole process very clearly + a tool for extraction (not detection), at [1]
-The JEG Toolbox for Matlab can be used to access the DCT coefficients (and other cool stuff not available directly from Matlab  like quantization tables, Huffman coding tables, color space information, and comment markers). In the JPEG encoding process, these coefficients are quantized, zig-zag ordered and then compressed (Run-Length-Encding + Hufffman), so they aren't accessible from Matlab directly. 
-There are techniques for detection and defeating this method of steganography. An analysis presented in [7]
+* [Thi website](http://www.guillermito2.net/stegano/jsteg/index.html) describes the whole process very clearly + a tool for extraction (not detection)
 
-This concept (using the last significant bit of something) is general, and applies not only to RGB bmps, but to many kinds of  images, audio, video, etc. Implementation is simple [3].
+* Phil Sallee's [**_JPEG Toolbox for Matlab_**](http://www.philsallee.com/jpegtbx/index.html) can be used to access the DCT coefficients (and other cool stuff not available directly from Matlab  like _quantization tables, Huffman coding tables, color space information, and comment markers_). In the JPEG encoding process, these coefficients are quantized (1), zig-zag ordered (2) and then compressed, Run-Length-Encding and Hufffman (3), so they aren't accessible from Matlab directly. 
 
+* There are techniques for detection and defeating this method of steganography. An analysis presented in J.R. Krenn's [Steganography and Steganalysis](http://www.krenn.nl/univ/cry/steg/article.pdf)
 
-
-B. DCT Steganography
-
-This idea of hiding information in DCT coefficients is implemented by the JSTEG tool, which is the software from Independent JPEG Group JPEG, modifed for 1-bit steganography, developed by Derek Upham. The source is available here. From the README file, ' The JPEG encoding procedure divides an image into 8x8 blocks of pixels in the YCbCr colorspace.  Then they are run through a discrete cosine transform (DCT) and the resulting frequency coefficients are scaled to remove the ones which a human viewer would not detect under normal conditions.  If steganographic data is being loaded into the JPEG image, the loading occurs after this step.  The lowest-order bits of all non-zero frequency coefficients are replaced with successive bits from the steganographic source file, and these modified coefficients are sent to the Huffmann coder.'
-It's a variation of LSB steganography, using DCT quantization coefficients.
-Clearly detailed process + a tool for extraction (not detection), at [1]
-The JEG Toolbox for Matlab can be used to access the DCT coefficients (and other cool stuff not available directly from Matlab  like quantization tables, Huffman coding tables, color space information, and comment markers). In the JPEG encoding process, these coefficients are quantized, zig-zag ordered and then compressed (Run-Length-Encding + Hufffman), so they aren't accessible from Matlab directly. 
-There are techniques for detection and defeating this method of steganography. An analysis presented in [7]
+* Since the code for the full implementation of DCT steganography,including embedding, detecting and extracting of hidden data is too large to be included in the post, it can be consulted [here](https://github.com/livz/watermark-steg)
