@@ -5,7 +5,11 @@ title:  "Quick Steganography with Matlab"
 ![Logo](/assets/images/hidden.jpg)
 
 ## Overview
-Although there are many ways to conceal information within media file types, in this blog I want to talk about two such implementations in Matlab: one for the well-known LSB technique and another one less well-known but very interesting -  *DCT quantization quotients* used in JPEG compression algorithms. This research is part of a project to implement *eraseable and semi-fragile watermarks* using Matlab, and the full source code for all the modules is available [here](https://github.com/livz/watermark-steg).
+Although there are many ways to conceal information within media file types, in this blog I want to talk about implementing two such techniques in Matlab: 
+1. The well-known LSB technique 
+2. A less well-known but very interesting technique using *DCT quantization quotients* from JPEG compression algorithms.
+
+This research is part of a project to implement *eraseable and semi-fragile watermarks* using Matlab, and the full source code for all the modules is available [here](https://github.com/livz/watermark-steg).
 
 ## LSB (Least Significant Bit) Steganography
 
