@@ -12,7 +12,6 @@ title:  "Extracting GNOME Keyring Credentials"
 * The analogous application for KDE is [KWallet](https://utils.kde.org/projects/kwalletmanager/), which workes by the same principles. Oh, and there are python bindings is a python binding for this too.
 
 ## Dump keyring credentials using Python
-
 ```python
 #
 # Dumps all keys stored in Ubuntu keyrings
@@ -50,4 +49,4 @@ def extract_keys():
  
 if __name__ == '__main__':
     extract_keys()
-    ```
+```
