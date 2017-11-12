@@ -2,7 +2,7 @@
 title:  "Extracting GNOME Keyring Credentials"
 ---
 
-![Logo](/assets/images/keyring.jpg)
+![Logo](/assets/images/seal.jpg)
 
 ## Context
 * Gnome Keyring is a (good:wink:) daemon that stores different security credentials encrypted in a file in the user’s home directory. It uses the login password for encryption, and after the keyring is decrypted at logon, the password is no longer necessary in the current user’s context. 
