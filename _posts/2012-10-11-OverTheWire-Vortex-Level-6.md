@@ -6,7 +6,7 @@ title:  "[CTF] OverTheWire Vortex Level 6"
 
 ## Context
 
-For [this level](http://overthewire.org/wargames/vortex/vortex6.html) we have just the binary is available, not the source code and some reversing tutorials are suggested. First, we'll download it and study it locally with _`gdb`_.
+For [this level](http://overthewire.org/wargames/vortex/vortex6.html) we have just the binary, not the source code and some reversing tutorials are suggested. First, we'll download it and study it locally with _`gdb`_.
 ```bash
 (gdb) set disassembly-flavor intel
 (gdb) disassemble main 
