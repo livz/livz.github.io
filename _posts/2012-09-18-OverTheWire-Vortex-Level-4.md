@@ -17,13 +17,13 @@ int main(int argc, char **argv)
 ```
 
 ## 1. Bypass the check for arguments count
-The program exits if the _`argc`_ variable is different than 0. _`argc`_ represents the length of _`argv`_ array, which has on the first position the program name (the name appearing on top and like utilities, for example). So argc is always >=1.
+The program exits if the _`argc`_ variable is different than 0. _`argc`_ represents the length of _`argv`_ array, which has on the first position the program name (the name appearing on top and like utilities, for example). So _`argc`_ is always >=1.
 But If we know how arguments and environment variables are passed to the main function when executing the binary,  we can bypass the verification and also pass something meaningful to _`printf`_ in _`argv[3]`_ argument.  The stack looks like this:
 ```
 | argc | argv[0] | argv[1] ... |argv[argc-1]| NULL |env[0]|...|env[n]|NULL|
 ```
 
-Where the first _`NULL`_ indicates the end of the _`argv`_ array, and the second one the end of the environment variables array. So if we pass _`NULL_` as the _`argv`_ array, when the program tries to access _`argv[3]`_, it will in fact access _`env[2]`_, because the stack would look like this (_`argv[0]`_ points to the _`NULL`_ byte):
+Where the first _`NULL`_ indicates the end of the _`argv`_ array, and the second one the end of the environment variables array. So if we pass _`NULL`_ as the _`argv`_ array, when the program tries to access _`argv[3]`_, it will in fact access _`env[2]`_, because the stack would look like this (_`argv[0]`_ points to the _`NULL`_ byte):
 ```
 | 0 | NULL | env[0] | env[1] | env[2] | ...
 ```
