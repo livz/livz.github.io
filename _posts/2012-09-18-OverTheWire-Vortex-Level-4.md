@@ -91,7 +91,7 @@ Relocation section '.rel.plt' at offset 0x294 contains 4 entries:
 0804a00c  00000407 R_386_JUMP_SLOT   00000000   exit
 ```
 
-## 4.Shellcode
+## 4. Shellcode
 We'll place a shellcode (I've used the same 32 bytes I've used in the previous level, _`setuid + execve`_) in  the environment variable, with a big NOP sled before (I've used 500 bytes). In the format string before, try to overwrite the address we found above, _`0x0804a00c`_ (which I've actually replaced in 4 bytes: _`0x0804a00c`_, _`0x0804a00d`_, _`0x0804a00e`_, _`0x0804a00f`_). 
 
 This was the hardest part. I've made a Python wrapper over the C wrapper containing the _`execve`_ instruction, that passes and brute-forces different format strings.
@@ -173,7 +173,7 @@ int main(int argc, char **args) {
 }
 ```
 
-## 5. Putting all the pieces together
+## 5. Put all the pieces together
 ```bash
 vortex4@melissa:/tmp$ vim myl4.c
 vortex4@melissa:/tmp$ vim myl4.py
