@@ -92,15 +92,15 @@ Relocation section '.rel.plt' at offset 0x294 contains 4 entries:
 ```
 
 ## 4.Shellcode
-We'll place a shellcode (I've used the same 32 bytes I've used in the previous level, _`setuid + execve`_) in  the environment variable, with a big NOP sled before (I've used 500 bytes). In the format string before, try to overwrite the address we found above, _`0x0804a00c`_ (which I've actually replaced in 4 bytes: _`0x0804a00c`_, _`0x0804a00d`_, _`0x0804a00e`_, _`0x0804a00f`_. 
+We'll place a shellcode (I've used the same 32 bytes I've used in the previous level, _`setuid + execve`_) in  the environment variable, with a big NOP sled before (I've used 500 bytes). In the format string before, try to overwrite the address we found above, _`0x0804a00c`_ (which I've actually replaced in 4 bytes: _`0x0804a00c`_, _`0x0804a00d`_, _`0x0804a00e`_, _`0x0804a00f`_). 
 
-This was actually the hardest part. I've made a Python wrapper over the C wrapper containing the _`execve`_ instruction, that passes and brute-forces different format strings.
+This was the hardest part. I've made a Python wrapper over the C wrapper containing the _`execve`_ instruction, that passes and brute-forces different format strings.
 
-A good exercise to test the vulnerability is to first try to read memory (using _`%x`_ or _`%s`_ instead of _`%n`_ for writing), to find the actual position of the format string on the stack. I actually found that I needed 106 bytes to get to the format string on the stack. A trick that can be used here: direct parameter access in printf ($), detailed in the [Single Unix Specification ](http://pubs.opengroup.org/onlinepubs/7908799/xsh/fprintf.html). For me, I could access the format string with the following parameter:
+A good exercise to test the vulnerability is to first try to read memory (using _`%x`_ or _`%s`_ instead of _`%n`_ for writing), to find the actual position of the format string on the stack. I actually found that I needed 106 bytes to get to the format string on the stack. A trick that can be used here: direct parameter access in printf (using **$**), detailed in the [Single Unix Specification ](http://pubs.opengroup.org/onlinepubs/7908799/xsh/fprintf.html). For me, I could access the format string with the following parameter:
 ```bash
 fmt = "AAAABBBBCCCCDDDD..." + "%106$x%107$x%108$x%109$x"
 ```
-I've adjusted it with fillers ('.'), and tuned the offset until reach the correct one, 106. The Python brute-forcing script:
+I've adjusted it with fillers ('.'), and tuned the offset until I reached the correct one, 106. The Python brute-forcing script:
 ```python
 import subprocess
  
