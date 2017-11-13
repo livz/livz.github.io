@@ -1,5 +1,5 @@
 ---
-title:  "[CTF] OverTheWire vortex Level 0"
+title:  "[CTF] OverTheWire Vortex Level 0"
 ---
 
 ![Logo](/assets/images/vortex0.png)
