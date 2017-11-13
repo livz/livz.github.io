@@ -169,11 +169,11 @@ int main(int argc, char **args) {
  
  execve(exe, argv, env);
   
- return 0;
+ return 0;actually
 }
 ```
 
-## 5. Putting pieces together: 
+## 5. Putting all the pieces together
 ```bash
 vortex4@melissa:/tmp$ vim myl4.c
 vortex4@melissa:/tmp$ vim myl4.py
