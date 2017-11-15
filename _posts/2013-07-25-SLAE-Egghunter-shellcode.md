@@ -19,7 +19,7 @@ I've implemented the 3 methods described in the paper:
 For the purpose of this post, I'll detail my slightly modified version of the _`sigaction()`_ egghunter:
 * **sigaction() reloaded** - the smallest version (__*only 28 bytes*__). I've replaced the double check for the egg with only one check. To avoid finding the egg in the comparison from the shellcode, I've applied a small transform before searching for it (_`inc eax`_ in this case, but could be any other 1 bytecode operation also - e.g. shifting bytes).
 
-```asm
+```c
 global _start   
 
 section .text
