@@ -1,5 +1,5 @@
 ---
-title:  "[SLAE] Assignment 4 - Custom Encoding Scheme"
+title:  "[SLAE 4] Custom Encoding Scheme"
 ---
 
 ![Logo](/assets/images/tux-root.png)
