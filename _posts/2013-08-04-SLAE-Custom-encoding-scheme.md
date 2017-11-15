@@ -155,7 +155,6 @@ $ ./shellcode
 Shellcode Length:  112 bytes
 $ whoami
 liv
-$
 ```
 
 # 
