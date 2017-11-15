@@ -69,7 +69,7 @@ print 'Initial len: %d, encoded len: %d' % (len(shellcode),
 ```
 
 The decoding is done in the assembly shellcode: 
-```assembly
+```c
 global _start   
 
 section .text
