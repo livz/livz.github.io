@@ -1,5 +1,5 @@
 ---
-title:  "[SLAE] Assignment 5 - Metasploit Shellcode Analysis"
+title:  "[SLAE 5] Metasploit Shellcode Analysis"
 ---
 
 ![Logo](/assets/images/tux-root.png)
