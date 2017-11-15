@@ -103,7 +103,7 @@ execve("/bin/sh", ["/bin/sh"], [/* 0 vars */]) = 0
 
 The next step is to reproduce these system calls in assembly language and get the shellcode:
 
-```asm
+```c
 ; SLAE - Assignment 1
 ;
 ; Shell Bind TCP
