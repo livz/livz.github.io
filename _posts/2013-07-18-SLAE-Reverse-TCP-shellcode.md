@@ -84,7 +84,7 @@ And in another terminal executed the reverse shellcode:
 $ ./shell_reverse_tcp
 ```
 
-Sure-enough,the listener received a remote connection:
+Sure enough, the listener received a remote connection:
 ```bash
 Listening on [0.0.0.0] (family 0, port 8888)
 Connection from [127.0.0.1] port 8888 [tcp/*] accepted (family 2, sport 60226)
