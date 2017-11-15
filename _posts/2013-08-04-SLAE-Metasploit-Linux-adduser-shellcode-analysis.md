@@ -10,7 +10,7 @@ This post is part of the 5th assignment of the SLAE course and will analyse the 
 # msfpayload linux/x86/adduser USER=jsmith PASS=ok  C
 ```
 
-This will generate a payload that will create a new -`root`_ user, with uid and gid equal to 0. 
+This will generate a payload that will create a new _`root`_ user, with uid and gid equal to 0. 
 ```c
 /*
  * linux/x86/adduser - 93 bytes
