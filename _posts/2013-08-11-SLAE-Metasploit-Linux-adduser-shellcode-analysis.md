@@ -114,7 +114,7 @@ We then have to disassemble the instructions starting after the end of string (e
 ```
 
 Finally the shellcode calls the exit function to cleanly finish execution: 
-```asm
+```assembly
 00000058  6A01              push byte +0x1
 0000005A  58                pop eax         ; sys_exit syscall
 0000005B  CD80              int 0x80
@@ -124,4 +124,4 @@ Finally the shellcode calls the exit function to cleanly finish execution:
 
 The complete source files and scripts mentioned in this post can be found in my [SLAE Git repository](https://github.com/livz/slae).
 
-##### _This blog post has been created for completing the requirements of the [SecurityTube Linux Assembly Expert certification](www.securitytube-training.com/online-courses/securitytube-linux-assembly-expert/)_
+**_This blog post has been created for completing the requirements of the [SecurityTube Linux Assembly Expert certification](www.securitytube-training.com/online-courses/securitytube-linux-assembly-expert/)_**
