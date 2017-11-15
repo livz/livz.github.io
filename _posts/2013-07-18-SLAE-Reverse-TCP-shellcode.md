@@ -105,7 +105,7 @@ execve("/bin/sh", ["/bin/sh"], [/* 0 vars */]) = 0
 ```
 
 Next is the commented assembly source code implementing the system calls from above:
-```assembly
+```c
 global _start   
 
 section .text
