@@ -6,8 +6,9 @@ title:  "[SLAE 6] Polymorphic Shellcodes"
 
 For this assignment I've taken 3 shellcodes from  [Shell-Storm](http://shell-storm.org/) and modified them to avoid detection by pattern matching, thus achieving polymorphism (kind of, more on this later). Some techniques I've used to do this:
 
-* Add garbage/nop-like instructions
-```
+* Add garbage/nop-like instructions:
+
+```c
 nop
 
 mov al,al  
@@ -39,15 +40,15 @@ mov al, 0xb	| push byte 0xb	| xor eax, eax
 push	| mov + add + push
 :---:|:---:
 push 0x23456789	| mov esi, 0x12345678
-- | add esi, 0x11111111
-- | push esi
+  - | add esi, 0x11111111
+  - | push esi
 
 * Change between _`push`_ and directly accessing the stack:
 
-:---:|:---:
 push	| stack access
+:---:|:---:
 push 0x64777373	| mov dword [esp-4], 0x64777373
-- | sub esp, 4
+  - | sub esp, 4
 
 ## Execve()
 
