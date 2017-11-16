@@ -14,7 +14,7 @@ Before being able to register for the CTP training, you're required to pass a sh
 
 ## Study
 
-After reading through other reviews, I didn't dive straight into the course after the challenge. I prepared by going through various exploit development resources. The following sites group together a lot of techniques and are very detailed and relevant:
+After reading through other reviews, I didn't dive straight into the course after the challenge. I prepared by going through various exploit development resources. There are many many places with good documentation but I wanted to list at least the following, which group together a lot of techniques and are very detailed and relevant:
 * [Corelan exploit development tutorials](https://www.corelan.be/index.php/articles/)
 * [FuzzySecurity Exploit tutorials](http://www.fuzzysecurity.com/exploits.html)
 
