@@ -11,7 +11,7 @@ When thinking about the security of encrypted Excel documents, I found a great a
 * Encryption in Excel 2002 and 2003 IS secure, but NOT when used with default settings!
 * Encryption in Excel 95, 97 and 2000 is NOT secure at all :)
 
-Instructions on how to make sure you're using the most secure algorithms and how to change the default settings in the referenced link. Another good reference on Excel 2007 Encryption Strength is [this discussion](https://security.stackexchange.com/questions/17702/excel-2007-encryption-strength)
+Instructions on how to make sure you're using the most secure algorithms and how to change the default settings in the referenced link. Another good reference on Excel 2007 Encryption Strength is [this discussion](https://security.stackexchange.com/questions/17702/excel-2007-encryption-strength).
 
 ## Setting password to open/modify
 Changing/removing the **_password to open_** a file is pretty straight-forward in Excel 2007-2010: File menu->Info->Encrypt with password. 
@@ -21,7 +21,7 @@ I found that changing the **_password to modify_** is not so straight-forward. T
 If the password is a dictionary word, then it's pretty easy to find it. I've made a small Visual Basic script to attack these 2 passwords (password to open and password to modify)  using words from a dictionary file. This could also be extended to something like the rules in [jtr](https://github.com/magnumripper/JohnTheRipper) to intelligently guess/brute-force passwords, possibly based on the very efficient [KoreLogic John rules](http://contest-2010.korelogic.com/rules.html). 
 
 Currently it's just a proof of concept, and it's very slow, but it could be extended to use more threads or optimized:
-```vbs
+```c
 ' *****************************************************************
 ' Dictionary attack on Excel passwords
 '
