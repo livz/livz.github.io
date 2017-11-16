@@ -21,7 +21,7 @@ I found that changing the **_password to modify_** is not so straight-forward. T
 If the password is a dictionary word, then it's pretty easy to find it. I've made a small Visual Basic script to attack these 2 passwords (password to open and password to modify)  using words from a dictionary file. I've used VB because it already had support for opening Excel and for passwords. It's good enough for a PoC. This could also be extended to something like the rules in [jtr](https://github.com/magnumripper/JohnTheRipper) to intelligently guess/brute-force passwords, possibly based on the very efficient [KoreLogic John rules](http://contest-2010.korelogic.com/rules.html). 
 
 Currently it's just a proof of concept, and it's very slow, but it could be extended to use more threads or optimized:
-```vbscript
+```vb
 ' *****************************************************************
 ' Dictionary attack on Excel passwords
 '
