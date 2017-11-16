@@ -4,7 +4,7 @@ title:  "Fair Result With Biased Coin"
 
 ![Logo](/assets/images/coin.png)
 
-Here's a nice short question: _How can you get fair results from tossing a biased coin?_ (but not completely biased though, with a side having 0 probability!). The solution given by von Neumann is as follows:
+Here's a nice short question: _How can you get fair results from tossing a biased coin?_ (but not completely biased though, with a side having 0 probability!). The [solution](http://en.wikipedia.org/wiki/Fair_coin#Fair_results_from_a_biased_coin) given by von Neumann is as follows:
 * Toss the coin twice.
 * If the results match, start over, forgetting both results.
 * If the results differ, use the first result, forgetting the second.
@@ -38,7 +38,3 @@ while cnt<200:
 # For p = 0.5 ev ~= cnt*2     
 print "Events needed to get X fair tosses: %d" % (ev)
 ```
-
-## References
-[Fair results from a biased coin](http://en.wikipedia.org/wiki/Fair_coin#Fair_results_from_a_biased_coin)
-
