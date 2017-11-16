@@ -108,7 +108,7 @@ objFile.close
 ## Usage
 
 An example of how to use it on a test document with these 2 passwords set:
-## 1. Find password to open:
+### 1. Find password to open:
 ```bash
 > cscript excel-pw-attack.vbs test.xls words_en.txt
 Microsoft (R) Windows Script Host Version 5.8
@@ -119,7 +119,7 @@ Using dictionary file: words_en.txt
 [+] Found password for opening: rock
 ```
 
-## 2. Find password to modify: 
+### 2. Find password to modify: 
 ```bash
 >cscript excel-pw-attack.vbs test.xls words_en.txt rock
 Microsoft (R) Windows Script Host Version 5.8
