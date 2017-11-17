@@ -14,38 +14,12 @@ The binary has all symbols stripped out and also has some basic anti-debugging t
 ```bash
 ~ file bonus_reverse-challenge
 bonus_reverse-challenge: ELF 32-bit LSB executable, Intel 80386, version 1 (SYSV), dynamically linked (uses shared libs), for GNU/Linux 2.6.24, BuildID[sha1]=0x2fe5f1647532449ffeef36a7fa31ae8319c8818d, stripped
+```
 
-The strings command reveals some interesting stuff: 
-?
-1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-22
-23
-24
-25
-26
-27
+The _`strings`_ command reveals some interesting stuff: 
+```bash
 $ strings bonus_reverse-challenge
-. . .
+[..]
 socket
 fflush
 exit
@@ -71,99 +45,77 @@ Are you feeling lucky today?
 [+] WooT!: %s
 [~] Maybe.
 [-] Nope.
-Some socket operations and file manipulation. Also an ASCII string with some XOR characters (^) in it (hint ?!). Interesting. We can brute force it quickly to see if we get something meaningful out of it: 
-?
-1
-2
-3
+```
+
+Some socket operations and file manipulation. Also an ASCII string with some XOR characters (**^**) in it (hint ?!). Interesting. We can brute force it quickly to see if we get something meaningful out of it: 
+```python
 enc = "xKZl_^_XCY^CIE"
 for key in range(0, 127):
     print "".join([chr(ord(c)^key) for c in enc])
-?
-1
-2
-3
+```
+
+Running the brute-force script yields some interesting results, but we'll still continue with the analysis
+```bash
 $ ./decr.py
-. . .
+[..]
 RapFuturistico
-Analysis
+```
+
+## Analysis
+
 If we start the application, we get a prompt and no hints about what to do next: 
-?
-1
-2
+```bash
 $ ./bonus_reverse-challenge
 Are you feeling lucky today?
-(The 'Yes' answer is not accepted by the application :) ) 
-If we try to analyse it in gdb, we encounter another error: 
-?
-1
-2
-3
-4
-5
+```
+The _Yes_ answer is not accepted by the application :) If we try to analyse it in _`gdb`_, we encounter another error: 
+```bash
 $ gdb ./bonus_reverse-challenge
 Reading symbols from /home/liv/buffer/coursera/Malicious software/Week3/bonus-challenge/bonus_reverse-challenge...(no debugging symbols found)...done.
 (gdb) run
 Starting program: /home/liv/buffer/coursera/Malicious software/Week3/bonus-challenge/bonus_reverse-challenge
 Dude, no debugging ;-)
-If we use the strace tool (same technique also used by gdb) we see exactly what happens: 
-?
-1
-2
-3
-4
-5
-6
+```
+
+Also if we use the _`strace`_ tool (which uses same technique as gdb to attach to processes) we see exactly what happens: 
+```bash
 $ strace ./bonus_reverse-challenge
-. . .
+[..]
 ptrace(PTRACE_TRACEME, 3215099972, 0xbfa287d4, 0) = -1 EPERM (Operation not permitted)
 fstat64(1, {st_mode=S_IFCHR|0620, st_rdev=makedev(136, 1), ...}) = 0
 mmap2(NULL, 4096, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0xb76fa000
 write(1, "Dude, no debugging ;-)\n", 23Dude, no debugging ;-)
-So the process tries to allow tracing, but as it is already traced (by strace) the ptrace system call returns -1.
-This is a classic anti-debugging technique which can by bypassed in multiple ways.
+```
 
-Reverse engineering
-First we have to get rid of the anti-ptrace protection. If we set a breakpoint in gdb at __libc_start_main and we step through some instructions, we find the code responsible for the ptrace system call: 
-?
-1
-2
-3
+So the process tries to allow tracing, but as it is already traced (by strace) the _`ptrace`_ system call returns -1. This is a classic anti-debugging technique which can by bypassed in multiple ways.
+
+## Reverse engineering
+
+First we have to get rid of the anti-ptrace protection. If we set a breakpoint in _`gdb`_ at _`__libc_start_main`_ and we step through some instructions, we find the code responsible for the _`ptrace`_ system call: 
+```bash
 EBX:  0x00000000 ; Type of request. 0 means PTRACE_TRACEME
 =>    0x8048938: mov al,0x1a ; sys_ptrace syscall
       0x804893a: int 0x80    ; interrupt to execute syscall
+```
 
 I chose to do a binary patching at this point, as there are only a few instructions which have to be removed to get rid of the ptrace syscall. In assembly the instructions look like this: 
-?
-1
-2
+```c
 8048938:    b0 1a                    mov al, 0x1a
 804893a:    cd 80                    int 0x80
+```
+
 We can get the dump of the whole file with 
-?
-1
+```bash
 $ objdump -M intel -d bonus_reverse-challenge
-We'll overwrite them with nops: 
-?
-1
-set *(unsigned long*)0x8048938 = 0x90909090
+```
+
+And then we'll overwrite the instructions above with nops: 
+```c
+(gdb) set *(unsigned long*)0x8048938 = 0x90909090
+```
 
 After some more browsing we find the code responsible with parsing the input from the user. It seems to be a case which calls a function then displays a message based on the first letter of the input string. And there are 3 possibilities: 
-?
-1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
+```c
 0x8048a18:    movzx  eax,BYTE PTR [esp+0x20] ; input string
 0x8048a1d:    movsx  eax,al              ; first letter !
 0x8048a20:    cmp    eax,0x42
@@ -178,17 +130,10 @@ After some more browsing we find the code responsible with parsing the input fro
 0x8048a47:    jmp    0x8048a58
 0x8048a49:    mov    DWORD PTR [esp+0x22c],0x80486ca ; check function for C..
 0x8048a54:    jmp    0x8048a58
+```
+
 We test this manually: 
-?
-1
-2
-3
-4
-5
-6
-7
-8
-9
+```bash
 $ ./bonus_reverse-challenge
 Are you feeling lucky today? A
 [~] Maybe.
@@ -198,32 +143,10 @@ Are you feeling lucky today? B
 $ ./bonus_reverse-challenge
 Are you feeling lucky today? C
 [~] Maybe.
-If we were to believe the developer, we should go for Asomething or Csomething and further analyse.
-Let's try Bsomething variant (A... is interesting for analyses also but doesn't get us to the key)
-We quickly find references to the encrypted string found initially and a comparing routine, which computes a key and applies XOR to the input string using that key: 
-?
-1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-22
+```
+
+If we were to believe the developer, we should go for *__Asomething__* or *__Csomething__* and further analyse. Let's try *__Bsomething__* variant (A is interesting also but doesn't get us to the key). We quickly find references to the encrypted string found initially and a comparing routine, which computes a key and applies XOR to the input string using that key: 
+```c
 0x8048664:    mov    DWORD PTR [ebp-0x10],0xfa ; key
 0x804866b:    pop    eax                       ; input string address
 0x804866c:    jmp    0x8048685
@@ -246,38 +169,37 @@ We quickly find references to the encrypted string found initially and a compari
 0x804869e:    mov    esi,edx
 0x80486a0:    mov    edi,eax
 0x80486a2:    repz cmps BYTE PTR ds:[esi],BYTE PTR es:[edi]
-?
-1
-2
-3
-4
-5
+```
+
+In pseudo-code, we have:
+```
 E(M, K) = "xKZl_^_XCY^CIE"
 Where:
   E - XOR encoding
   M - Input message after 'B' character
   K - Computed key: 0xFA && 0x2B = 0x2A  
+```
+
 We reverse the algorithm and get the input message we need: 
-?
-1
-2
+```python
 $ python -c 'print "".join([chr(ord(c)^0x2a) for c in "xKZl_^_XCY^CIE"])'
 RapFuturistico
+```
+
 So if the input string encodes to the string we found initially, the function returns 1 and we get a nice message: 
-?
-1
-2
-3
+```bash
 $ ./bonus_reverse-challenge
 Are you feeling lucky today? BRapFuturistico
 [+] WooT!: xKZl_^_XCY^CIE
+```
 
-Nice! Many thanks to the authors for putting together the course and the challenge.
+*__Nice! Many thanks to the authors for putting together the course and the challenge.__*
  
-References
-Linux Anti-Debugging
-Linux Syscall reference
-Executable patching with GDB
+## References
+
+[Linux Anti-Debugging](http://www.julioauto.com/rants/anti_ptrace.htm)
+[Linux Syscall reference](http://syscalls.kernelgrok.com/)
+[Executable patching with GDB](http://my.opera.com/taviso/blog/show.dml/248232)
 Posted by Liviu at 11:39 PM     
 Email This
 BlogThis!
