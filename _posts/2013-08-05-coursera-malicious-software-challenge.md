@@ -199,13 +199,3 @@ Are you feeling lucky today? BRapFuturistico
 [Linux Anti-Debugging](http://www.julioauto.com/rants/anti_ptrace.htm)
 [Linux Syscall reference](http://syscalls.kernelgrok.com/)
 [Executable patching with GDB](http://my.opera.com/taviso/blog/show.dml/248232)
-Posted by Liviu at 11:39 PM     
-Email This
-BlogThis!
-Share to Twitter
-Share to Facebook
-Share to Pinterest
-
-Labels: coursera, engineering, malicious, reverse, software
-Reactions: 	
-8 comments:
