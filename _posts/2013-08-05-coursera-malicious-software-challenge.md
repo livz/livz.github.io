@@ -182,13 +182,13 @@ Where:
 
 We reverse the algorithm and get the input message we need: 
 ```python
-$ python -c 'print "".join([chr(ord(c)^0x2a) for c in "xKZl_^_XCY^CIE"])'
+~ python -c 'print "".join([chr(ord(c)^0x2a) for c in "xKZl_^_XCY^CIE"])'
 RapFuturistico
 ```
 
 So if the input string encodes to the string we found initially, the function returns 1 and we get a nice message: 
 ```bash
-$ ./bonus_reverse-challenge
+~ ./bonus_reverse-challenge
 Are you feeling lucky today? BRapFuturistico
 [+] WooT!: xKZl_^_XCY^CIE
 ```
