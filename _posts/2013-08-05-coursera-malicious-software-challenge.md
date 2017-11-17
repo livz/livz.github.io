@@ -18,7 +18,7 @@ bonus_reverse-challenge: ELF 32-bit LSB executable, Intel 80386, version 1 (SYSV
 
 The _`strings`_ command reveals some interesting stuff: 
 ```bash
-$ strings bonus_reverse-challenge
+~ strings bonus_reverse-challenge
 [..]
 socket
 fflush
@@ -56,7 +56,7 @@ for key in range(0, 127):
 
 Running the brute-force script yields some interesting results, but we'll still continue with the analysis
 ```bash
-$ ./decr.py
+~ ./decr.py
 [..]
 RapFuturistico
 ```
@@ -65,7 +65,7 @@ RapFuturistico
 
 If we start the application, we get a prompt and no hints about what to do next: 
 ```bash
-$ ./bonus_reverse-challenge
+~ ./bonus_reverse-challenge
 Are you feeling lucky today?
 ```
 The _Yes_ answer is not accepted by the application :) If we try to analyse it in _`gdb`_, we encounter another error: 
@@ -79,7 +79,7 @@ Dude, no debugging ;-)
 
 Also if we use the _`strace`_ tool (which uses same technique as gdb to attach to processes) we see exactly what happens: 
 ```bash
-$ strace ./bonus_reverse-challenge
+~ strace ./bonus_reverse-challenge
 [..]
 ptrace(PTRACE_TRACEME, 3215099972, 0xbfa287d4, 0) = -1 EPERM (Operation not permitted)
 fstat64(1, {st_mode=S_IFCHR|0620, st_rdev=makedev(136, 1), ...}) = 0
@@ -106,9 +106,8 @@ I chose to do a binary patching at this point, as there are only a few instructi
 
 We can get the dump of the whole file with 
 ```bash
-$ objdump -M intel -d bonus_reverse-challenge
+~ objdump -M intel -d bonus_reverse-challenge
 ```
-
 And then we'll overwrite the instructions above with nops: 
 ```c
 (gdb) set *(unsigned long*)0x8048938 = 0x90909090
@@ -134,13 +133,13 @@ After some more browsing we find the code responsible with parsing the input fro
 
 We test this manually: 
 ```bash
-$ ./bonus_reverse-challenge
+~ ./bonus_reverse-challenge
 Are you feeling lucky today? A
 [~] Maybe.
-$ ./bonus_reverse-challenge
+~ ./bonus_reverse-challenge
 Are you feeling lucky today? B
 [-] Nope.
-$ ./bonus_reverse-challenge
+~ ./bonus_reverse-challenge
 Are you feeling lucky today? C
 [~] Maybe.
 ```
