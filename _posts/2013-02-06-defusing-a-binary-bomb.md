@@ -258,12 +258,11 @@ f(0x3e9) = 2*f(0x6b)+1 = 7
 ```
 
 0x3e9 is 1001 decimal, and is accepted by the first check (param-1 <= 1000).
-
- --=End=--
  
-# ./bomb bomb-answers.txt 
+## --=End=--
 
-```
+```bash
+ ./bomb bomb-answers.txt 
 Welcome to my fiendish little bomb. You have 6 phases with which to blow yourself up. Have a nice day! 
 Phase 1 defused. How about the next one? 
 That's number 2. Keep going! 
