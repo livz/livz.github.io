@@ -263,7 +263,7 @@ f(0x3e9) = 2*f(0x6b)+1 = 7
  
 # ./bomb bomb-answers.txt 
 
-_Welcome to my fiendish little bomb. You have 6 phases with which to blow yourself up. Have a nice day! 
+```Welcome to my fiendish little bomb. You have 6 phases with which to blow yourself up. Have a nice day! 
 Phase 1 defused. How about the next one? 
 That's number 2. Keep going! 
 Halfway there! 
@@ -273,6 +273,6 @@ Curses, you've found the secret phase!
 But finding it and solving it are quite different... 
 Wow! You've defused the secret stage! 
 Congratulations! You've defused the bomb!_
-
+```
 
 Many thanks to the guys at [Open Security Trainings](http://opensecuritytraining.info/) for this and all the other interesting materials there! 
