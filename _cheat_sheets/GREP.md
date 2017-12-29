@@ -1,5 +1,5 @@
 ---
-title: GREP and friends pattern matching
+title: GREP and Friends Pattern Matching
 layout: cheat_sheet
 date: 2015-05-09
 ---
