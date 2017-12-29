@@ -1,5 +1,5 @@
 ---
-title: Mac hacker survival cheat sheet
+title: Mac Hacker Survival Cheat Sheet
 layout: cheat_sheet
 date: 2015-07-11
 ---
