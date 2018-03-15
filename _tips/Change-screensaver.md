@@ -1,7 +1,7 @@
 ---
-title: change The Screen Saver
+title: Change The Screen Saver
 layout: tip
-date: 2017-01-03
+date: 2017-01-04
 ---
 
 Macos screen saver
