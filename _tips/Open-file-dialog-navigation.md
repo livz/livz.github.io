@@ -6,3 +6,6 @@ date: 2017-01-02
 
 * Go directly to path in save/open dialogs
 * cmd+shift+g
+Go up one folder in the open file dialog: Cmd + Up
+Navigate to folder, in Finder or open file dialog: Cmd + Shift + G
+
