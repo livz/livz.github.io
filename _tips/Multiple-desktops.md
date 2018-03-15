@@ -10,8 +10,6 @@ Not too many know or use this feature, but having multiple desktops can help org
  
 * To __*view the current desktops*__, simply *swipe the touchpad with three fingers up*, or use **```CTRL (^) + UP```** shortcut: 
 ![desktops-show](/assets/images/tips/desktops-show.png)
-
-
 * If you hover over the names, you can actually see the content on each of them:
 ![desktops-show-large](/assets/images/tips/desktops-show-large.png)
 * To __*add a new desktop*__, simply click the big plus button on the top right corner of the screen.
