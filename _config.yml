@@ -5,3 +5,5 @@ plugins:
 collections:
     cheat_sheets:
         output: true
+    tips:
+        output: true
