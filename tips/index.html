@@ -1,0 +1,15 @@
+---
+layout: default
+title: Craftware
+---
+<h1><i>Offloading the brain ...</i></h1>
+	<ul class="cheat_sheet">
+	  {% assign items = (site.tips | sort: 'date') | reverse %}
+		{% for tip in items %}
+		<li>
+			<span>{{ tip.date | date_to_string }}</span>
+			» 
+			<a href="{{ tip.url | prepend: site.baseurl }}" title="{{ tip.title }}">{{ tip.title }}</a>
+		</li>
+		{% endfor %}
+	</ul>	
