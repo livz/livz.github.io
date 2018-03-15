@@ -8,7 +8,7 @@ date: 2017-01-01
 
 Not too many know or use this feature, but having multiple desktops can help organise your work and avoid clutter.
  
-* To view the current desktops, simply **swipe the touchpad with three fingers up**, or use ```^ UP``` shortcut: 
+* To view the current desktops, simply **swipe the touchpad with three fingers up**, or use **```CTRL (^) + UP```** shortcut: 
 ![desktops-show](/assets/images/tips/desktops-show.png)
 * If you hover over the names, you can actually see the content on each of them:
 ![desktops-show-large](/assets/images/tips/desktops-show-large.png)
