@@ -4,6 +4,6 @@ layout: tip
 date: 2017-01-10
 ---
 
-Show hidden files in open dialog box : Cmd+Shift+.
-in Finder
-https://www.lifewire.com/display-hidden-files-in-os-x-open-and-save-dialog-boxes-2260878
+## Overview
+
+To show hidden files beginning with _**dot (".")**_ in Finder windows or Open/Save file dialogs, just press **CMD + Shift + .** _That's it!_
