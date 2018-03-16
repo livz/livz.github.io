@@ -4,8 +4,18 @@ layout: tip
 date: 2017-01-05
 ---
 
-* Go directly to path in save/open dialogs
-* cmd+shift+g
-Go up one folder in the open file dialog: Cmd + Up
-Navigate to folder, in Finder or open file dialog: Cmd + Shift + G
+## Overview
 
+These short tips are for easier navigation in Finder windows, and also in Save File/Open or the like dialogs.
+
+* Go directly to a desired path: **CMD + Shift + G**
+* Navigate up one folder: **CMD + UP**
+* Show the current file path in the Status bar of the Finder window: **OPTION + CMD + P**
+* Enable/Disable showing the current file path in the Title bar of the current window:
+```
+$ defaults read com.apple.finder _FXShowPosixPathInTitle
+0
+$ defaults write com.apple.finder _FXShowPosixPathInTitle -bool true; killall Finder
+$ defaults read com.apple.finder _FXShowPosixPathInTitle
+1
+```
