@@ -12,4 +12,7 @@ When you open an image in the Preview app, you cannot easily navigate to other p
 ```
 $ open Screenshot*.png
 ```
-* From a Finder Window, navigate to the folder containing the Pictures, select all of them and double-click.
+* From a Finder Window, navigate to the folder containing the pictures, select all of them and double-click.
+
+This will open a sidebar with all the selected files:
+![preview-multiple](/assets/images/tips/multiple-preview.png)
