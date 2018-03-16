@@ -1,5 +1,5 @@
 ---
-title: Quickly Lock Machine With Mouse Gestures
+title: Quickly Lock Machine With Mouse Only
 layout: tip
 date: 2017-01-08
 ---
