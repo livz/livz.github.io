@@ -6,7 +6,7 @@ date: 2017-01-09
 
 ## Overview
 
-For better organisation and retrieval, we can tag individual files and folder. Let's see two ways to do this:
+For better organisation and retrieval, we can tag individual files and folders. Let's see two ways to do this:
 
 * **From the GUI** - to add multiple tags at once using OS X Finder, select the items you want to tag and click **_Edit Tags_** icon in Finder bar:
 ![tags](/assets/images/tips/tags.png)
