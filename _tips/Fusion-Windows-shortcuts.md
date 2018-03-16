@@ -19,3 +19,6 @@ A somehow annoying thing about Windows guests running un MacOS hosts in Fusion i
  ⌘ + Right -> End
 ```
 ![fusion-keys](/assets/images/tips/fusion-keys.png)
+4. Assign a specific profile to a virtual machine - _Virtual Machine -> Settings -> Keyboard & Mouse_ and choose the desired profile!
+
+_Done!_
