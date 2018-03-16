@@ -11,17 +11,12 @@ date: 2017-01-03
 **Steps to change the dashboard background:**
 
 * Find a suitable image with good resolution, in PNG format. At leat an image around 2880 x 1600 for best results.
-
-
-
 * Save the image as **_pirelli.png_**, and duplicate it as **_pirelli@2x.png_** (the _@2x_ is for retina displays).
-
 * Next, open up Finder and use the Go > Go To Folder option and enter the following path:
 ```
 /System/Library/CoreServices/Dock.app/Contents/Resources/
 ```
 * This will open up the resources of _Dock.app_ application. Replace the two files named _pirelli_ and _pirelli@2x_. When asked to authenticate, enter the password since you are modifying system files.
-
 * Restart the dashboard application:
 ```
 killall Dock
