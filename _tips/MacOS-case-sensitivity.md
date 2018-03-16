@@ -11,11 +11,11 @@ A strange and not very well known property of the HFS+ file system is that it is
 $ echo Hello > TeSt
 $ cat test
 Hello
+$ CAT TEST
+Hello
 $ ls
 total 17896
 drwxr-xr-x   6 liv  staff      204 16 Mar 18:30 .
 drwxr-xr-x  20 liv  staff      680 16 Mar 00:01 ..
 -rw-r--r--   1 liv  staff        6 16 Mar 18:30 TeSt
-$ CAT TEST
-Hello
 ```
