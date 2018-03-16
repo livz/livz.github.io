@@ -19,6 +19,6 @@ $ find . -iname "*.jpg" -type f -exec sh -c 'sips -s format png "$0" --out "${0%
 ```
 3. Convert and change image quality (e.g. 60%):
 ```bash
-$ sips -s format png -s formatOptions 60 $x.jpg -o $x.png
+$ sips -s format png -s formatOptions 60 *.jpg -o *.png
 ```
 
