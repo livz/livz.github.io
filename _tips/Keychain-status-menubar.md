@@ -11,10 +11,10 @@ I like having the keychain icon in the status bar because it allows me to quickl
 ![keychain-bar](/assets/images/tips/keychain-bar.png)
 
 It's very simple to enable this:
-1. Press the Spotlight button at the top right of the screen (**⌘ + Space**)
+1. Press the Spotlight Search button at the top right corner of the screen (or use **⌘ + Space**).
 2. Search _Keychain Access_. 
-3. In _Keychain Access_, open Preferences (**⌘ + ,**)
-4. Check Show Status in Menu Bar
+3. In _Keychain Access_, open Preferences (**⌘ + ,**).
+4. Check Show Status in Menu Bar option.
 
 ![keychain-show](/assets/images/tips/keychain-show.png)
 
