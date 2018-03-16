@@ -6,7 +6,8 @@ date: 2017-01-20
 
 ## Overview
 
-I like having the keychain icon in the status bar because it allows me to quickly lock the screen or the keychain itself. 
+I like having the keychain icon in the status bar because it allows me to quickly lock the screen or the keychain itself:
+
 ![keychain-bar](/assets/images/tips/keychain-bar.png)
 
 It's very simple to enable this:
