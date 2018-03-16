@@ -10,6 +10,6 @@ When you open an image in the Preview app, you cannot easily navigate to other p
 
 * From a Terminal, nagivate to the folder containing the pictures and open all:
 ```
-$ open Screenshot*.png*
+$ open Screenshot*.png
 ```
 * From a Finder Window, navigate to the folder containing the Pictures, select all of them and double-click.
