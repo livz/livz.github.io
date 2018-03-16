@@ -41,6 +41,7 @@ Assuming you understand the implications and know what you're doing, you can tur
 1. Restart your Mac
 2. While restarting, hold down **⌘ + R** to enter Recovery System. Hold down the two keys until the Apple logo appears.
 3. This will boot the system into OS X Utilities window. Select _Utilities -> Terminal_ and enter the following:
+
 ```bash
 $ csrutil disable
 ```
