@@ -4,10 +4,32 @@ layout: tip
 date: 2017-01-20
 ---
 
-Show keycahain status in menubar
-https://apple.stackexchange.com/questions/135728/using-applescript-to-lock-screen   → tip for lock screen not working (workflow error)
-Working: https://gist.githubusercontent.com/freespace/1322095/raw/fcfe0452c8699719b3e028d7080167f98053f63f/gistfile1.txt
-+ enable accessibility (for sierra http://mizage.com/help/accessibility.html#10.11)
-TO CHECK:
-https://apple.stackexchange.com/questions/80058/lock-screen-command-one-liner#answer-123738
-https://superuser.com/questions/59438/how-can-you-lock-start-the-screen-saver-in-os-x-with-a-keyboard-shortcut/59451#59451
+## Overview
+
+I like having the keychain icon in the status bar because it allows me to quickly lock the screen or the keychain itself. 
+![keychain-bar](/assets/images/tips/keychain-bar.png)
+
+It's very simple to enable this:
+1. Press the Spotlight button at the top right of the screen (**⌘ + Space**)
+2. Search _Keychain Access_. 
+3. In _Keychain Access_, open Preferences (**⌘ + ,**)
+4. Check Show Status in Menu Bar
+
+![keychain-show](/assets/images/tips/keychain-show.png)
+
+Having that _Lock Screen_ menu item available, we can use an AppleScript to quickly lock the screen:
+
+```bash
+$ cat lock.applescript
+tell application "System Events" to tell process "SystemUIServer"
+    tell (menu bar item 1 of menu bar 1 where description is "Keychain menu extra")
+        click
+        click menu item "Lock Screen" of menu 1
+    end tell
+end tell
+
+$ osascript lock.applescript
+menu item Lock Screen of menu 1 of menu bar item 8 of menu bar 1 of application process SystemUIServer
+```
+
+It's also possibe to assign a key combination to the execution of the script, which will be the next tip!
