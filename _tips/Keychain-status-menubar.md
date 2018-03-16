@@ -1,5 +1,5 @@
 ---
-title: Show Keychain Status in Menubar
+title: Show Keychain Status In Menubar
 layout: tip
 date: 2017-01-20
 ---
