@@ -4,10 +4,25 @@ layout: tip
 date: 2017-01-09
 ---
 
+## Overview
 
-Change folder color (tags)
-Via gui
-Xattr
-https://superuser.com/questions/168927/mac-os-x-how-to-change-the-color-label-of-files-from-the-terminal
-https://apple.stackexchange.com/questions/131258/add-and-remove-multiple-tags-at-once-from-a-file-or-a-folder
-http://brettterpstra.com/2017/08/22/tagging-files-from-the-command-line/
+For better organisation and retrieval, we can tag individual files and folder. Let's see two ways to do this:
+
+* **From the GUI** - to add multiple tags at once using OS X Finder, select the items you want to tag and click **_Edit Tags_** icon in Finder bar:
+![tags](/assets/images/tips/tags.png)
+* **From the console** - for brevity I'll show only how to read tags, to see that it's possible. If interested, there are good resources online showing how to set tags programatically using *bash* or *AppleScript* scripts.
+```
+$ xattr -px com.apple.metadata:_kMDItemUserTags tags.png
+62 70 6C 69 73 74 30 30 A1 01 55 52 65 64 0A 36
+08 0A 00 00 00 00 00 00 01 01 00 00 00 00 00 00
+00 02 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 10
+
+$ mdls -raw -name kMDItemUserTags tags.png
+(
+    Red
+)
+```
+
+## Resources
+[Tagging files from command line](http://brettterpstra.com/2017/08/22/tagging-files-from-the-command-line/)
