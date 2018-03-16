@@ -32,4 +32,4 @@ end tell
 $ osascript lock.applescript
 ```
 
-It's also possibe to assign a key combination to the execution of the script, which will be the next tip!
+It's also possibe to assign a key combination to the execution of the script, which will be the subject of the next tip!
