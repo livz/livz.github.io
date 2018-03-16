@@ -30,7 +30,6 @@ tell application "System Events" to tell process "SystemUIServer"
 end tell
 
 $ osascript lock.applescript
-menu item Lock Screen of menu 1 of menu bar item 8 of menu bar 1 of application process SystemUIServer
 ```
 
 It's also possibe to assign a key combination to the execution of the script, which will be the next tip!
