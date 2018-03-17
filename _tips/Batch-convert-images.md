@@ -1,7 +1,7 @@
 ---
 title: Batch Convert Images With SIPS
 layout: tip
-date: 2017-01-17
+date: 2016-05-06
 ---
 
 ## Overview
