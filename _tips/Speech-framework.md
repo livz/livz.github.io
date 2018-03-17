@@ -8,7 +8,7 @@ date: 2017-01-30
 
 MacOS provides a very powerful speech synthesis framework, easily accessible using built-in tools - ```say (1)``` or programmatically via [Applications Services APIs](https://developer.apple.com/documentation/applicationservices/speech_synthesis_manager). Let's see how to get started with using the Speech framework.
 
-From the command-line it's very simple. Just list the available voice and chose one to speak the message. If you're curious how it would sound in French for example:
+From the command-line it's very simple. Just list the available voices and chose one to speak the message. If you're curious how it would sound in French for example:
 
 ```bash
 $ say --voice="?" | grep fr
@@ -23,6 +23,7 @@ $ say --voice="Amelie" "The quick brown fox jumps over the lazy dog"
   <source src="/assets/media/speech.mp3" type="audio/mpeg">
 Your browser does not support the audio element.
 </audio>
+
 
 ## Programmatic approach
 
