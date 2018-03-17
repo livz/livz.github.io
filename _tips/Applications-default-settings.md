@@ -1,7 +1,7 @@
 ---
 title: Applications Default Settings
 layout: tip
-date: 2016-07-15
+date: 2017-07-15
 ---
 
 ## Overview
