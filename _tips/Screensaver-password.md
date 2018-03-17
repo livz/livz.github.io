@@ -1,7 +1,7 @@
 ---
-title: Require Screensaver Password
+title: Force Screensaver Password
 layout: tip
-date: 2017-01-13
+date: 2016-04-01
 ---
 
 ## Overview
