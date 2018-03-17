@@ -1,7 +1,7 @@
 ---
 title: Take Screenshots Quickly
 layout: tip
-date: 2017-01-06
+date: 2016-02-11
 ---
 
 ## Overview
