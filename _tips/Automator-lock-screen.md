@@ -6,7 +6,7 @@ date: 2017-01-21
 
 ## Overview
 
-In the [previous post]({{ site.baseurl }}{% post_url Lock-machine-gestures.md %})
+In the [previous tip]({{ site.baseurl }})
 Shortcut to lock screen using automator
 
 + require password immediately after sleep
