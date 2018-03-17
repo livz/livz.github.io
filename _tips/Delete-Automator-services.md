@@ -1,7 +1,7 @@
 ---
 title: Delete Automator Services
 layout: tip
-date: 2017-01-22
+date: 2016-06-03
 ---
 
 ## Overview
