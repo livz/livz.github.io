@@ -18,7 +18,7 @@ Right click on the file and select _Get Info_. In the _Open With_ section, you c
 
 To get a list of all the current associations (_and much more other info!_), locate the ```lsregister``` tool and dump the whole Launch Service database:
 
-```bash
+```
 $ find / -name lsregister 2>/dev/null
 /System/Library/Frameworks/CoreServices.framework/Versions/A/Frameworks/LaunchServices.framework/Versions/A/Support/lsregister
 
