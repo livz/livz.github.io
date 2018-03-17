@@ -6,7 +6,7 @@ date: 2017-01-21
 
 ## Overview
 
-In the [previous tip]({{ site.tips }})
+In the [previous tip]({{ site.tips.relative_path }})
 Shortcut to lock screen using automator
 
 + require password immediately after sleep
