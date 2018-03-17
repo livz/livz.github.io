@@ -66,7 +66,7 @@ architecture x86_64
     align 2^12 (4096)
 ```
 
-## Force a specific architecture
+### Force a specific architecture
 
 To force a specific arch to be loaded when launching the binary, use ```arch (1)``` tool:
 ```bash
