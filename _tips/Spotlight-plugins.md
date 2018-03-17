@@ -13,7 +13,7 @@ Spotlight is the quick search technology in MacOS and iOS, launched on MacOS by 
 * Spotlight is controlled by the _```mds daemon (metadata server)```_. Every time a file operation occurs (creation, modification, or deletion) the kernel notifies this daemon via _```fsevents```_. 
 * Upon receiving of the notification, ```mds``` launches a worker process (```mdsworker```) to extract metadata from the file and import it into the database. 
 * ```mdsworker```s launch specific **_importers_** based on the type of files being processed. There is quite extensive official documentation on how to write such a plugin. The plugins are stored in _```/System/Library/Spotlight```_:
-```
+```bash
 $ ls /System/Library/Spotlight
 total 0
 drwxr-xr-x  23 root  wheel   782 15 Jul  2017 .
