@@ -1,7 +1,7 @@
 ---
 title: Add Folder To Favourites Bar
 layout: tip
-date: 2016-03-18
+date: 2017-03-18
 ---
 
 ## Overview
