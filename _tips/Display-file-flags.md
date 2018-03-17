@@ -1,7 +1,7 @@
 ---
 title: Display File Flags And Attributes
 layout: tip
-date: 2017-01-27
+date: 2016-07-08
 ---
 
 ## Overview
