@@ -1,7 +1,7 @@
 ---
 title: Easier Navigation in Save/Open Dialogs
 layout: tip
-date: 2017-01-05
+date: 2016-02-04
 ---
 
 ## Overview
