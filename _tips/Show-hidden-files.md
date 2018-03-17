@@ -1,7 +1,7 @@
 ---
 title: Show Hidden Files
 layout: tip
-date: 2017-01-10
+date: 2016-03-11
 ---
 
 ## Overview
