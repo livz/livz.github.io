@@ -19,4 +19,4 @@ To access the Services folder, open the following location in Finder or Terminal
 
 ## Disable a service
 
-If you want a temporary approach, services created with Automator can simply be disabled by de-selecting them in the _System preferences → Keyboard → Shortcuts → Services_
+If you want a temporary approach, services created with Automator can simply be disabled by de-selecting them in the _System preferences → Keyboard → Shortcuts → Services_.
