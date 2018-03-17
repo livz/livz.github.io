@@ -14,4 +14,4 @@ The [previous tip](http://craftware.xyz/tips/Spotlight-plugins.html) covered the
 ![spotlight-noindex](/assets/images/tips/spotlight-noindex.png)
 * **Manual** - Previously, you could create a file named _```.metadata_never_index```_ in the folder you wanted to prevent indexing, but currently this trick no longer works. However, the following works fine with MacOS Sierra to prevent a specific folder or file from being indexed by Spotlight. Simply add a **_".noindex"_** extension and the folder will be removed from the database and not indexed in the future. 
 
-_**Note**: this works only with folders and files, not with whole drives._
+_**Note**: The manual method works only with folders and files, not with whole drives._
