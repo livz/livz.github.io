@@ -1,7 +1,7 @@
 ---
 title: Spotlight Architecture
 layout: tip
-date: 2017-01-25
+date: 2016-06-24
 ---
 
 ## Overview
