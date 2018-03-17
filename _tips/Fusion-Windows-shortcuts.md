@@ -1,7 +1,7 @@
 ---
 title: Shortcuts In Fusion For Windows Guests
 layout: tip
-date: 2017-01-15
+date: 2016-04-15
 ---
 
 ## Overview
