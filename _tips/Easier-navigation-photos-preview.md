@@ -1,7 +1,7 @@
 ---
 title: Easier Navigation In Preview App
 layout: tip
-date: 2017-01-04
+date: 2016-01-28
 ---
 
 ## Overview
