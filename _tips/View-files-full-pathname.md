@@ -1,7 +1,7 @@
 ---
 title: View Full Folder/File Pathname
 layout: tip
-date: 2017-01-07
+date: 2016-02-18
 ---
 
 ## Overview
