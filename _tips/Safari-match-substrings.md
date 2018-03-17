@@ -1,7 +1,7 @@
 ---
 title: Safari Search For Substrings
 layout: tip
-date: 2017-01-16
+date: 2016-04-22
 ---
 
 ## Overview
