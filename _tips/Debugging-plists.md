@@ -9,7 +9,8 @@ date: 2017-01-24
 When you've created or modified a Plist file and the desired service or application doesn't start as expected, there are a few things you can do to locate and debug errors related to the plist files:
 
 1. Set the _```StandardOutPath```_ and _```StandardErrorPath```_ fields in the XML plist file:
-```
+
+```bash
   <key>StandardErrorPath</key>
   <string>/tmp/mycommand.err</string>
   <key>StandardOutPath</key>
