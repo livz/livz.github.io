@@ -10,7 +10,7 @@ In the [previous tip]()
 {{ site.tips.path }}
 {{ site.tips.url }}
 {{ site.tips.relative_path }}
-Shortcut to lock screen using automator
+we've seen how to lock the screen quickly using only the mouse and _Hot Horners_ or using the _Keychain Access_ menu. We can also do this 
 
 + require password immediately after sleep
 Skhdrc: shift + cmd - l: ~/scripts/sleep.sh
