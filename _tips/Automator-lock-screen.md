@@ -1,7 +1,7 @@
 ---
 title: Keyboard Combo To Lock Screen
 layout: tip
-date: 2016-05-27
+date: 2017-05-27
 ---
 
 ## Overview
