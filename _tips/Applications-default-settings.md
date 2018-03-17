@@ -10,7 +10,7 @@ Unlike the Windows way of storing applications preferences within the Registry, 
 
 ## Defaults
 
-The mechanism Apple provides is known as __*defaults*__. Each application has its own namespace where it can add or remove settings. Additionally, there is a global namespace  common to all applications. For example, to [enable substring matching in Safari](http://craftware.xyz/tips/Safari-match-substrings.html), we would need to modify the ```FindOnPageMatchesWordStartsOnly``` property:
+The mechanism Apple provides is known as __*defaults*__. Each application has its own namespace where it can add or remove settings. Additionally, there is a global namespace  common to all applications. For example, to [enable substring matching in Safari](http://craftware.xyz/tips/Safari-match-substrings.html) we would need to modify the ```FindOnPageMatchesWordStartsOnly``` property:
 ```bash
 $ defaults write com.apple.Safari FindOnPageMatchesWordStartsOnly -bool FALSE
 ```
