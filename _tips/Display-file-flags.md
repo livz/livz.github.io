@@ -11,7 +11,7 @@ MacOS introduced a non-standard ```ls``` option, not present in the [official ma
   -O      Include the file flags in a long (-l) output.
 ```
 
-For example, in the following listing the ```ls``` system utility has the _compressed_ and _restricted_ flags:
+For example, in the following listing the ```ls``` system utility has the **_compressed_** and **_restricted_** flags:
 ```bash
 $ ls -alO /bin/ls
 -rwxr-xr-x  1 root  wheel  restricted,compressed 38624 15 Jul  2017 /bin/ls
