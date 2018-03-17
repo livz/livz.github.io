@@ -19,7 +19,7 @@ To assign a global shortcut to this script I've used [Simple hotkey daemon for m
 shift + cmd - l: ~/scripts/sleep.sh
 ````
 
-You'll now be able to use the **⇧ +  ⌘ + L (Shift + CMD + Capital L)** to lock the screen. So here you have 3 3 quick ways, there's no reason to leave your machine unlocked anymore:
+You'll now be able to use the **⇧ +  ⌘ + L (Shift + CMD + Capital L)** to lock the screen. So here you have 3 quick ways, there's no reason to leave your machine unlocked anymore:
 
 1. [**Hot Horners**](http://craftware.xyz/tips/Lock-machine-gestures.html)
 2. [**Keychain Access**](http://craftware.xyz/tips/Keychain-status-menubar.html)
