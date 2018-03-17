@@ -1,7 +1,7 @@
 ---
 title: Quickly Lock The Machine With Mouse Only
 layout: tip
-date: 2017-01-08
+date: 2016-02-25
 ---
 
 ## Overview
