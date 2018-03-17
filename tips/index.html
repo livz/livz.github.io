@@ -15,8 +15,8 @@ title: Craftware
 	  {% assign items = (site.tips | sort: 'date') | reverse %}
 		{% for tip in items %}
 		<li>
-			<span><b>{{ tip.date | date_to_string }}</b></span>
-			<b>»</b> 
+			<span>{{ tip.date | date_to_string }}</span>
+			»
 			<a href="{{ tip.url | prepend: site.baseurl }}" title="{{ tip.title }}">{{ tip.title }}</a>
 		</li>
 		{% endfor %}
