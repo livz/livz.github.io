@@ -17,4 +17,4 @@ $ defaults write com.apple.Safari FindOnPageMatchesWordStartsOnly -bool FALSE
 
 Usually, these default settings are stored in property list files. Users preferences are maintained in the ```~/Library/Preferences``` folder, while ```/Library/Preferences``` contains system-wide settings.
 
-*__Note:__ These files are binary files! They would need to be converted to XML before proper examination. Using the ```defaults``` command-line tool is preferred to editing the plist files, for obvious reasons.*
+*__Note:__ These files are binary files! They would need to be [converted to XML](http://craftware.xyz/tips/Plists-convert%20formats.html) before proper examination. Using the ```defaults``` command-line tool is preferred to editing the plist files, for obvious reasons.*
