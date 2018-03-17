@@ -10,7 +10,7 @@ When you've created or modified a Plist file and the desired service or applicat
 
 1. Set the _```StandardOutPath```_ and _```StandardErrorPath```_ fields in the XML plist file:
 
-```bash
+```
   <key>StandardErrorPath</key>
   <string>/tmp/mycommand.err</string>
   <key>StandardOutPath</key>
