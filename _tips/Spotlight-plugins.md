@@ -1,5 +1,5 @@
 ---
-title: Spotlight Plugins
+title: Spotlight Architecture
 layout: tip
 date: 2017-01-25
 ---
