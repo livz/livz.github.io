@@ -23,7 +23,7 @@ $ say --voice="Amelie" "The quick brown fox jumps over the lazy dog"
   <source src="/assets/media/speech.mp3" type="audio/mpeg">
 Your browser does not support the audio element.
 </audio>
-</br>
+
 
 ## Programmatic approach
 
