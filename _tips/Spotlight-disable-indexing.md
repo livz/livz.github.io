@@ -1,5 +1,5 @@
 ---
-title: Spotlight Disable Indexing For Folder
+title: Spotlight Disable Indexing
 layout: tip
 date: 2017-01-26
 ---
