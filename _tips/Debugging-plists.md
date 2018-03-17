@@ -1,7 +1,7 @@
 ---
 title: Debugging Plists Issues
 layout: tip
-date: 2017-01-24
+date: 2016-06-17
 ---
 
 ## Overview
