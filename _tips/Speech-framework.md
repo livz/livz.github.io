@@ -26,7 +26,67 @@ Your browser does not support the audio element.
 
 ## Programmatic approach
 
-It's more interesting to make use of the Speech synthethis APIs and benefit from 
+To have more flexibility, it's more interesting to make use of the Speech synthethis APIs. The code below simulates the ```say``` command-line tool:
+
+```c
+#include <ApplicationServices/ApplicationServices.h>
+
+typedef SInt16 int16;
+
+void checkResult(OSErr error, const char *description) {
+    if (error == 0)
+        return;
+    fprintf(stderr, "Error: %d during %s. exiting.", error, description);
+    
+    exit(error);
+}
+
+int main (int argc, char **argv) {
+    SpeechChannel channel;
+    VoiceSpec vs;
+    SInt16 numVoices, voice;
+    CFStringRef message;
+
+    if (argc != 3) {
+        printf("[!] Usage: %s <voice number> <message>\n", argv[0]);
+        exit(1);
+    }
+
+    // List available voices
+    checkResult(CountVoices(&numVoices), "CountVoices");
+    printf("[*] %d voices available\n", numVoices);
+    
+    // Get desired voice
+    voice = atoi(argv[1]);
+    checkResult(GetIndVoice(voice, &vs), "GetVoiceInd");
+
+    // Create a Speech channel
+    checkResult(NewSpeechChannel(&vs, &channel), "NewSpeechChannel");
+
+    // Create a string from the message
+     message = CFStringCreateWithCString(NULL, argv[2], kCFStringEncodingUTF8);
+
+    // Speak!
+    checkResult(SpeakCFString(channel, message, NULL), "SpeakCFString");
+
+    // Release allocated string
+    CFRelease(message);
+    
+    // Wait for speach to finish
+    while (SpeechBusy()) 
+        sleep(1);
+        
+    exit(0);
+}
+```
+
+The final result should be same:
+
+```bash
+$ gcc say.c -o mySay -framework ApplicationServices
+$ ./mySay 4 "The quick brown fox jumps over the lazy dog"
+[*] 47 voices available
+```
 
 ## References
 
