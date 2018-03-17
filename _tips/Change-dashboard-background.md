@@ -1,7 +1,7 @@
 ---
 title: Change Dashboard Background
 layout: tip
-date: 2016-01-21
+date: 2017-01-21
 ---
 
 ## Overview
