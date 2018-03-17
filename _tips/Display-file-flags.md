@@ -6,7 +6,7 @@ date: 2017-01-27
 
 ## Overview
 
-MacOS introduced a non-standard ```ls``` option, not present in the [pofficial man page](http://man7.org/linux/man-pages/man1/ls.1.html), to display file flags and attributes when using long output:
+MacOS introduced a non-standard ```ls``` option, not present in the [official man page](http://man7.org/linux/man-pages/man1/ls.1.html), to display file flags and attributes when using long output:
 ```
   -O      Include the file flags in a long (-l) output.
 ```
