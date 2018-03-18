@@ -23,6 +23,7 @@ This is equivalent with:
 dscl /Local/Default list /Users
 ```
 * Get information about a specific user:
+
 ```bash
 $ dscl . -read /Users/`whoami`
 [..]
