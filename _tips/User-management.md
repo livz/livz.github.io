@@ -13,6 +13,7 @@ The directory service maintains the users and groups and also holds many other s
 ## How to use
 
 * List users:
+
 ```bash
 $ dscl . list /Users
 ```
