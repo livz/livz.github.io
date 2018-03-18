@@ -39,7 +39,7 @@ UserShell: /usr/local/bin/zsh
 ```
 * Add a new user:
 
-The following script (taken from [Mac OS X and iOS Internals: To the Apple's Core](http://www.wrox.com/WileyCDA/WroxTitle/Mac-OS-X-and-iOS-Internals-To-the-Apple-s-Core.productCd-1118057651.html) can be used to create a new user and assign groups, password, home directory, etc.
+The following script (taken from [Mac OS X and iOS Internals: To the Apple's Core](http://www.wrox.com/WileyCDA/WroxTitle/Mac-OS-X-and-iOS-Internals-To-the-Apple-s-Core.productCd-1118057651.html)) can be used to create a new user and assign groups, password, home directory, etc.
 
 ```bash
 #!/bin/bash
