@@ -9,7 +9,7 @@ date: 2017-08-19
 
 Let's say we want to know what files get modified when we perform a particular operation, like changing the screen saver, or customising the desktop background. Or, for the security-minded, we want to check what files/folders are created when we run an unknown application. 
 
-[fswatch](https://emcrisostomo.github.io/fswatch/) is a small program that uses the Mac OS X FSEvents API to monitor a directory. When an event about any change to that directory is received, it will print the name of the affected file. We can easily pipe that to a shell command, or execute a script for exery notification.
+[fswatch](https://emcrisostomo.github.io/fswatch/) is a small program that uses the Mac OS X FSEvents API to monitor a directory. When an event about any change to that directory is received, it will print the name of the affected file. We can easily pipe that to a shell command, or execute a script for every notification.
 
 ## Installation
 ```bash
