@@ -1,7 +1,7 @@
 ---
 title: Disable Internal Microphone
 layout: tip
-date: 2017-08-012
+date: 2017-08-12
 ---
 
 ## Overview
