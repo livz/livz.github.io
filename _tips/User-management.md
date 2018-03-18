@@ -77,6 +77,7 @@ dscl . -passwd /Users/$USER "changeme”
 dscl . -append /Groups/admin GroupMembership $USER
 ```
 * Delete existing user:
+
 ```bash
 $ dscl . -search /Users name <username>
 
