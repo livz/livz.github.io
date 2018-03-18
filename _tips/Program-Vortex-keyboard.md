@@ -26,4 +26,4 @@ Although there is already a MacOS layer, at minimum you probably would want to m
 ## Notes
 
 * Every key can program up to _**32 key strokes**_.
-* To reset a programmed layer, press and hold **FN + R**. Spacebar left LED will flash for around 5 seconds, then the layer will be restore to default. 
+* To reset a programmed layer, press and hold **FN + R**. Spacebar left LED will flash for around 5 seconds, then the layer will be restored to default. 
