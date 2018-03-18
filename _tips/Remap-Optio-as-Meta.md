@@ -1,5 +1,5 @@
 ---
-title: Remap Option Key as Meta in iTerm2/MC
+title: Remap Option Key as Meta
 layout: tip
 date: 2017-09-09
 ---
