@@ -79,7 +79,7 @@ Password:
 $ file ~/Library/Application\ Support/Dock/desktoppicture.db
 /Users/[..]/Library/Application Support/Dock/desktoppicture.db: SQLite 3.x database, last written using SQLite version 3016000
 ```
-So the *__~/Library/Application\ Support/Dock/desktoppicture.db__* contains the desktop background settings and it's a SQLite database. If you're curious you can open it using [SQLiteBrowser](http://sqlitebrowser.org/)
+So the *__~/Library/Application\ Support/Dock/desktoppicture.db__* file contains the desktop background settings and it's a SQLite database. If you're curious you can open it using [SQLiteBrowser](http://sqlitebrowser.org/) and find out out more.
 
 ## References
 [How to Use fswatch](https://github.com/emcrisostomo/fswatch/wiki/How-to-Use-fswatch)
