@@ -10,7 +10,7 @@ These utilities are very useful for debugging activities, whether you're tracing
 
 #### ```fs_usage```
 
-```fs_usage (1)``` can be used to display **system calls activity in real-tine**. It can filter events related to _network_, _filesystem_, _exec and spawn_. It can display calls performed system-wide or for a specific process. Let's see a few examples:
+```fs_usage (1)``` can be used to display **system calls activity in real-tine**. It can filter events related to _network_, _filesystem_, _exec and spawn_. It can display calls performed system-wide or for a specific process. For example:
 
 Check who is modifying the shell history file:
 
@@ -38,7 +38,7 @@ Check what files are being read by a specific process:
 
 #### ```lsof (1)```
 
-While ```fs_usage``` sees file and network operations in real-time, ```lsof (1)``` displays a mapping of all file descriptors and sockets owned by one or more processes. Without any parameters, ```lsof``` displays information for _all the processes_ on the machine.
+While ```fs_usage``` sees file and network operations in real-time, ```lsof (1)``` displays a **mapping of all file descriptors and sockets** owned by one or more processes. Without any parameters, ```lsof``` displays information for _all the processes_ on the machine.
 
 List all files opened by a specific process:
 ```
@@ -57,7 +57,7 @@ COMMAND  PID USER   FD   TYPE DEVICE SIZE/OFF   NODE NAME
 vim     3266    m    4u   REG    1,2    12288 938070 /Users/m/.secretmessage.txt.swp
 ```
 
-*__Note:__* even if ```vim``` opened th file below for editing, it might not actually hold a file descriptor to it because it's editing a temporary file, that will overwrite the original when saving.
+*__Note:__* even if ```vim``` opened th file above for editing, it might not actually hold a file descriptor to it because it's actually editing a temporary file, that will overwrite the original when saving.
 
 List all network connections for a specific process:
 ```bash
@@ -71,7 +71,7 @@ Google    845  m     99u  IPv4 0x9ad845238b16db8b      0t0  TCP 192.168.0.6:5985
 
 #### ```fuser (1)```
 
-```fuser(1)``` provides a reverse mapping from the file name to the process owning it. It's used mainly to identify processes that hold a lock to a specific file _or mount point_, which might prevent unmounting. For example:
+```fuser(1)``` provides a **reverse mapping from the file name to the process** owning it. It's used mainly to identify processes that hold a lock to a specific file _or mount point_, which might prevent unmounting. For example:
 
 ```bash
 $ fuser -cu /dev
