@@ -80,6 +80,10 @@ $ ls -alhO@ book*
 -rw-r--r--  1 m  staff  -           278K 19 Mar 11:33 book.txt
 -rw-r--r--  1 m  staff  compressed  278K 19 Mar 11:33 bookComp.txt
 
+$ du -sh book*
+280K	book.txt
+116K	bookComp.txt
+
 $ ls -al bookComp.txt/..namedfork/rsrc
 -rw-r--r--  1 m  staff  0 19 Mar 11:33 bookComp.txt/..namedfork/rsrc
 ```
