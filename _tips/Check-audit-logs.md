@@ -6,7 +6,7 @@ date: 2017-10-07
 
 ## Overview
 
-* MacOS implements the Basic Security Module (BSM) auditing subsystem, originally developped introduced in Solaris.
+* MacOS implements the Basic Security Module (BSM) auditing subsystem, originally introduced in Solaris.
 * This subsystem is useful for tracking user sessions, authentications and process actions.
 
 ## Work with audit logs
@@ -49,7 +49,7 @@ lrwxr-xr-x   1 root  wheel     40 15 Mar 23:49 current -> /var/audit/20180315234
 
 #### Parsing
 
-Since the audit logs are stored in a binary format, we need a tool to parse them. ```praudit (1)``` with the ```-x``` for XML output is very handy. Below we see a session terminatio was recorded, followed by user authentication:
+Since the audit logs are stored in a binary format, we need a tool to parse them. ```praudit (1)``` with the ```-x``` for XML output is very handy. Below we see that a session termination was recorded, followed by user authentication:
 
 ```bash
 $ sudo praudit -x /var/audit/current
@@ -58,7 +58,6 @@ $ sudo praudit -x /var/audit/current
   <argument arg-num="1" value="0x0" desc="sflags" />
   <argument arg-num="2" value="0x0" desc="am_success" />
   <argument arg-num="3" value="0x0" desc="am_failure" />
-
   <subject audit-uid="-1" uid="root" gid="wheel" ruid="root" rgid="wheel" pid="0" sid="100100" tid="0 0.0.0.0" />
   <return errval="success" retval="0" />
 </record>
@@ -71,10 +70,10 @@ $ sudo praudit -x /var/audit/current
 [..]
 ```
 
-Since logs are cycled so frequently, the special character device ```/dev/auditpipe``` allowa user-mode programs to access the audit records in real time. This is very useful if we need to pipe the events to a shell script for example:
+Since logs are cycled frequently, the special character device ```/dev/auditpipe``` allowa user-mode programs to access the audit records in real time. This is very useful if we need to pipe the events to a shell script for example:
 
 ```bash
-$ sudo  praudit /dev/auditpipe
+$ sudo  praudit /dev/auditpipe | ./pareEvent.sh
 ```
 
 ## References
