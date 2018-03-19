@@ -4,7 +4,7 @@ layout: tip
 date: 2017-09-23
 ---
 
-# Overview
+## Overview
 
 * A strong feature of HFS+ is that it implements __*transparent file compression*__. All MacOS utilities silently perform decompression on the fly.
 * Compressed data is placed in the _resource fork_. 
@@ -12,7 +12,7 @@ date: 2017-09-23
 
 *__Note__*: For small compressed files, their data is actually _stored uncompressed in the extended attribute_ itself.
 
-# Understanding file compression
+## Understanding file compression
 
 #### How to find out if a file is compressed?
 
