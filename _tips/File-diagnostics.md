@@ -36,7 +36,7 @@ Check what files are being read by a specific process:
 22:50:46  access            private/etc/passwd22                            0.000004   zsh
 ```
 
-#### ```lsof (1)```
+#### ```lsof```
 
 While ```fs_usage``` sees file and network operations in real-time, ```lsof (1)``` displays a **mapping of all file descriptors and sockets** owned by one or more processes. Without any parameters, ```lsof``` displays information for _all the processes_ on the machine.
 
@@ -69,7 +69,7 @@ Google    845  m     99u  IPv4 0x9ad845238b16db8b      0t0  TCP 192.168.0.6:5985
 ```
 
 
-#### ```fuser (1)```
+#### ```fuser```
 
 ```fuser(1)``` provides a **reverse mapping from the file name to the process** owning it. It's used mainly to identify processes that hold a lock to a specific file _or mount point_, which might prevent unmounting. For example:
 
