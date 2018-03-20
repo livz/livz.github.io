@@ -6,7 +6,7 @@ date: 2017-11-11
 
 ## Overview
 
-The process of loading dynamic libraries on MacOS uses a set of not very well-known environment variables. One of them is ```DYLD_PRINT_LIBRARIES```. When set, a program will display all the dynamic libraries as they get loaded. 
+The process of loading dynamic libraries on MacOS uses a set of not very well-known environment variables. One of them is ```DYLD_PRINT_LIBRARIES```. When set, a program will display all the dynamic libraries _as they get loaded_.
 
 To see the names and versions of the shared libraries that a program is linked against, we can use ```otool```:
 
@@ -16,7 +16,7 @@ $ otool -L /bin/echo
 	/usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 1238.0.0)
 ```
 
-Next, let's see all the libraries _as they get loaded_:
+Next, let's see all the libraries at run-time:
 
 ```bash
 $ DYLD_PRINT_LIBRARIES=1 /bin/echo
@@ -42,7 +42,7 @@ $ otool -L /usr/lib/libSystem.B.dylib
 
 Other interesting variables that print debug information during the loading process, extracted from the dynamic linker ```dyld``` man page are:
 
-* ```DYLD_PRINT_APIS```: Dump dyld API calls (for example dlopen).
+* ```DYLD_PRINT_APIS```: Dump dyld API calls.
 * ```DYLD_PRINT_ENV```: Dump initial environment variables.
 * ```DYLD_PRINT_OPTS```: Dump to file descriptor 2 (normally standard error) the command line options.
 * ```DYLD_PRINT_INITIALIZERS```: Dump library initialization (entry point) calls.
@@ -74,7 +74,7 @@ dyld: Using shared cached for /usr/lib/libSystem.B.dylib
 hello world
 ```
 
-To view usefult statistics about the loading process, enable the ```DYLD_PRINT_STATISTICS``` variable:
+To view useful statistics about the loading process, enable the ```DYLD_PRINT_STATISTICS``` variable:
 ```bash
 [17:42] ~ DYLD_PRINT_STATISTICS=1 /bin/echo hello world
 Total pre-main time:   1.06 milliseconds (100.0%)
@@ -89,3 +89,14 @@ Total pre-main time:   1.06 milliseconds (100.0%)
 hello world
 ```
 
+To see all the _initialisers_, set the ```DYLD_PRINT_INITIALIZERS``` variable:
+
+```bash
+$ DYLD_PRINT_INITIALIZERS=1 /bin/echo hello world
+dyld: calling initializer function 0x7fffe1d2c95d in /usr/lib/libSystem.B.dylib
+dyld: calling initializer function 0x7fffe1e7b2db in /usr/lib/libc++.1.dylib
+
+hello world
+```
+
+_Try the other ones as well and find usages for this newly available debugging information!_
