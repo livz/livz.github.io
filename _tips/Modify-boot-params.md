@@ -23,7 +23,7 @@ bluetoothActiveControllerInfo	%08%00%0f%0e%00%00%00%00`%01%00%00%00%00%00%00
 
 It can also be used to clear all variables or delete only specific ones. 
 
-An interesting issue observed by the article above is that _Although ```nvram -p``` claims to print all of the firmware variables, it does not print any of the variables that belong to the Efi GUID._
+An interesting issue observed by the article above is that _**Although ```nvram -p``` claims to print all of the firmware variables, it does not print any of the variables that belong to the Efi GUID.**_
 
 #### ```bless```
 
