@@ -10,9 +10,9 @@ The booting process is a very interesting topic from a security perspective. In 
 
 #### ```nvram```
 
-```nvram (8)``` command provides access to the firmware's variables from user mode. The most interesting description of this tool in the context of the boot process I've found in _Vault 7: CIA Hacking Tools Revealed_. No surprise here :) As an exemple, let's print the exposed variables:
+```nvram (8)``` command provides access to the firmware's variables from user mode. The most interesting description of this tool in the context of the boot process I've found in _Vault 7: CIA Hacking Tools Revealed_. No surprise here :) As an exemple, let's print _all_ the exposed variables:
 
-```bash
+```
 csr-active-config	w%00%00%00
 fmm-computer-name	M%e2%80%99s Mac
 SystemAudioVolumeDB	%f0
