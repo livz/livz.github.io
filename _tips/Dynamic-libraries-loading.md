@@ -76,7 +76,7 @@ hello world
 
 To view useful statistics about the loading process, enable the ```DYLD_PRINT_STATISTICS``` variable:
 ```bash
-[17:42] ~ DYLD_PRINT_STATISTICS=1 /bin/echo hello world
+$ DYLD_PRINT_STATISTICS=1 /bin/echo hello world
 Total pre-main time:   1.06 milliseconds (100.0%)
          dylib loading time:   0.40 milliseconds (37.7%)
         rebase/binding time:   0.04 milliseconds (3.9%)
