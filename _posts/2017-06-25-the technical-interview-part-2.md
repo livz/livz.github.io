@@ -1,3 +1,7 @@
+---
+title:  "The Technical Interview part 2"
+---
+
 ![Logo](/assets/images/challenge.png)
 
 In an attempt to solve the problems described in 
