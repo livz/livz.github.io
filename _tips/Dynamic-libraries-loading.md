@@ -1,5 +1,5 @@
 ---
-title: Debugging Dynamic Loaded
+title: Debugging Dynamic Loader
 layout: tip
 date: 2017-11-11
 ---
