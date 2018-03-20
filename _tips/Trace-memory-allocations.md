@@ -168,4 +168,4 @@ Leak: 0x7fec8b4025d0  size=256  zone: DefaultMallocZone_0x103ea5000
 [..]
 ```
 
-_As expected, the unallocated memory locations were correctly detected!_
+_As expected, the unallocated memory locations (```256*3=768``` bytes) were correctly detected!_
