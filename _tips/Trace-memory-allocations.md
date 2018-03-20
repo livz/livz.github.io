@@ -10,10 +10,11 @@ In this post we'll cover two MacOS applications, part of Xcode Developer Tools, 
 
 #### ```malloc_history```
 
-The ```malloc_history (1)``` provides a detailed account of every memory allocation that occurred in the process, including the initial ones made by ```dyld (1)```.  ```malloc_history``` relies on information provided by the standard ```malloc``` library when ```malloc``` stack logging has been enabled for the target process (for example  by setting the ```MallocStackLogging``` environment variable).
+```malloc_history (1)``` provides a detailed account of __*every memory allocation that occurred in the process*__, including allocations by ```dyld```.  ```malloc_history``` relies on information provided by the standard ```malloc``` library when ```malloc``` stack logging has been enabled for the target process (for example  by setting the ```MallocStackLogging``` environment variable).
 
 
-To show all allocations currently live in a process, use ```–allBySize``` or ```–allByCount``` flags:
+To show all allocations currently live in a process, use **```–allBySize```** or **```–allByCount```** flags:
+
 ```bash
 $ MallocStackLogging=1 open /Applications/Safari.app
 
@@ -167,4 +168,4 @@ Leak: 0x7fec8b4025d0  size=256  zone: DefaultMallocZone_0x103ea5000
 [..]
 ```
 
-As expected, the unallocated memory locations are detected.
+_As expected, the unallocated memory locations were correctly detected!_
