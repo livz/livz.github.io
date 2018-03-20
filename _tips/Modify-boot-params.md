@@ -29,7 +29,7 @@ An interesting issue observed by the article above is that _**Although ```nvram 
 
 ```bless(1)``` command-line tool can be used to control and modify the boot characteristics of the system, specifically related to where and how the system would boot from. [This article](https://bombich.com/kb/ccc4/what-makes-volume-bootable) explains it very good.
 
-Basicallym every bootable volume must indicate the location of the system folder. Let's see an example:
+Basically, every bootable volume must indicate the location of the system folder. Let's see an example:
 
 ```bash
 $ sudo bless -info /
@@ -42,8 +42,8 @@ finderinfo[5]:     91 => OS X blessed folder is /System/Library/CoreServices
 64-bit VSDB volume id:  0xA38A81DE2AE452DC
 ```
 
-In this case the _blessed system folder_ is at _inode 96_, and that path is ```/System/Library/CoreServices```. The _"Blessed System File"_ indicates where the _**secondary boot loarder**_ resides. In this case, that is the file at inode 440178 and is located at ```/System/Library/CoreServices/boot.efi```.
+In this case the _blessed system folder_ is at _inode 91_, and that path is ```/System/Library/CoreServices```. The _"Blessed System File"_ indicates where the _**secondary boot loarder**_ resides. In this case, that is the file at inode 440178 and is located at ```/System/Library/CoreServices/boot.efi```.
 
 ## References
-[EFI Basics: NVRAM Variables](https://wikileaks.org/ciav7p1/cms/page_26968084.html)
-[What makes a volume bootable?](https://bombich.com/kb/ccc4/what-makes-volume-bootable)
+* [EFI Basics: NVRAM Variables](https://wikileaks.org/ciav7p1/cms/page_26968084.html)
+* [What makes a volume bootable?](https://bombich.com/kb/ccc4/what-makes-volume-bootable)
