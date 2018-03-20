@@ -6,7 +6,7 @@ date: 2017-11-11
 
 ## Overview
 
-Another not so well-known environment variable is ```DYLD_PRINT_LIBRARIES```. When set, a program will display all the dynamic libraries as they get loaded. 
+The process of loading dynamic libraries on MacOS uses a set of not very well-known environment variables. One of them is ```DYLD_PRINT_LIBRARIES```. When set, a program will display all the dynamic libraries as they get loaded. 
 
 To see the names and versions of the shared libraries that a program is linked against, we can use ```otool```:
 
