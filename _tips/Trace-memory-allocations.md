@@ -10,7 +10,7 @@ In this post we'll cover two MacOS applications, part of Xcode Developer Tools, 
 
 #### ```malloc_history```
 
-```malloc_history (1)``` provides a detailed account of __*every memory allocation that occurred in the process*__, including allocations by ```dyld```.  ```malloc_history``` relies on information provided by the standard ```malloc``` library when ```malloc``` stack logging has been enabled for the target process (for example  by setting the ```MallocStackLogging``` environment variable).
+**```malloc_history```** provides a detailed account of __*every memory allocation that occurred in the process*__, including allocations by ```dyld```.  ```malloc_history``` relies on information provided by the standard ```malloc``` library when ```malloc``` stack logging has been enabled for the target process (for example  by setting the ```MallocStackLogging``` environment variable).
 
 
 To show all allocations currently live in a process, use **```–allBySize```** or **```–allByCount```** flags:
@@ -43,13 +43,13 @@ Analysis Tool:   /usr/bin/malloc_history
 [..]
 ```
 
-To include _**deallocations**_ as well, use  ```-allEvents``` flag. 
+To include _**deallocations**_ as well, use  **```-allEvents```** flag. 
 
-Another interesting usage is with the ```-callTree``` option, which generates a ```call tree of the backtraces of malloc calls``` for all live allocations in the target process:
+Another interesting usage is with the **```-callTree```** option, which generates a ```call tree of the backtraces of malloc calls``` for all live allocations in the target process:
 
 ```bash
 $ malloc_history 4828 -callTree -showContent
-ocess:         Safari [4828]
+Process:         Safari [4828]
 Path:            /Applications/Safari.app/Contents/MacOS/Safari
 Load Address:    0x10229d000
 Identifier:      com.apple.Safari
@@ -79,10 +79,10 @@ Call graph:
 
 #### ```leaks```
 
-The ```leaks (1)``` tool walks the process heap to detect suspected memory leaks. It looks for pointers which have been allocated but not freed. For example, taking the same Safari instance from above, we ca nsee there are no leaks. Nice!
+The **```leaks (1)```** tool walks the process heap to detect suspected memory leaks. It looks for pointers which have been allocated but not freed. For example, taking the same Safari instance from above, we can see there are no leaks. _Nice!_
 
 ```bash
-leaks 4828
+$ leaks 4828
 Process:         Safari [4828]
 Path:            /Applications/Safari.app/Contents/MacOS/Safari
 Load Address:    0x10229d000
@@ -121,7 +121,7 @@ int main(int argc, char *argv[]) {
     while(i++ < 3)
         doLeak();
 
-    getchar();        // wait to check the leak
+    getchar();        // Wait for key press
 
     return 0;
 }
