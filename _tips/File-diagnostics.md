@@ -27,7 +27,7 @@ $ sudo fs_usage -f filesys  | grep history
 Check what files are being read by a specific process:
 
 ```bash
-[22:50] ~ sudo fs_usage -f pathanme pid 3094 | grep access
+$ sudo fs_usage -f pathanme pid 3094 | grep access
 22:50:26  access            private/etc/passwd                              0.000005   zsh
 22:50:27  access            pathanme                                        0.000002   zsh
 22:50:27  access            pid                                             0.000002   zsh
