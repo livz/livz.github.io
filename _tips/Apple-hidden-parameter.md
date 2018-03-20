@@ -17,7 +17,11 @@ But on MacOS, programs actually have access to another parameter - the ```apple`
 #include <stdio.h>
 
 int main(int argc, char *argv[], char *envp[], char *apple[]) {
-  printf("apple[0] = %s\n", apple[0]);
+  int i;
+
+  while(apple[i])
+    printf("apple[%d] = %s\n", i, apple[i++]);
+
   return 0;
 }
 ```
@@ -29,9 +33,9 @@ $ gcc -o apple apple.c
 
 $ ./apple
 apple[0] = executable_path=./apple
-
-$ ./Downloads/../apple
-apple[0] = executable_path=./Downloads/../apple
+apple[1] =
+apple[2] =
+apple[3] =
+apple[4] = main_stack=
 ```
 
-I wonder what's the purpose of the other elements of the array ?!
