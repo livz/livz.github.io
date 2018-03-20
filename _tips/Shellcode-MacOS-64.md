@@ -1,12 +1,12 @@
 ---
-title: Fun With Shellcode On MacOS x86-64
+title: Fun With Shellcode On MacOS x86_64
 layout: tip
 date: 2017-10-28
 ---
 
 ## Overview and historic info
 
-Before diving into building a test 64-bit shellcode on _MacOS Sierra_, some historic information will help to clear some questions:
+Before diving into building a test 64-bit shellcode on _MacOS Sierra_, some historic information will help to understand the context:
 
 * The stack of applications is marked as *__non-executable by default__* to prevent code injection and stack-based buffer overflows.
 * The heap is _**executable by default**_ because it is considerably harder (although not impossible) to inject code via the heap.
@@ -64,7 +64,7 @@ $ ./hello-simple
 Hello World!
 ```
 
-To obtain a shellcode from the binary, extract the code bytes of the text section:
+OK, it works. Next, to obtain a shellcode from the binary, extract the code bytes of the text section:
 ```bash
 $ objdump -d hello-simple
 
@@ -99,7 +99,8 @@ Contents of (__TEXT,__text) section
 0000000000001ff9	bf 00 00 00 00 0f 05
 ```
 
-Next, we need to plug this shellcode into a template ```c``` code that will execute it. We need to make sure that the shellcode will be in an executable memory section. As from the code below, it will reside in the ```.data``` section. To be safe, we'll move it to the ```.text``` section:
+Next, we need to plug this shellcode into a template ```c``` code that will execute it. We need to make sure that the shellcode will be in an executable memory section. By default, a string we define would reside in the ```.data``` section. To be safe, we'll move it to the ```.text``` section, which contains code and is executable:
+
 ```c
 const char sc[] __attribute__((section("__TEXT,__text"))) = "\xb8\x04\x00\x00\x02\xbf\x01\x00\x00\x00\x48\xbe\x00\x20\x00\x00\x00\x00\x00\x00\xba\x0e\x00\x00\x00\x0f\x05\xb8\x01\x00\x00\x02\xbf\x00\x00\x00\x00\x0f\x05";
 
@@ -151,7 +152,7 @@ Target 0: (hello2) stopped.
 error: failed to read memory from 0x2000.
 ```
 
-The problem is that code needs to be _**position independent**_, and in this case clearly it's not since the initial binary was reading the string from the ```.data``` section. This is a well-known issue not specific to OSX or 64-bit so I won't insist on it. The solution is also well-known:
+The problem is that code needs to be _**position independent**_, and in this case clearly it's not since the initial binary was reading the string from the ```.data``` section. This is a well-known issue, not specific to OSX or 64-bit so I won't insist on it. The solution is also well-known:
 
 ```bash
 section .data
@@ -203,4 +204,4 @@ $ ./hello3
 Hello World!
 ```
 
-There are still more steps to do, like removing null-bytes for example, but it's a good start!
+_There are still more steps to do, like removing null-bytes for example, but it's a good start!_
