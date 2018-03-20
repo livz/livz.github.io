@@ -1,5 +1,5 @@
 ---
-title: Secret Apple Parameter
+title: Secret Apple
 layout: tip
 date: 2017-10-21
 ---
@@ -22,7 +22,7 @@ int main(int argc, char *argv[], char *envp[], char *apple[]) {
 }
 ```
 
-Although not documented anywhere, it appears that ```apple[0] contains the full path of the executable being run:
+Although not documented anywhere, it appears that ```apple[0]``` contains the full path of the executable being run:
 
 ```bash
 $ gcc -o apple apple.c
