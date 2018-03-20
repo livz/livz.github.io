@@ -1,3 +1,7 @@
+---
+title:  "The Technical Interview part 1"
+---
+
 ![Logo](/assets/images/bermuda-triangle.png)
 
 I’ve always liked puzzles a lot, technical or not, but for some reasons never quite fully enjoyed them during 
