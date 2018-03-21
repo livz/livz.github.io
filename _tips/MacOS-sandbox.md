@@ -2,7 +2,6 @@
 title: Test The MacOS Sandbox
 layout: tip
 date: 2017-12-02
-published: false
 ---
 
 ## Overview
