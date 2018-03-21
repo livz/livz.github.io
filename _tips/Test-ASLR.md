@@ -10,8 +10,8 @@ In these four short posts we'll test a few traditional anti-exploitation measure
 
 To check the other tests, see the links below:
 * [Test Stack Smashing Protection](http://craftware.xyz/tips/Stack-police.html)
-* [Test Code Execution On The Stack]()
-* [Test Code Execution On The Heap]()
+* [Test Code Execution On The Stack](http://craftware.xyz/tips/Stack-exec.html)
+* [Test Code Execution On The Heap](http://craftware.xyz/tips/Heap-exec.html)
 
 #### Test ASLR
 
