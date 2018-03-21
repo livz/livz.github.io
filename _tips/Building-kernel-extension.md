@@ -103,6 +103,7 @@ with:
 	</dict>
 ```
 * Re-build the project and re-run ```kextutil```:
+
 ```bash
 $ kextutil -n -t mykext.kext
 Diagnostics for mykext.kext:
