@@ -78,6 +78,7 @@ Authentication Failures:
 Code Signing Failure: code signature is invalid
 ```
 * Let's start with the first issue of unresolved dependencies. To find out the libraries needed by a ```kext```, we'll use ```kextlibs```:
+
 ```bash
 $ kextlibs -xml mykext.kext
 	<key>OSBundleLibraries</key>
@@ -87,11 +88,13 @@ $ kextlibs -xml mykext.kext
 	</dict>
 ```
 * Our _Info.plist_ file now doesn't contain any library. Add the library above to the file by replacing
+
 ```
 	<key>OSBundleLibraries</key>
 	<dict/>
 ```
 with:
+
 ```
 	<key>OSBundleLibraries</key>
 	<dict>
