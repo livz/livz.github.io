@@ -22,9 +22,9 @@ $ kextstat | grep -i sandbox
 
 Below we'll test a few basic examples of restrictions we can apply to an unterusted app. Basically, sandboxing is done using the ```sandbox-exec``` utility, which is wrapper that calls ```sandbox_init (3)``` before a ```fork``` and ```exec```. 
 
-For in-depth information, the referenced baper by Dionysus Blazakis, although from 2011, does an excellent job of decribing the sandboxing process from a reerse engineer's perspective.
+For in-depth information, the referenced baper by Dionysus Blazakis, although from 2011, does an excellent job of describing the sandboxing process from a reverse engineer's perspective.
 
-#### Block writing
+#### Deny writing
 
 Let's add the following rules to a profile named ```deny-write.sb```, which should block all filesystem write access:
 
@@ -76,7 +76,7 @@ ping: sendto: Operation not permitted
 
 #### Deny process execution
 
-The short snippet below blocks execution of binaries named ```curl``` using _regular expressions_.:
+The short snippet below blocks execution of binaries named ```curl```, matched using _regular expressions_:
 ```(version 1)
 (allow default)
 
