@@ -5,6 +5,7 @@ date: 2017-12-02
 ---
 
 ## Overview
+
 From the [official documentation](https://developer.apple.com/library/content/documentation/Security/Conceptual/AppSandboxDesignGuide/AboutAppSandbox/AboutAppSandbox.html):
 
 > App Sandbox is an access control technology provided in macOS, enforced at the kernel level. It is designed to contain damage to the system and the user’s data if an app becomes compromised. Apps distributed through the Mac App Store must adopt App Sandbox. Apps signed and distributed outside of the Mac App Store with Developer ID can (and in most cases should) use App Sandbox as well.
@@ -76,7 +77,8 @@ ping: sendto: Operation not permitted
 #### Deny process execution
 
 The short snippet below blocks execution of binaries named ```curl```, matched using _regular expressions_:
-```(version 1)
+```
+(version 1)
 (allow default)
 
 (deny process-exec
@@ -90,5 +92,6 @@ Let's test:
 $ sandbox-exec -f deny-exec.sb curl attacker.com
 sandbox-exec: execvp() of 'curl' failed: Operation not permitted
 ```
+
 ## References
 * [The Apple Sandbox](https://www.exploit-db.com/docs/english/16031-the-apple-sandbox.pdf) - Dionysus Blazakis
