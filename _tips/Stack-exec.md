@@ -10,12 +10,12 @@ In these four short posts we'll test a few traditional anti-exploitation measure
 
 To check the other tests, see the links below:
 * [Test Stack Smashing Protection](http://craftware.xyz/tips/Stack-police.html)
-* [Test Code Execution On The Stack]()
-* [Test Code Execution On The Heap]()
+* [Test ASLR (Address space layout randomization)](http://craftware.xyz/tips/Test-ASLR.html)
+* [Test Code Execution On The Heap](http://craftware.xyz/tips/Heap-exec.html)
 
 #### Test Code Execution On The Stack
 
-The following snippet creates a short shellcode and copies it into a stack allocated variable. It then casts that variable to a function and attempts to execute it:
+The following snippet creates a short shellcode and copies it into a _**stack allocated variable**_. It then casts that variable to a function and attempts to execute it:
 
 ```c
 #include <stdio.h>
@@ -49,7 +49,7 @@ $ ./execStack
 zsh: segmentation fault ./execStack
 ```
 
-```LLDB``` can be used to investigate the point of the crash. A ```EXC_BAD_ACCESS``` error is generated when the program attempts to jump to the shellcode on the stack and execute it:
+```LLDB``` can be used to investigate the point of the crash. A ```EXC_BAD_ACCESS``` error is generated when the program attempts to jump to the shellcode _on the stack_ and execute it:
 
 ```bash
 $ lldb ./execStack
@@ -123,7 +123,7 @@ int main(int argc, char *argv[]){
 }
 ```
 
-Now the program is stuck in an _infinite loop_, executing the shellcode:
+The program is now in an _infinite loop_, executing the shellcode:
 
 ```bash
 $ ./execStack2
