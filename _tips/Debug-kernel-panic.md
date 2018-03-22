@@ -30,6 +30,7 @@ $ sudo chmod 1777 /PanicDumps
 $ sudo launchctl load -w /System/Library/LaunchDaemons/com.apple.kdumpd.plist
 ```
 * Next, check that the dump server was started correctly:
+
 ```bash
 $ sudo launchctl list | grep kdump
 -	0	com.apple.kdumpd
