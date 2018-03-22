@@ -16,7 +16,7 @@ For building and loading a kernel extension, check the [previous tip](http://cra
 
 * The first step in collecting kernel core dumps is to set up a kernel core dump server. We'll use a MacOS Sierra.
 * A typical size for kernel dumps is 200-500 MB and can vary dependng on the physical memory size and usage patterns.
-* The server needs to be accessible from the client.
+* The server needs to be accessible from the client over the network. 
 * On the server we need a directory where the cores will be dropped, which needs to be writable by _the program dumping the cores_. According to the official guide, the following settings will do:
 
 ```bash
@@ -24,7 +24,7 @@ $ sudo mkdir /PanicDumps
 $ sudo chown root:wheel /PanicDumps
 $ sudo chmod 1777 /PanicDumps
 ```
-* Next step is to *__activate kdumpd__* (the kernel dump server process). Note that by default this will try to dump the cores to the ```/PanicDumps``` folder. If you've use a different folder name in the previous step, update its ```.plist``` property file.
+* Next step is to *__activate kdumpd__* (the kernel dump server process). _Note that by default this will try to dump the cores to the ```/PanicDumps``` folder. If you've use a different folder name in the previous step, update its ```.plist``` property file._
 
 ```bash
 $ sudo launchctl load -w /System/Library/LaunchDaemons/com.apple.kdumpd.plist
