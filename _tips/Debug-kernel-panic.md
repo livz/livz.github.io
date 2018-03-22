@@ -35,7 +35,7 @@ $ sudo launchctl load -w /System/Library/LaunchDaemons/com.apple.kdumpd.plist
 $ sudo launchctl list | grep kdump
 -	0	com.apple.kdumpd
 ```
-* The default port, also defined in the ```com.apple.kdumpd.plist``` file is 1069. Just to make sure, we can verify this is listening:
+* The default port, also defined in the ```com.apple.kdumpd.plist``` file is 1069. Just to make sure, we can verify the port is open:
 
 ```bash
 $ netstat  -an  | grep 1069
