@@ -46,7 +46,7 @@ udp6       0      0  *.1069                 *.*
 #### Configure the client (the target machine)
 
 On the client machine we need to modify the NVRAM boot-args to inclunde two arguments:
-* The debug flag, set to a combination of the flags described [here](https://developer.apple.com/library/content/technotes/tn2004/tn2118.html#SECDEBUGFLAGS). We'll use ```0x444```, which is equivalent to ```DB_KERN_DUMP_ON_PANIC|DB_ARP|DB_NMI```
+* The debug flag, which must be set to a combination of the flags described [here](https://developer.apple.com/library/content/technotes/tn2004/tn2118.html#SECDEBUGFLAGS). We'll use ```0x444```, which is equivalent to ```DB_KERN_DUMP_ON_PANIC|DB_ARP|DB_NMI```.
 * The IP address of the dump server in the ```_panicd_ip``` variable.
 * Let's set both using the ```nvram``` command:
 
@@ -78,9 +78,9 @@ $ ls -alh /PanicDumps
 -rw-rw----   1 nobody  wheel   126M 21 Mar 23:59 core-xnu-3789.72.11-192.168.136.130-a5001516.gz
 ```
 
-#### Analyse the dumps
+#### Analyse the core dump
 
-* We can analyse the core dumps using ```lldb```:
+* We can analyse the core dump using ```lldb```:
 
 ```bash
 $ gunzip core-xnu-3789.72.11-192.168.136.130-a5001516.gz
@@ -96,11 +96,11 @@ WARNING: Unable to locate kernel binary on the debugger system.
 Core file '/PanicDumps/core-xnu-3789.72.11-192.168.136.130-a5001516' (x86_64) was loaded.
 ```
 
-* As hinted by the warning message, to get access to symbols and lldbmacros, we would also need the kernel from the KDK.
+* As hinted in the warning message, to get access to symbols and lldbmacros, we would also need the kernel from the KDK.
 
 #### Housekeeping
 
-* Remove the folder containing the dunps when finished the analysis.
+* Remove the folder containing the dunps when the analysis is done.
 * Disable the dump server:
 
 ```bash
