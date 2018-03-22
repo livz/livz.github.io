@@ -100,15 +100,12 @@ Core file '/PanicDumps/core-xnu-3789.72.11-192.168.136.130-a5001516' (x86_64) wa
 #### Housekeeping
 
 * Remove the folder containing the dunps when finished the analysis.
-
 * Disable the dump server:
 
 ```bash
 $ sudo launchctl unload -w /System/Library/LaunchDaemons/com.apple.kdumpd.plist
 ```
-
 * If you've disabled the firewall to allow communication between the server and the client, or added any permissive rules, make sure to remove them and re-enable the firewall.
-
 * Re-enable System Integrity Protection on the client machine.
 
 ## References
