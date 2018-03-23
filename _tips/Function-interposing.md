@@ -1,12 +1,12 @@
 ---
-title: Function Interposing And Tracing
+title: Function Interposing
 layout: tip
 date: 2018-01-10
 ---
 
 ## Overview
 
-* In the Linux world, the ```LD_PRELOAD``` environment variable can be set to the path of a shared object, that file will be loaded _**before any other library**_ (including the C runtime, ```libc.so```). 
+* In the Linux world, the ```LD_PRELOAD``` environment variable can be set to the path of a shared object, that will be loaded at runtime _**before any other library**_ (including the C runtime, ```libc.so```). 
 * This mechanism can be used both for good and bad purposes, from inspecting program memory and adding trace logs to inject nefarious code into applications.
 * To prevent privilege escalation using ```suid``` binaries, **the loader ignores the ```LD_PRELOAD``` variable if _real user id_ is different than the _effective user id_**. 
 * [This blog](https://rafalcieslak.wordpress.com/2013/04/02/dynamic-linker-tricks-using-ld_preload-to-cheat-inject-features-and-investigate-programs) has a working example showing how this trick works for Linux. 
@@ -15,8 +15,8 @@ date: 2018-01-10
 ## How it works
 
 * The technique was described in [Mac OS X Internals: A Systems Approach (2006)](https://www.amazon.co.uk/Mac-OS-Internals-Approach-paperback/dp/0321278542) and [Mac OS X and iOS Internals: To the Apple's Core (2013)](https://www.amazon.com/Mac-OS-iOS-Internals-Apples/dp/1118057651). 
-* Basically function interposing is done by specifying a _dylib library_ we want to _interpose_ in the ```DYLD_INSERT_LIBRARIES``` environment variable.
-* We also need to enable ```DYLD_FORCE_FLAT_NAMESPACE```. [```dyld (1)``` man page](https://developer.apple.com/legacy/library/documentation/Darwin/Reference/ManPages/man1/dyld.1.html) describes these two variables:
+* In a nutshell, function interposing is done by specifying a _dylib library_ we want to _interpose_ in the ```DYLD_INSERT_LIBRARIES``` environment variable.
+* We also need to enable ```DYLD_FORCE_FLAT_NAMESPACE```. as described in [```dyld (1)``` man page](https://developer.apple.com/legacy/library/documentation/Darwin/Reference/ManPages/man1/dyld.1.html):
 
 ```
 DYLD_INSERT_LIBRARIES
