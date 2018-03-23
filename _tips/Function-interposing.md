@@ -87,6 +87,7 @@ int rand(void)
 
 ```
 * Finally, let's test using the two environment variables from above:
+
 ```bash
 $ gcc -Wall -o myRandLib.dylib -dynamiclib myRandLib.c
 $ DYLD_FORCE_FLAT_NAMESPACE=1 DYLD_INSERT_LIBRARIES=myRandLib.dylib ./genRand
