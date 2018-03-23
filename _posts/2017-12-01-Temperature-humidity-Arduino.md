@@ -15,15 +15,20 @@ It turned out that a lot of tutorials implicitely assume many prerequisites. Als
 
 ## Hardware components
 
-I've experimented with a bunch of different components and in the end stuck with the following (click on the images below to expand):
+I've experimented with a bunch of different components and in the end stuck with the ones below (click on the images below to expand). I got most of them from [DealExtreme](http://www.dx.com) but you can probably find them in many other online shops.
 
 * Arduino Uno R3 Rev3 ATMEGA328P Board:
 
 [![](/assets/images/tips/arduino/uno-small.jpg)](/assets/images/tips/arduino/uno-large.jpg)
-* SYB-120 Breadboard with jump wires:
+* SYB-120 Breadboard with Jump Wires:
 
 [![](/assets/images/tips/arduino/breadboard-small.jpg)](/assets/images/tips/arduino/breadboard-large.jpg)
+* DHT22 2302 Digital Temperature and Humidity Sensor Module:
 
+[![](/assets/images/tips/arduino/dht22-small.jpg)](/assets/images/tips/arduino/dht22-large.jpg)
+* 0.96 128x64 I2C Blue Color OLED Display Module:
+[![](/assets/images/tips/arduino/oled-front-small.jpg)](/assets/images/tips/arduino/oled-front-large.jpg)
+[![](/assets/images/tips/arduino/oled-back-small.jpg)](/assets/images/tips/arduino/oled-back-large.jpg)
 
 breadboard issue
 cable issue
