@@ -18,9 +18,10 @@ It turned out that a lot of tutorials implicitely assume many prerequisites. Als
 I've experimented with a bunch of different components and in the end stuck with the following (click on the images below to expand):
 
 * Arduino Uno R3 Rev3 ATMEGA328P Board:
-[![](/assets/images/tips/arduino/uno-small.jpg)](/assets/images/tips/arduino/uno-large.jpg)
 
+[![](/assets/images/tips/arduino/uno-small.jpg)](/assets/images/tips/arduino/uno-large.jpg)
 * SYB-120 Breadboard with jump wires:
+
 [![](/assets/images/tips/arduino/breadboard-small.jpg)](/assets/images/tips/arduino/breadboard-large.jpg)
 
 
