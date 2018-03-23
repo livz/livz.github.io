@@ -7,7 +7,7 @@ published: true
 
 ![Logo](/assets/images/tips/arduino/logo.png)
 
-## Motivation motivation
+## Motivation
 
 I'm always very interested in finding out how things work on a lower level and since I had a few spare days I've decided to play around with some sensors and an Arduino board I've been using for random projects. After all, there are many mechatronics tutorials online, so _how hard can it be_?
 
@@ -17,8 +17,12 @@ It turned out that a lot of tutorials implicitely assume many prerequisites. Als
 
 I've experimented with a bunch of different components and in the end stuck with the following (click on the images below to expand):
 
-* Arduino Uno R3 Rev3 ATMEGA328P Board
+* Arduino Uno R3 Rev3 ATMEGA328P Board:
 [![](/assets/images/tips/arduino/uno-small.jpg)](/assets/images/tips/arduino/uno-large.jpg)
+
+* SYB-120 Breadboard with jump wires:
+[![](/assets/images/tips/arduino/breadboard-small.jpg)](/assets/images/tips/arduino/breadboard-large.jpg)
+
 
 breadboard issue
 cable issue
