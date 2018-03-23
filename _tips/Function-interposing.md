@@ -62,7 +62,7 @@ Lucky number 4: 22
 Lucky number 5: 5
 Lucky number 6: 43
 ```
-* The code for our library to interpose:
+* The code for our library containing the function(s) to interpose:
 
 ```c
 #include <stdio.h>
