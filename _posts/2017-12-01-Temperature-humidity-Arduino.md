@@ -107,7 +107,7 @@ I've found the instructions to hook the OLED display [here](https://startingelec
 
 ![Logo](/assets/images/tips/arduino/hook-oled.png)
 
-If you're going through the article, one important section is _Modifying the SSD1306 Driver_. Don't skip it! After connecting everything, the board looks like this (all connections are visible, click to expand):
+If you're going through the article, one important section is _Modifying the SSD1306 Driver_. Don't skip it! After connecting everything, my board looks like this (all connections are visible, click to expand):
 
 [![](/assets/images/tips/arduino/final-small.jpg)](/assets/images/tips/arduino/final-large.jpg)
 
