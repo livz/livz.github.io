@@ -27,7 +27,9 @@ I've experimented with a bunch of different components and in the end stuck with
 
 [![](/assets/images/tips/arduino/dht22-small.jpg)](/assets/images/tips/arduino/dht22-large.jpg)
 * 0.96 128x64 I2C Blue Color OLED Display Module:
+
 [![](/assets/images/tips/arduino/oled-front-small.jpg)](/assets/images/tips/arduino/oled-front-large.jpg)
+
 [![](/assets/images/tips/arduino/oled-back-small.jpg)](/assets/images/tips/arduino/oled-back-large.jpg)
 
 breadboard issue
