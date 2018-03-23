@@ -11,7 +11,7 @@ published: true
 
 I'm always very interested in finding out how things work on a lower level and since I had a few spare days I've decided to play around with some sensors and an Arduino board I've been using for random projects. After all, there are many mechatronics tutorials online, so _how hard can it be_?
 
-It turned out that a lot of tutorials implicitely assume many prerequisites. Also didn't match exactly the electronic pieces I had already ordered (and waited for almost a month to be shipped from overseas). But overall it was a good learning experience. So in this post I'll go through all the steps and include fixes for some issues I've encountered. Hopefully this will be useful for somebody in a same position as I was a few days ago.  Let's begin!
+It turned out that a lot of tutorials implicitely assume many prerequisites. Also they didn't match exactly the electronic pieces I had already ordered (_and waited for almost a month to be shipped from overseas!_). But overall it was a good learning experience. So in this post I'll go through all the steps and include fixes for some issues I've encountered along the way. Hopefully this will be useful for somebody in a same position as I was a few days ago.  Let's begin!
 
 ## Hardware components
 
@@ -57,7 +57,7 @@ $ dmesg
 
 ### _Issue #2 - Breadboard_
 
-Something I didn't notice from the start which was confusing is that the SYB-120 Breadboard **has two gaps in the distribution strips**: the distribution strips are split into three pieces, instead of running along the board from one end to another, as you would expect from other boards. You can easily notice this if you remove the back cover of the board:
+Something I didn't notice from the start which was confusing is that the SYB-120 Breadboard **has two gaps in each distribution strip**: the distribution strips are split into three pieces, instead of running along the board from one end to another, as you would expect from other boards. You can easily notice this if you remove the back cover of the board:
 
 [![](/assets/images/tips/arduino/breadboard-back-small.jpg)](/assets/images/tips/arduino/breadboard-back-large.jpg)
 
@@ -71,7 +71,7 @@ I've used the following software and libraries:
 * [SSD1306 Driver Library](https://github.com/adafruit/Adafruit_SSD1306/archive/master.zip)
 * [GFX Library](https://github.com/adafruit/Adafruit-GFX-Library/archive/master.zip)
 
-### _Issue #3 - Arduino IDE upload error_:
+### _Issue #3 - Arduino IDE upload error_
 
 When trying to upload the compiled hex file to the board I got the following pemission error:
 ```
@@ -107,7 +107,9 @@ I've found the instructions to hook the OLED display [here](https://startingelec
 
 ![Logo](/assets/images/tips/arduino/hook-oled.png)
 
-If you're going through the article, one important section is _Modifying the SSD1306 Driver_. Don't skip it!
+If you're going through the article, one important section is _Modifying the SSD1306 Driver_. Don't skip it! After connecting everything, the board looks like this (all connections are visible, click to expand):
+
+[![](/assets/images/tips/arduino/final-small.jpg)](/assets/images/tips/arduino/final-large.jpg)
 
 ## Coding
 
