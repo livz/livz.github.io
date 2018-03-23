@@ -1,7 +1,7 @@
 ---
 title: Function Interposing And Tracing
 layout: tip
-date: 2018-01-010
+date: 2018-01-10
 ---
 
 ## Overview
