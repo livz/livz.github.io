@@ -243,9 +243,8 @@ void loop() {
 
 ## Demo
 
-<video controls="controls" width="640" height="360" name="Demo"> 
-  <source src="assets/images/tips/arduino/video.mov">
-  Your browser does not support the video element.
+<video controls="controls" width="1200" height="700" name="Video Name" src="assets/images/tips/arduino/video.mov">
+Your browser does not support the video element.
 </video>
 
 ## References
