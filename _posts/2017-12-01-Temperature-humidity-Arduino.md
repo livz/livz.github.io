@@ -5,7 +5,7 @@ date: 2017-12-01
 published: true
 ---
 
-![Logo](/assets/images/tips/arduino/logo.png)
+![Logo](/assets/images/tips/arduino/logo.jpg)
 
 ## Motivation
 
