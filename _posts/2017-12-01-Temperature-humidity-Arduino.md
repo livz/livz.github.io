@@ -8,10 +8,17 @@ published: true
 ![Logo](/assets/images/tips/arduino/logo.png)
 
 ## Motivation motivation
-- learning experience
-- existing toturials incomplete or assume a lot of prerequisites
+
+I'm always very interested in finding out how things work on a lower level and since I had a few spare days I've decided to play around with some sensors and an Arduino board I've been using for random projects. After all, there are many mechatronics tutorials online, so _how hard can it be_?
+
+It turned out that a lot of tutorials implicitely assume many prerequisites. Also didn't match exactly the electronic pieces I had already ordered (and waited for almost a month to be shipped from overseas). But overall it was a good learning experience. So in this post I'll go through all the steps and include fixes for some issues I've encountered. Hopefully this will be useful for somebody in a same position as I was a few days ago.  Let's begin!
 
 ## Hardware components
+
+I've experimented with a bunch of different components and in the end stuck with the following (click on the images below to expand):
+
+* Arduino Uno R3 Rev3 ATMEGA328P Board
+[![](/assets/images/tips/arduino/uno-small.jpg)](/assets/images/tips/arduino/uno-large.jpg)
 
 breadboard issue
 cable issue
