@@ -149,7 +149,7 @@ $ sudo dtrace -s memalloc.d -p 585
 dtrace: failed to grab pid 585: the current security restriction (system integrity protection enabled) prevents dtrace from attaching to an executable not signed with the [com.apple.security.get-task-allow] entitlement
 ```
 
-_We need to __disable SIP completely to be able to execute the above script on system binaries__, like the Apple Safari application above!_
+_We need to __disable SIP completely to be able to execute the above script on system binaries__, like the Apple Safari browser for example!_
 
 
 ## References
