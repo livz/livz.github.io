@@ -46,6 +46,7 @@ Since the user reported the weird activity happening at start up before they had
 <div class="hint">
 A registry key associated with start up was set to refer to an unusual file. 
 </div>
+<br><br><br>
 
 ### Question 2
 
@@ -54,16 +55,15 @@ What gave it away? Provide a brief explanation of how you arrived at your answer
 #### Answer
 
 <div class="hint">
-We can find a very unusual startup item just by searching in the classic location ```"CurrentVersion\Run"```:
+We can find a very unusual startup item just by searching in the classic location CurrentVersion\Run:
 
-```bash
 $ grep -r -i "currentversion\\\\run" * --color=auto
 AutorunscDeep.csv
 05/02/2018 16:47,HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Run,(Default),enabled,Logon,PCWIN101337\developer,,,,c:\users\developer\appdata\local\21b5e0f\1aa2e00.bat,,"""C:\Users\developer\AppData\Local\21b5e0f\1aa2e00.bat""",1A28ACE2EC2D7832D62836CE30F9C13A,AB7609CB27956D0B23EAD90B8196335DAF0220C7,AB7609CB27956D0B23EAD90B8196335DAF0220C7,1B9FF2BE1BF969CFFF6BF04A905DF9496957E9B3B6927296785365F589D36943,1B9FF2BE1BF969CFFF6BF04A905DF9496957E9B3B6927296785365F589D36943,,1A28ACE2EC2D7832D62836CE30F9C13A,02/05/2018 16:47,5.179215826,73,PCWIN101337,32215833-8848-496c-bc78-53ee82512e99,TRUE
-```
 
-We have the malicious script - **```c:\users\developer\appdata\local\21b5e0f\1aa2e00.bat```**. 
+We have the malicious script - c:\users\developer\appdata\local\21b5e0f\1aa2e00.bat.
 </div>
+<br><br><br>
 
 ### Question 3
 
