@@ -1,7 +1,7 @@
 ---
-title: [CTF] BoE 1 - "I smell a rat" 
+title: CTF] BoE 1 - "I smell a rat" 
 layout: post
-date: 2018-02-01
+date: 2018-02-10
 published: true
 ---
 
@@ -9,4 +9,4 @@ published: true
 
 ## Overview
 
-Recently Bank of England published a series of challenges on the [CyberSecurityChallenge UK website ]https://pod.cybersecuritychallenge.org.uk
+Recently Bank of England published a series of challenges on the [CyberSecurityChallenge UK website]https://pod.cybersecuritychallenge.org.uk
