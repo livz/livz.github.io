@@ -2,7 +2,7 @@
 title: "[CTF] BoE 1 - \"I smell a rat\""
 layout: post
 date: 2018-02-10
-published: false
+published: true
 ---
 
 ![Logo](/assets/images/vault1.png)
