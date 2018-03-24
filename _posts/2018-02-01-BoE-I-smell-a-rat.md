@@ -11,6 +11,8 @@ published: true
 
 Recently Bank of England published a series of challenges on the [CyberSecurityChallenge UK website](https://pod.cybersecuritychallenge.org.uk). The first two of them are more interesting and realistic. I'll post the description and short answers below. Please avoid looking at the solutions and first analyse the artefacts and find the clues yourself!
 
+* **Second challenge** - [_"Go with the (net)flow"_](http://craftware.xyz/2018/02/10/BoE-Netflow.html)
+
 ## Scenario
 
 _You are an employee for the PiCharts Global Analytics company Security Operations Centre (SOC). A fellow incident responder just received a phone call from a user working in the Web Design team to report the following: "Following a device restart to complete a tool installation on my device, I logged on with my usual credentials and I was briefly presented with a console window that closed immediately. The laptop is working alright, but I thought this was slightly weird. I am assuming this is you guys pushing an update, right?"._
