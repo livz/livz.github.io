@@ -71,7 +71,10 @@ Moving on, you decide to continue your analysis by reviewing the handles.csv fil
 
 #### Answer: 
 
+<div class="hint">
 regsvr32.exe
+</div>
+<br><br><br>
 
 ### Question 4
 
@@ -79,10 +82,12 @@ What gave it away? Provide a brief explanation below on how you arrived to your 
 
 #### Answer
 
-* It has a handle to ```HKCU\0ce6402```, which is _the key created by the malware_ (as per ProcmonPreRestart)
-
+<div class="hint">
+- It has a handle to ```HKCU\0ce6402```, which is _the key created by the malware_ (as per ProcmonPreRestart)
 - It has a handle to Wireshark registry key, probably checking if it's installed:
-```HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\Wireshark.exe```
+HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\Wireshark.exe
+</div>
+<br><br><br>
 
 ### Question 5
 
