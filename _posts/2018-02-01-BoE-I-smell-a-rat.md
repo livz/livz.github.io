@@ -43,7 +43,15 @@ Since the user reported the weird activity happening at start up before they had
 
 #### Answer
 
-We can find a very unusual startup item just by searching in the traditional preferred location "CurrentVersion\Run":
+A registry key associated with start up was set to refer to an unusual file. 
+
+### Question 2
+
+What gave it away? Provide a brief explanation of how you arrived at your answer to Question 1
+
+#### Answer
+
+We can find a very unusual startup item just by searching in the classic location ```"CurrentVersion\Run"```:
 
 ```bash
 $ grep -r -i "currentversion\\\\run" * --color=auto
@@ -51,43 +59,83 @@ AutorunscDeep.csv
 05/02/2018 16:47,HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Run,(Default),enabled,Logon,PCWIN101337\developer,,,,c:\users\developer\appdata\local\21b5e0f\1aa2e00.bat,,"""C:\Users\developer\AppData\Local\21b5e0f\1aa2e00.bat""",1A28ACE2EC2D7832D62836CE30F9C13A,AB7609CB27956D0B23EAD90B8196335DAF0220C7,AB7609CB27956D0B23EAD90B8196335DAF0220C7,1B9FF2BE1BF969CFFF6BF04A905DF9496957E9B3B6927296785365F589D36943,1B9FF2BE1BF969CFFF6BF04A905DF9496957E9B3B6927296785365F589D36943,,1A28ACE2EC2D7832D62836CE30F9C13A,02/05/2018 16:47,5.179215826,73,PCWIN101337,32215833-8848-496c-bc78-53ee82512e99,TRUE
 ```
 
-We have found our malicious script - **```c:\users\developer\appdata\local\21b5e0f\1aa2e00.bat```**.
-
-### Question 2
-
-What gave it away? Provide a brief explanation of how you arrived at your answer to Question 1
+We have the malicious script - **```c:\users\developer\appdata\local\21b5e0f\1aa2e00.bat```**. 
 
 ### Question 3
 
 Moving on, you decide to continue your analysis by reviewing the handles.csv file. Within that file, you identify a process that acts in a very suspicious way. What is the name of that process?
 
+#### Answer: 
+
+regsvr32.exe
+
 ### Question 4
 
 What gave it away? Provide a brief explanation below on how you arrived to your answer to Question 3.
+
+#### Answer
+
+* It has a handle to ```HKCU\0ce6402```, which is _the key created by the malware_ (as per ProcmonPreRestart)
+
+- It has a handle to Wireshark registry key, probably checking if it's installed:
+```HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\Wireshark.exe```
 
 ### Question 5
 
 The process you have previously identified can be spotted attempting a number of network connections. Which ports does it attempt to connect to? Write those in numerical order from smaller to larger.
 
+#### Answer
+
+80,443,8080
+
 ### Question 6
 
 Which data source(s) did you use to come to your answer? Write the name of the file(s) below.
+
+#### Answer
+
+ProcmonPreRestart.csv
 
 ### Question 7
 
 Trace back the initiation of the process you identified in Question 5 (make sure this is the same process). Which is the parent process? What is its process id? Give your answer in the following form: process.exe,process_id.
 
+#### Answer
+
+powershell.exe,4496
+
 ### Question 8
 
 What gave it away? Provide a brief explanation of how you arrived to the answer you gave to Question 7.
+
+#### Answer
+
+```bash
+$ cat ProcmonPreRestart.csv| grep -i "Process create"
+4:46:37 PM,svchost.exe,848,Process Create,C:\Windows\system32\DllHost.exe,SUCCESS,"PID: 940, Command line: C:\Windows\system32\DllHost.exe /Processid:{AB8902B4-09CA-4BB6-B78D-A8F59079A8D5}"
+4:46:38 PM,explorer.exe,676,Process Create,C:\Users\developer\Downloads\winmrsc.exe,SUCCESS,"PID: 920, Command line: ""C:\Users\developer\Downloads\winmrsc.exe"" "
+4:46:43 PM,wmiprvse.exe,2688,Process Create,C:\Windows\system32\mshta.exe,SUCCESS,"PID: 1284, Command line: ""C:\Windows\system32\mshta.exe"" javascript:nKu8xsH=""XVfo"";F7u5=new%20ActiveXObject(""WScript.Shell"");PULv1e=""iOwfeb2W"";dU7nn=F7u5.RegRead(""HKCU\\software\\X1nTFns\\ywhERWpR"");f7l3CvQ=""V"";eval(dU7nn);ZFUx8=""SmEDt"";"
+4:46:44 PM,mshta.exe,1284,Process Create,C:\Windows\SysWOW64\WindowsPowerShell\v1.0\powershell.exe,SUCCESS,"PID: 4496, Command line: ""C:\Windows\SysWOW64\WindowsPowerShell\v1.0\powershell.exe"" iex $env:yzhp"
+4:46:44 PM,powershell.exe,4496,Process Create,C:\Windows\system32\conhost.exe,SUCCESS,"PID: 2376, Command line: \??\C:\Windows\system32\conhost.exe 0xffffffff -ForceV1"
+4:47:06 PM,powershell.exe,4496,Process Create,C:\Windows\SysWOW64\regsvr32.exe,SUCCESS,"PID: 228, Command line: regsvr32.exe"
+4:47:07 PM,regsvr32.exe,228,Process Create,C:\Windows\SysWOW64\regsvr32.exe,SUCCESS,"PID: 4020, Command line: ""C:\Windows\SysWOW64\regsvr32.exe"""
+````
 
 ### Question 9
 
 The parent process you identified in Question 7 was also initiated in an unexpected way. A variable was abused to make that happen. Give the name of that variable below. 
 
+#### Answer
+
+yzhp
+
 ### Question 10
 
 Provide a brief explanation of how you arrived to the answer you gave to Question 9.
+
+```
+4:46:44 PM,mshta.exe,1284,Process Create,C:\Windows\SysWOW64\WindowsPowerShell\v1.0\powershell.exe,SUCCESS,"PID: 4496, Command line: ""C:\Windows\SysWOW64\WindowsPowerShell\v1.0\powershell.exe"" iex $env:yzhp"
+```
 
 ### Question 11
 
@@ -99,6 +147,9 @@ Based on all of the above which of the following best describes the state of the
 * The host has most likely been compromised and is used for the mining of cryptocurrencies.
 * The host has most likely been infected by a piece of malware exploiting a vulnerability in the Microsoft Windows Domain Name System DNSAPI.dll (see CVE-2017-11779)
 
+#### Answer
+
+The host has been infected by a piece of malware that attempts to [_live off the land_](https://www.symantec.com/connect/blogs/attackers-are-increasingly-living-land).
 
 ## References
 * [Untangling Kovter’s persistence methods](https://blog.malwarebytes.com/threat-analysis/2016/07/untangling-kovter/)
