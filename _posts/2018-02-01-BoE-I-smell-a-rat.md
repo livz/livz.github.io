@@ -1,5 +1,5 @@
 ---
-title: CTF] BoE 1 - "I smell a rat" 
+title: "[CTF] BoE 1 - \"I smell a rat\""
 layout: post
 date: 2018-02-10
 published: true
