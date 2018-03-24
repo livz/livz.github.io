@@ -16,7 +16,7 @@ published: true
 
 ### Entitlements
 
-* Entitlements confer additional capabilities or permissions needed by the application.
+* Entitlements confer additional capabilities or permissions needed by an application.
 * Entitlements must be specified during the code signing process.
 * Entitlements are part of the application container's plist (_more about this below_).
 
@@ -30,7 +30,7 @@ $ asctl sandbox check  TextEdit
 	signed with App Sandbox entitlements
 ```
 
-### Check whether an is running with _App Sandbox_ enabled
+### Check whether an app is running with _App Sandbox_ enabled
 
 ```bash
 $ asctl sandbox check --pid 3560
@@ -67,11 +67,14 @@ $ cat Container.plist
 			<true/>
 		</dict>
 ```
-* ** Method 2** - Use the ```codesign``` utility to extract any entitlement data from the signature of the app:
+* **Method 2** - Use the ```codesign``` utility to __*extract any entitlement data from the signature of the app*__:
 
 ```bash
-$ codesign --display --verbose=99 --entitlements - /Applications/TextEdit.app
-<key>SandboxProfileDataValidationEntitlementsKey</key>
+$ codesign --display  --entitlements - /Applications/TextEdit.app
+Executable=/Applications/TextEdit.app/Contents/MacOS/TextEdit
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
 <dict>
 	<key>com.apple.application-identifier</key>
 	<string>com.apple.TextEdit</string>
@@ -88,6 +91,7 @@ $ codesign --display --verbose=99 --entitlements - /Applications/TextEdit.app
 	<key>com.apple.security.print</key>
 	<true/>
 </dict>
+</plist>
 ```
 
 ### Collect diagnostic information about an app
