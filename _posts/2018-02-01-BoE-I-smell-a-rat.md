@@ -9,7 +9,7 @@ published: true
 
 ## Overview
 
-Recently Bank of England published a series of challenges on the [CyberSecurityChallenge UK website](https://pod.cybersecuritychallenge.org.uk). The first two of them are more interesting and realistic. I'll post the description and short answers below. Please avoid looking at the solutions and first analyse the artefacts and find the clues!
+Recently Bank of England published a series of challenges on the [CyberSecurityChallenge UK website](https://pod.cybersecuritychallenge.org.uk). The first two of them are more interesting and realistic. I'll post the description and short answers below. Please avoid looking at the solutions and first analyse the artefacts and find the clues yourself!
 
 ## Scenario
 
@@ -54,16 +54,15 @@ What gave it away? Provide a brief explanation of how you arrived at your answer
 
 #### Answer
 
-<div class="hint">
-We can find a very unusual startup item just by searching in the classic location CurrentVersion\Run:
+We can find a very unusual startup item just by searching in the classic location **```CurrentVersion\Run```**:
 
+```bash
 $ grep -r -i "currentversion\\\\run" * --color=auto
 AutorunscDeep.csv
-05/02/2018 16:47,HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Run,(Default),enabled,Logon,PCWIN101337\developer,,,,c:\users\developer\appdata\local\21b5e0f\1aa2e00.bat,,"""C:\Users\developer\AppData\Local\21b5e0f\1aa2e00.bat""",1A28ACE2EC2D7832D62836CE30F9C13A,AB7609CB27956D0B23EAD90B8196335DAF0220C7,AB7609CB27956D0B23EAD90B8196335DAF0220C7,1B9FF2BE1BF969CFFF6BF04A905DF9496957E9B3B6927296785365F589D36943,1B9FF2BE1BF969CFFF6BF04A905DF9496957E9B3B6927296785365F589D36943,,1A28ACE2EC2D7832D62836CE30F9C13A,02/05/2018 16:47,5.179215826,73,PCWIN101337,32215833-8848-496c-bc78-53ee82512e99,TRUE
+05/02/2018 16:47,HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Run,(Default),enabled,Logon,PCWIN101337\developer,,,,c:\users\developer\appdata\local\21b5e0f\1aa2e00.bat,,"""C:\Users\developer\AppData\Local\21b5e0f\1aa2e00.bat""",[..],TRUE
+```
 
-We have the malicious script - c:\users\developer\appdata\local\21b5e0f\1aa2e00.bat.
-</div>
-<br><br><br>
+We have the malicious script - **c:\users\developer\appdata\local\21b5e0f\1aa2e00.bat**.
 
 ### Question 3
 
@@ -74,7 +73,7 @@ Moving on, you decide to continue your analysis by reviewing the handles.csv fil
 <div class="hint">
 regsvr32.exe
 </div>
-<br><br><br>
+<br>
 
 ### Question 4
 
@@ -82,12 +81,9 @@ What gave it away? Provide a brief explanation below on how you arrived to your 
 
 #### Answer
 
-<div class="hint">
-- It has a handle to ```HKCU\0ce6402```, which is _the key created by the malware_ (as per ProcmonPreRestart)
-- It has a handle to Wireshark registry key, probably checking if it's installed:
-HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\Wireshark.exe
-</div>
-<br><br><br>
+* It has a handle to ```HKCU\0ce6402```, which is _the key created by the malware_ (as per ProcmonPreRestart)
+* It has a handle to Wireshark registry key, probably checking if it's installed:
+```HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\Wireshark.exe```
 
 ### Question 5
 
@@ -95,7 +91,10 @@ The process you have previously identified can be spotted attempting a number of
 
 #### Answer
 
+<div class="hint">
 80,443,8080
+</div>
+<br>
 
 ### Question 6
 
@@ -103,7 +102,10 @@ Which data source(s) did you use to come to your answer? Write the name of the f
 
 #### Answer
 
+<div class="hint">
 ProcmonPreRestart.csv
+</div>
+<br>
 
 ### Question 7
 
@@ -111,13 +113,19 @@ Trace back the initiation of the process you identified in Question 5 (make sure
 
 #### Answer
 
+<div class="hint">
 powershell.exe,4496
+</div>
+<br>
 
 ### Question 8
 
 What gave it away? Provide a brief explanation of how you arrived to the answer you gave to Question 7.
 
 #### Answer
+
+Using the information from ```ProcmonPreRestart``` we can see the whole process tree of the malicious binary:
+**_wmiprvse.exe (2688) →  mshta.exe (1284) →  powershell.exe (4496) →  regsvr32.exe (228) →  regsvr32.exe (4020)_**
 
 ```bash
 $ cat ProcmonPreRestart.csv| grep -i "Process create"
@@ -136,7 +144,10 @@ The parent process you identified in Question 7 was also initiated in an unexpec
 
 #### Answer
 
+<div class="hint">
 yzhp
+</div>
+<br>
 
 ### Question 10
 
@@ -158,8 +169,12 @@ Based on all of the above which of the following best describes the state of the
 
 #### Answer
 
-The host has been infected by a piece of malware that attempts to [_live off the land_](https://www.symantec.com/connect/blogs/attackers-are-increasingly-living-land).
+<div class="hint">
+The host has been infected by a piece of malware that attempts to live off the land
+</div>
+<br>
 
 ## References
 * [Untangling Kovter’s persistence methods](https://blog.malwarebytes.com/threat-analysis/2016/07/untangling-kovter/)
 * [Fileless Malware – A Behavioural Analysis Of Kovter Persistence](http://blog.airbuscybersecurity.com/post/2016/03/FILELESS-MALWARE-%E2%80%93-A-BEHAVIOURAL-ANALYSIS-OF-KOVTER-PERSISTENCE)
+* [Attackers are increasingly living off the land](https://www.symantec.com/connect/blogs/attackers-are-increasingly-living-land)
