@@ -46,7 +46,7 @@ Since the user reported the weird activity happening at start up before they had
 <div class="hint">
 A registry key associated with start up was set to refer to an unusual file. 
 </div>
-<br><br><br>
+<br>
 
 ### Question 2
 
