@@ -43,7 +43,9 @@ Since the user reported the weird activity happening at start up before they had
 
 #### Answer
 
+<div class="hint">
 A registry key associated with start up was set to refer to an unusual file. 
+</div>
 
 ### Question 2
 
@@ -51,6 +53,7 @@ What gave it away? Provide a brief explanation of how you arrived at your answer
 
 #### Answer
 
+<div class="hint">
 We can find a very unusual startup item just by searching in the classic location ```"CurrentVersion\Run"```:
 
 ```bash
@@ -60,6 +63,7 @@ AutorunscDeep.csv
 ```
 
 We have the malicious script - **```c:\users\developer\appdata\local\21b5e0f\1aa2e00.bat```**. 
+</div>
 
 ### Question 3
 
