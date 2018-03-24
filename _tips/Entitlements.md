@@ -1,5 +1,5 @@
 ---
-title: App Containers And Entitlements
+title: Sandboxing And Entitlements
 layout: tip
 date: 2018-01-24
 published: true
