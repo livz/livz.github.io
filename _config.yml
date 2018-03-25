@@ -7,3 +7,5 @@ collections:
         output: true
     tips:
         output: true
+    ctf:
+        output: true
