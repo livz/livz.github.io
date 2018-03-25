@@ -56,7 +56,6 @@ def mutate(state, numOffspring, mutationProb):
             # Will character j be mutated?
             p = random.randint(1, 100)
             if p<=mutationProb:
-                # (Possible) Nasty bug no 1: charset NOT state (generations won't variate)
                 newGene = charset[random.randint(0, len(charset)-1)]        
                 mutation += newGene
             else:
@@ -82,7 +81,6 @@ def fittest(mutations, target):
             min = d
             fittest = m                                     
 
-    # (Possible) Nasty bug no 2: return fittest NOT m (generations won't evolve at all)) 
     return fittest                  
 
 # Colourise mutation based on distance from target
