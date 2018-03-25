@@ -1,5 +1,5 @@
 ---
-title: "How (Not) to encrypt Google Docs"
+title: "How (Not) To Encrypt Google Docs"
 layout: post
 date: 2018-02-15
 published: true
@@ -9,9 +9,9 @@ published: true
 
 ## Overview
 
-The other day I was searching online for ways to encrypt a spreadsheet in Google Drive and apparently there is no straight forward way to do this without 3rd party applications, scripts and workarounds. While the reasons why Google doesn't provide this feature are somewhat understandable, I was more interested in the other _solutions_ which popped out in the search results. [One of them](http://www.skipser.com/p/2/p/password-protect-google-drive-document.html) is actually by far the most popular and has been picked up and recommended by many technical guides websites like [Lifehacker](https://lifehacker.com/5994296/password-protect-a-google-drive-spreadsheet-with-this-script), [Quora](https://www.quora.com/Is-it-possible-to-create-a-password-protected-Google-doc), [Addictivetips](https://www.addictivetips.com/web/how-to-password-protect-spreadsheets-in-google-drive/) and others.
+The other day I was searching online for ways to encrypt a spreadsheet in Google Drive and apparently **_there is no straight forward way to do this without 3rd party applications, scripts and workarounds_**. While the reasons why Google doesn't provide this feature are somewhat understandable, I was more interested in the other _solutions_ which popped out in the search results. [One of them](http://www.skipser.com/p/2/p/password-protect-google-drive-document.html) is by far the most popular and has been picked up and recommended by many technical guides websites like [Lifehacker](https://lifehacker.com/5994296/password-protect-a-google-drive-spreadsheet-with-this-script), [Quora](https://www.quora.com/Is-it-possible-to-create-a-password-protected-Google-doc), [Addictivetips](https://www.addictivetips.com/web/how-to-password-protect-spreadsheets-in-google-drive/) and others.
 
-Curious about this, I decided to read more about this. Then I noticed the _Step 8_ of the guide above states that:
+Curious, I decided to read more. Then I noticed the _Step 8_ of the guide above states that after setting a password and encrypting the spreadsheet:
 
 > _Now your data is fully password protected and nobody can read it without having the password you have set._
 
