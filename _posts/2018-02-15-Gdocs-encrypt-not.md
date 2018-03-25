@@ -34,7 +34,7 @@ Just by trying to encrypt a short text a few times with different keys we, a few
 * The *__ciphertext is not dependent on the password__*. 
 * Moreover, it looks like a **_simple mono-alphabetic substitution cipher_**. The same letters get encrypted to the same value, on all the positions they appear.
 
-### Attacks
+## Attacks
 
 Although probably other attacks are possible, three are straight forward to do:
 
