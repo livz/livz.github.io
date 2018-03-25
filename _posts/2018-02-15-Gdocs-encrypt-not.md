@@ -29,7 +29,7 @@ Gets encrypted to:
 Zvtl'zljyl 'tlzzhnl
 ```
 
-Just by trying to encrypt a simple message a few times with different keys we can see that:
+Just by trying to encrypt a short text a few times with different keys we, a few facts were clear:
 * The script **_accepts any password_** (_even blank!_).
 * The *__ciphertext is not dependent on the password__*. 
 * Moreover, it looks like a **_simple mono-alphabetic substitution cipher_**. The same letters get encrypted to the same value, on all the positions they appear.
