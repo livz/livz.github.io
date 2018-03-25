@@ -1,3 +1,10 @@
+---
+title: "Why So Fancy?"
+layout: post
+date: 2017-06-01
+published: true
+---
+
 <!-- IMAGE BEGINS HERE -->
 <font size="-3">
 <!-- Default line height is 1.5. Correct for better appearance -->
