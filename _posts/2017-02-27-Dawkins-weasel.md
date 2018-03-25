@@ -127,6 +127,6 @@ if __name__ == "__main__":
 ## Conclusions
 
 * It's interesting to __*vary the number of offsping per generation*__ and the __*mutation probability*__ and see how generations evolve:
-    * For a _higher number of offspring N_ the generations evolve much more quickly towards the target.
-    * For a _higher mutation probability P_ evolution becomes random.
+* For a _higher number of offspring N_ the generations evolve much more quickly towards the target.
+* For a _higher mutation probability P_ evolution becomes random!
 
