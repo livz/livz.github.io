@@ -36,7 +36,7 @@ Just by trying to encrypt a short text a few times with different keys we, a few
 
 ### Attacks
 
-Although probably many other attacks are possible, two are straight forward:
+Although probably other attacks are possible, three are straight forward to do:
 
 * **Chosen plaintext attack** - An attacker has the ability to obtain the ciphertext for his chosen plaintext. Entirely possible here since the encrypted text doesn't depend on the password. An attacker needs just to encrypt the whole alpha-numeric range and he'll be able to map any plaintext characters to the corresponding values.
 
