@@ -49,14 +49,7 @@ Encrypts to:
 hijklmnopqrstuvwxyz !"#$%&HIJKLMNOPQRSTUVWXYZ[\]^_`a'789:;<=>?@
 ```
 * **Frequency analysis attack** - This is a classic attack based on the fact that, in any given language, certain letters and combinations of letters occur with varying frequencies. If an attacker has access to enough ciphertext material, it's very easy to derive the substitution map and then be able to decrypt anything.
-* **Source code review** - The code responsible for the encryption of the spreadsheet can be accessed by navigating to _Tools → Script Editor_. Let's reverse it.
-  * Sheets are encrypted in the function ```EnCodeSheet(id)```.
-  * each cell in the spreadsheet is encrypted by the instruction below, confirming the previous observation that _**encryption does not depend on the password**_:
-  ```c
-  vals[i][j]=encrypt(vals[i][j], 1);
-  ss.getRange(i+1, j+1, 1, 1).setValue(vals[i][j]);
-  ```
-  * Actual encryption is done by ```encrypt(text, key)```. Although the code is long, it's easy to understand. No need to paste it here.
+* **Source code review** - The code responsible for the encryption of the spreadsheet can be accessed by navigating to _Tools → Script Editor_. Have fun reversing it if you're interested!
 
 ## (Instead of) Conclusions
 
