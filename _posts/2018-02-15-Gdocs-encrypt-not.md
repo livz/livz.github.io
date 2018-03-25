@@ -38,7 +38,7 @@ Just by trying to encrypt a short text a few times with different keys we, a few
 
 Although probably many other attacks are possible, two are straight forward:
 
-1. **Chosen plaintext attack** - An attacker has the ability to obtain the ciphertext for his chosen plaintext. Entirely possible here since the encrypted text doesn't depend on the password. An attacker needs just to encrypt the whole alpha-numeric range and he'll be able to map any plaintext characters to the corresponding values.
+* **Chosen plaintext attack** - An attacker has the ability to obtain the ciphertext for his chosen plaintext. Entirely possible here since the encrypted text doesn't depend on the password. An attacker needs just to encrypt the whole alpha-numeric range and he'll be able to map any plaintext characters to the corresponding values.
 
 ```
 abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789
@@ -48,7 +48,16 @@ Encrypts to:
 ```
 hijklmnopqrstuvwxyz !"#$%&HIJKLMNOPQRSTUVWXYZ[\]^_`a'789:;<=>?@
 ```
-2. **Frequency analysis attack** - This is a classic attack based on the fact that, in any given language, certain letters and combinations of letters occur with varying frequencies. If an attacker has access to enough ciphertext material, it's very easy to derive the substitution map and then be able to decrypt anything.
+* **Frequency analysis attack** - This is a classic attack based on the fact that, in any given language, certain letters and combinations of letters occur with varying frequencies. If an attacker has access to enough ciphertext material, it's very easy to derive the substitution map and then be able to decrypt anything.
+
+* **Source code review** - The code responsible for the encryption of the spreadsheet can be accessed by navigating to _Tools → Script Editor_. Let's reverse it.
+  * Sheets are encrypted in the function ```EnCodeSheet(id)```.
+  * each cell in the spreadsheet is encrypted by the instruction below, confirming the previous observation that _**encryption does not depend on the password**_:
+  ```c
+  vals[i][j]=encrypt(vals[i][j], 1);
+  ss.getRange(i+1, j+1, 1, 1).setValue(vals[i][j]);
+  ```
+  * Actual encryption is done by ```encrypt(text, key)```. Although the code is long, it's easy to understand. No need to paste it here.
 
 ## (Instead of) Conclusion
 
