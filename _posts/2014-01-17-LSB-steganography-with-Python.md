@@ -1,5 +1,6 @@
 ---
 title:  "LSB Steganography with Python"
+categories: [Steganography]
 ---
 
 ![Logo](/assets/images/cloacked-pixel/logo.png)
