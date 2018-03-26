@@ -1,5 +1,6 @@
 ---
 title:  "Extracting GNOME Keyring Credentials"
+categories: [Security]
 ---
 
 ![Logo](/assets/images/seal.jpg)
