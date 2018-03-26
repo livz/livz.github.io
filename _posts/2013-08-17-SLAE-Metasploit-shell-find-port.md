@@ -1,5 +1,6 @@
 ---
 title:  "[SLAE 5] Metasploit Shell Find Port"
+categories: [SLAE]
 ---
 
 ![Logo](/assets/images/tux-root.png)
