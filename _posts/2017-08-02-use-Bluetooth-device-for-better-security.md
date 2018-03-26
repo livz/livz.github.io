@@ -58,7 +58,6 @@ hci0:   Type: BR/EDR  Bus: USB
 
 If you have any issues, also make sure that the _bluetooth_ service is up and running:
 ```
-
 ~ service bluetooth status
 ● bluetooth.service - Bluetooth service
    Loaded: loaded (/lib/systemd/system/bluetooth.service; enabled; vendor preset: enabled)
