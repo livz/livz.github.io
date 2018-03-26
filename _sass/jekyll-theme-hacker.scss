@@ -365,5 +365,7 @@ a {
 
 /* Nicer fonts for code */
 code {
-    font-family: "Monaco","Consolas", "Courier New", Courier, mono, serif
+  font-family: "Monaco","Consolas", "Courier New", Courier, mono, serif
+  -webkit-font-smoothing: none;
+
 }
