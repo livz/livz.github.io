@@ -1,5 +1,6 @@
 ---
 title:  "Dictionary Attack on Excel Passwords"
+categories: [Security]
 ---
 
 ![Logo](/assets/images/dictionary.jpg)
