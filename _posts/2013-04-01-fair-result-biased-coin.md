@@ -1,5 +1,6 @@
 ---
 title:  "Fair Result With Biased Coin"
+categories: [Experiment]
 ---
 
 ![Logo](/assets/images/coin.png)
