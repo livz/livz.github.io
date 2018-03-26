@@ -1,3 +1,8 @@
+---
+published: true
+categories: [Deep-Dive]
+---
+
 ![Logo](/assets/images/nn-0.png)
 
 Recently I have completed professor Andrew Ng's [Coursera class on Machine Learning](https://www.coursera.org/learn/machine-learning). 
