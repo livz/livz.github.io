@@ -1,7 +1,8 @@
 ---
 title:  "Using Tokens in Ubuntu with PGP"
+published: true
+categories: [SecurityBricks]
 ---
-
 
 ![Logo](/assets/images/token-pgp/key-logo.png)
 
