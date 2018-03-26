@@ -1,5 +1,6 @@
 ---
 title:  "Coursera Malicious Software RE challenge"
+categories: [CTF]
 ---
 
 ![Logo](/assets/images/underground.png)
