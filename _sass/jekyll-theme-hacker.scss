@@ -313,5 +313,7 @@ a {
   display: inline-block;
   &:before {
     content: "\f02b";
+    font-family: $font-font-awesome;
+    padding-right: .5em;
   }
 }
