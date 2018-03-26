@@ -1,5 +1,6 @@
 ---
 title:  "[CTF] Nebula Wargame Walkthrough"
+categories: [CTF]
 ---
 
 ![Logo](/assets/images/nebula.jpg)
