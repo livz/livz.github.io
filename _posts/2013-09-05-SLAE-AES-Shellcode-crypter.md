@@ -1,5 +1,6 @@
 ---
 title:  "[SLAE 7] AES Shellcode crypter"
+categories: [SLAE]
 ---
 
 ![Logo](/assets/images/tux-root.png)
