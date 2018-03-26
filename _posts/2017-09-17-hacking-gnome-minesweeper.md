@@ -1,5 +1,6 @@
 ---
 title:  "Hacking GNOME Minesweeper"
+categories: [Deep-Dive]
 ---
 
 ![Logo](/assets/images/mines/minesweeper.jpg)
