@@ -1,6 +1,9 @@
 ---
 title:  "Token-based Authentication for SSH"
+published: true
+categories: [SecurityBricks]
 ---
+
 
 ![Logo](/assets/images/token-ssh/smart-card.png)
 
