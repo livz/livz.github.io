@@ -1,5 +1,6 @@
 ---
 title:  "Quick Steganography with Matlab"
+categories: [Steganography]
 ---
 
 ![Logo](/assets/images/hidden.jpg)
