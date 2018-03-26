@@ -1,5 +1,6 @@
 ---
 title:  "Parsing the MBR"
+categories: [Deep-Dive]
 ---
 
 ![Logo](/assets/images/mbr.png)
