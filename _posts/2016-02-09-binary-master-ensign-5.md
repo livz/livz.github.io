@@ -1,5 +1,6 @@
 ---
 title:  "[CTF] Binary Master Ensign - 5"
+categories: [CTF, Binary-Master]
 ---
 
 ![Logo](/assets/images/belts-blue.png)
