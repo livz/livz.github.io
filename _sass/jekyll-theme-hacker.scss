@@ -334,6 +334,7 @@ a {
   margin-right: .5rem;
   border-radius: 4px;
   font-size: 90%;
+  text-decoration: none;  /* Don't highlight as link */
   
   &:before {
     content: "\f02b";
