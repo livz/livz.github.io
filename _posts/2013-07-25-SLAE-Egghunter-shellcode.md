@@ -1,5 +1,6 @@
 ---
 title:  "[SLAE 3] Egghunter Shellcode"
+categories: [SLAE]
 ---
 
 ![Logo](/assets/images/tux-root.png)
