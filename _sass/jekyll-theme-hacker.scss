@@ -17,6 +17,7 @@ $white:      #fff;
 $lightgrey:  #eee;
 $black:      #000;
 
+$header-col: #b5e868;
 
 body {
   margin: 0;
@@ -333,6 +334,7 @@ a {
   padding: 0 .5rem;
   margin-right: .5rem;
   border-radius: 4px;
+  color: $header-col;
   font-size: 90%;
   text-decoration: none;  
   
