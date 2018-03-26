@@ -1,5 +1,6 @@
 ---
 title:  "[CTF] Binary Master Lieutenant - 5"
+categories: [CTF, Binary-Master]
 ---
 
 ![Logo](/assets/images/belts-black-plus.png)
