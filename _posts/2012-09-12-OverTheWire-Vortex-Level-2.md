@@ -1,5 +1,6 @@
 ---
 title:  "[CTF] OverTheWire Vortex Level 2"
+categories: [CTF, OverTheWire]
 ---
 
 ![Logo](/assets/images/vortex2.png)
