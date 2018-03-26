@@ -1,3 +1,8 @@
+---
+published: true
+categories: [Hardware]
+---
+
 ![Logo](/assets/images/hkl/logo.png)
 
 ## Context
