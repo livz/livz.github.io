@@ -13,7 +13,7 @@ comments: true
 
   {{ page.date | date_to_string }} | 
   {% for category in categories %}
-    <a href="{{site.baseurl}}/categories/#{{category|slugize}}">{{category}}</a>
+    <a href="{{site.baseurl}}/categories/#{{category|slugize}}" class="post-tag">{{category}}</a>
   {% endfor %}
 </div>
 
