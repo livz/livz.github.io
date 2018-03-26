@@ -1,6 +1,6 @@
 ---
 title:  "[CTF] Sectalks London - 05"
-categories: ctf 
+categories: [CTF, SecTalks]
 ---
 
 ![Logo](/assets/images/sectalks5-0.jpg)
