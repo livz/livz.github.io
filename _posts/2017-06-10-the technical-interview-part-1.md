@@ -1,5 +1,6 @@
 ---
 title:  "The Technical Interview part 1"
+categories: [Opinion]
 ---
 
 ![Logo](/assets/images/bermuda-triangle.png)
