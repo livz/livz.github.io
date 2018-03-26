@@ -3,6 +3,7 @@ title: Building A Humidity Temperature Rig With Arduino
 layout: post
 date: 2017-12-01
 published: true
+categories: [Hardware]
 ---
 
 ![Logo](/assets/images/tips/arduino/logo.jpg)
