@@ -1,5 +1,6 @@
 ---
 title:  "[SLAE 6] Polymorphic Shellcodes"
+categories: [SLAE]
 ---
 
 ![Logo](/assets/images/tux-root.png)
