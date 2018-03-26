@@ -1,5 +1,6 @@
 ---
 title:  "Security Metaphors"
+categories: [Security]
 ---
 
 ![Logo](/assets/images/accessible-security.jpg)
