@@ -1,3 +1,8 @@
+---
+published: true
+categories: [Deep-Dive]
+---
+
 ![Logo](/assets/images/tricks2.png)
 
 In the [first part](https://livz.github.io/2017/06/29/exploring-prefetch-part-1.html) of this blog post we explored 
