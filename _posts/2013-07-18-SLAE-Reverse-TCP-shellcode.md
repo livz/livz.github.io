@@ -1,5 +1,6 @@
 ---
 title:  "[SLAE 2] Reverse TCP Shellcode"
+categories: [SLAE]
 ---
 
 ![Logo](/assets/images/tux-root.png)
