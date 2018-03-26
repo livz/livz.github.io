@@ -1,5 +1,6 @@
 ---
 title:  "Serene Binary Analysis with Angr"
+categories: [Deep-Dive]
 ---
 
 ![Logo](/assets/images/angr/get-angr.png)
