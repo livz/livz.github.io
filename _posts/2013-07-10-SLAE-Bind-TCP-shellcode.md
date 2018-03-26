@@ -1,5 +1,6 @@
 ---
 title:  "[SLAE 1] Bind TCP Shellcode"
+categories: [SLAE]
 ---
 
 ![Logo](/assets/images/tux-root.png)
