@@ -3,6 +3,7 @@ title: "How (Not) To Encrypt Google Docs"
 layout: post
 date: 2018-02-15
 published: true
+categories: [Security]
 ---
 
 ![Logo](/assets/images/crypto-fail.jpg)
