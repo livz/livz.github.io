@@ -1,5 +1,6 @@
 ---
 title:  "[CTF] Difusing a (binary) bomb"
+categories: [CTF]
 ---
 
 ![Logo](/assets/images/bomb.png)
