@@ -1,5 +1,6 @@
 ---
 title:  "[SLAE 5] Metasploit meterpreter/reverse_tcp Shellcode"
+categories: [SLAE]
 ---
 
 ![Logo](/assets/images/tux-root.png)
