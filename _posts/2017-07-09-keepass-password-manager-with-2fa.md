@@ -1,5 +1,7 @@
 ---
 title:  "KeePass Password Manager with 2FA"
+published: true
+categories: [SecurityBricks]
 ---
 
 ![Logo](/assets/images/keepass/vault.png)
