@@ -1,3 +1,8 @@
+---
+published: true
+categories: [SecurityBricks]
+---
+
 ![Logo](/assets/images/maid12.png)
 
 This post is part of the **Security Bricks tutorials** - simple methods and habits
