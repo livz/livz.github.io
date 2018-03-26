@@ -1,3 +1,8 @@
+---
+published: true
+categories: [SecurityBricks]
+---
+
 ![Logo](/assets/images/bluetooth/bluetooth-icon.png)
 
 We worry about 0day exploits but a lot of times in any organisation there's somebody who just doesn't like to 
