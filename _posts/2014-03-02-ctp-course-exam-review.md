@@ -1,5 +1,6 @@
 ---
 title:  "Cracking the Perimeter - Course and Exam Review"
+categories: [Opinion]
 ---
 
 ![Logo](/assets/images/osce.png)
