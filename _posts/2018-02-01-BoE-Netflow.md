@@ -3,6 +3,7 @@ title: "[CTF] BoE 2 - \"Go with the (net)flow\""
 layout: post
 date: 2018-02-10
 published: true
+categories: [CTF, CyberSecurityChallenge]
 ---
 
 ![Logo](/assets/images/vault2.png)
