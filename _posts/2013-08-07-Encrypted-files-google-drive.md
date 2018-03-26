@@ -1,5 +1,6 @@
 ---
 title:  "Store Encrypted Files on Google Drive"
+categories: [Security]
 ---
 
 ![Logo](/assets/images/EncryptionEye.jpg)
