@@ -3,6 +3,7 @@ title: "Dawkins' Weasel"
 layout: post
 date: 2017-02-27
 published: true
+categories: [Experiment]
 ---
 
 ## Evolution Weasel Program
