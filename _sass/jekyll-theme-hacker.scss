@@ -334,7 +334,7 @@ a {
   margin-right: .5rem;
   border-radius: 4px;
   font-size: 90%;
-  text-decoration: none;  /* Don't highlight as link */
+  text-decoration: none;  
   
   &:before {
     content: "\f02b";
@@ -354,7 +354,8 @@ a {
     margin-bottom: 1rem;
 }
 
-.posts {
+/* Don't highlight post/tips/cheat-sheets entries as links */
+.posts, .cheat_sheet, .tip {
     a {
       text-decoration: none;
     }
