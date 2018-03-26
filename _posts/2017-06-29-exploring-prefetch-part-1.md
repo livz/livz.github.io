@@ -1,3 +1,8 @@
+---
+published: true
+categories: [Deep-Dive]
+---
+
 ![Logo](/assets/images/tricks.png)
 
 [The Prefetch file](http://www.forensicswiki.org/wiki/Windows_Prefetch_File_Format) format has been studied extensively. 
