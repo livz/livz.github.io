@@ -1,5 +1,6 @@
 ---
 title:  "[SLAE 5] Metasploit Shellcode Analysis"
+categories: [SLAE]
 ---
 
 ![Logo](/assets/images/tux-root.png)
