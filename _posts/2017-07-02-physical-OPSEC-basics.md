@@ -1,6 +1,9 @@
 ---
 title:  "Physical OPSEC Basics"
+published: true
+categories: [SecurityBricks]
 ---
+
 
 ![Logo](/assets/images/opsec-basics/loose-lips.png)
 
