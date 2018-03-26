@@ -1,5 +1,6 @@
 ---
 title:  "Hidden Command Listener"
+categories: [Steganography]
 ---
 
 ![Logo](/assets/images/backdoor.jpg)
