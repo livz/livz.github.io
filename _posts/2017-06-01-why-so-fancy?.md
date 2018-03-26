@@ -3,6 +3,7 @@ title: "[CTF] Why So Fancy?"
 layout: post
 date: 2017-06-01
 published: true
+categories: [CTF]
 ---
 
 <!-- IMAGE BEGINS HERE -->
