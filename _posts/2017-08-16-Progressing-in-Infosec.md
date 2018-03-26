@@ -1,3 +1,8 @@
+---
+published: true
+categories: [Opinion]
+---
+
 ![Logo](/assets/images/knowledge.png)
 
 Everybody has their own personal stories and their own ideas about how to **_get started and progress_** in InfoSec 
