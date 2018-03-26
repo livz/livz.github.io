@@ -1,5 +1,6 @@
 ---
 title:  "Defensive Programming"
+categories: [Security]
 ---
 
 ![Logo](/assets/images/debugging.png)
