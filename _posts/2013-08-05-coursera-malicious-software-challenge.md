@@ -1,5 +1,5 @@
 ---
-title:  "Coursera Malicious Software RE challenge"
+title:  "Coursera Malicious Software Reverse Engineering Challenge"
 categories: [CTF]
 ---
 
