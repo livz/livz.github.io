@@ -1,5 +1,6 @@
 ---
 title:  "[SLAE ?] Bind TCP Shellcode with Password"
+categories: [SLAE]
 ---
 
 ![Logo](/assets/images/tux-root.png)
