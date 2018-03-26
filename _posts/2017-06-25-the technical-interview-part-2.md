@@ -1,5 +1,6 @@
 ---
 title:  "The Technical Interview part 2"
+categories: [Opinion]
 ---
 
 ![Logo](/assets/images/challenge.png)
