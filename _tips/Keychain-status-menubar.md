@@ -8,7 +8,7 @@ date: 2017-05-20
 
 I like having the keychain icon in the status bar because it allows me to quickly lock the screen or the keychain itself:
 
-![keychain-bar](/assets/images/tips/keychain-bar.png)
+<img src="/assets/images/tips/keychain-bar.png" alt="keychain-bar" class="figure-body">
 
 It's very simple to enable this:
 1. Press the Spotlight Search button at the top right corner of the screen (or use **⌘ + Space**).
@@ -16,7 +16,7 @@ It's very simple to enable this:
 3. In _Keychain Access_, open Preferences (**⌘ + ,**).
 4. Check Show Status in Menu Bar option.
 
-![keychain-show](/assets/images/tips/keychain-show.png)
+<img src="/assets/images/tips/keychain-show.png" alt="keychain-show" class="figure-body">
 
 Having that _Lock Screen_ menu item available, we can use an AppleScript to quickly lock the screen:
 
