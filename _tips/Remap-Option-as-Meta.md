@@ -10,4 +10,4 @@ date: 2017-09-09
 
 In [iTerm2](https://www.iterm2.com), go to _Preferences → Profiles → Default → Keys_ and update the Left Option key:
 
-![option-meta](/assets/images/tips/option-meta.png)
+<img src="/assets/images/tips/option-meta.png" alt="option-meta" class="figure-body">
