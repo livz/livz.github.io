@@ -9,7 +9,9 @@ date: 2017-03-04
 For better organisation and retrieval, we can tag individual files and folders. Let's see two ways to do this:
 
 * **From the GUI** - to add multiple tags at once using OS X Finder, select the items you want to tag and click **_Edit Tags_** icon in Finder bar:
-![tags](/assets/images/tips/tags.png)
+
+<img src="/assets/images/tips/tags.png" alt="tags" class="figure-body">
+
 * **From the console** - for brevity I'll show only how to read tags, to see that it's possible. If interested, there are good resources online showing how to set tags programatically using *bash* or *AppleScript* scripts:
 
 ```bash
