@@ -369,3 +369,10 @@ code {
   font-family: "Monaco","Consolas", "Courier New", Courier, mono, serif;
   -webkit-font-smoothing: none;
 }
+
+/* Style for pictures insude the posts */
+.figure-body {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
