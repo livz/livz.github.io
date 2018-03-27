@@ -12,7 +12,8 @@ This post goes step by step through the process of bulding a simple kernel exten
 
 * Open Xcode and create a new project. From the _Templates_ window, select _MacOS → Generic Kernel Extension_. In the next screen, select a product name and organisation identifier, as below:
 
-![newkext](/assets/images/tips/newkext.png)
+<img src="/assets/images/tips/newkext.png" alt="newkext" class="figure-body">
+
 * In the next screen, select the location for your project and optionally source code versioning. Once the project is created, open the only source file, _```mykext.c```_ and paste the following code:
 
 ```c
