@@ -17,7 +17,7 @@ First, set the _```StandardOutPath```_ and _```StandardErrorPath```_ fields in t
   <string>/tmp/mycommand.out</string>
 ```
 
-![plist-dbg](/assets/images/tips/plist-dbg.png)
+<img src="/assets/images/tips/plist-dbg.png" alt="plist-dbg" class="figure-body">
 
 Second thing is to check the system log for any messages related to your plist:
 
