@@ -2,14 +2,14 @@
 title: Chrome Disable Swipe Navigation
 layout: tip
 date: 2017-04-23
-published: false
+published: true
 ---
 
 ## Overview
 
-* Google Chrome on MacOS implements backward/forward navigation in the browser history using *__two-finger swipe__*.
-* Swipe navigation is very useful in general in other applications, but in Chroem I've noticed that I would accidentally trigger it very often while scrolling through long text boxes
-
+* Google Chrome on MacOS implements backward/forward navigation in the browser history using *__two-finger swipe__*. This is enabled by default and you're probably already aware of it.
+* Swipe navigation is very useful in general in other applications, but in Chrome I've noticed that I would accidentally trigger it very often,especially while scrolling through long text boxes, or when scrolling a bit sideways instead of completely vertical.
+* Luckily, this is very easy to fix:
 
 ```
 $ defaults read com.google.Chrome AppleEnableSwipeNavigateWithScrolls
