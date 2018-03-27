@@ -9,4 +9,5 @@ In this tip we'll see how to quickly lock the machine using the mouse and Active
 
 1. Go to *System Preferences → Mission Control → Hot Corners*.
 2. Select one of the four corners and from the drop-down menu choose *Put Display to Sleep*:
-![active-corners](/assets/images/tips/active-corners.png)
+
+<img src="/assets/images/tips/active-corners.png" alt="active-corners" class="figure-body">
