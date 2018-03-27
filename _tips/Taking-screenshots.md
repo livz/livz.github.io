@@ -13,4 +13,4 @@ Two useful shortcuts for screen capture:
 
 You can enable more screenshot related shortcuts on *Preferences → Keyboard → Shortcuts → Screen Shots*
 
-![screenshots](/assets/images/tips/screenshots.png)
+<img src="/assets/images/tips/screenshots.png" alt="screenshots" class="figure-body">
