@@ -14,10 +14,12 @@ $ plutil -convert <intended format> -o <output file>
 ```
 
 * Convert a binary .plist file to XML:
+
 ```bash
 $ plutil -convert xml1 Info.plist -o Info.xml.plist
 ```
 * Convert an XML .plist file to binary:
+
 ```bash
 $ plutil -convert binary1 Info.plist -o Info.bin.plist
 $ file Info.*
