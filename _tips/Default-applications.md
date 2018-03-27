@@ -12,7 +12,7 @@ Like other operating systems, MacOS also keeps an association of file types with
 
 Right click on the file and select _Get Info_. In the _Open With_ section, you can chose an app from the list or browse to select a different one from the file system:
 
-![open-with](/assets/images/tips/open-with.png)
+<img src="/assets/images/tips/open-with.png" alt="open-with" class="figure-body">
 
 ## Dump Launch Service database 
 
