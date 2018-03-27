@@ -379,11 +379,10 @@ code {
 
 /* Style for boxes */
 .box-note {
-    color: #00bcd4;
-    border-color: #00bcd4;
     padding: 1rem;
     border: 1px solid;
     margin-bottom: 1.75rem;
+    font-size: 1.2em;
     
     &:before {
       content: "\f044";
