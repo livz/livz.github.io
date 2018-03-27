@@ -7,9 +7,9 @@ published: true
 
 ## Overview
 
-* Google Chrome on MacOS implements backward/forward navigation in the browser history using *__two-finger swipe on the trackpad or Magic Mouse__*. This is enabled by default and you're probably already aware of it.
-* Swipe navigation is very useful in general in other applications, but in Chrome I've noticed that I would accidentally trigger it very often,especially while scrolling through long text boxes, or when scrolling a bit sideways instead of completely vertical.
-* Luckily, this is very easy to fix:
+Google Chrome on MacOS implements backward/forward navigation in the browser history using *__two-finger swipe on the trackpad or Magic Mouse__*. This is enabled by default and you're probably already aware of it. Swipe navigation is very useful in general in other applications, but in Chrome I've noticed that I would accidentally trigger it very often,especially while scrolling through long text boxes, or when scrolling a bit sideways instead of completely vertical.
+
+Luckily, this is very easy to fix:
 
 ```
 $ defaults read com.google.Chrome AppleEnableSwipeNavigateWithScrolls
@@ -18,4 +18,5 @@ $ defaults write com.google.Chrome AppleEnableSwipeNavigateWithScrolls -bool FAL
 $ defaults read com.google.Chrome AppleEnableSwipeNavigateWithScrolls
 0
 ```
-* I'm using a trackapd. For the Magic Mouse, the corresponding property to modify is ```AppleEnableMouseSwipeNavigateWithScrolls```.
+
+I'm using a trackapd. For the Magic Mouse, the corresponding property to modify is ```AppleEnableMouseSwipeNavigateWithScrolls```.
