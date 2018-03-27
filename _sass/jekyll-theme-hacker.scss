@@ -380,12 +380,13 @@ code {
 /* Style for boxes */
 .box-note {
     padding: 1rem;
-    border: 1px solid #00bcd4;
+    border: 1px solid #6a9fb5;
     margin-bottom: 1.75rem;
     font-size: 1.2em;
     
     &:before {
       content: "\f044";
+      color: #6a9fb5;
       font-family: FontAwesome;
     }
 }
