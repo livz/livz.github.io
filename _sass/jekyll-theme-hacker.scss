@@ -384,4 +384,9 @@ code {
     padding: 1rem;
     border: 1px solid;
     margin-bottom: 1.75rem;
+    
+    &:before {
+      content: "Note: \f02b";
+      font-family: FontAwesome;
+    }
 }
