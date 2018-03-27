@@ -43,7 +43,8 @@ kern_return_t mykext_stop(kmod_info_t *ki, void *d)
 * Build the project using the shortcut **⌘+ B** or from the menu by going to _Product → Build_. You should get a _"Build succeded"_ message.
 * Find out the location of the final ```.kext``` file by selecting it under _Products_ and the full path will be displayed in the _Identity and Type_ panel on the right side of the screen:
 
-![kextpath](/assets/images/tips/kextpath.png)
+<img src="/assets/images/tips/kextpath.png" alt="kextpath" class="figure-body">
+
 * Let's see what happens when we try to load the extension:
 
 ```bash
