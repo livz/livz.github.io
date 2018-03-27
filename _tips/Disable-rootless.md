@@ -38,13 +38,13 @@ drwxr-xr-x   10 root  wheel  restricted  340 26 Mar  2017 Contents
 ## Enable/Disable SIP
 Assuming you understand the implications and know what you're doing, you can turn off SIP in a few steps:
 
-1. Restart your Mac
-2. While restarting, hold down **⌘ + R** to enter Recovery System. Hold down the two keys until the Apple logo appears.
-3. This will boot the system into OS X Utilities window. Select _Utilities → Terminal_ and enter the following:
+* Restart your Mac
+* While restarting, hold down **⌘ + R** to enter Recovery System. Hold down the two keys until the Apple logo appears.
+* This will boot the system into OS X Utilities window. Select _Utilities → Terminal_ and enter the following:
 
-```bas
+```bash
 $ csrutil disable
 ```
-4. Click the Apple menu and select _Restart_. The system will start up with SIP disabled.
+* Click the Apple menu and select _Restart_. The system will start up with SIP disabled.
 
 
