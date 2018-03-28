@@ -30,26 +30,27 @@ to build a deliberately secure operational environment, for personal and busines
 
 ## 1. System configuration
 * First install all packages required:
+
 ```bash
 $ sudo apt-get install opensc libpcsclite1 pcsc-tools pcscd
 $ sudo apt-get install libengine-pkcs11-openssl 
 $ sudo apt-get install gnupg-pkcs11-scd 
 $ sudo apt-get install gnupg2
 ```
-
 * Install HAL:
+
 ```bash
 $ sudo add-apt-repository ppa:mjblenner/ppa-hal
 $ sudo apt-get update
 $ sudo apt-get install libhal1 libhal-storage1
 ```
-
 * Install SafeNet client:
+
 ```bash
 $ sudo dpkg -i SafenetAuthenticationClient-9.0.43-0_amd64.deb
 ```
-
 * Verify that you can access the token:
+
 ```bash
 $ pkcs11-tool --module /usr/lib/libeToken.so --show-info
 Cryptoki version 2.20
@@ -57,6 +58,7 @@ Manufacturer     SafeNet, Inc.
 Library          SafeNet eToken PKCS#11 (ver 9.0)
 Using slot 0 with a present token (0x0) 
 ```
+
 ```bash
 $ pkcs11-tool --module /usr/lib/libeToken.so --list-slots
 Available slots:
@@ -76,11 +78,12 @@ If you have multiple tokens or card reader slots, you'll have to use the <b>--sl
 
 ## 2. Token initialisation
 * **Create Security Office (SO) PIN (PUK)**:
+
 ```bash
 $ pkcs11-tool --module /usr/lib/libeToken.so --init-token --label mytoken3
 ```
-
 * **Create a user PIN**:
+
 ```bash
 $ pkcs11-tool --module /usr/lib/libeToken.so --init-pin --login
 ```
@@ -88,18 +91,18 @@ $ pkcs11-tool --module /usr/lib/libeToken.so --init-pin --login
 <div class="box-note">
 For both PUK and PIN, no complexity requirements are enforced, allowing for weak pins. The only requirement is that its length should be greater than 3. <b><i>Supposedly brute-forcing the token should be impossible.</i></b>
 </div>
-
 * **Change the current user PIN**:
+
 ```bash
 $ pkcs11-tool --module /usr/lib/libeToken.so --change-pin
 ```
-
 * **Create an RSA public and private key pair** - This will be generated **_on the token_** and will not leave the device:
+
 ```bash
 $ pkcs11-tool --module /usr/lib/libeToken.so --login --keypairgen --key-type RSA:2048 --id 1 --label "john@snow.com"
 ```
-
 * **Verify that the key was correctly generated** - You should see two key objects, public and private:
+
 ```bash
 $ pkcs11-tool --module /usr/lib/libeToken.so --login --list-objects
 Using slot 0 with a present token (0x0)
@@ -114,13 +117,13 @@ Private Key Object; RSA
   ID:         01
   Usage:      decrypt, sign, unwrap
 ```  
-
 * **Delete objects from the token** - If for any reason we want to delete objects, we need their id and type. Examples of type are *cert*, *privkey* and *pubkey*:
+
 ```bash
 $ pkcs11-tool --module /usr/lib/libeToken.so --login --delete-object --type pubkey --id 1
 ```
-
 * **Create an X509 certificate** - We'll create a self-signed certificate for the keypair we just generated. This eToken only accepts certificates in *DER format*, so we need to convert it to DER. We can do this from within OpenSSL prompt:
+
 ```bash
 OpenSSL> engine dynamic -pre SO_PATH:/usr/lib/engines/engine_pkcs11.so -pre ID:pkcs11 -pre LIST_ADD:1 -pre LOAD -pre MODULE_PATH:libeToken.so
 (dynamic) Dynamic engine loading support
@@ -131,20 +134,22 @@ OpenSSL> engine dynamic -pre SO_PATH:/usr/lib/engines/engine_pkcs11.so -pre ID:p
 [Success]: MODULE_PATH:libeToken.so
 Loaded: (pkcs11) pkcs11 engine
 ```
+
 ```bash
 OpenSSL> req -engine pkcs11 -new -key slot_0-id_01 -keyform engine -x509 -out my.pem -text
 PKCS#11 token PIN: ****
 ```
+
 ```bash
 OpenSSL> x509 -in my.pem -out my.der -outform der
 ```
-
 * **Write the certificate to the token**:
+
 ```bash
 $ pkcs11-tool --module /usr/lib/libeToken.so --login --write-object my.der --type cert --id 01 --label "john@snow.com"
 ```
-
 * **Verify that it was correctly written** - you should see a new X.509 certificate object.
+
 ```bash
 pkcs11-tool --module /usr/lib/libeToken.so --login --list-objects
 Using slot 0 with a present token (0x0)
@@ -157,12 +162,13 @@ Certificate Object, type = X.509 cert
 
 ## 3. GPG configuration
 * **Configure _gpg-agent_** - add the following to _~/.gnupg/gpg-agent.conf_ (create the file if it doesn't exist):
+
 ```
 scdaemon-program /usr/bin/gnupg-pkcs11-scd
 pinentry-program /usr/bin/pinentry-x11
 ```
-
 * **Configure the smart-card daemon** - add the following to _~/.gnupg/gnupg-pkcs11-scd.conf_ (create the file if it doesn't exist):
+
 ```
 providers p1
 provider-p1-library /usr/lib/libeToken.so
@@ -172,10 +178,12 @@ openpgp-encr <FRIENDLY-HASH>
 openpgp-auth <FRIENDLY-HASH>
 ```
 
-> **Note!** The *emulate-openpgp* line is needed for gnupg to be able to work with the token. 
-It can be removed after importing the key into the keyring. If you get the error message _"gpg: not an OpenPGP card"_ then probably you didn't enable openpgp emulation!
+<div class="box-note">
+The <i>emulate-openpgp</i> line is needed for gnupg to be able to work with the token. It can be removed after importing the key into the keyring. If you get the error message <b>"gpg: not an OpenPGP card"</b> then probably you didn't enable openpgp emulation!
+</div>
 
 * **Get the FRIEDNLY hash of the key** - replace the hash above with the one obtained as below:
+
 ```
 $ gnupg-pkcs11-scd --daemon
 $ gpg-agent --daemon
@@ -186,8 +194,8 @@ gnupg-pkcs11-scd[9701.3922175808]: Listening to socket '/tmp/gnupg-pkcs11-scd.3U
 [. . .]
 gnupg-pkcs11-scd[9701]: chan_5 -> S KEY-FRIEDNLY 2DDDBA9C916270E59F69DAFF836FB811EE7B2D12 /C=UK/ST=Some-State/L=London/O=Internet Widgits Pty Ltd on mytoken3
 ```
-
 * **Generate the PGP key** - Finally we'll generate the PGP key, sign it and import it into the keyring:
+
 ```bash
 $ sudo gpg2 --card-edit
 gpg/card> admin
@@ -204,11 +212,12 @@ gpg: selecting openpgp failed: Unsupported certificate
 gpg: OpenPGP card not available: Unsupported certificate
 ```
 
-> **Note!** On certain GnuPG versions, [the smart card is only available to the root user](https://lists.gnupg.org/pipermail/gnupg-users/2011-August/042547.html) and the above error messages 
-would be generated If _gpg2_ is not run as root!
-
+<div class="box-note">
+On certain GnuPG versions, h<a href="https://lists.gnupg.org/pipermail/gnupg-users/2011-August/042547.html">the smart card is only available to the root user</a> and the above error messages would be generated If <i>gpg2</i> is not run as root!
+</div>
 
 * **Verify the key has been imported correctly**:
+
 ```
 $ sudo gpg2 --list-secret-keys john@snow.com
 gpg: WARNING: unsafe ownership on configuration file `/home/m/.gnupg/gpg.conf'
@@ -218,8 +227,8 @@ uid                  John Snow <john@snow.com>
 ssb>  2048R/8463F3B0 2017-07-26 [expires: 2019-07-26]
 ssb>  2048R/8463F3B0 2017-07-26 [expires: 2019-07-26]
 ```
-
 * **Adjust PIN caching timeout** - The key above can now be used a normal PGP key. GnuPG will ask you for your user PIN on all operations. The default cache period for the PIN is infinite, but it can be adjusted in *~/.gnupg/gnupg-pkcs11-scd.conf*:
+
 ```
 # Pin cache period in seconds; default is infinite.
 pin-cache 5
@@ -228,14 +237,15 @@ pin-cache 5
 ## 4. Usage
 ### 4.1 Sign and verify
 * **Sign a document** - This will compress the document, sign it and the output will be *in binary format*. Signing will require the private key, so we're prompted for the token PIN:
+
 ```bash
 $ echo hello > test
 $ sudo gpg2 --output test.sig -u john@snow.com --sign test 
 ```
 
 The content of the file is **not encrypted**. The option would need to be combined with **--enrypt** flag. 
-
 * **Generate a clear text signature**:
+
 ```bash
 $ sudo gpg2 --output test.sig -u john@snow.com --clearsign test
 $ cat test.sig 
@@ -249,30 +259,32 @@ iQEcBAEBAgAGBQJZeLMUAAoJEHqOyUeEY/Owb7AH/1g747AasI9OMwghuRgMt6lX
 [. . .]
 -----END PGP SIGNATURE-----
 ```
-
 * **Verify the signature**:
+
 ```bash
 $ sudo gpg2 --verify test.sig 
 gpg: WARNING: unsafe ownership on configuration file `/home/m/.gnupg/gpg.conf'
 gpg: Signature made Wed 26 Jul 2017 04:19:48 PM BST using RSA key ID 8463F3B0
 gpg: Good signature from "John Snow <john@snow.com>"
 ```
-
 * **Verify the signature and recover the document**:
+
 ```bash
 $ sudo gpg2 --output test.out --decrypt test.sig
 ```
-
 * **Sign with a detached signature** - Remember, in this case you'll need both the original document and the detached signature in order to verify it!
+
 ```bash
 $ sudo gpg2 --output test.sig -u john@snow.com --detach-sig test
 ```
 
 ### 4.2 Encrypt and decrypt
 * **Encrypt a file for the user using his public key** - the token is obviously not required at this point:
+
 ```bash
 $ sudo gpg2 --output test.pgp --encrypt --armour --recipient john@snow.com test
 ```
+
 ```bash
 $ cat test.pgp 
 -----BEGIN PGP MESSAGE-----
@@ -280,8 +292,8 @@ Version: GnuPG v1
 [. . .]
 -----END PGP MESSAGE-----
 ```
-
 * **Decrypt using private key** - token PIN **IS** needed now:
+
 ```bash
 $ sudo gpg2 --output test.plain --decrypt test.pgp
 ```
@@ -289,12 +301,13 @@ $ sudo gpg2 --output test.plain --decrypt test.pgp
 ### 4.3 Export and import keys
 * **Exporting keys** - If you want to use the PGP key on a different machine, you can export it, then import it in another
 key chain. Of course, you'll need the same token to use it:
+
 ```bash
 $ sudo gpg --armor --export john@snow.com > my.pub
 $ sudo gpg --armor --export-secret-keys john@snow.com > my.sec
 ```
-
 * **Import the private key**:
+
 ```bash
 $ sudo gpg2 --import my.sec
 ```
