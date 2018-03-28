@@ -54,6 +54,8 @@ ifconfig -a >> log.txt
 
 ```
 
-**Note**: The new line at the end is important to get the last command executed !
-
 The commands should have been executed on victim's machine (A) and results saved in the corresponding log file.
+
+<div class="box-note">
+The new line at the end is very important to get the last command executed!
+</div>
