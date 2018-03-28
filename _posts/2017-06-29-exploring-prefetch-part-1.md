@@ -43,8 +43,9 @@ For example, in order to alter the prefetch creation, we can modify **EnablePref
 2 = Boot Prefetch 
 3 = Prefetch All
 ```
-
-Note that these settings need a *reboot* in order to become effective.
+<div class="box-note">
+These settings need a <b>reboot</b> in order to become effective.
+</div>
  
 ## Forensic artefacts from the prefetch files
 * __Evidence of program execution__ - Even if the program has since been deleted, a prefetch file may still exist on the system to provide evidence of execution. 
