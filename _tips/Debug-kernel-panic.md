@@ -24,7 +24,11 @@ $ sudo mkdir /PanicDumps
 $ sudo chown root:wheel /PanicDumps
 $ sudo chmod 1777 /PanicDumps
 ```
-* Next step is to *__activate kdumpd__* (the kernel dump server process). _Note that by default this will try to dump the cores to the ```/PanicDumps``` folder. If you've use a different folder name in the previous step, update its ```.plist``` property file._
+* Next step is to *__activate kdumpd__* (the kernel dump server process).
+
+<div class="box-note">
+By default this will try to dump the cores to the <i>/PanicDumps</i> folder. If you've use a different folder name in the previous step, update its <i>.plist</i> property file.
+</div>
 
 ```bash
 $ sudo launchctl load -w /System/Library/LaunchDaemons/com.apple.kdumpd.plist
