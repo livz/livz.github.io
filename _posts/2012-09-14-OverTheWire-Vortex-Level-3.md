@@ -206,7 +206,11 @@ for i in range (1, 256):
         p.wait()
 ```
 
-Note that *`i`* and *`j`* variables go from 1, not from 0, because 0 is the null character and is not accepted in a shell command, and thus not accepted  by the _`check_output()`_ function which executes a command. The result of running the script:
+<div class="box-note">
+<b>i</b> and <b>j</b> variables go from 1, not from 0, because 0 is the null character and is not accepted in a shell command, and thus not accepted  by the <i>check_output()</i> function which executes a command.
+</div>
+
+The result of running the script:
 ```bash
 vortex3@melissa:~$ python /tmp/wrapv3.py
 [..]
