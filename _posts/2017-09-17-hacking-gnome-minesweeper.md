@@ -120,6 +120,7 @@ gdb$ set $minefield = *($minefieldview+0x30)+0x28
 ```
 
 * Back in GDB, for an 8x8 table with 10 mines, we have:
+
 ```
 set $width=*(*$minefield+0x20)
 set $height=*(*$minefield+0x24)
