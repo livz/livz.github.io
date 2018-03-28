@@ -57,5 +57,5 @@ ifconfig -a >> log.txt
 The commands should have been executed on victim's machine (A) and results saved in the corresponding log file.
 
 <div class="box-note">
-The new line at the end ofthe commands file is very important to get the last command executed!
+The new line at the end of the commands file is important to get the last line executed!
 </div>
