@@ -11,7 +11,7 @@ date: 2017-09-23
 * Compressed files have an additional extended attribute, _**com.apple.decmpfs**_. 
 
 <div class="box-note">
-For small compressed files, their data is actually <i>stored uncompressed in the extended attribute</i> itself.
+For <b>small compressed files</b>, their data is actually <i>stored uncompressed in the extended attribute</i> itself.
 </div>
 
 ## Understanding file compression
