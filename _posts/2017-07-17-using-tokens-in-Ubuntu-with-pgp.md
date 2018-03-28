@@ -70,7 +70,9 @@ Slot 0 (0x0): AKS ifdh 00 00
   serial num         : 0947afab
 ```
 
-> **Note!** If you have multiple tokens or card reader slots, you'll have to use the **--slot 0** parameter with all *pkcs11-tool* commands.
+<div class="box-note">
+If you have multiple tokens or card reader slots, you'll have to use the <b>--slot 0</b> parameter with all <i>pkcs11-tool</i> commands.
+</div>
 
 ## 2. Token initialisation
 * **Create Security Office (SO) PIN (PUK)**:
@@ -83,9 +85,9 @@ $ pkcs11-tool --module /usr/lib/libeToken.so --init-token --label mytoken3
 $ pkcs11-tool --module /usr/lib/libeToken.so --init-pin --login
 ```
 
-> **Note!** For both PUK and PIN, no complexity requirements are enforced, allowing for weak pins. 
-The only requirement is that its length should be greater than 3. 
-Supposedly brute-forcing the token should be impossible.
+<div class="box-note">
+For both PUK and PIN, no complexity requirements are enforced, allowing for weak pins. The only requirement is that its length should be greater than 3. <b><i>Supposedly brute-forcing the token should be impossible.</i></b>
+</div>
 
 * **Change the current user PIN**:
 ```bash
