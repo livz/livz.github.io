@@ -10,7 +10,9 @@ date: 2017-09-23
 * Compressed data is placed in the _resource fork_. 
 * Compressed files have an additional extended attribute, _**com.apple.decmpfs**_. 
 
-*__Note__*: For small compressed files, their data is actually _stored uncompressed in the extended attribute_ itself.
+<div class="box-note">
+For small compressed files, their data is actually <i>stored uncompressed in the extended attribute</i> itself.
+</div>
 
 ## Understanding file compression
 
