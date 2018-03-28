@@ -45,11 +45,9 @@ Now that we have the encrypted file and the key, we need to figure out the corre
 ~ openssl aes-128-cbc -d -kfile key -in mail.bin -out mail.out                          
 ```
 
-Note that OpenSSL's man page _does not_ mention the essential **-kfile** parameter. For that we'd have to consult the man page of symmetric cipher routines:
-
-```bash
-~ man 1 enc
-```
+<div class="box-note">
+  OpenSSL's man page <i>does not</i> mention the essential <b>-kfile</b> parameter. For that we'd have to consult the man page of symmetric cipher routines: <i>man 1 enc</i>
+</div>
 
 Anyways, here's the decrypted email:
 
