@@ -14,7 +14,8 @@ My goal in this post is to reverse engineer the GNOME Minesweeper game and locat
 
 ## Debugging GTK applications
 To perform debugging and inspection of GTK applications, we have two quite stable options: [GTKInspector](https://wiki.gnome.org/Projects/GTK+/Inspector) and [gtkparasite](http://chipx86.github.io/gtkparasite/) (on which the GTKInspector is also based). I opted for the Parasite, which seems to be more established and has interesting features, like the ability to interact with GTK widgets from a Python shell, and apply CSS styles globally or individually per objects. A few things are needed to quickly get it working:
-* Download and install: 
+* Download and install:
+
 ```bash
 $ git clone git://github.com/chipx86/gtkparasite
 $ cd gtkparasite
@@ -22,19 +23,19 @@ $ ./autogen.sh --with-gtk=3.0
 $ make
 $ sudo make install
 ```
-
 * Set the `GTK_modules` environment variable:
+
 ```bash
  export GTK_MODULES=gtkparasite:$GTK_MODULES
 ```
-
 * Make sure the application to be debugged is built using GTK3, because gtkparasite [dropped support for GTK2](https://bbs.archlinux.org/viewtopic.php?id=160197). Check out which version of GTK `gnome-mines` was built against:
+
 ```bash
 $ ldd `which gnome-mines` | grep gtk
     libgtk-3.so.0 => /usr/lib/x86_64-linux-gnu/libgtk-3.so.0 (0x00007f2dc7f18000)
 ```
-
 * If you still get an error when trying to lunch GTK apps, make sure the libraries are placed in the correct location. The following workaround applies for Ubuntu 16.04:
+
 ```bash
 $ gnome-calculator                                  
 Gtk-Message: Failed to load module "gtkparasite"
@@ -56,6 +57,7 @@ Now that `gtkparasire` is up and running, let's make sure we can perform some ba
 To be able to mess with objects in memory, we need to understand the internals of Minesweeper first. Luckily, the source code is available [online](https://github.com/GNOME/gnome-mines). The goal for this section is to perform simple identification of data structures in memory, like obtaining the number of mines and details of the board (width, height) for example.
 
 * From gtkparasite we can see that the mine field is stored in a **_MinefieldView**_ class. This will be the starting point. In the source code ([minefield.vala](https://github.com/GNOME/gnome-mines/blob/3190bf2afee96110ad15bb10016c10396d107830/src/minefield.vala)) we see however that all the interesting fields are stored in a **_minefield**_ class:
+
 ```c
 public class Minefield : Object
 {
@@ -70,7 +72,6 @@ public class Minefield : Object
     protected Location[,] locations;
     [...]
 ```
-
 * After a bit of poking around with IDA Pro, we find the link between the _MineFieldView_ object and the _minefield_ class. 
 
 <div class="box-note">
@@ -89,14 +90,14 @@ __int64 __fastcall get_minefield(__int64 MFView)
   return result;
 }
 ```
-
 * This means that to obtain a pointer to the most important structure - _minefield_, we can perform the following steps in GDB using [convenience variables](https://sourceware.org/gdb/onlinedocs/gdb/Convenience-Vars.html):
+
 ```
 gdb$ set $minefieldview = 0x816dd0
 gdb$ set $minefield = *($minefieldview+0x30)+0x28
 ```
-
 * Going further, let's locate where exactly in the _minefield_ structure we have the _width_, _height_ and _n_mines_ fields. for the sake of brevity I won't list all the steps to locate those fields, however, the minefield class looks like this after identifyng the key fields:
+
 ```
 00000000 minefield_class struc ; (sizeof=0x44, mappedto_9)
 00000000 field_0         dd ?
@@ -133,14 +134,15 @@ $3 = 0xa
 
 ## GDB Kung-Fu
 * Using similar logic as before, we can map all the needed information related to the position of the mines. The _**has_mine**_ function queries the _**locations**_ array:
+
 ```c
 public bool has_mine (uint x, uint y)
 {
     return locations[x, y].has_mine
 }
 ```    
-
 * Back to IDA Pro, the disassembly of the function shows the offset shows the offsets inside the _minefield_ class:
+
 ```c
 __int64 __fastcall has_mine(minefield_class *minefield, int x, int y)
 {
@@ -152,8 +154,8 @@ __int64 __fastcall has_mine(minefield_class *minefield, int x, int y)
   return 0LL;
 }
 ```
-
 * Using the information from above, we can construct a query in GDB to verify whether the location at [x,y] has a mine or not:
+
 ```
 set $x=1
 set $y=1
@@ -167,6 +169,7 @@ The mines are actually placed on the map on the first attempt to clear a spot. S
 </div>
  
 * Below is the full GDB script that can be used to reveal al lthe mines. While debugging, stope the execution (Ctrl+C) and define the following function:
+
 ```c
 define discover_minefield    
     #
@@ -246,8 +249,8 @@ define discover_minefield
     printf "CSS style saved to gtk.css. Apply the style to view mines.\n" 
 end
 ```
-
 * The first parameter to the function is the pointer to the _MineFieldView_ object, obtained from gtkparasite window:
+
 ```
 gdb$ discover_minefield 0x816dd0
 Minefield width: 8
@@ -269,13 +272,14 @@ CSS style saved to gtk.css. Apply the style to view mines.
 A very nice feature of gtk-parasite is that it allows us to apply CSS styles globally per application or individually to each of its elements. GNOME developer center provides a good [overview of CSS features supported in GTK+](https://developer.gnome.org/gtk3/stable/chap-css-overview.html). 
 
 * In this case we need a way to apply a style to an invidual _**Tile**_, identified by its [x,y] coordinates. For this we need to identify which child number each tile has, then apply the style _to n-th child_. For example to apply a CSS to the element at [0, 1], we would do the following:
+
 ```css
 .button:nth-child(1) {
     background: pink; 
 }
 ```
-
 * After correctly identifying the status of each square, with some CSS hacking we assign colours individually. For the example above, the stylesheet (which is saved to gtk.css file) is:
+
 ```css
 .tile:nth-child(  1){ background: pink; }
 .tile:nth-child( 33){ background: pink; }
@@ -288,6 +292,5 @@ A very nice feature of gtk-parasite is that it allows us to apply CSS styles glo
 .tile:nth-child( 30){ background: pink; }
 .tile:nth-child( 40){ background: pink; }
 ```
-
 * The final product after applying the styles looks like this:
 [![](/assets/images/mines/css-small.png)](/assets/images/mines/css.png)
