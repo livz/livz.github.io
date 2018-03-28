@@ -57,7 +57,9 @@ COMMAND  PID USER   FD   TYPE DEVICE SIZE/OFF   NODE NAME
 vim     3266    m    4u   REG    1,2    12288 938070 /Users/m/.secretmessage.txt.swp
 ```
 
-*__Note:__* even if ```vim``` opened th file above for editing, it might not actually hold a file descriptor to it because it's actually editing a temporary file, that will overwrite the original when saving.
+<div class="box-note">
+Even if <i>vim</i> opened the file above for editing, it might not actually hold a file descriptor to it because it's actually editing a temporary file, which will overwrite the original when saving.
+</div>
 
 List all network connections for a specific process:
 ```bash
