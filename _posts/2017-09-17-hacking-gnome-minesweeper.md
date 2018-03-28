@@ -71,7 +71,12 @@ public class Minefield : Object
     [...]
 ```
 
-* After a bit of poking around with IDA Pro, we find the link between the _MineFieldView_ object and the _minefield_ class. Note that funtions and classes below (e.g. MFView) have been renamed manually:
+* After a bit of poking around with IDA Pro, we find the link between the _MineFieldView_ object and the _minefield_ class. 
+
+<div class="box-note">
+I have renamed the funtions and classes below (e.g. <b>MFView</b>, <b>ERR_minefield_view_get_minefield</b>) manually, identified using the available source code.
+</div>
+
 ```c
 __int64 __fastcall get_minefield(__int64 MFView)
 {
@@ -157,7 +162,10 @@ print $has_mine_xy
 $20 = 0x0
 ```
 
-* Note that mines are actually placed on the map on first attempt to clear a spot. So run the previous procedure only after a few spots have already been revealed.
+<div class="box-note">
+The mines are actually placed on the map on the first attempt to clear a spot. So run the previous procedure <i>only after a few spots have already been revealed.</i>
+</div>
+ 
 * Below is the full GDB script that can be used to reveal al lthe mines. While debugging, stope the execution (Ctrl+C) and define the following function:
 ```c
 define discover_minefield    
