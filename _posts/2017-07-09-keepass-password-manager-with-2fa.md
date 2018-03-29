@@ -30,20 +30,28 @@ to build a deliberately secure operational environment, for personal and busines
 * [Part 6 - Use a Bluetooth device for better security]({{ site.baseurl }}{% post_url 2017-08-02-use-Bluetooth-device-for-better-security %})
 
 ## HOWTO
-1. **Install [Keepass](http://keepass.info/download.html)**
-  * KeePass is available for a variety of platforms. So install it either from the repos of your distribution 
-if already present, or download it from the official website. 
-I’ll focus on *Ubuntu 16.04* here, which has KeePass **2.32** already in the repositories. 
+
+### 1. Install Keepass
+
+* [KeePass]((http://keepass.info/download.html)) is available for a variety of platforms. So install it either from the repos of your distribution if already present, or download it from the official website. I’ll focus on *Ubuntu 16.04* here, which has KeePass **2.32** already in the repositories. 
+
 ```bash
 $ sudo apt-get install keepass2
 ```
-2. **Install [OtpKeyProv plugin](http://keepass.info/plugins.html#otpkeyprov)**
-  * Download the OtpKeyProv plugin. The latest version of the plugin - 2.5 is not compatible with the latest version of KeePass from the repos - 2.32. We need to get plugin version 2.4 from [Old Versions of KeePass Plugins](http://keepass.info/plugins_old.html).
-  * Unzip the extension and copy the .plgx file to KeePass2 folder:
+
+## 2. Install OtpKeyProv plugin
+
+* Download the [OtpKeyProv plugin](http://keepass.info/plugins.html#otpkeyprov). 
+<div class="box-note">
+The latest version of the plugin - 2.5 is not compatible with the latest version of KeePass from the repos - 2.32. We need to get plugin version 2.4 from <a href="http://keepass.info/plugins_old.htmll">Old Versions of KeePass Plugins</a>.
+ </div>
+ * Unzip the extension and copy the *.plgx* file to KeePass2 folder:
+ 
 ```bash
 $ sudo cp OtpKeyProv.plgx /usr/lib/keepass2/
 ```
-  * Notice that **keepass2** command is just a wrapper to launch **KeePass.exe** using Mono.
+* Notice that **keepass2** command is just a wrapper to launch **KeePass.exe** using Mono:
+  
 ```bash
 $ file `which keepass2`
 /usr/bin/keepass2: POSIX shell script, ASCII text executable
@@ -51,32 +59,33 @@ $ cat `which keepass2`
 #!/bin/sh 
 exec /usr/bin/cli /usr/lib/keepass2/KeePass.exe "$@"
 ```
-  * PLGX plugins are compiled and stored in a plugin cache directory on the user's system. 
-For Linux, the Mono C# 4.0 compiler is needed, in order to compile the plugin. 
-This is done when starting KeePass. More precisely, for Ubuntu we need the **mono-dmcs** package:
+* PLGX plugins are compiled and stored in a plugin cache directory on the user's system. For Linux, the Mono C# 4.0 compiler is needed, in order to compile the plugin. This is done when starting KeePass. More precisely, for Ubuntu we need the **mono-dmcs** package:
+
 ```bash
 $ sudo apt-get install mono-complete
 ```
-3. **Create a new database**
-  * Create a new database (File->New)
-  * Setup a complex master password
-  * Select Key file/provider: One-Time Passwords (**OATH HOTP**)
-  * Click OK    
-     ![Logo](/assets/images/keepass/kp1.png)
-4. **Configure the OTP parameters**
-  * Length of one-time passwords: 6
-  * Secret key: In order to be compatible with Google Authenticator, 
-  the secret key must be in [Base32](https://en.wikipedia.org/wiki/Base32). The charset is: **[a-z] + [2-7]**. 
-  Its length must be multiple of 8 characters. Let's use for example **_abcdefghyz234567_**.
-  * Counter: 0 (Dec)
-  * Number of OTPs required: 3 
-  * Look-ahead count: 9. This allows for 3 failed KeePass unlock attempts using generated OTPs.
-  After that, the counters will become out of sync, and and the only solution is to recover the database using the secret key.   
-     ![Logo](/assets/images/keepass/kp2.png)
-5. **Set up [Google Authenticator](https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2&hl=en_GB)**
-  * Enter the app and add a new authenticator
-  * Select "Enter a provided key" and enter the previous key (e.g. **_abcdefghyz234567_**)
-  * Select "counter based" instead of "time based"
+
+### 3. Create a new database
+
+* Create a new database (*File→New*)
+* Setup a complex master password
+* Select Key file/provider: One-Time Passwords (**OATH HOTP**)
+* Click OK    
+![Logo](/assets/images/keepass/kp1.png)
+
+### 4. Configure the OTP parameters
+* Length of one-time passwords: **6**
+* Secret key: In order to be compatible with Google Authenticator, the secret key must be in [Base32](https://en.wikipedia.org/wiki/Base32). The charset is: **[a-z] + [2-7]**. Its length must be multiple of 8 characters. Let's use for example **_abcdefghyz234567_**.
+* Counter: 0 (Dec)
+* Number of OTPs required: **3** 
+* Look-ahead count: **9**. This allows for 3 failed KeePass unlock attempts using generated OTPs. After that, the counters will become out of sync, and and the only solution is to recover the database using the secret key.
+![Logo](/assets/images/keepass/kp2.png)
+
+### 5. Set up Google Authenticator
+* Download and install [Google Authenticator](https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2&hl=en_GB)
+* Enter the app and add a new authenticator
+* Select *"Enter a provided key"* and enter the previous key (e.g. **_abcdefghyz234567_**)
+* Select *"counter based"* instead of "time based"
 
 ![Logo](/assets/images/keepass/beware.png)
 
