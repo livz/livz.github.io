@@ -42,7 +42,7 @@ $ sudo apt-get install keepass2
 ### 2. Install OtpKeyProv plugin
 
 * Download the [OtpKeyProv plugin](http://keepass.info/plugins.html#otpkeyprov). 
-<div class="box-note">
+<div class="box-warning">
 The latest version of the plugin - 2.5 is not compatible with the latest version of KeePass from the repos - 2.32. We need to get plugin version 2.4 from <a href="http://keepass.info/plugins_old.htmll">Old Versions of KeePass Plugins</a>.
 </div>
 * Unzip the extension and copy the *.plgx* file to KeePass2 folder:
