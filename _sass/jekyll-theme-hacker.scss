@@ -1,23 +1,12 @@
 @import "rouge-base16-dark";
 
-/* Colors 
- * Based on colors from Base16: http://chriskempson.github.io/base16/#default.
- */
-$red:      #ac4142;
-$orange:   #d28445;
-$yellow:   #f4bf75;
-$green:    #90a959;
-$cyan:     #75b5aa;
-$blue:     #6a9fb5;
-$magenta:  #aa759f;
-$brown:    #8f5536;
-$default:  #505050;
+/* Colors */
 
-$white:      #fff;
-$lightgrey:  #eee;
-$black:      #000;
-
-$header-col: #b5e868;
+$green:         #90a959;
+$white:         #fff;
+$header-col:    #b5e868;
+$box-note:      #6a9fb5;
+$box-warning:   #bd3659;
 
 body {
   margin: 0;
@@ -380,14 +369,29 @@ code {
 /* Style for boxes */
 .box-note {
     padding: 1rem;
-    border: 1px solid #6a9fb5;
+    border: 1px solid $box-note;
     margin-top: 1.5rem;
     margin-bottom: 1.5rem;
     font-size: 1.2em;
     
     &:before {
       content: "\f044";
-      color: #6a9fb5;
+      color: $box-note;
+      font-family: FontAwesome;
+      font-size: 1.2em;
+    }
+}
+
+.box-warning {
+    padding: 1rem;
+    border: 1px solid $box-warning;
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+    font-size: 1.2em;
+    
+    &:before {
+      content: "\f1e2";
+      color: $box-warning;
       font-family: FontAwesome;
       font-size: 1.2em;
     }
