@@ -72,10 +72,10 @@ Unmount the encrypted volume (close the safe):
 ```
 
 ## Notes
-* **Problem**: EncFS uses a file named **.encfs6.xml** to define the encrypted storage settings. This hidden file is not synchronized by Grive. 
+* **Issue #1**: EncFS uses a file named **.encfs6.xml** to define the encrypted storage settings. This hidden file is not synchronized by Grive. 
 
 **Solution**: Get a patched version of Grive or rename the file and store it on Google Drive. After synchronizing Grive on another machine, rename the encfs6.xml file to .encfs6.xml.
-* **Problem**: Permission denied for */dev/fuse* for the current user.
+* **Issue #2**: Permission denied for */dev/fuse* for the current user.
 
 ```
 fusermount: failed to open /dev/fuse: Permission denied
