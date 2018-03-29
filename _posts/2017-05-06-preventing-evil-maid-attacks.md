@@ -40,6 +40,7 @@ Basically if you don't like having the /boot partition unencrypted on the same m
 * Identify the USB disk (**/dev/sdd1** in my case) and launch **gksudo gparted**
 * Delete any existing patition, create an **ext4** partition, apply the changes and close **gparted**
 * As root, copy the original boot files to the new partition:
+
 ```bash
 # mkdir /media/newboot
 # mount /dev/sdd1 /media/newboot
@@ -47,17 +48,20 @@ Basically if you don't like having the /boot partition unencrypted on the same m
 # cp -ax . /media/newboot
 ```
 * Update ```/etc/fstab``` with the UUID of the new partition:
+
 ```bash
 # blkid /dev/sdd1
 # vim /etc/fstab 
 ```
 Comment the existing line indicating the UUID of **/boot** and add the following:
+
 ```
 # /boot on /dev/sdd1
 UUID=...  /boot ext4 errors=remount-ro  0  1
 ```
 
 * Update the bootloader and restart:
+
 ```bash
 # update-grub
 ```
