@@ -33,7 +33,7 @@ to build a deliberately secure operational environment, for personal and busines
 
 ### 1. Install Keepass
 
-* [KeePass]((http://keepass.info/download.html)) is available for a variety of platforms. So install it either from the repos of your distribution if already present, or download it from the official website. I’ll focus on *Ubuntu 16.04* here, which has KeePass **2.32** already in the repositories. 
+* [KeePass](http://keepass.info/download.html) is available for a variety of platforms. So install it either from the repos of your distribution if already present, or download it from the official website. I’ll focus on *Ubuntu 16.04* here, which has KeePass **2.32** already in the repositories. 
 
 ```bash
 $ sudo apt-get install keepass2
