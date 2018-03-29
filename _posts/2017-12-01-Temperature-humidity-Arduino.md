@@ -246,7 +246,7 @@ void loop() {
 
 ## Demo
 
-<video controls="controls" width="640" height="360" name="Arduino Demo" src="../../..hardware//assets/images/tips/arduino/video.mov">
+<video controls="controls" width="640" height="360" name="Arduino Demo" src="../../../../assets/images/tips/arduino/video.mov">
 Your browser does not support the video element.
 </video>
 
