@@ -88,6 +88,6 @@ fusermount: failed to open /dev/fuse: Permission denied
 ```
 
 ## References
-[EncFS Encrypted Filesystem](http://www.arg0.net/encfs)
-[Grive](https://github.com/Grive/grive) - Open source Linux client for Google Drive
-[Synchronise hidden files other than .grive*](https://github.com/Grive/grive/issues/129)
+* [EncFS Encrypted Filesystem](http://www.arg0.net/encfs)
+* [Grive](https://github.com/Grive/grive) - Open source Linux client for Google Drive
+* [Synchronise hidden files other than .grive*](https://github.com/Grive/grive/issues/129)
