@@ -39,7 +39,7 @@ to build a deliberately secure operational environment, for personal and busines
 $ sudo apt-get install keepass2
 ```
 
-## 2. Install OtpKeyProv plugin
+### 2. Install OtpKeyProv plugin
 
 * Download the [OtpKeyProv plugin](http://keepass.info/plugins.html#otpkeyprov). 
 <div class="box-note">
