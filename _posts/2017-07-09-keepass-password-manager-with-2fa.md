@@ -70,7 +70,8 @@ $ sudo apt-get install mono-complete
 * Create a new database (*File→New*)
 * Setup a complex master password
 * Select Key file/provider: One-Time Passwords (**OATH HOTP**)
-* Click OK    
+* Click OK
+
 ![Logo](/assets/images/keepass/kp1.png)
 
 ### 4. Configure the OTP parameters
@@ -78,7 +79,8 @@ $ sudo apt-get install mono-complete
 * Secret key: In order to be compatible with Google Authenticator, the secret key must be in [Base32](https://en.wikipedia.org/wiki/Base32). The charset is: **[a-z] + [2-7]**. Its length must be multiple of 8 characters. Let's use for example **_abcdefghyz234567_**.
 * Counter: 0 (Dec)
 * Number of OTPs required: **3** 
-* Look-ahead count: **9**. This allows for 3 failed KeePass unlock attempts using generated OTPs. After that, the counters will become out of sync, and and the only solution is to recover the database using the secret key.
+* Look-ahead count: **9**. This allows for 3 failed KeePass unlock attempts using generated OTPs. After that, the counters will become out of sync, and and the only solution is to recover the database using the secret key:
+
 ![Logo](/assets/images/keepass/kp2.png)
 
 ### 5. Set up Google Authenticator
