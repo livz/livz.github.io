@@ -1,5 +1,5 @@
 ---
-title:  "KeePass Password Manager with 2FA"
+title:  "KeePass Password Manager With 2FA"
 published: true
 categories: [SecurityBricks]
 ---
