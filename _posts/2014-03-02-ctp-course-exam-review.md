@@ -29,4 +29,4 @@ I've used both the allocated days for the exam, with a lot of sleep in between (
 
 Overall, I learned a lot while preparing for the exam. The course is stimulating and very interesting. In the end you get out what you put in. If you need motivation, find your dinosaur and do it!
 
-![dino](/assets/images/exercise.png)
+<img src="/assets/images/exercise.png" alt="dino" class="figure-body">
