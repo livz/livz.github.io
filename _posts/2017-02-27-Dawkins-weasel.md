@@ -16,7 +16,8 @@ POLONIUS:  It is backed like a weasel.
 HAMLET:    Or like a whale.
 POLONIUS:  Very like a whale.
 ```
-![Camel Cloud](/assets/images/camel.png)
+
+<img src="/assets/images/camel.png" alt="Camel Cloud" class="figure-body">
 
 <blockquote>
   <p>The weasel program, Dawkins' weasel, or the Dawkins weasel is a thought experiment and a variety of computer simulations illustrating it. Their aim is to demonstrate that the process that drives evolutionary systems—random variation combined with non-random cumulative selection—is different from pure chance. <br />
@@ -35,7 +36,7 @@ The **Weasel algorithm** implemented here runs as follows:
     * *In real life there is no final pre-established target!*
 5. ***Survival*** - Take the highest scoring string, and go to step **2**.
 
-![Evolution](/assets/images/run.png)
+<img src="/assets/images/run.png" alt="Evolution" class="figure-body">
 
 ## Code
 
