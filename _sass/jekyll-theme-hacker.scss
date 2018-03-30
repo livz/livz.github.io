@@ -406,3 +406,13 @@ blockquote {
    margin: 1em 0px;
    background: #333333;
 }
+
+blockquote:before {
+  content: "\f10d";
+  color: #aaa;
+  font-family: FontAwesome;
+}
+
+blockquote cite::before {
+    content: "\2014";
+}
