@@ -10,9 +10,16 @@ The level can be found [here](http://overthewire.org/wargames/vortex/vortex1.htm
 * There's a 512 bytes buffer and a pointer _`ptr`_ that initially points in the middle of the buffer.
 * For every **\** character read, the pointer is decremented.
 * For every character read which is different than **\n** and **\** we have the possibility to set a byte in _`ptr`_: 
-> ptr++[0] = x;
-* The _`e()`_ macro spawns an [interactive bash shell](http://www.gnu.org/software/bash/manual/bashref.html#Interactive-Shells) (**-i** parameter) and also replaces the image of the current process with _`/bin/sh`_, through [_`execlp`_](http://linux.die.net/man/2/execve) function. Very important to remember, from here: 
-> By default, file descriptors remain open across an execve()
+```c
+    ptr++[0] = x;
+````
+* The _`e()`_ macro spawns an [interactive bash shell](http://www.gnu.org/software/bash/manual/bashref.html#Interactive-Shells) (**-i** parameter) and also replaces the image of the current process with _`/bin/sh`_, through _`execlp`_ function. Very important to remember:
+
+<blockquote>
+  <p>By default, file descriptors remain open across an execve()</p>
+  <cite><a target="_blank" href="http://linux.die.net/man/2/execve">execve(2) - Linux man page</a>
+</cite> </blockquote>
+
 * The condition to trigger shell execution can be easily accomplished, given the third point.
 
 Taken these into account, let's try to launch a shell and execute a command:
