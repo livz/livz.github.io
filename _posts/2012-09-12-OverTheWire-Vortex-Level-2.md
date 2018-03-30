@@ -9,7 +9,7 @@ categories: [CTF, OverTheWire]
 The binary from [level 2](http://overthewire.org/wargames/vortex/vortex2.html) creates a _special file_, one whose name contains _**\$\$**_: _ownership.\$\$.tar_. 
 
 <blockquote>
-  <p>the $ variable [..] expands to the process ID of the shell. In a () subshell, it expands to the process ID of the invoking shell, not the subshell.</p>
+  <p>The $ variable [..] expands to the process ID of the shell. In a () subshell, it expands to the process ID of the invoking shell, not the subshell.</p>
   <cite><a target="_blank" href="https://www.gnu.org/software/bash/manual/html_node/Special-Parameters.html#Special-Parameters">bash manual page</a>
 </cite> </blockquote>
 
