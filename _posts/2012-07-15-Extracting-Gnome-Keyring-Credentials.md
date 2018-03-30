@@ -8,8 +8,13 @@ categories: [Security]
 ## Context
 * Gnome Keyring is a (good:wink:) daemon that stores different security credentials encrypted in a file in the user’s home directory. It uses the login password for encryption, and after the keyring is decrypted at logon, the password is no longer necessary in the current user’s context. 
 * Since usually password managers and tools of this kind are _more for users' convenience than security_, an attacker/forensic investigator with local access could easily extract specific credentials from the GUI application (_Applications -> Accessories -> Passwords and Encryption Keyrings_), without being prompted for anything to authorize him.
-* Gnome Keyring does not protect against active attacks (when the attacker has access to user’s session). This is explained clearly in the [GNOME Keyring Security Philosophy](https://wiki.gnome.org/Projects/GnomeKeyring/SecurityPhilosophy):
-> An active attacker might install an application on your computer, display a window, listen into the X events going to another window, read through your memory, snoop on you from a root account etc.
+* Gnome Keyring does not protect against active attacks (when the attacker has access to user’s session). 
+
+<blockquote>
+  <p>An active attacker might install an application on your computer, display a window, listen into the X events going to another window, read through your memory, snoop on you from a root account etc.</p>
+  <cite><a target="_blank" href="https://wiki.gnome.org/Projects/GnomeKeyring/SecurityPhilosophy">GNOME Keyring Security Philosophy</a>
+</cite> </blockquote>
+
 * The analogous application for KDE is [KWallet](https://utils.kde.org/projects/kwalletmanager/), which workes by the same principles. Oh, and there are python bindings is a python binding for this too.
 
 ## Dump keyring credentials using Python
