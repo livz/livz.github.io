@@ -170,8 +170,7 @@ end
 
 <blockquote>
   <p>The JPEG encoding procedure divides an image into 8x8 blocks of pixels in the YCbCr colorspace.  Then they are run through a <b>discrete cosine transform (DCT)</b> and the resulting frequency coefficients are scaled to remove the ones which a human viewer would not detect under normal conditions.  If steganographic data is being loaded into the JPEG image, the loading occurs after this step.  <b>The lowest-order bits of all non-zero frequency coefficients are replaced with successive bits from the steganographic source file</b>, and these modified coefficients are sent to the Huffmann coder.</p>
-  <cite><JSTEG - README file</a>
-</cite> </blockquote>
+  <cite><JSTEG - README file</cite> </blockquote>
 
 * It's a variation of Least Significant Bit steganography, but using DCT quantization coefficients.
 * [This website](http://www.guillermito2.net/stegano/jsteg/index.html) describes the whole process very clearly and provides a tool for extraction (not detection!).
