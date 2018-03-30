@@ -16,10 +16,10 @@ date: 2018-01-10
 
 * The technique was described in [Mac OS X Internals: A Systems Approach (2006)](https://www.amazon.co.uk/Mac-OS-Internals-Approach-paperback/dp/0321278542) and [Mac OS X and iOS Internals: To the Apple's Core (2013)](https://www.amazon.com/Mac-OS-iOS-Internals-Apples/dp/1118057651). 
 * In a nutshell, function interposing is done by specifying a _dylib library_ we want to _interpose_ in the ```DYLD_INSERT_LIBRARIES``` environment variable.
-* We also need to enable ```DYLD_FORCE_FLAT_NAMESPACE```. as described in [```dyld (1)``` man page](https://developer.apple.com/legacy/library/documentation/Darwin/Reference/ManPages/man1/dyld.1.html):
+* We also need to enable ```DYLD_FORCE_FLAT_NAMESPACE```. 
 
-```
-DYLD_INSERT_LIBRARIES
+<blockquote>
+  <p>DYLD_INSERT_LIBRARIES
   This  is  a colon separated list of dynamic libraries to load before the ones specified in the
   program.  This lets you test new modules of existing dynamic shared libraries that are used in
   flat-namespace images by loading a temporary dynamic shared library with just the new modules.
@@ -30,8 +30,10 @@ DYLD_FORCE_FLAT_NAMESPACE
   Force all images in the program to be linked as flat-namespace images and ignore any two-level
   namespace bindings.  This may cause programs to fail to execute with a multiply defined symbol
   error if two-level namespace images are used to allow the images to have multiply defined symbols.
-  bols.
-```
+  bols.</p>
+  <cite><a target="_blank" href="https://developer.apple.com/legacy/library/documentation/Darwin/Reference/ManPages/man1/dyld.1.html">dyld (1) man page</a>
+</cite>
+</blockquote>
 
 ### Example
 
