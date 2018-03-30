@@ -404,22 +404,21 @@ blockquote {
    background: #333333;
 }
 
-/* Quote sign around the paragraph */
-blockquote:before {
-  content: "\f10d";
-  color: #aaa;
-  font-family: FontAwesome;
-}
-
-blockquote:after {
-  content: "\f10e";
-  color: #aaa;
-  font-family: FontAwesome;
-}
-
-/* Display quote sign inline with the paragraph */
+/* Display quote signs around the paragraph */
 blockquote p {
   display: inline;
+  
+  &:before {
+    content: "\f10d";
+    color: #aaa;
+    font-family: FontAwesome;
+  }
+  
+  &:after {
+    content: "\f10e";
+    color: #aaa;
+    font-family: FontAwesome;
+  }
 }
 
 /* Dash before the cite */
