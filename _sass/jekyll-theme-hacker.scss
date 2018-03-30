@@ -405,12 +405,19 @@ blockquote {
    background: #333333;
 }
 
+/* Quote sign before the paragraph */
 blockquote:before {
   content: "\f10d";
   color: #aaa;
   font-family: FontAwesome;
 }
 
+/* Display quote sign inline with the paragraph */
+blockquote p {
+  display: inline;
+}
+
+/* Dash before the cite */
 blockquote cite::before {
     content: "\2014";
 }
