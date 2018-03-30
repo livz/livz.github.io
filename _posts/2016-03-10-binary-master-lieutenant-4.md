@@ -6,8 +6,12 @@ categories: [CTF, Binary-Master]
 ![Logo](/assets/images/belts-black.png)
 
 
-We're finally getting closer to the end of the [Lieutenant](https://www.certifiedsecure.com/certification/view/37) set of challenges from **Certified Secure Binary Mastery**. This time we'll analyse another classic vulnerability - **Time of check to time of use (TOCTOU)**. At its root, the vulnerability is a class of [race condition](https://en.wikipedia.org/wiki/Race_condition). As the [Wikipedia article](https://en.wikipedia.org/wiki/Time_of_check_to_time_of_use) states:
-> **TOCTOU**, pronounced "TOCK too" is a class of software bug caused by changes in a system between the checking of a condition (such as a security credential) and the use of the results of that check.
+We're finally getting closer to the end of the [Lieutenant](https://www.certifiedsecure.com/certification/view/37) set of challenges from **Certified Secure Binary Mastery**. This time we'll analyse another classic vulnerability - **Time of check to time of use (TOCTOU)**. At its root, the vulnerability is a class of [race condition](https://en.wikipedia.org/wiki/Race_condition). 
+
+<blockquote>
+	<p><b>TOCTOU</b>, pronounced "TOCK too" is a class of software bug caused by changes in a system between the checking of a condition (such as a security credential) and the use of the results of that check.</p>
+  <cite><a target="_blank" href="https://en.wikipedia.org/wiki/Time_of_check_to_time_of_use">TOCTTOU - Wikipedia</a>
+</cite> </blockquote>
 
 The vulnerability in this level is actually pretty straight-forward to spot. Although race-conditions are usually difficult to exploit reliably, in this case things are easier, as we'll see.
 
