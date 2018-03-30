@@ -404,9 +404,15 @@ blockquote {
    background: #333333;
 }
 
-/* Quote sign before the paragraph */
+/* Quote sign around the paragraph */
 blockquote:before {
   content: "\f10d";
+  color: #aaa;
+  font-family: FontAwesome;
+}
+
+blockquote:after {
+  content: "\f10e";
   color: #aaa;
   font-family: FontAwesome;
 }
