@@ -9,8 +9,6 @@ published: true
 
 * In this short post I'll test a few handy examples of the very powerful ```dtrace``` utility. For in-depth explanation check the awesome [DTrace Book](http://www.brendangregg.com/dtracebook/index.html).
 
-From the DTrace [_man page_]():
-
  <blockquote>
   <p> The <cite>dtrace</cite> command  is a generic front-end to the DTrace facility. The command implements a simple interface to invoke the D language compiler, the ability to retrieve buffered trace data from the DTrace kernel facility, and a set of basic routines to format and print traced data.</p>
   <cite><a target="_blank" href="https://developer.apple.com/legacy/library/documentation/Darwin/Reference/ManPages/man1/dtrace.1.html">DTrace man page</a></cite> </blockquote>
