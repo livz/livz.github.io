@@ -7,9 +7,12 @@ categories: [SecurityBricks]
 
 ![Logo](/assets/images/opsec-basics/loose-lips.png)
 
-**Operations Security** is sometimes about simple things. Things we do in a certain way every day, without realising it. It is also a mindset, is about doing things right, over and over again until it becomes internalised. Wikipedia defines [OPSEC](https://en.wikipedia.org/wiki/Operations_security) as:
+**Operations Security** is sometimes about simple things. Things we do in a certain way every day, without realising it. It is also a mindset, is about doing things right, over and over again until it becomes internalised. 
 
-> [..] a term originating in U.S. military jargon, as a process that identifies critical information to determine if friendly actions can be observed by enemy intelligence, determines if information obtained by adversaries could be interpreted to be useful to them, and then executes selected measures that eliminate or reduce adversary exploitation of friendly critical information.
+<blockquote>
+  <p>[..] a term originating in U.S. military jargon, as a process that identifies critical information to determine if friendly actions can be observed by enemy intelligence, determines if information obtained by adversaries could be interpreted to be useful to them, and then executes selected measures that eliminate or reduce adversary exploitation of friendly critical information.</p>
+  <cite><a target="_blank" href="https://en.wikipedia.org/wiki/Operations_security">OPSEC - Wikipedia</a>
+</cite> </blockquote>
 
 This post is part of the **Security Bricks tutorials** - simple methods and habits
 to build a deliberately secure operational environment, for personal and business use. The other parts below:
