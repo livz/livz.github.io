@@ -5,8 +5,11 @@ function entriesNav(key) {
   var currentClass = currentList.className
   var listEntries = [].slice.call(currentList.getElementsByTagName("li"));
 
-  var idx = -1; 
-
+  // Disable navigation in the archives groups
+  if ( currentList.parentElement.className === "archive-group" )
+    return;
+  
+  var idx = -1;
   var currentfocus = document.activeElement; 
 
   // Get current post index
