@@ -38,7 +38,7 @@ The **Weasel algorithm** implemented here runs as follows:
 
 <img src="/assets/images/run.png" alt="Evolution" class="figure-body">
 
-## Code
+## Show Me The Code
 
 ```python
 import string
