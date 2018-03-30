@@ -2,6 +2,9 @@
 layout: default
 title: Craftware
 ---
+
+{% include keyboard.html %}
+
 <h1><i>Offloading the brain ...</i></h1>
 	<ul class="cheat_sheet">
 	        {% assign items = (site.cheat_sheets | sort: 'date') | reverse %}
