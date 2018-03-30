@@ -16,7 +16,6 @@ Curious, I decided to read more. Then I noticed the _Step 8_ of the guide above 
 
 <blockquote>
   <p>Now your data is fully password protected and nobody can read it without having the password you have set.</p>
-  <cite>Famous last words ..</cite>
 </blockquote>
 
 ## Observations
