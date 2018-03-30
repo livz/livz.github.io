@@ -6,8 +6,12 @@ categories: [CTF, OverTheWire]
 ![Logo](/assets/images/vortex2.png)
 
 ## Context
-The binary from [level 2](http://overthewire.org/wargames/vortex/vortex2.html) creates a _special file_, one whose name contains _**\$\$**_: _ownership.\$\$.tar_. As detailed in the [bash manual](https://www.gnu.org/software/bash/manual/html_node/Special-Parameters.html#Special-Parameters), the $ variable:
-> Expands to the process ID of the shell. In a () subshell, it expands to the process ID of the invoking shell, not the subshell.
+The binary from [level 2](http://overthewire.org/wargames/vortex/vortex2.html) creates a _special file_, one whose name contains _**\$\$**_: _ownership.\$\$.tar_. 
+
+<blockquote>
+  <p>the $ variable [..] expands to the process ID of the shell. In a () subshell, it expands to the process ID of the invoking shell, not the subshell.</p>
+  <cite><a target="_blank" href="https://www.gnu.org/software/bash/manual/html_node/Special-Parameters.html#Special-Parameters">bash manual page</a>
+</cite> </blockquote>
 
 This binary file has permissions to read the password file from the next level, so what we have to do is archive the password file, and then read it, taking into account the special file name.
 
