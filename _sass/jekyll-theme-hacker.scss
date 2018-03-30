@@ -409,13 +409,13 @@ blockquote p {
   display: inline;
   
   &:before {
-    content: "\f10d";
+    content: "    \f10d";
     color: #aaa;
     font-family: FontAwesome;
   }
   
   &:after {
-    content: "\f10e";
+    content: "    \f10e";
     color: #aaa;
     font-family: FontAwesome;
   }
