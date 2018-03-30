@@ -6,9 +6,10 @@ date: 2017-12-02
 
 ## Overview
 
-From the [official documentation](https://developer.apple.com/library/content/documentation/Security/Conceptual/AppSandboxDesignGuide/AboutAppSandbox/AboutAppSandbox.html):
-
-> App Sandbox is an access control technology provided in macOS, enforced at the kernel level. It is designed to contain damage to the system and the user’s data if an app becomes compromised. Apps distributed through the Mac App Store must adopt App Sandbox. Apps signed and distributed outside of the Mac App Store with Developer ID can (and in most cases should) use App Sandbox as well.
+<blockquote>
+  <p>App Sandbox is an access control technology provided in macOS, enforced at the kernel level. It is designed to contain damage to the system and the user’s data if an app becomes compromised. Apps distributed through the Mac App Store must adopt App Sandbox. Apps signed and distributed outside of the Mac App Store with Developer ID can (and in most cases should) use App Sandbox as well.</p>
+  <cite><a target="_blank" href="https://developer.apple.com/library/content/documentation/Security/Conceptual/AppSandboxDesignGuide/AboutAppSandbox/AboutAppSandbox.html">Apple - About App Sandbox</a>
+</cite> </blockquote>
 
 This means that, by using the sandbox, we can _restrict the level of access an application has to operating system resources like filesystem or network, permissions to spawn other executables_ and so on. There are two ways to use sandboxing:
 * One is to use the sandboxing library from the source code of an application.
