@@ -396,3 +396,13 @@ code {
       font-size: 1.2em;
     }
 }
+
+/* Style for blockquotes */
+blockquote {
+   color: #aaa;
+   padding-left: 1em;
+   padding-right: 1em;
+   border: 2px dashed #666;
+   margin: 1em 0px;
+   background: #333333;
+}
