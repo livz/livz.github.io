@@ -162,7 +162,7 @@ blockquote {
 pre {
   background: rgba(0, 0, 0, 0.9);
   border: 1px solid rgba(255, 255, 255, 0.15);
-  padding: 1em;
+  padding: 10px;
   font-size: 12px;
   color: #b5e853;
   border-radius: 2px;
@@ -398,8 +398,7 @@ code {
 /* Style for blockquotes */
 blockquote {
    color: #aaa;
-   padding-left: 1em;
-   padding-right: 1em;
+   padding: 1em;
    border: 2px dashed #666;
    margin: 1em 0px;
    background: #333333;
