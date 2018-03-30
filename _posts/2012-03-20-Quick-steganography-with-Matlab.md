@@ -166,8 +166,13 @@ end
 
 
 ## DCT Steganography
-* This idea of hiding information in DCT coefficients is implemented by the [JSTEG](https://zooid.org/~paul/crypto/jsteg/) tool, which is the software from Independent JPEG Group JPEG, modifed for 1-bit steganography, developed by Derek Upham. Its  source is readily available. From the README file:
-> The JPEG encoding procedure divides an image into 8x8 blocks of pixels in the YCbCr colorspace.  Then they are run through a __discrete cosine transform (DCT)__ and the resulting frequency coefficients are scaled to remove the ones which a human viewer would not detect under normal conditions.  If steganographic data is being loaded into the JPEG image, the loading occurs after this step.  __The lowest-order bits of all non-zero frequency coefficients are replaced with successive bits from the steganographic source file__, and these modified coefficients are sent to the Huffmann coder.
+* This idea of hiding information in DCT coefficients is implemented by the [JSTEG](https://zooid.org/~paul/crypto/jsteg/) tool, which is the software from Independent JPEG Group JPEG, modifed for 1-bit steganography, developed by Derek Upham. Its  source is readily available.
+
+<blockquote>
+  <p>The JPEG encoding procedure divides an image into 8x8 blocks of pixels in the YCbCr colorspace.  Then they are run through a <b>discrete cosine transform (DCT)</b> and the resulting frequency coefficients are scaled to remove the ones which a human viewer would not detect under normal conditions.  If steganographic data is being loaded into the JPEG image, the loading occurs after this step.  <b>The lowest-order bits of all non-zero frequency coefficients are replaced with successive bits from the steganographic source file</b>, and these modified coefficients are sent to the Huffmann coder.</p>
+  <cite><JSTEG - README file</a>
+</cite> </blockquote>
+
 * It's a variation of Least Significant Bit steganography, but using DCT quantization coefficients.
 * [This website](http://www.guillermito2.net/stegano/jsteg/index.html) describes the whole process very clearly and provides a tool for extraction (not detection!).
 * Phil Sallee's [JPEG Toolbox for Matlab](http://www.philsallee.com/jpegtbx/index.html) can be used to access the DCT coefficients (and other cool stuff not available directly from Matlab  like _quantization tables, Huffman coding tables, color space information, and comment markers_). In the JPEG encoding process, these coefficients are quantized (1), zig-zag ordered (2) and then compressed, Run-Length-Encding and Hufffman (3), so they aren't accessible from Matlab directly. 
