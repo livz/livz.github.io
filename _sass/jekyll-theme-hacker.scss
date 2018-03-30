@@ -345,10 +345,10 @@ a {
 }
 
 /* Don't highlight post/tips/cheat-sheets entries as links */
-.posts, .cheat_sheet, .tip {
-    a {
-      text-decoration: none;
-    }
+.post, .cheat_sheet, .tip {
+  a {
+    text-decoration: none;
+  }
 }
 
 /* Beautify code boxes */
