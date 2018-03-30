@@ -10,9 +10,11 @@ function entriesNav(key) {
   var currentfocus = document.activeElement; 
 
   // get current post index
-  if ( currentfocus.parentElement.parentElement.className === currentClass ) {
-    idx = listEntries.indexOf(currentfocus.parentElement)
-  } 
+  if ( currentfocus.parentElement.parentElement) {
+    if ( currentfocus.parentElement.parentElement.className === currentClass ) {
+      idx = listEntries.indexOf(currentfocus.parentElement)
+    }
+  }
 
   // Adjust post index
   if ( key === 'j' && idx < listEntries.length - 1 ) {
