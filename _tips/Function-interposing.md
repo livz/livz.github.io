@@ -20,14 +20,16 @@ date: 2018-01-10
 
 <blockquote>
   <p>DYLD_INSERT_LIBRARIES
+    
   This  is  a colon separated list of dynamic libraries to load before the ones specified in the
   program.  This lets you test new modules of existing dynamic shared libraries that are used in
   flat-namespace images by loading a temporary dynamic shared library with just the new modules.
   Note that this has no effect on images built a two-level  namespace  images  using  a  dynamic
   shared library unless DYLD_FORCE_FLAT_NAMESPACE is also used.
-              
+      
 DYLD_FORCE_FLAT_NAMESPACE
-  Force all images in the program to be linked as flat-namespace images and ignore any two-level
+       
+Force all images in the program to be linked as flat-namespace images and ignore any two-level
   namespace bindings.  This may cause programs to fail to execute with a multiply defined symbol
   error if two-level namespace images are used to allow the images to have multiply defined symbols.
   bols.</p>
