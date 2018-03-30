@@ -9,7 +9,7 @@ function entriesNav(key) {
 
   var currentfocus = document.activeElement; 
 
-  // get current post index
+  // Get current post index
   if ( currentfocus.parentElement.parentElement) {
     if ( currentfocus.parentElement.parentElement.className === currentClass ) {
       idx = listEntries.indexOf(currentfocus.parentElement)
