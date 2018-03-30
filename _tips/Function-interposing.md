@@ -29,7 +29,7 @@ DYLD_FORCE_FLAT_NAMESPACE<br />
 Force all images in the program to be linked as flat-namespace images and ignore any two-level
   namespace bindings.  This may cause programs to fail to execute with a multiply defined symbol
   error if two-level namespace images are used to allow the images to have multiply defined symbols.
-  bols.</p>
+</p>
   <cite><a target="_blank" href="https://developer.apple.com/legacy/library/documentation/Darwin/Reference/ManPages/man1/dyld.1.html">dyld (1) man page</a>
 </cite>
 </blockquote>
