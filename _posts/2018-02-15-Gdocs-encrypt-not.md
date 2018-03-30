@@ -14,7 +14,10 @@ The other day I was searching online for ways to encrypt a spreadsheet in Google
 
 Curious, I decided to read more. Then I noticed the _Step 8_ of the guide above states that after setting a password and encrypting the spreadsheet:
 
-> _Now your data is fully password protected and nobody can read it without having the password you have set._
+<blockquote>
+  <p>Now your data is fully password protected and nobody can read it without having the password you have set.</p>
+  <cite>Famous last words ..</cite>
+</blockquote>
 
 ## Observations
 
