@@ -25,8 +25,12 @@ using encrypted hard drives. The attack happens like this:
 * He overwrites the bootloader with a rigged one that can capture the disk decryption key or install a backdoor.
 * (Optional) Attacker gains physical access again to the machine and retrieves the captured key and restores the original bootloader, thus erasing his tracks.
 
-As written by Bruce Schneier, there is a reason why it's called "evil maid":
-> [...] a likely scenario is that you leave your encrypted computer in your hotel room when you go out to dinner, and the maid sneaks in and installs the hacked bootloader. The same maid could even sneak back the next night and erase any traces of her actions.
+There is a reason why it's called "evil maid": 
+
+<blockquote>
+  <p>[..] a likely scenario is that you leave your encrypted computer in your hotel room when you go out to dinner, and the maid sneaks in and installs the hacked bootloader. The same maid could even sneak back the next night and erase any traces of her actions.</p>
+  <cite><a target="_blank" href="https://www.schneier.com/blog/archives/2009/10/evil_maid_attac.html">Bruce Schneier</a>
+</cite> </blockquote>
 
 Hopefully most of us will not be visited by the "evil maid" but the attack is real not just theoretical. 
 The following applies to Linux-based operating operating systems using Full Disk Encryption (not using FDE defeats the whole purpose and opens the door to many simpler attacks). It has been successfully tested un Ubuntu 14.04.5 LTS and 16.04.2 LTS. 
