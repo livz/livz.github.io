@@ -13,7 +13,7 @@ From the DTrace [_man page_]():
 
  <blockquote>
   <p> The <cite>dtrace</cite> command  is a generic front-end to the DTrace facility. The command implements a simple interface to invoke the D language compiler, the ability to retrieve buffered trace data from the DTrace kernel facility, and a set of basic routines to format and print traced data.</p>
-  <cite><a target="_blank" href="https://developer.apple.com/legacy/library/documentation/Darwin/Reference/ManPages/man1/dtrace.1.html">DTrace</a></cite> </blockquote>
+  <cite><a target="_blank" href="https://developer.apple.com/legacy/library/documentation/Darwin/Reference/ManPages/man1/dtrace.1.html">DTrace man page</a></cite> </blockquote>
 
 * To enable all features of DTrace on MacOS Sierra, boot into recovery mode and [disable SIP](http://craftware.xyz/tips/Disable-rootless.html), or enable with dtrace:
 
