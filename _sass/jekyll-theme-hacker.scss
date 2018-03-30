@@ -398,24 +398,21 @@ code {
 /* Style for blockquotes */
 blockquote {
    color: #aaa;
-   padding: 1em;
    border: 2px dashed #666;
    margin: 1em 0px;
    background: #333333;
 }
 
 /* Display quote signs around the paragraph */
-blockquote p {
-  display: inline;
-  
+blockquote p {  
   &:before {
-    content: "    \f10d";
+    content: "\f10d\00a0\00a0";
     color: #aaa;
     font-family: FontAwesome;
   }
   
   &:after {
-    content: "    \f10e";
+    content: "\00a0\00a0\f10e";
     color: #aaa;
     font-family: FontAwesome;
   }
@@ -423,5 +420,5 @@ blockquote p {
 
 /* Dash before the cite */
 blockquote cite::before {
-    content: "\2014    ";
+    content: "\2014\00a0\00a0";
 }
