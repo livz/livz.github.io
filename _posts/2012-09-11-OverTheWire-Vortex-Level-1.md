@@ -10,6 +10,7 @@ The level can be found [here](http://overthewire.org/wargames/vortex/vortex1.htm
 * There's a 512 bytes buffer and a pointer _`ptr`_ that initially points in the middle of the buffer.
 * For every **\** character read, the pointer is decremented.
 * For every character read which is different than **\n** and **\** we have the possibility to set a byte in _`ptr`_: 
+
 ```c
     ptr++[0] = x;
 ````
