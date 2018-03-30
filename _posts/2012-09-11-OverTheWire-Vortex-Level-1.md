@@ -31,7 +31,13 @@ The shell exits immediately, without executing the command. Now it's time to che
 
 ### Method 1
 We can actually find a very detailed explanation in this [blog post](http://byteninja.blogspot.ro/2011/09/overthewireorg-vortex-level1.html). The idea is that  when _`execlp`_ is executed, the image of the current process is replaced with  _`/bin/sh`_. But _`execlp`_ doesn't clear STDIN.  So the unparsed input it's still there. The shell is exiting immediately, because it receives an EOF. To overcome this, something in the bash manual comes to help: 
-> When invoked as an interactive shell with the name sh, bash looks for  the variable  ENV,  expands  its value if it is defined, and uses the expanded value as the name of a file to read and execute.
+
+<blockquote>
+  <p>When invoked as an interactive shell with the name sh, bash looks for  the variable  ENV,  expands  its value if it is defined, and uses the expanded value as the name of a file to read and execute.</p>
+  <cite><a target="_blank" href="https://tiswww.case.edu/php/chet/bash/bashref.html">Bash Reference Manual</a>
+</cite> </blockquote>
+
+
 
 So we create a new file containing our commands, set the _`ENV`_ variable before and get the password:
 ```bash
