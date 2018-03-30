@@ -56,7 +56,10 @@ The R**W**E flag suggests Read-**Write**-Execute flags are all enabled. Also rem
 ## 1 - Vulnerability
 
 In this case we have a logic vulnerability. Notice that now string copying is done in a more secure way, using the [strncpy](http://www.cplusplus.com/reference/cstring/strncpy/) function, which receives as its 3rd parameter a maximum number of character to be copied from source to destination buffer. There is a very important caveat here, however:
-> No null-character is implicitly appended at the end of _destination_ if _source_ is longer than _num_. Thus, in this case, destination shall not be considered a null terminated C string (reading it as such would overflow).
+
+<div class="box-warning">
+No null-character is implicitly appended at the end of _destination_ if _source_ is longer than _num_. Thus, in this case, destination shall not be considered a null terminated C string (reading it as such would overflow).
+</div>
 
 ```c
 #include <string.h>
