@@ -345,10 +345,17 @@ a {
     margin-bottom: 1rem;
 }
 
-/* Don't highlight post/tips/cheat-sheets entries as links */
+/* Style for links */
 .posts, .post, .cheat_sheet, .tip {
+  /* Don't highlight post/tips/cheat-sheets entries as links */
   a {
     text-decoration: none;
+  }
+  
+  /* Style when focused */
+  a:focus {
+    background: #da573d;
+    outline: none;
   }
 }
 
