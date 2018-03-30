@@ -18,8 +18,11 @@ POLONIUS:  Very like a whale.
 ```
 ![Camel Cloud](/assets/images/camel.png)
 
-> The weasel program, __*Dawkins' weasel*__, or the Dawkins weasel is a thought experiment and a variety of computer simulations illustrating it. Their aim is to demonstrate that the process that drives evolutionary systems—random variation combined with non-random cumulative selection—is different from pure chance. 
-The thought experiment was formulated by Richard Dawkins, and the first simulation written by him; various other implementations of the program have been written by others.
+<blockquote>
+  <p>The weasel program, Dawkins' weasel, or the Dawkins weasel is a thought experiment and a variety of computer simulations illustrating it. Their aim is to demonstrate that the process that drives evolutionary systems—random variation combined with non-random cumulative selection—is different from pure chance. <br />
+The thought experiment was formulated by Richard Dawkins, and the first simulation written by him; various other implementations of the program have been written by others.</p>
+  <cite><a target="_blank" href="blah">Weasel program - Wikipedia</a>
+</cite> </blockquote> 
                                                         
 The ["Weasel" algorithm](https://en.wikipedia.org/wiki/Weasel_program) implemented here runs as follows:
 
