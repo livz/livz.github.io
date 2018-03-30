@@ -403,6 +403,25 @@ code {
     }
 }
 
+/* Style for the shortcuts box */
+.box-shortcuts {
+    padding: 0.8em;
+    border: 1px solid #6a9fb5;
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+    font-size: 1em;
+    line-height: 1.2;
+  
+  &:before {
+    content: "\f11c";
+    color: #6a9fb5;
+    font-family: FontAwesome;
+    font-size: 1.2em;
+    line-height: 1.2;
+    width: 50%;
+  }
+}
+
 /* Style for blockquotes */
 blockquote {
    color: #aaa;
