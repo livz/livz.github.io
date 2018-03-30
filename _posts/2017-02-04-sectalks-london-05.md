@@ -14,10 +14,10 @@ Below is a write-up of my solution. Hopefully by now the details of the challeng
 The challenge is Christmas themed and  starts at the North Pole: 178.62.xx.xx/1.html
 
 <blockquote>
-  <p>While taking a well earned break at the Pole Star Tavern, you overhear a couple of the local elves talking about some of the security improvements they've made to Santa's distribution infrastructure this year. Of particular interest to you is the digitisation of the naughty and nice lists, you know you haven't exactly been on your best behaviour this year, perhaps there is something you can do about that. <br />
-You snap out of your daydream to find them picking up the papers they've been glossing over and making for the door. One of them drops something. When nobody is looking you head over and pick it up. It's a Christmas card with some writing on the front. The writing looks like it's in some sort of code: <br /> 4cf2af119d84f698585ebf494c6ca6321d72eb211d44a49344f4f7393ca73194 <br />
+  <p>While taking a well earned break at the Pole Star Tavern, you overhear a couple of the local elves talking about some of the security improvements they've made to Santa's distribution infrastructure this year. Of particular interest to you is the digitisation of the naughty and nice lists, you know you haven't exactly been on your best behaviour this year, perhaps there is something you can do about that. <br /><br />
+You snap out of your daydream to find them picking up the papers they've been glossing over and making for the door. One of them drops something. When nobody is looking you head over and pick it up. It's a Christmas card with some writing on the front. The writing looks like it's in some sort of code: <br /><br /> 4cf2af119d84f698585ebf494c6ca6321d72eb211d44a49344f4f7393ca73194 <br /><br />
 There must be some more clues on the card!</p>
-</cite> </blockquote>
+</blockquote>
 
 ![Christmas card](/assets/images/sectalks5-1.png)
 
