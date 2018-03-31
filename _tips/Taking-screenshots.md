@@ -2,6 +2,7 @@
 title: Take Screenshots Quickly
 layout: tip
 date: 2017-02-11
+categories: [Howto]
 ---
 
 ## Overview
