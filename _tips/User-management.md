@@ -2,6 +2,7 @@
 title: User Management
 layout: tip
 date: 2017-09-02
+categories: [Howto]
 ---
 
 ## Overview
