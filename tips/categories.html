@@ -15,10 +15,13 @@ title: Categories
     <ul class="posts">
     {% assign tips = site.tips | where: "categories", category %}
     {% for tip in tips %}
-      {{ tip.title }}
-      {{ tip.categories }}
-      {{ tip.date }}
-      {{ tip.url }}
+      <li>
+        <span>
+          {{ tip.date | date_to_string }}
+        </span> 
+        » 
+        <a href="{{ tip.url }}" title="{{ tip.title }}">{{ tip.title }}</a>
+      </li>
     {% endfor %}
     </ul>
     
