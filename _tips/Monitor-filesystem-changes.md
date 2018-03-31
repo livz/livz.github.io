@@ -2,6 +2,7 @@
 title: Monitor Filesystem Changes
 layout: tip
 date: 2017-08-19
+categories: [Internals]
 ---
 
 ## Overview
