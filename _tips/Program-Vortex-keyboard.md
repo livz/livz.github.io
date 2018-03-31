@@ -2,6 +2,7 @@
 title: Program Vortex Mechanical Keyboard
 layout: tip
 date: 2017-09-16
+categories: [UX, Howto]
 ---
 
 ![vortex](/assets/images/tips/vortex.png)
