@@ -2,6 +2,7 @@
 title: Universal Binaries
 layout: tip
 date: 2017-08-05
+categories: [Internals]
 ---
 
 ## Overview
