@@ -2,6 +2,7 @@
 title: Code Signing
 layout: tip
 date: 2017-09-30
+categories: [Security]
 ---
 
 ## Overview
