@@ -2,6 +2,7 @@
 title: Display File Flags And Attributes
 layout: tip
 date: 2017-07-08
+categories: [Howto]
 ---
 
 ## Overview
