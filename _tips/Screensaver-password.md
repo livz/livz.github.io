@@ -2,6 +2,7 @@
 title: Force Screensaver Password
 layout: tip
 date: 2017-04-01
+categories: [UX]
 ---
 
 ## Overview
