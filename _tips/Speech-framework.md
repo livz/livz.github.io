@@ -2,6 +2,7 @@
 title: Fun With Speech Framework
 layout: tip
 date: 2017-07-29
+categories: [UX, Howto]
 ---
 
 ## Overview
