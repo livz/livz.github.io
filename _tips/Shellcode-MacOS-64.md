@@ -2,6 +2,7 @@
 title: Fun With Shellcode On MacOS x86_64
 layout: tip
 date: 2017-10-28
+categories: [Internals, Security]
 ---
 
 ## Overview and historic info
