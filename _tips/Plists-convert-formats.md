@@ -2,6 +2,7 @@
 title: Convert Between Plists Formats
 layout: tip
 date: 2017-06-10
+categories: [Howto]
 ---
 
 ## Overview
