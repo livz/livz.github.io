@@ -2,6 +2,7 @@
 title: Debugging Plists Issues
 layout: tip
 date: 2017-06-17
+categories: [Internals]
 ---
 
 ## Overview
