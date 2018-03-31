@@ -2,6 +2,7 @@
 title: Change Dashboard Background
 layout: tip
 date: 2017-01-21
+categories: [UX]
 ---
 
 ## Overview
