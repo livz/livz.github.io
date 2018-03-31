@@ -2,6 +2,7 @@
 title: File diagnostics
 layout: tip
 date: 2017-10-14
+categories: [Internals]
 ---
 
 ## File system diagnostics with ```fs_usage```, ```lsof``` and ```fuser```
