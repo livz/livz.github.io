@@ -12,14 +12,7 @@ title: Categories
     <p></p>
     <h3 class="category-head">{{ category }}</h3>
 
-    <ul class="posts">
-    {% assign tips = site.tips | where: "categories", category %}
-    {% for tip in tips %}
-      <!--<li><span>{{ page.date | date_to_string }}</span> » <a href="{{ page.url }}" title="{{ page.title }}">{{ page.title }}</a></li>-->
-      {{ tip.title }}
-      {{ tip.categories }}
-    {% endfor %}
-    </ul>
+
   <div class="archive-group">
 {% endfor %}
 </div>
