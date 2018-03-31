@@ -3,6 +3,7 @@ title: DTrace on Sierra
 layout: tip
 date: 2018-02-10
 published: true
+categories: [Internals]
 ---
 
 ## Overview
