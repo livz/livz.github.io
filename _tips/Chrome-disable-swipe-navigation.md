@@ -3,6 +3,7 @@ title: Chrome Disable Swipe Navigation
 layout: tip
 date: 2017-04-23
 published: true
+categories: [Internals]
 ---
 
 ## Overview
