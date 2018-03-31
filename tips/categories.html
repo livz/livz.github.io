@@ -6,6 +6,13 @@ title: Categories
 
 
 <div id="archives">
+{% assign tips = (site["tips"]) %}
+
+{% for tip in tips %}
+  <h2>{{ tip }} </h2>
+{% endfor %}
+  
+<!--
 {% for category in site.categories %}
   <div class="archive-group">
     {% capture category_name %}{{ category | first }}{% endcapture %}
@@ -21,4 +28,5 @@ title: Categories
     </ul>
   </div>
 {% endfor %}
+-->
 </div>
