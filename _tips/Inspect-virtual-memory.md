@@ -3,6 +3,7 @@ title: Inspect Process Virtual memory
 layout: tip
 date: 2018-01-17
 published: true
+categories: [Internals]
 ---
 
 ## Overview
