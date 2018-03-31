@@ -2,6 +2,7 @@
 title: How To Use Multiple Desktops
 layout: tip
 date: 2017-01-07
+categories: [UX]
 ---
 
 ## Overview
