@@ -2,6 +2,7 @@
 title: Boot Parameters And EFI
 layout: tip
 date: 2017-11-04
+categories: [Internals]
 ---
 
 ## Overview
