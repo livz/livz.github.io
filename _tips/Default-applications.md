@@ -2,6 +2,7 @@
 title: Default Applications
 layout: tip
 date: 2017-07-22
+categories: [UX]
 ---
 
 ## Overview
