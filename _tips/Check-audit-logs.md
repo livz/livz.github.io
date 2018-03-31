@@ -2,6 +2,7 @@
 title: Check Audit Logs
 layout: tip
 date: 2017-10-07
+categories: [Security]
 ---
 
 ## Overview
