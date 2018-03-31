@@ -12,6 +12,12 @@ title: Categories
   <h2>{{ tip }} </h2>
 {% endfor %}
   
+{% assign tips2 = site.tips %}
+
+{% for tip2 in tips2 %}
+  <h2>xx{{ tip2 }}xx </h2>
+{% endfor %}
+  
 <!--
 {% for category in site.categories %}
   <div class="archive-group">
