@@ -7,13 +7,12 @@ title: Categories
 
 <div id="archives"> 
 {% for category in site.tips-categories %}
-  <h4> {{ category }} </h4>
-{% endfor %}
+  {% assign tips = site.tips | where: "categories", category %}
 
-{% assign tips = site.tips | where: "categories","Internals" %}
+  {% for tip in tips %}
+    <h4>{{ tip.categories }}  {{ tip.title }}</h4>
+  {% endfor %}
   
-{% for tip in tips %}
-  <h4>{{ tip.title }}  {{ tip.categories }}</h4>
 {% endfor %}
   
 <!--
