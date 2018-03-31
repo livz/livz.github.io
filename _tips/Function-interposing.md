@@ -2,6 +2,7 @@
 title: Function Interposing
 layout: tip
 date: 2018-01-10
+categories: [Internals]
 ---
 
 ## Overview
