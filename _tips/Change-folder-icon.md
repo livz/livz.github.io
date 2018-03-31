@@ -2,6 +2,7 @@
 title: Change Folder Icons
 layout: tip
 date: 2017-03-25
+categories: [UX]
 ---
 
 ## Overview
