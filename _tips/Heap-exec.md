@@ -2,6 +2,7 @@
 title: Test Code Execution On The Heap
 layout: tip
 date: 2017-11-28
+categories: [Internals, Security]
 ---
 
 ## Overview
