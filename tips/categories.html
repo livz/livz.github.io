@@ -4,32 +4,20 @@ permalink: /tips/categories/
 title: Categories
 ---
 
-
 <div id="archives"> 
 {% for category in site.tips-categories %}
-  {% assign tips = site.tips | where: "categories", category %}
-
-  {% for tip in tips %}
-    <h4>{{ tip.categories }}  {{ tip.title }}</h4>
-  {% endfor %}
-  
-{% endfor %}
-  
-<!--
-{% for category in site.categories %}
   <div class="archive-group">
-    {% capture category_name %}{{ category | first }}{% endcapture %}
-    <a name="{{ category_name | slugize }}"></a>
+    <a name="{{ category }}"></a>
 
     <p></p>
-    <h3 class="category-head">{{ category_name }}</h3>
-    
+    <h3 class="category-head">{{ category }}</h3>
+
     <ul class="posts">
-    {% for post in site.categories[category_name] %}
-      <li><span>{{ post.date | date_to_string }}</span> » <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a></li>
+    {% assign tips = site.tips | where: "categories", category %}
+    {% for tip in tips %}
+      <li><span>{{ page.date | date_to_string }}</span> » <a href="{{ page.url }}" title="{{ page.title }}">{{ page.title }}</a></li>
     {% endfor %}
     </ul>
-  </div>
+  <div class="archive-group">
 {% endfor %}
--->
 </div>
