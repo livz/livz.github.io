@@ -2,6 +2,7 @@
 title: View Full Folder/File Pathname
 layout: tip
 date: 2017-02-18
+categories: [Howto]
 ---
 
 ## Overview
