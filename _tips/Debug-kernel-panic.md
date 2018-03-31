@@ -2,6 +2,7 @@
 title: Debugging A Kernel Panic
 layout: tip
 date: 2018-01-06
+categories: [Internals]
 ---
 
 ## Overview
