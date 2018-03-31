@@ -2,6 +2,7 @@
 title: Safari Search For Substrings
 layout: tip
 date: 2017-04-22
+categories: [Internals]
 ---
 
 ## Overview
