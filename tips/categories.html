@@ -5,17 +5,11 @@ title: Categories
 ---
 
 
-<div id="archives">
-{% assign tips = (site["tips"]) %}
-
+<div id="archives"> 
+{% assign tips = site.tips %}
+  
 {% for tip in tips %}
-  <h2>{{ tip }} </h2>
-{% endfor %}
-  
-{% assign tips2 = site.tips %}
-  
-{% for tip2 in tips2 %}
-  <h2>xx{{ tip2 }}xx </h2>
+  <h2>{{ tip.title }}  {{ tip.categories }}</h2>
 {% endfor %}
   
 <!--
