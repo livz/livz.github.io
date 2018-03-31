@@ -9,3 +9,5 @@ collections:
         output: true
     ctf:
         output: true
+
+tips-categories: [UX, Research, Internals, Security, Howto]
