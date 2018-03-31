@@ -2,6 +2,7 @@
 title: Test Code Execution On The Stack
 layout: tip
 date: 2017-11-27
+categories: [Internals, Security]
 ---
 
 ## Overview
