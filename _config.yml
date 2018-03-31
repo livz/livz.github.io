@@ -10,4 +10,4 @@ collections:
     ctf:
         output: true
 
-tips-categories: [UX, Research, Internals, Security, Howto]
+tips-categories: [UX, Internals, Security, Howto]
