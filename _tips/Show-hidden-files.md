@@ -2,6 +2,7 @@
 title: Show Hidden Files
 layout: tip
 date: 2017-03-11
+categories: [Howto]
 ---
 
 ## Overview
