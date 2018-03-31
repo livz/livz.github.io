@@ -2,6 +2,7 @@
 title: Change Folders Color Tags
 layout: tip
 date: 2017-03-04
+categories: [UX]
 ---
 
 ## Overview
