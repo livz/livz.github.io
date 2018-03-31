@@ -2,6 +2,7 @@
 title: Change Default Location For Fusion VMs
 layout: tip
 date: 2017-04-08
+categories: [Howto]
 ---
 
 ## Overview
