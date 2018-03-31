@@ -2,6 +2,7 @@
 title: Spotlight Architecture
 layout: tip
 date: 2017-06-24
+categories: [Howto]
 ---
 
 ## Overview
