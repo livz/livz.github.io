@@ -2,6 +2,7 @@
 title: Secret Apple
 layout: tip
 date: 2017-10-21
+categories: [Internals]
 ---
 
 ## Overview
