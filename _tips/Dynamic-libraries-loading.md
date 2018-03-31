@@ -2,6 +2,7 @@
 title: Debugging Dynamic Loader
 layout: tip
 date: 2017-11-11
+categories: [Internals]
 ---
 
 ## Overview
