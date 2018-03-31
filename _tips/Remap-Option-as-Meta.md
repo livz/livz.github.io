@@ -2,6 +2,7 @@
 title: Remap Option Key as Meta
 layout: tip
 date: 2017-09-09
+categories: [Howto]
 ---
 
 ## Overview
