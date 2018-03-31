@@ -2,6 +2,7 @@
 title: File Compression In HFS+
 layout: tip
 date: 2017-09-23
+categories: [Internals]
 ---
 
 ## Overview
