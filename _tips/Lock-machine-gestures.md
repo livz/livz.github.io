@@ -2,6 +2,7 @@
 title: Quickly Lock The Machine With Mouse Only
 layout: tip
 date: 2017-02-25
+categories: [UX]
 ---
 
 ## Overview
