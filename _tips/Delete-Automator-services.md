@@ -2,6 +2,7 @@
 title: Delete Automator Services
 layout: tip
 date: 2017-06-03
+categories: [HowTo]
 ---
 
 ## Overview
