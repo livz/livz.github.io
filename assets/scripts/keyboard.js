@@ -1,14 +1,24 @@
 // Navigate previous/next entry VIM style
 function entriesNav(key) {
   var mainContent = document.getElementById("main_content");
-  var currentList = mainContent.getElementsByTagName("ul")[0];
-  var currentClass = currentList.className
-  var listEntries = [].slice.call(currentList.getElementsByTagName("li"));
-
-  // Disable navigation in the archives groups
-  if ( currentList.parentElement.className === "archive-group" )
-    return;
+  var listEntries = [];
   
+  if (document.getElementById("archives")) {
+    var lists = mainContent.getElementsByTagName("ul");
+    
+    for (var i=0; i<lists.length; i++){
+      var currListEntries = [].slice.call(lists[i].getElementsByTagName("li")); 
+
+      for (var j=0; j<currListEntries.length; j++) {
+        listEntries.push(currListEntries[j]);
+      }
+    }
+  } else {
+    var currentList = mainContent.getElementsByTagName("ul")[0];
+    listEntries = [].slice.call(currentList.getElementsByTagName("li"));
+  }
+
+  var currentClass = mainContent.getElementsByTagName("ul")[0].className;
   var idx = -1;
   var currentfocus = document.activeElement; 
 
