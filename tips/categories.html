@@ -6,6 +6,10 @@ title: Categories
 
 
 <div id="archives"> 
+{% for category in site.tips-categories %}
+  <h4> {{ category }} </h4>
+{% endfor %}
+
 {% assign tips = site.tips | where: "categories","Internals" %}
   
 {% for tip in tips %}
