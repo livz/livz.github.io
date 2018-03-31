@@ -2,6 +2,7 @@
 title: CLI For Working With Keychains
 layout: tip
 date: 2017-08-26
+categories: [Howto]
 ---
 
 ## Overview
