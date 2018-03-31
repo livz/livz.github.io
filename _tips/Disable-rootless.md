@@ -2,6 +2,7 @@
 title: Enable/Disable Rootless Mode
 layout: tip
 date: 2017-04-29
+categories: [Security]
 ---
 
 ## What is SIP?
