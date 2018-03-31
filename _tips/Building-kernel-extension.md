@@ -2,6 +2,7 @@
 title: Building A Kernel Extension
 layout: tip
 date: 2017-12-08
+categories: [Internals]
 ---
 
 ## Overview
