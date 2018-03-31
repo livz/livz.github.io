@@ -2,6 +2,7 @@
 title: Test ASLR (Address Space Layout Randomization)
 layout: tip
 date: 2017-11-26
+categories: [Internals, Security]
 ---
 
 ## Overview
