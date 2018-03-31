@@ -2,6 +2,7 @@
 title: Trace Dynamic Memory Allocations
 layout: tip
 date: 2017-11-18
+categories: [Internals]
 ---
 
 ## Overview
