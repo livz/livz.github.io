@@ -2,6 +2,7 @@
 title: Easier Navigation in Save/Open Dialogs
 layout: tip
 date: 2017-02-04
+categories: [Howto]
 ---
 
 ## Overview
