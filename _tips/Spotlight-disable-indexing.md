@@ -2,6 +2,7 @@
 title: Spotlight Disable Indexing
 layout: tip
 date: 2017-07-01
+categories: [Internals]
 ---
 
 ## Overview
