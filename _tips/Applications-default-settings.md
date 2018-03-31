@@ -2,6 +2,7 @@
 title: Applications Default Settings
 layout: tip
 date: 2017-07-15
+categories: [Internals]
 ---
 
 ## Overview
