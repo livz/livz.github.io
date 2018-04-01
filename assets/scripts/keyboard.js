@@ -62,4 +62,5 @@ Mousetrap.bind({
   'l':   function() { blogNav('l'); },
   'j':   function() { entriesNav('j'); },
   'k':   function() { entriesNav('k'); },
+  '?':   function() { overlayOn(); },
 })
