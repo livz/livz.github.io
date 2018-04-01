@@ -8,3 +8,100 @@
   <b>j / k</b>: Up/Down <br /> 
   <b>h / l</b>: Next/Previous <br />
 </div>
+
+<style>
+#overlay {
+    position: fixed;
+    display: block;
+    width: auto;
+    height: auto;
+    background-color: rgba(0,0,0,0.5);
+    z-index: 2;
+    cursor: pointer;
+    padding: 10px;
+    border-radius: 10px;
+    opacity: 0.7;
+}
+
+.centered {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+table.ts td.cl {
+    font-weight: bold;
+    padding-right: .5em;
+    text-align: right;
+    white-space: nowrap;
+    font-family: Monaco, "Bitstream Vera Sans Mono";
+}
+
+table.ts td.cr {
+	font-family: "Courier New";
+}
+
+span.wh {
+    color: #057505;
+}
+
+span.st {
+  font-family: Monaco, "Bitstream Vera Sans Mono";
+  font-size: 1em;
+  line-height: 1.2;
+  float: left;
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+</style>
+
+<div id="overlay" onclick="off()" class="centered">
+<span class="st"> Keyboard Shortcuts</span><br />
+<table cellpadding="0" class="ts">
+    <tbody>
+        <tr>
+            <td class="cl"><span class="wh">g</span> <span class="wb">+</span> <span class="wh">h</span> :</td>
+            <td class="cr">Home</td>
+        </tr>
+        <tr>
+            <td class="cl"><span class="wh">g</span> <span class="wb">+</span> <span class="wh">b</span> :</td>
+            <td class="cr">Blog</td>
+        </tr>
+        <tr>
+            <td class="cl"><span class="wh">g</span> <span class="wb">+</span> <span class="wh">c</span> :</td>
+            <td class="cr">Cheat Sheets</td>
+        </tr>
+        <tr>
+            <td class="cl"><span class="wh">g</span> <span class="wb">+</span> <span class="wh">t</span> :</td>
+            <td class="cr">MacOS Tips</td>
+        </tr>
+        <tr>
+            <td class="cl"><span class="wh">g</span> <span class="wb">+</span> <span class="wh">a</span> :</td>
+            <td class="cr">About</td>
+        </tr>
+        <tr>
+            <td class="cl"><span class="wh">j</span> <span class="wb">/</span> <span class="wh">k</span> :</td>
+            <td class="cr">Up/Down</td>
+        </tr>
+        <tr>
+            <td class="cl"><span class="wh">h</span> <span class="wb">/</span> <span class="wh">l</span> :</td>
+            <td class="cr">Next/Previous</td>
+        </tr>
+        <tr>
+            <td class="cl"><span class="wh">?</span> :</td>
+            <td class="cr">Help</td>
+        </tr>
+    </tbody>
+</table>
+</div>
+
+<script>
+function on() {
+    document.getElementById("overlay").style.display = "block";
+}
+
+function off() {
+    document.getElementById("overlay").style.display = "none";
+}
+</script>
