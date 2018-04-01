@@ -12,10 +12,11 @@
 <style>
 #overlay {
   position: fixed;
-  display: block;
+  display: none;
   width: auto;
   height: auto;
-  background-color: rgba(0,0,0,0.5);
+  background-color: #0d0d0d;
+  opacity:0.8;
   z-index: 2;
   cursor: pointer;
   padding: 10px;
@@ -27,6 +28,11 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+}
+
+table.ts td {
+  padding: 1px 10px;
+  line-height: 0.9em;
 }
 
 table.ts td.cl {
@@ -49,7 +55,7 @@ span.wh {
 
 span.st {
   font-family: Monaco, "Bitstream Vera Sans Mono";
-  font-size: 1.3em;
+  font-size: 1.4em;
   line-height: 1.2;
   float: left;
   margin-top: 1em;
@@ -58,7 +64,7 @@ span.st {
 }
 </style>
 
-<div id="overlay" onclick="off()" class="centered">
+<div id="overlay" onclick="overlayOn()" class="centered">
 <span class="st"> Keyboard Shortcuts</span><br />
 <table cellpadding="0" class="ts">
     <tbody>
@@ -99,11 +105,11 @@ span.st {
 </div>
 
 <script>
-function on() {
+function overlayOn() {
     document.getElementById("overlay").style.display = "block";
 }
 
-function off() {
+function overlayOn() {
     document.getElementById("overlay").style.display = "none";
 }
 </script>
