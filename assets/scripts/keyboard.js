@@ -63,4 +63,6 @@ Mousetrap.bind({
   'j':   function() { entriesNav('j'); },
   'k':   function() { entriesNav('k'); },
   '?':   function() { overlayOn(); },
+  'esc': function() { overlayOff(); },
+
 })
