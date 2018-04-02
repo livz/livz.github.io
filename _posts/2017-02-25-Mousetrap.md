@@ -23,7 +23,7 @@ Get both of the following from the author's website:
 
 Add the two scripts to your website and create a third one for your code:
 
-```javascript
+```hmtl
 <!-- load mousetrap -->
 <script type="text/javascript" src="/assets/scripts/mousetrap.min.js"> 
 </script>
