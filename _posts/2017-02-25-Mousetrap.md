@@ -25,7 +25,8 @@ Add the two scripts to your website and create a third one for your code:
 
 ```javascript
 <!-- load mousetrap -->
-<script type="text/javascript" src="/assets/scripts/mousetrap.min.js"> </script>
+<script type="text/javascript" src="/assets/scripts/mousetrap.min.js"> 
+</script>
 
 <!-- load mousetrap bind dictionary plugin -->
 <script type="text/javascript" src="/assets/scripts/mousetrap-bind-dictionary.min.js"> </script> 
@@ -70,7 +71,7 @@ function blogNav(key) {
 
 #### Navigate through lists
 
-To make keyboard navigation possible within all the sections of the website, I've added shortcuts to cycle through post lists and categories entries, Vim-style using *h/j/k/l*. Developer Tools was really useful to test the JavaScript code and understand the structure of the website and how to locate list elements.
+To make keyboard navigation possible within all the sections of the website, I've added shortcuts to cycle through post lists and categories entries, Vim-style using *h/j/k/l*. Developer Tools was really useful to test the JavaScript code and understand the structure of the website and how to locate list elements:
 
 ```javascript
 // Navigate previous/next entry VIM style
