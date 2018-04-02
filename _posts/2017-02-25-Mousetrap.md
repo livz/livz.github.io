@@ -25,8 +25,7 @@ Add the two scripts to your website and create a third one for your code:
 
 ```js
 <!-- load mousetrap -->
-<script type="text/javascript" 
-        src="/assets/scripts/mousetrap.min.js"> 
+<script type="text/javascript" src="/assets/scripts/mousetrap.min.js"> 
 </script>
 
 <!-- load mousetrap bind dictionary plugin -->
