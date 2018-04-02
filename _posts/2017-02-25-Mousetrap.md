@@ -1,5 +1,5 @@
 ---
-title: "Control Website Using Shortcuts"
+title: "Control Website With Keyboard Shortcuts"
 layout: post
 date: 2017-02-25
 published: true
