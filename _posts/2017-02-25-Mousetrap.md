@@ -122,4 +122,4 @@ function entriesNav(key) {
 
 ### Bonus - Overlay help window
 
-You might also want to add a nice overlay window with the shortcuts. I'm not going to include more code here. Again, Developer Tools is amazing :)
+You might also want to add a nice overlay window with the shortcuts. I'm not going to include any more code here. Again, Developer Tools is amazing, check the source of the main Blog page :)
