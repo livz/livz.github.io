@@ -23,7 +23,7 @@ Get both of the following from the author's website:
 
 Add the two scripts to your website and create a third one for your code:
 
-```js
+```html
 <h2 id="overview">Overview</h2>
 <script type="text/javascript" src="test">
 <script type="text/javascript" src="test"/>
