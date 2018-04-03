@@ -31,5 +31,5 @@ bindkey   "^[[B"      history-substring-search-down   # Down
 ```
 
 <div class="box-note">
-To find the keycodes to use for <i>bindkey</i>, open a terminal and press **CTRL(^) + V**, followed by the key combination. 
+  To find the keycodes to use for <i>bindkey</i>, open a terminal and press <b>CTRL(^) + V</b>, followed by the key combination. 
 </div>
