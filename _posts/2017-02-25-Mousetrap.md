@@ -30,6 +30,11 @@ Add the two scripts to your website and create a third one for your code:
 <aaa type="text/javascript" src="test">
 </aaa>
 <script type="text/javascript" src="test"/>
+<div class="test">
+hello
+</div>
+<div class="test">
+</div>
 <script type="text/javascript" src="/assets/scripts/mousetrap.min.js">
 </script>
 
