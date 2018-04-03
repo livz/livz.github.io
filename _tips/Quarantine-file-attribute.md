@@ -25,9 +25,9 @@ When the Launch Services API is used to open a quarantined file and the file app
 If you're not familiar with the Windows <a href="https://blogs.technet.microsoft.com/askcore/2013/03/24/alternate-data-streams-in-ntfs">Alternate Data Streams</a> feature, definitely <a href="https://blog.malwarebytes.com/101/2015/07/introduction-to-alternate-data-streams">read about it</a>. I know it's old but it's very cool. Both from a forensics and an analysis perspective.
 </div>
 
-## Understanding how quarantine works
+## Working with quarantined files
 
-#### Working with quarantined files
+#### List extended attributes
 
 To get a feeling of how this works we can download multiple file types - let's say a zipped application and a PDF report, using *both Safari and Chrome*. The ```ls``` command output indicates that a file has extended attributed by the **@** sign after the permissions field:
 
@@ -55,24 +55,57 @@ $ ls -l@ 2016_human_development_report.pdf
 	com.apple.quarantine	     64
   
 $ xattr 2016_human_development_report.pdf
-com.apple.metadata:_kMDItemUserTags
-com.apple.metadata:kMDItemWhereFroms
-com.apple.quarantine
+	com.apple.metadata:_kMDItemUserTags
+	com.apple.metadata:kMDItemWhereFroms
+	com.apple.quarantine
 ```
+
+#### Remove extended attributes
 
 To remove the attribute, use the **_```xattr -d```_** command. IF you're dealing with _```.app```_ files, which is basically a directory, the **-r** flag is needed to recursively remove the flag for all the containing files:
 
 ```bash
-xattr -d com.apple.quarantine 2016_human_development_report.pdf
-[21:18] ~ xattr 2016_human_development_report.pdf
-com.apple.FinderInfo
-com.apple.metadata:_kMDItemUserTags
-com.apple.metadata:kMDItemWhereFroms
+$ xattr -d com.apple.quarantine 2016_human_development_report.pdf
+$ xattr 2016_human_development_report.pdf
+	com.apple.FinderInfo
+	com.apple.metadata:_kMDItemUserTags
+	com.apple.metadata:kMDItemWhereFroms
 ```
 
-#### Get more details using sqlite
+<div class="box-warning">
+Although you can permanently disable the warnings befopre launching quarantined files with <i>defaults write com.apple.LaunchServices LSQuarantine -bool false</i>, this is generally not a good idea for obvious reasons. Do this at your own risk!
+</div>
 
-#### How they are created
+#### Create quarantined files
 
+Files created or downloaded by an application that has the **LSFileQuarantineEnabled** flag set to _true_ in the Info.plist will have the _```com.apple.quarantine```_ attribute. By default, the *LSFileQuarantineEnabled* is set to false. For more information about this and other quarantine related flags see [Launch Services Keys](https://developer.apple.com/library/content/documentation/General/Reference/InfoPlistKeyReference/Articles/LaunchServicesKeys.html). Let's verify:
 
+```bash
+$ cat /Applications/Safari.app/Contents/Info.plist | grep LSFileQuarantineEnabled -A 1
+	<key>LSFileQuarantineEnabled</key>
+	<true/>
+$ cat /Applications/Google\ Chrome.app/Contents/Info.plist| grep LSFileQuarantineEnabled -A 1
+	<key>LSFileQuarantineEnabled</key>
+	<true/>
+```
 
+#### Get extended information about quarantined files
+
+More information is usually available for quarantined files, including the **_date it was downloaded_**, the **_full URL_**, and in this case the browser used:
+
+```bash
+$ xattr -p com.apple.quarantine  2016_human_development_report-*
+2016_human_development_report-Chrome.pdf: 0081;5ac3e719;Google Chrome;D479B87B-CFBF-4B78-8921-7835020E11A1
+2016_human_development_report-Safari.pdf: 0083;5ac3e75a;Safari;AEA4EEB7-905C-42C7-BE24-75D4C215ABD0
+
+$ date -r 0x5ac3e719
+Tue  3 Apr 2018 21:42:01 BST
+$ date -r 0x5ac3e75a
+Tue  3 Apr 2018 21:43:06 BST
+
+$ sqlite3 ~/Library/Preferences/com.apple.LaunchServices.QuarantineEventsV2 .dump | grep D479B87B-CFBF-4B78-8921-7835020E11A1
+INSERT INTO "LSQuarantineEvent" VALUES('D479B87B-CFBF-4B78-8921-7835020E11A1',544480918.0,'com.google.Chrome','Google Chrome','http://hdr.undp.org/sites/default/files/2016_human_development_report.pdf',NULL,NULL,0,NULL,'http://hdr.undp.org/sites/default/files/2016_human_development_report.pdf',NULL);
+
+$ sqlite3 ~/Library/Preferences/com.apple.LaunchServices.QuarantineEventsV2 .dump | grep AEA4EEB7-905C-42C7-BE24-75D4C215ABD0
+INSERT INTO "LSQuarantineEvent" VALUES('AEA4EEB7-905C-42C7-BE24-75D4C215ABD0',544480986.962668,'com.apple.Safari','Safari','http://hdr.undp.org/sites/default/files/2016_human_development_report.pdf',NULL,NULL,0,NULL,'http://hdr.undp.org/sites/default/files/2016_human_development_report.pdf',NULL);
+```
