@@ -73,7 +73,7 @@ $ xattr 2016_human_development_report.pdf
 ```
 
 <div class="box-warning">
-Although you can permanently disable the warnings befopre launching quarantined files with <b><i>defaults write com.apple.LaunchServices LSQuarantine -bool false</i></b>, this is generally not a good idea for obvious reasons. Do this at your own risk!
+Pre-Yosemite you could permanently disable the warnings befopre launching quarantined files with <b><i>defaults write com.apple.LaunchServices LSQuarantine -bool false</i></b>. In general, this wouldn't have been such a great idea for obvious reasons and now this option is removed!
 </div>
 
 #### Create quarantined files
