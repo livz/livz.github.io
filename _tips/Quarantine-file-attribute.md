@@ -12,7 +12,7 @@ published: true
 
 <blockquote>
   <p>File Quarantine is a new feature in Leopard designed to protect users from trojan horse attacks. It allows applications which download file content from the Internet to place files in “quarantine” to indicate that the file could be from an untrustworthy source. An application quarantines a file simply by assigning values to one or more quarantine properties which preserve information about when and where the file come from.
-<br />
+<br /><br />
 When the Launch Services API is used to open a quarantined file and the file appears to be an application, script, or other executable file type, Launch Services will display an alert to confirm the user understands the file is some kind of application.</p>
   <cite><a target="_blank" href="https://developer.apple.com/library/content/releasenotes/Carbon/RN-LaunchServices/index.html">File Quarantine feature</a>
 </cite> </blockquote>
