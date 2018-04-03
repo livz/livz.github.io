@@ -25,6 +25,11 @@ Add the two scripts to your website and create a third one for your code:
 
 ```js
 <!-- load mousetrap -->
+<script type="text/javascript" src="test">
+<script type="text/javascript" src="test"/>
+<aaa type="text/javascript" src="test">
+</aaa>
+<script type="text/javascript" src="test"/>
 <script type="text/javascript" src="/assets/scripts/mousetrap.min.js">
 </script>
 
