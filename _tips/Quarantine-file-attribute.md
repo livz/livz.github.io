@@ -8,7 +8,7 @@ published: true
 
 ## Overview
 
-* In a nutshell, the file quarantine feature that was introduced in MacOS Leopard 10.5 to protect users from accidentally opening files and applications downloaded from an untrusted source.
+* In a nutshell, the file quarantine feature that was introduced in MacOS Leopard 10.5 to protect users from accidentally running applications downloaded from an untrusted source.
 
 <blockquote>
   <p>File Quarantine is a new feature in Leopard designed to protect users from trojan horse attacks. It allows applications which download file content from the Internet to place files in “quarantine” to indicate that the file could be from an untrustworthy source. An application quarantines a file simply by assigning values to one or more quarantine properties which preserve information about when and where the file come from.
@@ -19,17 +19,17 @@ When the Launch Services API is used to open a quarantined file and the file app
 
 * Starting with MacOS Sierra (10.12), this also applies to _any application distributed outside the Mac App Store_.
 * Quarantined files have an additional extended attribute, _**com.apple.quarantine**_. 
-* Windows applies a [similar restriction](https://www.howtogeek.com/70012/what-causes-the-file-downloaded-from-the-internet-warning-and-how-can-i-easily-remove-it/) for files downloaded from the internet.  It will create an alternate data stream (ADS) for the file named _```Zone.Identifier```_ which stores information about where the file came from.
+* Windows applies a [similar restriction](https://www.howtogeek.com/70012/what-causes-the-file-downloaded-from-the-internet-warning-and-how-can-i-easily-remove-it/) for files downloaded from the internet.  It creates an alternate data stream (ADS) for the file, named _```Zone.Identifier```_, which stores information about where the file came from.
 
 <div class="box-note">
-If you're not familiar with the Windows <a href="https://blogs.technet.microsoft.com/askcore/2013/03/24/alternate-data-streams-in-ntfs">Alternate Data Streams</a> feature, definitely <a href="https://blog.malwarebytes.com/101/2015/07/introduction-to-alternate-data-streams">read about it</a>. I know it's old but it's very cool. Both from a forensics and an analysis perspective.
+If you're not familiar with the Windows <a target="_blank" href="https://blogs.technet.microsoft.com/askcore/2013/03/24/alternate-data-streams-in-ntfs">Alternate Data Streams</a> feature, definitely <a target="_blank" href="https://blog.malwarebytes.com/101/2015/07/introduction-to-alternate-data-streams">read about it</a>. I know it's old but it's very cool. Both from a forensics analysis and an offensive perspective.
 </div>
 
 ## Working with quarantined files
 
 #### List extended attributes
 
-To get a feeling of how this works we can download multiple file types - let's say a zipped application and a PDF report, using *both Safari and Chrome*. The ```ls``` command output indicates that a file has extended attributed by the **@** sign after the permissions field:
+To get a feeling of how this works we can download multiple file types - let's say a zipped application and a PDF report, using *both Safari and Chrome*. The output of ```_ls_``` command marks files that have extended attributes with the **@** sign after the permissions field:
 
 
 ```bash
@@ -40,7 +40,7 @@ $ ls -l 2016_human_development_report.pdf
 -rw-r--r--@ 1 liv  staff  2959815  3 Apr 20:59 2016_human_development_report.pdf
   ```
 
-Similarly, to view the attributes, use **```-@```** flag or the **```xattr```** command:
+Similarly, to view the attributes, use **```-@```** flag with _ls_ or the **```xattr```** command:
 
 ```bash
 $ ls -l@ KnockKnock_1.9.3.zip
@@ -62,7 +62,7 @@ $ xattr 2016_human_development_report.pdf
 
 #### Remove extended attributes
 
-To remove the attribute, use the **_```xattr -d```_** command. IF you're dealing with _```.app```_ files, which is basically a directory, the **-r** flag is needed to recursively remove the flag for all the containing files:
+To remove the quarantine (or any other) attribute, use the **_```xattr -d```_** command. IF you're dealing with _```.app```_ files, which are basically directories, the **-r** flag is needed to recursively remove the flag for all the containing files:
 
 ```bash
 $ xattr -d com.apple.quarantine 2016_human_development_report.pdf
@@ -73,7 +73,7 @@ $ xattr 2016_human_development_report.pdf
 ```
 
 <div class="box-warning">
-Although you can permanently disable the warnings befopre launching quarantined files with <i>defaults write com.apple.LaunchServices LSQuarantine -bool false</i>, this is generally not a good idea for obvious reasons. Do this at your own risk!
+Although you can permanently disable the warnings befopre launching quarantined files with <b><i>defaults write com.apple.LaunchServices LSQuarantine -bool false</i></b>, this is generally not a good idea for obvious reasons. Do this at your own risk!
 </div>
 
 #### Create quarantined files
@@ -91,7 +91,7 @@ $ cat /Applications/Google\ Chrome.app/Contents/Info.plist| grep LSFileQuarantin
 
 #### Get extended information about quarantined files
 
-More information is usually available for quarantined files, including the **_date it was downloaded_**, the **_full URL_**, and in this case the browser used:
+More information is usually available for quarantined files, including the **_date it was downloaded_**, the **_full URL_**, and in this case the **_browser used_**:
 
 ```bash
 $ xattr -p com.apple.quarantine  2016_human_development_report-*
