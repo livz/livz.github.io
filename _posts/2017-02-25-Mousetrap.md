@@ -24,7 +24,7 @@ Get both of the following from the author's website:
 Add the two scripts to your website and create a third one for your code:
 
 ```js
-<!-- load mousetrap -->
+<h2 id="overview">Overview</h2>
 <script type="text/javascript" src="test">
 <script type="text/javascript" src="test"/>
 <aaa type="text/javascript" src="test">
@@ -35,6 +35,8 @@ hello
 </div>
 <div class="test">
 </div>
+
+<!-- load mousetrap -->
 <script type="text/javascript" src="/assets/scripts/mousetrap.min.js">
 </script>
 
