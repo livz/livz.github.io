@@ -11,7 +11,7 @@ published: true
 
 * MacOS 10.12 Sierra introduced a new security feature called **_Gatekeeper Path Randomization_**. Gatekeeper checks that an application has been signed with valid Developer ID certificates purchased from Apple. If the app is not signed, Gatekeeper will block the launch.
 * A security vulnerability in Gatekeeper has been discovered in 2015 called [dylib hijacking](https://www.virusbulletin.com/virusbulletin/2015/03/dylib-hijacking-os-x) which is very similar to the [DLL hijacking](http://resources.infosecinstitute.com/dll-hijacking-attacks-revisited/#gref) class of vulnerabilities for Windows operating system. 
-* If an app signed with a valid developer certificate loads resources external to its app bundle via a relative path, an attacker could package the app with a malicious external resource and bypass Gatekeeper protection. The app would be allowed to run and it will also load the malicious resource.
+* If an app signed with a valid developer certificate loads resources external to its app bundle _via a relative path_, an attacker could package the app with a malicious external resource and bypass Gatekeeper protection. The app would be allowed to run and it will also load the malicious resource.
 * *Gatekeeper Path Randomization* is meant to block this class of attacks:
 <blockquote>
 <p>Starting with macOS Sierra, running a newly-downloaded app from a disk image, archive, or the Downloads directory will cause Gatekeeper to isolate that app at a <i><b>unspecified read-only location</b></i> in the filesystem. This will prevent the app from accessing code or content using relative paths.
@@ -21,7 +21,7 @@ published: true
   
 ## *When and how?*
 
-The circumstances under which App Translocation occurs are documented in [this blog post](https://lapcatsoftware.com/articles/app-translocation.html). I'll test each of the three scenarios mentioned, using Patrick's [Task Explorer](https://objective-see.com/products/taskexplorer.html) tool, downloaded to ```_~/Downloads_``` folder.
+The circumstances under which App Translocation occurs are documented in [this blog post](https://lapcatsoftware.com/articles/app-translocation.html). I'll test each of the three scenarios mentioned, using Patrick's [Task Explorer](https://objective-see.com/products/taskexplorer.html) tool, downloaded to _```~/Downloads```_ folder.
 
 ### 1. The app has the _```com.apple.quarantine```_ atrribute set
 
@@ -50,7 +50,7 @@ m    1708   0.0  0.9  2595032  36176   ??  S    12:47pm   0:00.44 /Users/m/Downl
 
 ### 2. The app must be opened by Launch Services
 
-We've seen before that the application is relocated when started with the _```open```_ command, which which launches it using the default application as determined via LaunchServices. This is exactly the same as double clicking on it.
+We've seen before that the application is relocated when started with the _```open```_ command, which launches it using the default application as determined via Launch Services. This is exactly the same as double clicking on it.
 
 Although the app cannot be launched like this, we can invoke the binary directly:
 
@@ -103,5 +103,5 @@ m    1885   0.0  0.0  2423752      8   ??  T     1:04pm   0:00.00 /Users/m/Deskt
 ```
 
 <div class="box-note">
-Notice that because the app <i>still has the quarantine flag</i>, there will be a warning when trying to launch it. The launcher knows that it ahs been downloaded from the Internet.
+Notice that because the app <i>still has the quarantine flag</i>, there will be a warning when trying to launch it. The launcher knows that it has been downloaded from the Internet.
 </div>
