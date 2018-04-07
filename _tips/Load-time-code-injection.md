@@ -1,5 +1,5 @@
 ---
-title: Run-time Code Injection
+title: Load-time Code Injection
 layout: tip
 date: 2018-01-11
 categories: [Internals]
