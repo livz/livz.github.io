@@ -16,8 +16,8 @@ categories: [Internals]
 ## How it works
 
 * The technique was described in [Mac OS X Internals: A Systems Approach (2006)](https://www.amazon.co.uk/Mac-OS-Internals-Approach-paperback/dp/0321278542) and [Mac OS X and iOS Internals: To the Apple's Core (2013)](https://www.amazon.com/Mac-OS-iOS-Internals-Apples/dp/1118057651). 
-* In a nutshell, function interposing is done by specifying a _dylib library_ we want to _interpose_ in the ```DYLD_INSERT_LIBRARIES``` environment variable.
-* We also need to enable ```DYLD_FORCE_FLAT_NAMESPACE```. 
+* In a nutshell, function interposing is done by specifying a _dylib library_ we want to _interpose_ in the **```DYLD_INSERT_LIBRARIES```** environment variable.
+* We also need to enable **```DYLD_FORCE_FLAT_NAMESPACE```**. 
 
 <blockquote>
   <p>DYLD_INSERT_LIBRARIES <br />   
