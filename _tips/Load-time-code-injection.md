@@ -16,7 +16,7 @@ published: true
 
 #### Locate the function to be overwritten
 
-I'm using the same function as the one from the original guide: _```showAbout```_. Ida Pro with [Hex-Rays Decompiler] shows this nicely:
+I'm using the same function as the one from the original guide: _```showAbout```_. Ida Pro with [Hex-Rays Decompiler](https://www.hex-rays.com/products/decompiler) shows this nicely:
 
 ```c
 void __cdecl -[CalculatorController showAbout:](CalculatorController *self, SEL a2, id a3)
@@ -32,38 +32,47 @@ void __cdecl -[CalculatorController showAbout:](CalculatorController *self, SEL 
 }
 ```
 
-Similarly, we could use [class-dump](http://stevenygard.com/projects/class-dump) to view its signature:
+Similarly, we could use [class-dump](http://stevenygard.com/projects/class-dump) to view its signature and static load address (_before ASLR!_):
 
 ```bash
 $ class-dump -A /Applications/Calculator.app | grep showAbout
 - (void)showAbout:(id)arg1;	// IMP=0x00000001000098ae
 ```
 
-#### Debug
-~ lldb /Applications/Calculator.app
+#### Debugging
+
+Although not strictly necessary, let's see how to debug the Calculator app with _```lldb```_ and break at our desired function. 
+
+Notice that because of SIP (System Integrity Protection), we cannot attach to the process, which is considered a system application:
+
+```bash
+$ lldb /Applications/Calculator.app
 (lldb) target create "/Applications/Calculator.app"
 Current executable set to '/Applications/Calculator.app' (x86_64).
-(lldb)
-
 (lldb) run
 error: process exited with status -1 (cannot attach to process due to System Integrity Protection)
+```
 
---after disablign SIP
- [14:07] ~ lldb /Applications/Calculator.app
+To work around this, let's [disable SIP](http://craftware.xyz/tips/Disable-rootless.html) and try again:
+
+```
+$ lldb /Applications/Calculator.app
 (lldb) target create "/Applications/Calculator.app"
 Current executable set to '/Applications/Calculator.app' (x86_64).
-(lldb) r
+(lldb) run
 Process 398 launched: '/Applications/Calculator.app/Contents/MacOS/Calculator' (x86_64)
-Process 398 exited with status = 0 (0x00000000)
+```
 
-target modules lookup -r -n controller (/Application....)
-40 matches found in /System/Library/Frameworks/AppKit.framework/Versions/C/AppKit:
+All good so far, but we haven't actually done anything yet. The command below searches a symbol using regular expressions, but nothing is found:
 
-(lldb) disassemble -name -[Controller ...]  --> not found. Go by address
+```bash
+(lldb) target modules lookup -r -n load showAbout
+warning: Unable to find an image that matches 'showAbout'.
+```
 
----> https://stackoverflow.com/questions/47922665/what-is-lldb-unnamed-symbol
+Nothing to worry about since we know the address of the function from Ida static analysis - _```0x00000001000098AE```_.  Let's disassemble the code from that address and see it matches the code disassembled by Ida:
 
-
+```bash
 (lldb) disassemble --start-address 00000001000098AE
 Calculator`___lldb_unnamed_symbol160$$Calculator:
 0x1000098ae <+0>:  pushq  %rbp
@@ -72,15 +81,31 @@ Calculator`___lldb_unnamed_symbol160$$Calculator:
 0x1000098b9 <+11>: movq   0x1eab0(%rip), %rsi       ; "dictionaryWithObject:forKey:"
 0x1000098c0 <+18>: leaq   0x15319(%rip), %rdx       ; @"2000"
 0x1000098c7 <+25>: leaq   0x15332(%rip), %rcx       ; @"CopyrightStartYear"
+```
 
+The function name _```___lldb_unnamed_symbol160$$Calculator```_ means that LLDB was unable to read the symbols for that module. We can set a breakpoint here anyway:
+
+```bash
 (lldb) breakpoint set --name ___lldb_unnamed_symbol160$$Calculator
 Breakpoint 2: where = Calculator`___lldb_unnamed_symbol160$$Calculator, address = 0x00000001000098ae
 
 (lldb) breakpoint list
 Current breakpoints:
-2: name = '___lldb_unnamed_symbol160$$Calculator', locations = 1
-  2.1: where = Calculator`___lldb_unnamed_symbol160$$Calculator, address = 0x00000001000098ae, unresolved, hit count = 0
-  
+1: name = '___lldb_unnamed_symbol160$$Calculator', locations = 1
+  1.1: where = Calculator`___lldb_unnamed_symbol160$$Calculator, address = 0x00000001000098ae, unresolved, hit count = 0
+ ```
+ 
+As an alternative to see what symbol is located at a specific address, we could have used the _```image lookup```_ command as below and get the same result:
+
+```bash
+(lldb) image lookup --address 0x00000001000098ae
+      Address: Calculator[0x00000001000098ae] (Calculator.__TEXT.__text + 32810)
+      Summary: Calculator`___lldb_unnamed_symbol160$$Calculator
+```
+
+With the breakpoint in place I wanted to see the stack trace when the _```showAbout```_ function is called:
+
+```bash
 (lldb) thread backtrace
 * thread #1, queue = 'com.apple.main-thread', stop reason = breakpoint 2.1
   * frame #0: 0x00000001000098ae Calculator`___lldb_unnamed_symbol160$$Calculator
@@ -89,12 +114,11 @@ Current breakpoints:
     frame #3: 0x00007fffb9d94666 AppKit`-[NSMenuItem _corePerformAction] + 324
     frame #4: 0x00007fffb9d943d2 AppKit`-[NSCarbonMenuImpl performActionWithHighlightingForItemAtIndex:] + 114
     [..]
-    
-    
-(lldb) image lookup --address 0x00000001000098ae
-      Address: Calculator[0x00000001000098ae] (Calculator.__TEXT.__text + 32810)
-      Summary: Calculator`___lldb_unnamed_symbol160$$Calculator
+```
 
+<div class="box-note">
+You might be wondering why there was no ASLR, why the static address foudn in Ida was the same in LLDB. The reason is that by default LLDB loaded the binary with address space layout randomization <b>turned off</b>. Instead of a randomised address, the program is loaded always at the same address. This greatly helps debugging.
+</div>
 
 #### Create and test hello world
 done - hello.m
