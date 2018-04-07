@@ -117,12 +117,33 @@ With the breakpoint in place I wanted to see the stack trace when the _```showAb
 ```
 
 <div class="box-note">
-You might be wondering why there was no ASLR, why the static address foudn in Ida was the same in LLDB. The reason is that by default LLDB loaded the binary with address space layout randomization <b>turned off</b>. Instead of a randomised address, the program is loaded always at the same address. This greatly helps debugging.
+You might be wondering why there was no ASLR, why the static address found in Ida was the same in LLDB. The reason is that by default, to ease the debugging process, LLDB loaded the binary with address space layout randomization <b>turned off</b>. 
+<br /><br />
+Check <a target="_blank" href="http://craftware.xyz/tips/Test-ASLR.html">this tip</a> to make sure ASLR is working as expected.
 </div>
 
-#### Create and test hello world
-done - hello.m
+#### Objective-C *Hello World!*
 
+Before building the library, in case you're not very familiar with Objective-C, here's a short program that displays a message box:
+
+```c
+#import <AppKit/AppKit.h>
+
+int main (int argc, const char * argv[])
+{
+  NSAlert *alert = [[NSAlert alloc] init];
+  [alert setMessageText:@"Some code was executed here!"];
+  [alert runModal];
+
+  return 0;
+}
+```
+
+Compile and test with:
+
+```bash
+$ clang -framework AppKit hello.m -o hello
+```
 
 #### Show the functions in the lib
 otool -TV your.dylib
@@ -164,4 +185,8 @@ lldb) bt
    
 #### Load adn test
 
--> done
+replace method - https://developer.apple.com/documentation/objectivec/1418707-method_setimplementation?language=objc
+
+compile from CLI
+
+test
