@@ -177,12 +177,12 @@ static IMP sOriginalImpl = NULL;
 
 + (void)load
 {
-	// Replace the method -[CalculatorController showAbout:]
-	Class originalClass = NSClassFromString(@"CalculatorController");
-	Method originalMethod = class_getInstanceMethod(originalClass, @selector(showAbout:));
-	sOriginalImpl = method_getImplementation(originalMethod);
+  // Replace the method -[CalculatorController showAbout:]
+  Class originalClass = NSClassFromString(@"CalculatorController");
+  Method originalMethod = class_getInstanceMethod(originalClass, @selector(showAbout:));
+  sOriginalImpl = method_getImplementation(originalMethod);
 
-	Method replacementMethod = class_getInstanceMethod(self, @selector(patchedShowAbout:));
+  Method replacementMethod = class_getInstanceMethod(self, @selector(patchedShowAbout:));
   method_setImplementation(originalMethod, method_getImplementation(replacementMethod));
 
   NSLog(@"%@", [NSThread callStackSymbols]);
