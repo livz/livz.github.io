@@ -16,7 +16,7 @@ published: true
 
 ### Locate the function to be overwritten
 
-I'm using the same function as the one from the original guide: _```showAbout```_. Ida Pro with [Hex-Rays Decompiler](https://www.hex-rays.com/products/decompiler) shows its implementation nicely:
+I'll replace the same function as the one from the original guide: _```showAbout```_. Ida Pro with [Hex-Rays Decompiler](https://www.hex-rays.com/products/decompiler) shows its implementation nicely:
 
 ```c
 void __cdecl -[CalculatorController showAbout:](CalculatorController *self, SEL a2, id a3)
@@ -41,7 +41,7 @@ $ class-dump -A /Applications/Calculator.app | grep showAbout
 
 ### Debugging
 
-Although not strictly necessary, let's see how to debug the Calculator app with _```lldb```_ and break at our desired function. 
+Although not strictly necessary, let's see how to debug the Calculator app with _```LLDB```_ and break at our desired function. 
 
 #### Roabblock #1 - SIP
 Because of SIP (System Integrity Protection), we cannot attach to the process, which is considered a system application:
@@ -54,7 +54,7 @@ Current executable set to '/Applications/Calculator.app' (x86_64).
 error: process exited with status -1 (cannot attach to process due to System Integrity Protection)
 ```
 
-To work around this, let's [disable SIP](http://craftware.xyz/tips/Disable-rootless.html) and try again:
+To work around this, [disable SIP](http://craftware.xyz/tips/Disable-rootless.html) and try again:
 
 ```
 $ lldb /Applications/Calculator.app
@@ -97,7 +97,7 @@ Current breakpoints:
   1.1: where = Calculator`___lldb_unnamed_symbol160$$Calculator, address = 0x00000001000098ae, unresolved, hit count = 0
  ```
  
-As an alternative to see what symbol is located at a specific address, we could have used the _```image lookup```_ command as below and get the same result:
+As an alternative to see what symbol is located at a specific address, we could have used the **_```image lookup```_** command as below and get the same result:
 
 ```bash
 (lldb) image lookup --address 0x00000001000098ae
@@ -107,7 +107,7 @@ As an alternative to see what symbol is located at a specific address, we could 
 
 #### Backtrace
 
-With the breakpoint in place I wanted to see the stack trace when the _```showAbout```_ function is called:
+With the breakpoint in place, I wanted to see the stack trace when the _```showAbout```_ function is called:
 
 ```bash
 (lldb) thread backtrace
@@ -163,7 +163,7 @@ I've stripped the projects down to one source file to make it easier to follow a
 @end
 ```
 
-And the source with a few changes in the _```hello_lib.m```:
+And the implementation with a few changes in the _```hello_lib.m```_ file:
 
 ```c
 #import "Hello_Lib.h"
@@ -291,6 +291,7 @@ Since this post turned out a bit longer than expected, here's a recap of the mos
 
 * Load time code injection can be done easily with **```DYLD_INSERT_LIBRARIES```**.
 * We've seen how to replace natice C functions and also Objective-C  class methods.
+* _LLDB__ loads binaries with ASLR turned off.
 * _```dyld```_ loader looks for a method called _```load```_ in all loadable classes.
 * Another useful environment variable is **```OBJC_PRINT_LOAD_METHODS```** which shows all the classes scheduled for load.
 * There are usually more than one way to go about solving reverse engineering problems!
