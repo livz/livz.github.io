@@ -250,7 +250,7 @@ If we search for cross-references for the _```loadable_classes```_ variable, we 
 **A:** _libobjc_ library supports a lot of debugging related environment variables. To view a list of all of them, set **```OBJC_PRINT_LOAD_METHODS```** as below.
 
 ```bash
-OBJC_HELP=YES /Applications/Calculator.app/Contents/MacOS/Calculator
+$ OBJC_HELP=YES /Applications/Calculator.app/Contents/MacOS/Calculator
 objc[1611]: Objective-C runtime debugging. Set variable=YES to enable.
 objc[1611]: OBJC_HELP: describe available environment variables
 objc[1611]: OBJC_PRINT_OPTIONS: list which options are set
@@ -291,9 +291,9 @@ $ DYLD_INSERT_LIBRARIES=hello_lib.dylib /Applications/Calculator.app/Contents/Ma
 Since this post turned out a bit longer than expected, here's a recap of the most interesting things:
 
 * Load time code injection can be done easily with **```DYLD_INSERT_LIBRARIES```**.
-* We've seen how to replace natice C functions and also Objective-C  class methods.
-* _LLDB__ loads binaries with ASLR turned off.
-* _```dyld```_ loader looks for a method called _```load```_ in all loadable classes.
+* We've seen how to replace native C functions and also Objective-C  class methods.
+* _LLDB_ loads binaries with ASLR turned off.
+* _```dyld```_ loader looks for a method called __```load```__ in all loadable classes.
 * Another useful environment variable is **```OBJC_PRINT_LOAD_METHODS```** which shows all the classes scheduled for load.
 * There are usually more than one way to go about solving reverse engineering problems!
 * Code injection is cool!
