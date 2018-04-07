@@ -216,7 +216,7 @@ Notice the key function here - [_method_setImplementation_](https://developer.ap
 
 Starting from the _CalculatorLauncher_ and _CalculatorOverrides_ projects, we'll create a library to perform code injection and compile it manually. In the [previous post](http://craftware.xyz/tips/Function-interposing.html) we've replaced a simple C function. Now we want to replace the function _```showAbout```_ from class _```CalculatorController```_. 
 
-To make things easier, we could print a stacktrace in the _```load```_ function, which performs the methods substitution in the original project. Add the line below and recompile:
+To make things easier, we could print a stacktrace in the _```load```_ function, which performs the method substitution in the original project. Add the line below and recompile:
 
 ```c
   NSLog(@"%@", [NSThread callStackSymbols]);
