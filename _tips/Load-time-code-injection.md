@@ -222,7 +222,7 @@ To make things easier, we could print a stacktrace in the ```load``` function, w
   NSLog(@"%@", [NSThread callStackSymbols]);
 ```
 
-It's clear what's happening. The loader calls ```load_images```, which in turn calls a method named **```load```** from every class:
+It's clear what's happening. The loader calls ```load_images```, which in turn calls a method named ```load``` from every class:
 
 ```bash
 DYLD_INSERT_LIBRARIES=hello_lib.dylib /Applications/Calculator.app/Contents/MacOS/Calculator
@@ -235,7 +235,7 @@ DYLD_INSERT_LIBRARIES=hello_lib.dylib /Applications/Calculator.app/Contents/MacO
 
 #### How come?
 
-Let's dig deeper and disassemble the ```call_load_methods``` function from ```libobjc.A.dylib``` in Ida. The code snippet below goes through a list of **_loadable classes_** and calls the *load()* method from each:
+Let's dig deeper and disassemble the ```call_load_methods``` function from ```libobjc.A.dylib``` in Ida. The code snippet below goes through a list of **_loadable classes_** and calls the ```load()``` method from each:
 
 <img src="/assets/images/tips/loadable_classes.png" alt="Loadable classes" class="figure-body">
 
@@ -262,7 +262,7 @@ objc[1611]: OBJC_PRINT_RESOLVED_METHODS: log methods created by +resolveClassMet
 [..]
 ```
 
-Of particular interest in this case is **```OBJC_PRINT_LOAD_METHODS```**.
+Of particular interest in this case is ```OBJC_PRINT_LOAD_METHODS```.
 
 Another way we could have easily found this environment variable by cross-referencing the ```PrintLoading``` variable from the code above:
 <img src="/assets/images/tips/print_loading.png" alt="Print load methods" class="figure-body">
@@ -290,11 +290,11 @@ $ DYLD_INSERT_LIBRARIES=hello_lib.dylib /Applications/Calculator.app/Contents/Ma
 
 Since this post turned out a bit longer than expected, here's a recap of the most interesting things:
 
-* Load time code injection can be done easily with **```DYLD_INSERT_LIBRARIES```**.
+* Load time code injection can be done easily with ```DYLD_INSERT_LIBRARIES```.
 * We've seen how to replace native C functions and also Objective-C  class methods.
 * LLDB loads binaries with ASLR turned off.
 * ```dyld``` loader looks for a method called ```load``` in all loadable classes.
-* Another useful environment variable is **```OBJC_PRINT_LOAD_METHODS```** which shows all the classes scheduled for load.
+* Another useful environment variable is ```OBJC_PRINT_LOAD_METHODS``` which shows all the classes scheduled for load.
 * There are usually more than one way to go about solving reverse engineering problems!
 * Code injection is cool!
 * We didn't cover run-time code injection. This will be the subject of another post.
