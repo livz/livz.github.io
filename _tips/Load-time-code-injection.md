@@ -292,7 +292,7 @@ Since this post turned out a bit longer than expected, here's a recap of the mos
 
 * Load time code injection can be done easily with **```DYLD_INSERT_LIBRARIES```**.
 * We've seen how to replace native C functions and also Objective-C  class methods.
-* _LLDB_ loads binaries with ASLR turned off.
+* LLDB loads binaries with ASLR turned off.
 * ```dyld``` loader looks for a method called ```load``` in all loadable classes.
 * Another useful environment variable is **```OBJC_PRINT_LOAD_METHODS```** which shows all the classes scheduled for load.
 * There are usually more than one way to go about solving reverse engineering problems!
