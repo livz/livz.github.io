@@ -460,4 +460,7 @@ blockquote cite::before {
   text-align: center;
 }
 
-
+/* In-line code */
+.highlighter-rouge {
+  background: rgba(0, 0, 0, 0.9);
+}
