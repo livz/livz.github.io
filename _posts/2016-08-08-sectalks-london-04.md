@@ -113,7 +113,7 @@ Notice the extra bytes at beginning of the archive. More like extra bytes at the
 
 Again let's take a few minutes to browse through the files in the newly discovered archive. Out of all the stuff in there, the archive deliver.zip looks particularly interesting. The final goal seems to be to locate Snowden's address. We have a map in there, but it's just a sketch without too many details:
 
-<img src="/assets/images/sectalks4-2.png" alt="Map" class="figure-body">
+<img src="/assets/images/sectalks4-2.jpg" alt="Map" class="figure-body">
 
 There are a few photos but one of them has GPS coordinates, which presumably Snowden forgot to strip :confused:
 
