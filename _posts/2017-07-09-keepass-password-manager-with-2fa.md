@@ -72,7 +72,7 @@ $ sudo apt-get install mono-complete
 * Select Key file/provider: One-Time Passwords (**OATH HOTP**)
 * Click OK
 
-![Logo](/assets/images/keepass/kp1.png)
+<img src="/assets/images/keepass/kp1.png" alt="DB creation" class="figure-body">
 
 ### 4. Configure the OTP parameters
 * Length of one-time passwords: **6**
@@ -81,7 +81,7 @@ $ sudo apt-get install mono-complete
 * Number of OTPs required: **3** 
 * Look-ahead count: **9**. This allows for 3 failed KeePass unlock attempts using generated OTPs. After that, the counters will become out of sync, and and the only solution is to recover the database using the secret key:
 
-![Logo](/assets/images/keepass/kp2.png)
+<img src="/assets/images/keepass/kp2.png" alt="OTP params" class="figure-body">
 
 ### 5. Set up Google Authenticator
 * Download and install [Google Authenticator](https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2&hl=en_GB)
