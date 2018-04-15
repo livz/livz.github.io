@@ -42,19 +42,19 @@ Reliable webcam covers should be applied whenever necessary: phone, laptop, exte
 
 A very simple one, suitable for phones, tablets and laptops alike:
 
-![Camera cover](/assets/images/opsec-basics/webcam_cover.png)
+<img src="/assets/images/opsec-basics/webcam_cover.png" alt="Camera cover" class="figure-body">
 
 ## Privacy screen 
 A privacy screen for mobile phones is absolutely necessary. For laptops it can be a bit inconvenient to work with the screen on, but luckily most of them can be taken off easily and fitted back when needed.
 
-![Privacy screen](/assets/images/opsec-basics/privacy_screen.png)
+<img src="/assets/images/opsec-basics/privacy_screen.png" alt="Privacy screen" class="figure-body">
 
 ## Laptop lock
 Maybe having your laptop stolen is not something that happens every day, but it only needs to happen once. These locks come in [different](https://www.laptopmag.com/articles/best-laptop-locks) [models](https://www.kensington.com/en/gb/4480/security) (combination locks, keyed locks, etc). The most important thing is to do your research before buying one. 
 
 There are ways to bypass these locks, ranging from industrial wire cutters to clever lock picking techniques, however It's like locking your front door. Anyone can kick it in, but better than just leaving it open.
 
-![Laptop lock](/assets/images/opsec-basics/kensington_lock.png)
+<img src="/assets/images/opsec-basics/kensington_lock.png" alt="Laptop lock" class="figure-body">
 
 ## Encrypted USBs
 As with the laptop locks, do your research before buying one. Historically there have been some problems in the past with software based encrypted USBs, however, the security of hardware based encrypted USB devices is pretty solid.  So a few tips:
@@ -63,7 +63,7 @@ As with the laptop locks, do your research before buying one. Historically there
 * Actually start using it!
 * Beware that if you go the corner shop to print your CV from it, encryption will not prevent malware from infecting it!
 
-![Encrypted USB](/assets/images/opsec-basics/enc_usb.png)
+<img src="/assets/images/opsec-basics/enc_usb.png" alt="Encrypted USB" class="figure-body">
 
 **Update 01/08/17**: In the following Google research, the authors divided the attackers into hobbyists, professionals, and nation states then went on to search for vulnerabilities in a number of different encrypted USB devices. Very impressive what they've found. A lot of failures on the hardware level, for example in the TEMPEST extraction prevention measures or epoxy security. A lot of these devices share the same microcontroller and implicitely the same bugs. 
 
@@ -74,14 +74,12 @@ Malware that [eavesdrops via computer microphones](http://inhomelandsecurity.com
 
 Disabling the microphone is quick and easy and can be very useful. A lot of laptops come with a button on the keyboard to disable it and a visual indicator for assurance. No need to have the mic on while you’re not using it.
 
-![Disable mic](/assets/images/opsec-basics/disable_mic.png)
-
+<img src="/assets/images/opsec-basics/disable_mic.png" alt="Disable mic" class="figure-body">
 
 ## Visual surveillance
 If you’ve watched [Citizenfour](http://www.imdb.com/title/tt4044364/) maybe you remember the scene when Edward Snowden was introducing his password under a blanket, supposedly to mitigate any _visual surveillance_ or possible _hidden cameras_. No need to be paranoid but it’s good to be aware of your surroundings and adversary surveillance capabilities.
 
-![Enter password under blanket](/assets/images/opsec-basics/snowden.png)
-
+<img src="/assets/images/opsec-basics/snowden.png" alt="Snowden enter password under blanket" class="figure-body">
 
 ##
 
