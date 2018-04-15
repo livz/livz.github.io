@@ -104,7 +104,7 @@ The idea is to redirect the execution flow to the address of the **system** func
 ### Controlling the execution flow
 Although we know that **buf** is 12 bytes in size, we need to see the stack layout of the function **hello** in order to understand exactly how many bytes we need to overwrite to get to the saved return address on the stack.
 
-![hello stack](/assets/images/bm6-1.png)
+<img src="/assets/images/bm6-1.png" alt="hello stack" class="figure-body">
 
 So we need 20 + 4 bytes of padding in the buffer before we'll reach the saved return address. Let's see first if we can reliably control the return address:
 
@@ -115,7 +115,7 @@ $ gdb -q ./level1
 
 We see below that the execution crashed at address **0x42424242** ("BBBB"). That's good. We can move on.
 
-![Control EIP](/assets/images/bm6-2.png)
+<img src="/assets/images/bm6-2.png" alt="Control EIP" class="figure-body">
 
 ### Final payload
 
