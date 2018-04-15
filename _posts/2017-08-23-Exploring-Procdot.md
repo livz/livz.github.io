@@ -36,24 +36,29 @@ To get a feeling of its features, I’ll use Procmon data only (no PCAP), captur
 ## Features
 * The GUI interface is **intuitive and easy to use**. You can nagivate quickly between events, zoom in/out, and get a picture of what's happened:
 
-[ ![](/assets/images/procdot/pd1.png) ](/assets/images/procdot/pd1-large.png)
+<a href="/assets/images/procdot/pd1-large.png">
+<img alt="Navigate events" src="/assets/images/procdot/pd1.png" class="figure-body">
+</a>
 
 * **Colors code** and thickness of the lines quickly show *hot places*:
 
-![Colors code](/assets/images/procdot/pd2.png)
+<img src="/assets/images/procdot/pd2.png" alt="Colours code" class="figure-body">
 
 * Events are aranged on a **timeline**, and you can actually *watch* them as they happened. You can adjust the number of frames per second and switch between the normal and frame mode using Enter key:
 
-![Tmeline](/assets/images/procdot/timeline.gif)
-
+<img src="/assets/images/procdot/timeline.gif" alt="Tmeline" class="figure-body">
 
 * There is a good **search functionality**. Results are *visually highlighted on the graph* and *on the timeline*. In the screenshot below I was searching for *iexplore*, a good candidate for drive-by infections:
 
-[ ![](/assets/images/procdot/pd3.png) ](/assets/images/procdot/pd3-large.png)
+<a href="/assets/images/procdot/pd3-large.png">
+<img alt="Graph" src="/assets/images/procdot/pd3.png" class="figure-body">
+</a>
 
 * Ability to **group multiple nodes** into pre-established categories (e.g. Cookies, HTML, JS) to reduce clutter and make navigation easier. Observe in the image below how the suspicious file __*C0DE.tmp*__ is immediately visible once we de-cluttered the graph:
 
-[ ![](/assets/images/procdot/pd4.png) ](/assets/images/procdot/pd4-large.png)
+<a href="/assets/images/procdot/pd4-large.png">
+<img alt="Multiple nodes" src="/assets/images/procdot/pd4.png" class="figure-body">
+</a>
 
 * The final nice feature I wanted to mention is **filters**. Also to reduce clutter, you can create exclusion rules for IP addresses or hostnames, registry entries and files. There are also some already configured filters related to common windows events and false positives (Remember, *Procmon* also has something similar). 
 
