@@ -91,19 +91,20 @@ Another starting point to solve this challenge could have been to know the forma
 ~ cat image.b64 | base64 -d   > image.png
 ~ feh image.png
 ```
-![Stage 2](/assets/images/sectalks8-1.png)
+
+<img src="/assets/images/sectalks8-1.png" alt="Stage 2" class="figure-body">
 
 The clue for this stage is _'in the movie name'_. First you might ask, what movie?? If you're not a fan of the genre, just upload the image on the [Google reverse image search](https://images.google.com/) page and you'll get the movie name:
 
-![Reverse image search](/assets/images/sectalks8-2.png)
+<img src="/assets/images/sectalks8-2.png" alt="Reverse image search" class="figure-body">
 
 Now there is a lot of grey/gray in the picture. I first fired up Gimp to see if I can spot anything suspicious in there. First thing I noticed is that the alpha channel is blank. No luck here. Then I started to fiddle with colour filters to see if I can spot the place where something has been injected.  The [Colour Enhance filter](https://docs.gimp.org/en/plug-in-color-enhance.html) (Colours -> Auto -> Colour Enhance) reveals an area which has clearly been manually altered:
 
-![Colour Enhace](/assets/images/sectalks8-3.png)
+<img src="/assets/images/sectalks8-3.png" alt="Colour Enhace" class="figure-body">
 
 Same effect can be seen also with the [Maximum RGB](https://docs.gimp.org/en/plug-in-max-rgb.html) filter. This keeps the intensity of the RGB color channel which has the maximal/minimal intensity and reduces other both to zero. This observation will prove useful later in figuring out the steganography scheme.
 
-![Maximum RGB](/assets/images/sectalks8-4.png)
+<img src="/assets/images/sectalks8-4.png" alt="Maximum RGB" class="figure-body">
 
 After many tries to guess the obfuscation scheme, I realised that there is a repetitive pattern in all the modified pixels in the upper part of the image. Take a moment to look at the pixel values below and try to find out yourself what the pattern is. The colours below represent the RGBA codes:
 
@@ -138,7 +139,7 @@ So each pixel in the marked area encodes a single bit. It's actually very easy t
 
 The easy solution for this is to recognise that the output extracted from the image is obfuscated JavaScript. We can just paste it into the Web Developer console and see what it does:
 
-![Well done](/assets/images/sectalks8-5.png)
+<img src="/assets/images/sectalks8-5.png" alt="Well done" class="figure-body">
 
 That JavaScript looks pretty cool. Let's spend some time to understand the obfuscation technique. A quick Google search for _"obfuscated javascript using tons of square brackets"_ leads us to [JSFuck](http://www.jsfuck.com):
 
