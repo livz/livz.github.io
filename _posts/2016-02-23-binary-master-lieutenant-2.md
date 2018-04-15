@@ -140,7 +140,7 @@ Given the previous finding, the exploitation is simple and very similar with [le
 ### Controlling the execution flow
 Although we know that **buf** is 256 bytes in size, we need to see the stack layout of the function **head** in order to understand exactly how many bytes we need to overwrite to get to the saved return address on the stack.
 
-![head stack](/assets/images/bm7-0.png)
+<img src="/assets/images/bm7-0.png" alt="head stack" class="figure-body">
 
 So we need 256 + 12 + 4 bytes of padding in the buffer before we'll reach the saved return address. Let's see first if we can reliably control the return address:
 
@@ -152,7 +152,7 @@ gdb-peda$ run -1 input
 ```
 We see below that the execution crashed at address **0x42424242** ("BBBB"). That's good. We can move on.
 
-![Control EIP](/assets/images/bm7-1.png)
+<img src="/assets/images/bm7-1.png" alt="Control EIP" class="figure-body">
 
 ### Add ret2libc payload
 In a very similar way with the previous level, we'll return from _head_ function to the _system_ function, and place its argument in an environment variable. All the unchanged details omitted for space. The format of our payload is:
