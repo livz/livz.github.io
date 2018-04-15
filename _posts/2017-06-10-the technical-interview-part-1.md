@@ -14,9 +14,9 @@ First thing when approaching an interview like this might be to think that prepa
 Fortunately there’s no shortage of resources to study in advance. 
 A quick search for related terms comes up with several tens millions of results:
 
-![Search results](/assets/images/search1.png)
+<img src="/assets/images/search1.png" alt="Search results" class="figure-body">
 
-![More search results](/assets/images/search2.png)
+<img src="/assets/images/search2.png" alt="More earch results" class="figure-body">
 
 It almost looks like *a whole industry has developed around answering technical interview questions*. 
 Titles like *"15 Mind-Bending Interview Questions"*, *"7 Interview Brain Teasers You Could Be Asked"* 
