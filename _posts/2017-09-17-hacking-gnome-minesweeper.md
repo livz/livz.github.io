@@ -51,7 +51,8 @@ Now that `gtkparasire` is up and running, let's make sure we can perform some ba
 * Use the magnifying glass to select the text box.
 * In the right pane with the object's properties, double-click on the buffer's value. 
 * Then navigate to the properties of `text` field and change it to whatever you like. Voila!
-[![](/assets/images/mines/calc-small.png)](/assets/images/mines/calc.png)
+
+<img src="/assets/images/mines/calc.png" alt="UI hacking" class="figure-body">
 
 ## Static analysis 
 To be able to mess with objects in memory, we need to understand the internals of Minesweeper first. Luckily, the source code is available [online](https://github.com/GNOME/gnome-mines). The goal for this section is to perform simple identification of data structures in memory, like obtaining the number of mines and details of the board (width, height) for example.
@@ -294,4 +295,4 @@ A very nice feature of gtk-parasite is that it allows us to apply CSS styles glo
 .tile:nth-child( 40){ background: pink; }
 ```
 * The final product after applying the styles looks like this:
-[![](/assets/images/mines/css-small.png)](/assets/images/mines/css.png)
+<img src="/assets/images/mines/css.png" alt="Mines with CSS" class="figure-body">
