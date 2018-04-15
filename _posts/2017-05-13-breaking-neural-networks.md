@@ -46,7 +46,7 @@ probs = predict(img_data, n_preds=1)
 label: 283 (Persian cat)
 certainty: 13.94%
 ```
-![First detection](/assets/images/nn-1.png)
+<img src="/assets/images/nn-1.png" alt="First detection" class="figure-body">
 
 ## Part 3 - Breaking the predictions
 
@@ -83,8 +83,7 @@ display(grad / np.percentile(grad, 98))
 
 plt.title('Gradient for mouse prediction')
 ```
-![Gradient](/assets/images/nn-2.png)
-
+<img src="/assets/images/nn-2.png" alt="Gradient" class="figure-body">
 
 ### Step 2: Find the direction towards a different prediction
 
@@ -105,7 +104,7 @@ label: 230 (Shetland sheepdog, Shetland sheep dog), certainty: 4.22%
 label: 534 (dishwasher, dish washer), certainty: 2.73%
 label: 742 (printer), certainty: 2.6%
 ```
-![Modified cat](/assets/images/nn-3.png)
+<img src="/assets/images/nn-3.png" alt="Modified cat" class="figure-body">
 
 We've added a very light version of the gradient to the original image. This increased the probability of the label we used to compute the gradient - _mouse_, which now has **52.87% probability**. Not bad at all but the image is visibly altered. Let's see if we can do better.
 
@@ -153,7 +152,7 @@ label: 478 (carton), certainty: 5.66%
 label: 508 (computer keyboard, keypad), certainty: 4.7%
 ```
 
-![Original predictions](/assets/images/nn-4.png)
+<img src="/assets/images/nn-4.png" alt="Original predictions" class="figure-body">
 
 Now let's trick the Neural Network:
 
@@ -175,7 +174,7 @@ label: 013 (junco, snowbird), certainty: 2.52%
 label: 148 (killer whale, killer), certainty: 2.04%
 ```
 
-![Cat-penguin](/assets/images/nn-5.png)
+<img src="/assets/images/nn-5.png" alt="Cat-penguin" class="figure-body">
 
 It still looks like a cat, with no visible differences compared to the intial picture.
 But after only 10 iterations, the cat can become a mouse with **96.72% probability**, or a king penguin actually with a probability of **51.84%** after 30. We can do a lot better with more iterations but it takes more time. Notice _there is no visible change in the image pixels!_
@@ -206,7 +205,7 @@ plot_steps(steps, label_list, figsize=(10, 5))
 plt.title("Prediction for labels at each step")
 ```    
 
-![Predictions graph](/assets/images/nn-6.png)
+<img src="/assets/images/nn-6.png" alt="Predictions graph" class="figure-body">
 
 ### Morphing the cat 
 
@@ -227,7 +226,8 @@ label: 259 (Pomeranian), certainty: 0.01%
 label: 700 (paper towel), certainty: 0.01%
 label: 478 (carton), certainty: 0.0%
 ```
-![Persian cat(or not)](/assets/images/nn-7.png)
+
+<img src="/assets/images/nn-7.png" alt="Persian cat(or not)" class="figure-body">
 
 After just 10 iterations, we managed to grow the confidence of the predicted label **_from 13.94% to 99.9% certainty**_!
 
