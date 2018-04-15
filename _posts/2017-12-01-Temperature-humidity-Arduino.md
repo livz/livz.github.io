@@ -20,7 +20,10 @@ I've experimented with a bunch of different components and in the end stuck with
 
 * __Arduino Uno R3 Rev3 ATMEGA328P Board__:
 
-[![](/assets/images/tips/arduino/uno-small.jpg)](/assets/images/tips/arduino/uno-large.jpg)
+<a href="/assets/images/tips/arduino/uno-large.jpg">
+<img alt="Arduino Uno R3" src="/assets/images/tips/arduino/uno-small.jpg">
+</a>
+
 * __SYB-120 Breadboard with Jump Wires__:
 
 [![](/assets/images/tips/arduino/breadboard-small.jpg)](/assets/images/tips/arduino/breadboard-large.jpg)
