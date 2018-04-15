@@ -157,9 +157,9 @@ $ ls -alh /chroot/bin/nc.openbsd
 ```
 
 Let's see if we can get a simple message back:
-![hello](/assets/images/bm8-0.png)
+<img src="/assets/images/bm8-0.png" alt="hello" class="figure-body">
 
-![borat](/assets/images/bm8-1.png)
+<img src="/assets/images/bm8-1.png" alt="Borat" class="figure-body">
 
 ## 3 - Profit
 
