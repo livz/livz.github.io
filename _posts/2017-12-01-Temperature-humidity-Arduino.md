@@ -26,15 +26,25 @@ I've experimented with a bunch of different components and in the end stuck with
 
 * __SYB-120 Breadboard with Jump Wires__:
 
-[![](/assets/images/tips/arduino/breadboard-small.jpg)](/assets/images/tips/arduino/breadboard-large.jpg)
+<a href="/assets/images/tips/arduino/breadboard-large.jpg">
+<img alt="SYB-120" src="/assets/images/tips/arduino/breadboard-small.jpg" class="figure-body">
+</a>
+
 * __DHT22 2302 Digital Temperature and Humidity Sensor Module__:
 
-[![](/assets/images/tips/arduino/dht22-small.jpg)](/assets/images/tips/arduino/dht22-large.jpg)
+<a href="/assets/images/tips/arduino/dht22-large.jpg">
+<img alt="DHT22" src="/assets/images/tips/arduino/dht22-small.jpg" class="figure-body">
+</a>
+
 * __0.96 128x64 I2C Blue Color OLED Display Module__:
 
-[![](/assets/images/tips/arduino/oled-front-small.jpg)](/assets/images/tips/arduino/oled-front-large.jpg)
+<a href="/assets/images/tips/arduino/oled-front-large.jpg">
+<img alt="OLED Front" src="/assets/images/tips/arduino/oled-front-small.jpg" class="figure-body">
+</a>
 
-[![](/assets/images/tips/arduino/oled-back-small.jpg)](/assets/images/tips/arduino/oled-back-large.jpg)
+<a href="/assets/images/tips/arduino/oled-back-large.jpg">
+<img alt="OLED Back" src="/assets/images/tips/arduino/oled-back-small.jpg" class="figure-body">
+</a>
 
 ### _Issue #1 - Cables_
 
@@ -63,8 +73,9 @@ $ dmesg
 
 Something I didn't notice from the start which was confusing is that the SYB-120 Breadboard **has two gaps in each distribution strip**: the distribution strips are split into three pieces, instead of running along the board from one end to another, as you would expect from other boards. You can easily notice this if you remove the back cover of the board:
 
-[![](/assets/images/tips/arduino/breadboard-back-small.jpg)](/assets/images/tips/arduino/breadboard-back-large.jpg)
-
+<a href="/assets/images/tips/arduino/breadboard-back-large.jpg">
+<img alt="Breadboard back" src="/assets/images/tips/arduino/breadboard-back-small.jpg" class="figure-body">
+</a>
 
 ## Software
 
@@ -95,7 +106,7 @@ $ sudo chmod a+rw /dev/ttyACM0
 
 To connect and play with the humidity/tempratature sensor, I've found an [awesome blog](http://cactus.io/hookups/sensors/temperature-humidity/dht22/hookup-arduino-to-dht22-temp-humidity-sensor) that explained everything:
 
-![Logo](/assets/images/tips/arduino/dht22-schemtics.png)
+<img src="/assets/images/tips/arduino/dht22-schemtics.png" alt="screenshots" class="figure-body">
 
 Two things were different in my setup:
 * First, my sensor came out mounted on a breakout board, so it didn't require the 10K pull up resistor. 
@@ -109,11 +120,13 @@ I've found the instructions to hook the OLED display [here](https://startingelec
 * OLED SCL – Arduino Uno A5
 * OLED SDA – Arduino Uno A4
 
-![Logo](/assets/images/tips/arduino/hook-oled.png)
+<img src="/assets/images/tips/arduino/hook-oled.png" alt="screenshots" class="figure-body">
 
 If you're going through the article, one important section is _Modifying the SSD1306 Driver_. Don't skip it! After connecting everything, my board looks like this (all connections are visible, click to expand):
 
-[![](/assets/images/tips/arduino/final-small.jpg)](/assets/images/tips/arduino/final-large.jpg)
+<a href="/assets/images/tips/arduino/final-large.jpg">
+<img alt="Final board" src="/assets/images/tips/arduino/final-small.jpg" class="figure-body">
+</a>
 
 ## Coding
 
