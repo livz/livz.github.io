@@ -98,7 +98,7 @@ Perfect! Now we have the device's MAC address, which we'll use in _blueproximity
 
 * **Device detection** - We'd have the same issue as above when scanning for new devices in Blueproximity **(1)**.  
 So we'll introduce the MAC address manually in the form **(2)**:
-![Blueproximity form](/assets/images/bluetooth/blueprox.png)
+<img src="/assets/images/bluetooth/blueprox.png" alt="Blueproximity form" class="figure-body">
 * **Channel scan** - Use the _Scan channels_ button **(3)** to go through the ports and find an usable one. 
 At this point we'll have to accept the pairing on the device. After the scan ends, select an usable channel from the list **(4)**.
 * **Configure the locking command** - In the _Locking_ tab, add any script to be run in the _Locking command_ field. I'm using ```~/scripts/screenlock.sh```, with the following content (I'm using [i3 window manager](https://i3wm.org/)):
