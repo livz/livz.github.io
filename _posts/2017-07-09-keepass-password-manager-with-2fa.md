@@ -111,5 +111,4 @@ after the database file has been unlocked on the infected user's machine.
   * It is just a matter of time until this tool will end up as a post-exploitation plugin for 
 [Metasploit](https://www.offensive-security.com/metasploit-unleashed/post-module-reference/).
   * Currently it works on Windows 7 and 8.1 systems. Again, don't asume it won't work on Linux.
-  
-##
+ 
