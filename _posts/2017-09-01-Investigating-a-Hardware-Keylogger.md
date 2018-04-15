@@ -16,45 +16,53 @@ Hardware keyloggers are used to record computer user’s keystrokes. This often 
 and confidential emails. The device is mounted inline between the keyboard and the PC and records everything 
 without any advance pre-configuration, making it ideal for a non-technical attacker.
 
-![keylogger](/assets/images/hkl/hkl-out.png)
+<img src="/assets/images/hkl/hkl-out.png" alt="Keylogger" class="figure-body">
 
 And if you're curious what's under the bonnet:
 
-![keylogger inside](/assets/images/hkl/hkl-in.jpg)
+<img src="/assets/images/hkl/hkl-in.png" alt="keylogger inside" class="figure-body">
 
 Let's go a bit deeper and use a microscope to see what chips we have on the board. Click on the items below to enlarge the images. An _NXP HC4015_ chip:
 
-[![](/assets/images/hkl/hkl-in1-small.jpg)](/assets/images/hkl/hkl-in1.jpg)
+<a href="/assets/images/hkl/hkl-in1.jpg">
+<img alt="Keylogger under microscope" src="/assets/images/hkl/hkl-in1-small.jpg" class="figure-body">
+</a>
 
 Next we have a [Winbod 25Q128FV](https://cdn.hackaday.io/files/7758331918272/W25Q128F.pdf) serial flash memory:
 
-[![](/assets/images/hkl/hkl-in2-small.jpg)](/assets/images/hkl/hkl-in2.jpg)
+<a href="/assets/images/hkl/hkl-in2.jpg">
+<img alt="Winbod 25Q128FV" src="/assets/images/hkl/hkl-in2-small.jpg" class="figure-body">
+</a>
 
 An Atmel ARM microcontroller - [AT91SAM7S64](http://www.keil.com/dd/docs/datashts/atmel/at91sam7s64_ds.pdf):
 
-[![](/assets/images/hkl/hkl-in3-small.jpg)](/assets/images/hkl/hkl-in3.jpg)
+<a href="/assets/images/hkl/hkl-in3.jpg">
+<img alt="Atmel ARM" src="/assets/images/hkl/hkl-in3-small.jpg" class="figure-body">
+</a>
 
 And an [HC4066](https://assets.nexperia.com/documents/data-sheet/74HC_HCT4066.pdf) (_analog switch?_):
 
-[![](/assets/images/hkl/hkl-in4-small.jpg)](/assets/images/hkl/hkl-in4.jpg)
+<a href="/assets/images/hkl/hkl-in4.jpg">
+<img alt="HC4066" src="/assets/images/hkl/hkl-in4-small.jpg" class="figure-body">
+</a>
 
 ## Findings
 ### How it works
 The way this keylogger works is quite clever. It stays inline between the keyboard and the computer and is **_completely
 invisible_** to the operating system until a correct 3-key combination is entered. So it works seamlessly with any OS and keyboard. The first screenshot below shows the USB devices _before_ inserting the keylogger, on a Windows box:
 
-![USB devices](/assets/images/hkl/usb-devices-before.PNG)
+<img src="/assets/images/hkl/usb-devices-before.PNG" alt="USB devices" class="figure-body">
 
 That doesn't change at all after we insert the keylogger! There's no new USB device. But aftter we enter the correct 
 three letter combination (_read below how to recover this password_) we seea new mass storage device:
 
-![USB devices](/assets/images/hkl/usb-devices-after-pw.PNG)
+<img src="/assets/images/hkl/usb-devices-after-pw.PNG" alt="USB devices" class="figure-body">
 
 The LOG.TXT file on the root of the newly revealed partition contains the logged keystrokes for all the session captured 
 by the device. The sessions are separrated by a **[PWR]** entry. Special keys are logged as well. The image below shows 
 the user entering his login credentials after _Ctrl-Alt-Del_:
 
-![USB devices](/assets/images/hkl/creds.png)
+<img src="/assets/images/hkl/creds.png" alt="Stolen credentials" class="figure-body">
 
 Funny enough, in this case in the LOG.TXT file there was even a session recorded most probably on the attacker's machine while he was testing the device. Nothing to incriminate him/her though.
 
@@ -132,16 +140,16 @@ void loop() {
 
 So using the code above we found the combination which, no surprise here, was the default one:
 
-![Logo](/assets/images/hkl/combo.png)
+<img src="/assets/images/hkl/combo.png" alt="Found combination" class="figure-body">
 
 Next step I did was to take a bit-by-bit image of the 16MB USB partition and see what else was there, besides
 LOG.TXT. My guess was that maybe the guys behind this used the device before and I might find more intereseting logs within the _slack space_ or _unallocated bytes_. Using Autopsy and [The Sleuth Kit](https://www.sleuthkit.org/), quickly some more files were revealed.
 
-![Logo](/assets/images/hkl/file-times.PNG)
+<img src="/assets/images/hkl/file-times.PNG" alt="More files recovered" class="figure-body">
 
 A few deleted files and one very interesting _config.txt_:
 
-![Logo](/assets/images/hkl/config-file.PNG)
+<img src="/assets/images/hkl/config-file.PNG" alt="config.txt" class="figure-body">
 
 ### Finding the kill-switch
 
@@ -161,11 +169,11 @@ python -c 'print "the lazy dog\n"*20000' > /media/me/KEYGRABBER/LOG.TXT
 
 When performing the _autopsy_ of the drive, the LOG.TXT was there, sure enough, but everything before the kill switch had been deleted:
 
-![Logo](/assets/images/hkl/autopsy.png)
+<img src="/assets/images/hkl/autopsy.png" alt="log.txt" class="figure-body">
 
 But more interestingly, the unallocated space contained exactly the content of LOG.TXT file _before_ supposedly being erased:
 
-![Logo](/assets/images/hkl/unalloc.png)
+<img src="/assets/images/hkl/unalloc.png" alt="Unallocated space" class="figure-body">
 
 ## Conclusion
 This was a very fun and interesting project for me. I've learnt to work with the Teensy board and Arduino and managed to find the data that was about to be exfiltrated. I wish I were able to recover the actual code of the HKL as well, but this is another story.
@@ -178,7 +186,7 @@ A few vulnerabilities have been discovered along the way. Luckily, there was no 
 3. Vuln #2 - Default and unchangeable 3-key combo kill switch on all devices
 4. Vuln #4 - Logs are not erased securely
 
-![End](/assets/images/hkl/borat.png)
+<img src="/assets/images/hkl/borat.png" alt="The end!" class="figure-body">
 
 ## Miscellaneous technical bits
 
