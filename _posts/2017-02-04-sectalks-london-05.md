@@ -19,14 +19,14 @@ You snap out of your daydream to find them picking up the papers they've been gl
 There must be some more clues on the card!</p>
 </blockquote>
 
-![Christmas card](/assets/images/sectalks5-1.png)
+<img src="/assets/images/sectalks5-1.png" alt="Christmas card" class="figure-body">
 
 ## Stage 1
 The hint for this stage for "Simple stego". I've first opened the image in Gimp and noticed there was an alpha channel.  Unfortunately nothing really obvious here. Then I thought about varying colour intensity, a method used to enhance black and white images.
 
 In Gimp it is quite easy to [vary the threshold](https://docs.gimp.org/en/gimp-tool-threshold.html): **Colours -> Threshold**. And TA DA !
 
-![Stego revealed](/assets/images/sectalks5-2.png)
+<img src="/assets/images/sectalks5-2.png" alt="Stego revealed" class="figure-body">
 
 ## Stage 2
 We have some pseudo-code right here. Basically every character of the password was rotated left by its position and then XOR-ed with 42. So to get the initial password we need to apply the reverse operations: XOR then ROR (rotate right!):
@@ -53,7 +53,7 @@ Running this script we get the credentials for the next stage, accessible at 178
 ## Stage 3
 Nothing interesting after logging in, just 2 list of names randomly changing:
 
-![Lists](/assets/images/sectalks5-3.png)
+<img src="/assets/images/sectalks5-3.png" alt="Nothing to see here" class="figure-body">
 
 But there is a cookie, whose value is:
 
