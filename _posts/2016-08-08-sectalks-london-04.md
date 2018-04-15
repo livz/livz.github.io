@@ -87,7 +87,7 @@ Let's take a few seconds to understand the story. From previous emails in the th
 
 The video plays just fine and although we have a flag, it's obvious we've been rick-rolled. Let's dig deeper.
 
-![RickRolled](/assets/images/sectalks4-1.png)
+<img src="/assets/images/sectalks4-1.png" alt="RickRolled" class="figure-body">
 
 I remember about a very interesting and cool way to [hide TrueCrypt containers inside mp4 videos](https://keyj.emphy.de/real-steganography-with-truecrypt/) using steganography. In this case however the anser is simpler. We're dealing with _an archive appended to the mp4 movie_:
 
@@ -113,7 +113,7 @@ Notice the extra bytes at beginning of the archive. More like extra bytes at the
 
 Again let's take a few minutes to browse through the files in the newly discovered archive. Out of all the stuff in there, the archive deliver.zip looks particularly interesting. The final goal seems to be to locate Snowden's address. We have a map in there, but it's just a sketch without too many details:
 
-![Map](/assets/images/sectalks4-2.jpg)
+<img src="/assets/images/sectalks4-2.png" alt="Map" class="figure-body">
 
 There are a few photos but one of them has GPS coordinates, which presumably Snowden forgot to strip :confused:
 
@@ -133,7 +133,7 @@ GPS Position                    : 55 deg 50' 55.79" N, 37 deg 29' 17.46" E
 ```
 To search on Google Maps based on GPS coordinates, use the following query: **55°50'55.79"N 37°29'17.46"E**. There he is, in the location precisely and artistically drawn on the map above:
 
-![Map](/assets/images/sectalks4-3.png)
+<img src="/assets/images/sectalks4-3.png" alt="Coordinates" class="figure-body">
 
 ## References
 
