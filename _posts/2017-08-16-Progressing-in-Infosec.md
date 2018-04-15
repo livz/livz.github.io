@@ -70,4 +70,4 @@ and interact with people at Infosec events. In a nutshell:
 
 I hope this will be helpful as I plan to update this and use it as a checklist for myself to keep me on track.
 
-![Bow](/assets/images/bow.png)
+<img src="/assets/images/bow.png" alt="Bow" class="figure-body">
