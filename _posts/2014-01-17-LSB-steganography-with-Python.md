@@ -57,11 +57,9 @@ $ python lsb.py hide samples/orig.jpg secret.zip p@$5w0rD
 
 Compare the original and modified images below:
 
-![Original image](/assets/images/cloacked-pixel/orig.jpg)
+<img src="/assets/images/cloacked-pixel/orig.jpg" alt="Original image" class="figure-body">
 
-![Stego image](/assets/images/cloacked-pixel/stego.jpg)
- 
-
+<img src="/assets/images/cloacked-pixel/stego.jpg" alt="Stego image" class="figure-body">
  
 ## Extraction 
 
@@ -83,7 +81,7 @@ So in order to analyse an image, we can split it into blocks, and for each block
 
 Let's analyse the image below, before and after the insertion.
 
-![Castle](/assets/images/cloacked-pixel/castle.jpg)
+<img src="/assets/images/cloacked-pixel/castle.jpg" alt="Castle" class="figure-body">
 
 For the original version, we have:
 
@@ -91,7 +89,7 @@ For the original version, we have:
 $ python lsb.py analyse samples/castle.jpg
 ```
 
-![Analysis original](/assets/images/cloacked-pixel/analysis-orig.png)
+<img src="/assets/images/cloacked-pixel/analysis-orig.png" alt="Analysis original" class="figure-body">
 
 and now for the one containing  our payload:
 
@@ -99,7 +97,7 @@ and now for the one containing  our payload:
 $ python lsb.py analyse samples/castle.jpg-stego.png
 ```
 
-![Analysis stego](/assets/images/cloacked-pixel/analysis-stego.png)
+<img src="/assets/images/cloacked-pixel/analysis-stego.png" alt="Analysis stego" class="figure-body">
 
 We can clearly see the difference. On the portion of the image containing our embedded payload 
 the average value of LSBs is very close to 0.5.
