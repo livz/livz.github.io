@@ -89,7 +89,9 @@ $ cat shellcode.bin | /opt/libemu/bin/sctest -vvv -S -s 1000 -G shellcode.dot
 $ dot shellcode.dot -T png -o shellcode.png
 ```
 
-[![](/assets/images/libemu-small.png)](/assets/images/libemu.png)
+<a href="/assets/images/libemu.png">
+<img alt="Shellcode dot" src="/assets/images/libemu-small.png" class="figure-body">
+</a>
 
 This way we can get a feeling about how this shellcode is functioning. As we'll see later, there is a final piece missing from the picture, because the sctest emulator is not leaving the loop (marked with red arrows). We'll use a disassembler to examine all the instructions: 
 ```bash
