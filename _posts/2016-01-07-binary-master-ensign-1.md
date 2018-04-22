@@ -10,7 +10,7 @@ They are not terribly difficult and _each one of them has an interesting element
 
 In this blog posts and the following four I'll go through the [Ensign](https://www.certifiedsecure.com/certification/view/37) levels. As described, these ones deal with _retro exploitation techniques_ like buffer overflows, format strings, off-by-one errors and so on. No recent security mitigations are involved in the Ensign levels (E.g.: ASLR or non-executable stack). Don't worry too much about this yet, because their complexity increases to keep the hackers _in flow_. 
 
-![Ensign](/assets/images/bm1.png)
+<img src="/assets/images/bm1.png" alt="Ensign" class="figure-body">
 
 **I hope it goes without saying that these blog posts shouldn't be used as a way to cheat yourself in any case, but as a learning oportunity. With this in mind, let's begin with _Level 1_**.
 
@@ -94,7 +94,7 @@ By overwriting the return address from the function _helloworld_, we can redirec
 ### Control the execution flow
 Although  we can generally use tools from Metasploit Framework like _pattern_create_ and _pattern_offset_, in this case it is much simpler. We can just examine stack of the _helloworld_ function in IDA:
 
-![helloworld stack](/assets/images/bm1-2.png)
+<img src="/assets/images/bm1-2.png" alt="helloworld stack" class="figure-body">
 
 So at dest+24 we have the saved EBP and at **dest+28** the saved return address. 
 
