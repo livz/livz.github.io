@@ -201,7 +201,9 @@ Number of sectors in partition: 44998065
 ### Other useful tools in Windows
 
 Information regarding disk geometry (Total Cylinders/Sectors/Tracks,  Sectors per Track, Tracks per cylinder) can be obtained with **System Information** utility from Windows:
-![System Information](/assets/images/systemInfo.JPG)
+
+<img src="/assets/images/systemInfo.JPG" alt="System Information" class="figure-body">
 
 The [WinHex](http://www.x-ways.net/winhex/) editor can be used to obtain information about the first sector of every partition (provided also by file command):
-![WinHex drive info](/assets/images/winhex.jpg)
+
+<img src="/assets/images/winhex.jpg" alt="WinHex drive info" class="figure-body">
