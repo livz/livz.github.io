@@ -94,7 +94,7 @@ To generate an appropriate shellcode and place it in an environment variable, ch
 
 First thing is to find out the address of the _end_ destructor. IDA Pro shows this really quickly if we check the **_.fini_array_** section. Notice also the permissions of this section. This is important because we want to overwrite the location of _end_ function with an address we control.
 
-![ida destructor](/assets/images/bm2-1.png)
+<img src="/assets/images/bm1-1.png" alt="ida destructor" class="figure-body">
 
 We can also use Linux tools to get the same information:
 
