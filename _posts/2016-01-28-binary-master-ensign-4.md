@@ -163,7 +163,7 @@ Now let's see how we can break it:
 ## 2 - Exploit
 To understand exactly how many bytes we need in order to overwrite the return address, take a look at the stack layout of **handle_client** function:
 
-![Stack layout](/assets/images/bm4-1.png)
+<img src="/assets/images/bm4-1.png" alt="Stack layout" class="figure-body">
 
 The layout and the following observations will help in constructing the proper payload that can overwrite EIP:
 * The return address to be overwritten is located at offset 256 + 16 + 4 = 276 bytes. 
