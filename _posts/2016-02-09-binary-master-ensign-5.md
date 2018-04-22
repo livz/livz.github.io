@@ -108,7 +108,7 @@ First let us understand how the program works:
 
 Now let's see how we can break it. Again a stack layout of the function is very useful. We need to understand where each variable is located and which ones we can overwrite. Below I've renamed the variables in IDA to reflect the source code from level5.c:
 
-![Stack layout](/assets/images/bm5-1.png)
+<img src="/assets/images/bm5-1.png" alt="Stack layout" class="figure-body">
 
 * The **strcpy** call at **[4]** can overwrite the address of the newly allocated memory block in **msg**, which is located immediately after the buffer.
 * The **sprintf** call at **[5]** will write from **buf** to the address we've just overwritten by the call before.
@@ -120,7 +120,7 @@ Now let's see how we can break it. Again a stack layout of the function is very 
 
 Because the canary is stored in a global variable, in a writeable section (check the permissions of **.bss** section with `readelf -S level5`), we can overwrite it:
 
-![Global variable](/assets/images/bm5-2.png)
+<img src="/assets/images/bm5-2.png" alt="lobal variable" class="figure-body">
 
 Then we'll supply our overwritten canary value in the buffer and carry on the exploitation as usual. Based on the observation above, a simple payload that just overwrites the canary with 0x01020304 would look like this:
 ```
