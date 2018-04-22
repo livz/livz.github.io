@@ -30,7 +30,7 @@ It is a *__method of exchanging secret keys__*. The [D-H key exchange method](ht
 ### Human
 The D-H exchange algorithm can be easily illustrated  using colors instead of large numbers. The following picture shows how two parties can generate an identical key that is almost impossible to reverse for another party that might have been listening in on them:
 
-![DH](/assets/images/dh.png)
+<img src="/assets/images/dh.png" alt="DH" class="figure-body">
 
 Explanation:
 
