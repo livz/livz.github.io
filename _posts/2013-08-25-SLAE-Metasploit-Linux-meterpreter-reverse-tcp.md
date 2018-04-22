@@ -150,7 +150,9 @@ Here we see clearly the initial syscalls and their parameters. We can also view 
 $ dot shellcode.dot -T png -o shellcode.png
 ```
 
-[![](/assets/images/libemu2-small.png)](/assets/images/libemu2.png)
+<a href="/assets/images/libemu2.png">
+<img alt="Graph" src="/assets/images/libemu2-small.png" class="figure-body">
+</a>
 
 Finally we'll manually analyse the shellcode to understand the complete functionality. To disassemble it: 
 ```bash
