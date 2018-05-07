@@ -51,7 +51,7 @@ So the password for level 2 is: ```10.0.14409.1012```.
   <p>The password for Century3 is the name of the built-in cmdlet that performs the wget like function within PowerShell PLUS the name of the file on the desktop.</p>
 </blockquote>
 
-To find the command behind an alias use the cmdlet below:
+To find the command behind an alias use the **Get-Alias** cmdlet:
 
 ```posh
 PS C:\Users\century2\Documents> Get-Alias wget
@@ -93,8 +93,7 @@ So the password for level 4 is: ```517```
 ## Century 4
 
 <blockquote>
-  <p>The password for Century5 is the name of the file within a directory on the desktop that has spaces in its name. 
-</p>
+  <p>The password for Century5 is the name of the file within a directory on the desktop that has spaces in its name.</p>
 </blockquote>
 
 This level is about parsing folders containing spaces in their names. This reminded me about an old social engineering trick used to hide the real extension of a file by adding a big number of spaces before it. This works because Windows Explorer would show only the name before spaces followed by three dots, which most often go unnoticed.
