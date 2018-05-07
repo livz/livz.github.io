@@ -20,7 +20,7 @@ without any advance pre-configuration, making it ideal for a non-technical attac
 
 And if you're curious what's under the bonnet:
 
-<img src="/assets/images/hkl/hkl-in.png" alt="keylogger inside" class="figure-body">
+<img src="/assets/images/hkl/hkl-in.jpg" alt="keylogger inside" class="figure-body">
 
 Let's go a bit deeper and use a microscope to see what chips we have on the board. Click on the items below to enlarge the images. An _NXP HC4015_ chip:
 
