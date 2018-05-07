@@ -53,7 +53,7 @@ So the password for level 2 is: ```10.0.14409.1012```.
 
 To find the command behind an alias use the cmdlet below:
 
-```bash
+```posh
 PS C:\Users\century2\Documents> Get-Alias wget
 
 CommandType     Name                                               Version    Source
@@ -84,7 +84,7 @@ So the password for level 3 is: ```invoke-webrequest80```.
 
 This is another simple one that introduces new operators:
 
-```bash
+```posh
 PS C:\Users\century3\Documents> (Get-ChildItem -File ..\Desktop | Measure-Object).Count
 517
 ```
@@ -100,7 +100,7 @@ So the password for level 4 is: ```517```
 
 This level is about parsing folders containing spaces in their names. This reminded me about an old social engineering trick used to hide the real extension of a file by adding a big number of spaces before it. This works because Windows Explorer would show only the name before spaces followed by three dots, which most often go unnoticed.
 
-```bash
+```posh
 PS C:\Users\century4\Documents> ls '..\Desktop\500                                                                                                                         501'
 
     Directory: C:\Users\century4\Desktop\500                                                                                                                         501
