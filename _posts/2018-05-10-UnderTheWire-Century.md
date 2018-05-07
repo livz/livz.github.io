@@ -1,5 +1,5 @@
 ---
-title:  "[CTF] Under the Wire Century Wargame"
+title:  "[CTF] Under the Wire - Century Wargame"
 categories: [CTF, UnderTheWire]
 ---
 
@@ -20,11 +20,16 @@ For the solutions to the other games check:
 Before starting, I wanted to say a huge thank you to the creators of these games for the effort of designing and hosting them, and making them available for free for everyone!
 
 ## Century 1
-ssh century1@century.underthewire.tech -p 6009
-century1@century.underthewire.tech's password:century1
 
+<blockquote>
+  <p>The password for Century2 is the build version of the instance of PowerShell installed on this system. </p>
+</blockquote>
 
-PS C:\Users\century1\Documents> $psversiontable
+We connect to **Century1** with ```century1/century1```. To get the build version is as simple as:
+
+```bash
+
+PS C:\Users\century15> $PSVersionTable
 
 Name                           Value
 ----                           -----
@@ -36,13 +41,9 @@ CLRVersion                     4.0.30319.42000
 WSManStackVersion              3.0
 PSRemotingProtocolVersion      2.3
 SerializationVersion           1.1.0.1
+```
 
-
-
-~ ssh century2@century.underthewire.tech -p 6009
-century2@century.underthewire.tech's password: 10.0.14409.1012
-Windows PowerShell
-Copyright (C) 2016 Microsoft Corporation. All rights reserved.
+So the level 2 password is: ```10.0.14409.1012```.
 
 ## Century 2
 
