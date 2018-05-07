@@ -380,7 +380,7 @@ UserPrincipalName :
 ```
 
 <div class="box-note">
-  Note that the <i>Description</i> field is not displayed by default, that;s why we need to specify it manually using the <b>-Properties</b> flag.
+  Note that the <i>Description</i> field is not displayed by default, that's why we need to specify it manually using the <b>-Properties</b> flag.
 </div>
 
 And we have the password for the next level: ```i_authenticate_things```.
