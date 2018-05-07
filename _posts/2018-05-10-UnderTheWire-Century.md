@@ -61,7 +61,7 @@ CommandType     Name                                               Version    So
 Alias           wget -> Invoke-WebRequest
 ```
 
-Let's also get the *file on the desktop*:
+Let's also get the file on the desktop:
 
 ```bash
 PS C:\Users\century2\Documents> ls ..\Desktop
