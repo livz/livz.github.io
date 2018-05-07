@@ -9,7 +9,7 @@ categories: [CTF, UnderTheWire]
 
 The UnderTheWire wargames could be described as designed for Windows security professionals, Blue Team members or security tools designers. Currently there are 5 sets of levels of increasing difficulty. 
 
-In this post I'll go through my solutions to the first batch of 15 levels - [Century](http://underthewire.tech/century/century.htm). This is the first and most basic one and focuses on parsing files, usage of PowerShell operators and general navigation techniques in a Windows environment. 
+In this post I'll go through my solutions to the first batch of 15 levels - [Century](http://underthewire.tech/century/century.htm). This is the first and most basic one and focuses on parsing files, usage of PowerShell operators, file searches and general navigation techniques in a Windows environment. 
 
 For the solutions to the other games check:
 * [Cyborg]()
@@ -68,7 +68,6 @@ PS C:\Users\century2\Documents> ls ..\Desktop
 
     Directory: C:\Users\century2\Desktop
 
-
 Mode                LastWriteTime         Length Name
 ----                -------------         ------ ----
 -a----         6/8/2017   4:05 PM              0 80
@@ -105,7 +104,6 @@ PS C:\Users\century4\Documents> ls '..\Desktop\500                              
 
     Directory: C:\Users\century4\Desktop\500                                                                                                                         501
 
-
 Mode                LastWriteTime         Length Name
 ----                -------------         ------ ----
 -a----         6/8/2017   4:19 PM              0 65536
@@ -115,18 +113,26 @@ So we get the password for level 5: ```65536```.
 
 ## Century 5
 
+<blockquote>
+  <p>The password for Century6 is the short name of the domain in which this system resides in PLUS the name of the file on the desktop.</p>
+</blockquote>
+
+Let's first get the file on the Desktop:
+
+```posh
 PS C:\Users\century5\Documents> ls ..\Desktop
 
-
     Directory: C:\Users\century5\Desktop
-
 
 Mode                LastWriteTime         Length Name
 ----                -------------         ------ ----
 -a----         6/8/2017   4:20 PM              0 _4321
+```
 
+And the domain:
+
+```posh
 PS C:\Users\century5\Documents> Get-WmiObject Win32_ComputerSystem
-
 
 Domain              : UNDERTHEWIRE.TECH
 Manufacturer        : Microsoft Corporation
@@ -134,31 +140,45 @@ Model               : Virtual Machine
 Name                : CENTURY
 PrimaryOwnerName    : Windows User
 TotalPhysicalMemory : 5239771136
+```
 
+Or even simpler:
+
+```posh
 PS C:\Users\century5\Documents> echo $env:USERDOMAIN
 UNDERTHEWIRE
+```
 
-~ ssh century6@century.underthewire.tech -p 6009
-century6@century.underthewire.tech's password: underthewire_4321
-Windows PowerShell
-Copyright (C) 2016 Microsoft Corporation. All rights reserved.
+And we have the password for level 6: ```underthewire_4321```.
 
 ## Century 6
 
+<blockquote>
+  <p>The password for Century7 is the number of folders on the desktop.</p>
+</blockquote>
+
+This level introduces counting mechanisms:
+
+```posh
 PS C:\Users\century6\Documents> (Get-ChildItem -Directory ..\Desktop | Measure-Object).Count
 416
+```
 
-~ ssh century7@century.underthewire.tech -p 6009
-century7@century.underthewire.tech's password: 416
-Windows PowerShell
+The password for the 7th level is thus: ```416```.
 
 ## Century 7
 
+<blockquote>
+  <p>The password for Century8 is in a readme file somewhere within the contacts, desktop, documents, downloads, favorites, music, or videos folder in the user's profile. 
+</p>
+</blockquote>
+
+For this level we need to work out searching and filtering operations:
+
+```posh
 PS C:\Users\century7> Get-Childitem –Path . -Include *readme* -File -Recurse -ErrorAction SilentlyContinue
 
-
     Directory: C:\Users\century7\Downloads
-
 
 Mode                LastWriteTime         Length Name
 ----                -------------         ------ ----
@@ -166,35 +186,49 @@ Mode                LastWriteTime         Length Name
 
 PS C:\Users\century7> cat .\Downloads\README.txt
 human_versus_computer
+```
 
+Or we could have done it in one go:
+
+```posh
 PS C:\Users\century7> (Get-Childitem –Path . -Include *readme* -File -Recurse -ErrorAction SilentlyContinue) | cat
 human_versus_computer
+```
 
-~ ssh century8@century.underthewire.tech -p 6009
-century8@century.underthewire.tech's password: human_versus_computer
-Windows PowerShell
+And we got the password for level 8: ```human_versus_computer```.
 
 ## Century 8
 
+<blockquote>
+  <p>The password for Century9 is the number of unique entries within the file on the desktop.</p>
+</blockquote>
+
+In this level we need to do a bit of file parsing:
+
+```posh
 PS C:\Users\century8\Documents> (cat ..\Desktop\Unique.txt | sort | Get-Unique).count
 511
+```
 
-~ ssh century9@century.underthewire.tech -p 6009
-century9@century.underthewire.tech's password: 511
-Windows PowerShell
-Copyright (C) 2016 Microsoft Corporation. All rights reserved.
+And we have our password for next level: ```511```.
 
 ## Century 9
 
+<blockquote>
+  <p>The password for Century10 is the 161st element within the file on the desktop.</p>
+</blockquote>
+
+More file parsing kung-fu:
+
+```posh
 PS C:\Users\century9\Documents> (cat ..\Desktop\words.txt).count
 7916
 
 PS C:\Users\century9\Documents> (Get-Content ..\Desktop\words.txt)[161]
 shark
+```
 
-[14:52] ~ ssh century10@century.underthewire.tech -p 6009
-century10@century.underthewire.tech's password: shark
-Windows PowerShell
+So our password for the 10th level is: ```shark```.
 
 ## Century 10
 
