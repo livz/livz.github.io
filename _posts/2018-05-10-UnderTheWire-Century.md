@@ -63,7 +63,7 @@ Alias           wget -> Invoke-WebRequest
 
 Let's also get the file on the desktop:
 
-```bash
+```posh
 PS C:\Users\century2\Documents> ls ..\Desktop
 
     Directory: C:\Users\century2\Desktop
