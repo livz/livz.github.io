@@ -287,44 +287,12 @@ ErrorControl            : Normal
 PathName                : C:\Windows\system32\svchost.exe -k netsvcs
 ServiceType             : Share Process
 StartMode               : Manual
-__GENUS                 : 2
-__CLASS                 : Win32_Service
-__SUPERCLASS            : Win32_BaseService
-__DYNASTY               : CIM_ManagedSystemElement
-__RELPATH               : Win32_Service.Name="wuauserv"
-__PROPERTY_COUNT        : 25
-__DERIVATION            : {Win32_BaseService, CIM_Service, CIM_LogicalElement, CIM_ManagedSystemElement}
-__SERVER                : CENTURY
-__NAMESPACE             : root\cimv2
-__PATH                  : \\CENTURY\root\cimv2:Win32_Service.Name="wuauserv"
-AcceptPause             : False
-AcceptStop              : False
-Caption                 : Windows Update
-CheckPoint              : 0
-CreationClassName       : Win32_Service
+[..]
 Description             : Enables the detection, download, and installation of updates for Windows and other programs. If this service is
                           disabled, users of this computer will not be able to use Windows Update or its automatic updating feature, and programs
                           will not be able to use the Windows Update Agent (WUA) API.
 DisplayName             : Windows Update
-InstallDate             :
-ProcessId               : 0
-ServiceSpecificExitCode : 0
-Started                 : False
-StartName               : LocalSystem
-State                   : Stopped
-SystemCreationClassName : Win32_ComputerSystem
-SystemName              : CENTURY
-TagId                   : 0
-WaitHint                : 0
-Scope                   : System.Management.ManagementScope
-Path                    : \\CENTURY\root\cimv2:Win32_Service.Name="wuauserv"
-Options                 : System.Management.ObjectGetOptions
-ClassPath               : \\CENTURY\root\cimv2:Win32_Service
-Properties              : {AcceptPause, AcceptStop, Caption, CheckPoint...}
-SystemProperties        : {__GENUS, __CLASS, __SUPERCLASS, __DYNASTY...}
-Qualifiers              : {dynamic, Locale, provider, UUID}
-Site                    :
-Container               :
+[..]
 ```
 
 Based on the above description, the passowrd for the next level is: ```windowsupdates_4u```.
