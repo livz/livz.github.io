@@ -232,17 +232,25 @@ So our password for the 10th level is: ```shark```.
 
 ## Century 10
 
+<blockquote>
+  <p>The password for Century11 is the 10th and 8th word of the Windows Update service description combined PLUS the name of the file on the desktop.</p>
+</blockquote>
+
+First let's get the file on the desktop:
+
+```posh
 PS C:\Users\century10\Documents> ls ..\Desktop\
 
-
     Directory: C:\Users\century10\Desktop
-
 
 Mode                LastWriteTime         Length Name
 ----                -------------         ------ ----
 -a----         6/8/2017   4:57 PM              0 _4u
+```
 
+To solve this level we need to query Windows services:
 
+```posh
 PS C:\Users\century10\Documents> Get-Service -DisplayName *update*
 
 Status   Name               DisplayName
@@ -250,7 +258,6 @@ Status   Name               DisplayName
 Stopped  wuauserv           Windows Update
 
 PS C:\Users\century10\Documents> Get-Service -Name "Windows Update" | Select-Object *
-
 
 Name                : wuauserv
 RequiredServices    : {rpcss}
@@ -270,7 +277,6 @@ Site                :
 Container           :
 
 PS C:\Users\century10\Documents> Get-WMIObject -Class Win32_Service -Filter  "Name='wuauserv'"  | Select-Object *
-
 
 PSComputerName          : CENTURY
 Name                    : wuauserv
@@ -319,47 +325,57 @@ SystemProperties        : {__GENUS, __CLASS, __SUPERCLASS, __DYNASTY...}
 Qualifiers              : {dynamic, Locale, provider, UUID}
 Site                    :
 Container               :
+```
 
-~ ssh century11@century.underthewire.tech -p 6009
-century11@century.underthewire.tech's password: windowsupdates_4u
-Windows PowerShell
-Copyright (C) 2016 Microsoft Corporation. All rights reserved.
+Based on the above description, the passowrd for the next level is: ```windowsupdates_4u```.
 
 ## Century 11
 
+<blockquote>
+  <p>The password for Century12 is the name of the hidden file within the contacts, desktop, documents, downloads, favorites, music, or videos folder in the user's profile.</p>
+</blockquote>
+
+To solve this level again we need to do a bit of filtering based on file paths, names and attributes:
+
+```posh
 PS C:\Users\century11> Get-Childitem –Path Contacts,Desktop,Documents,Downloads,Favorites,Music,Videos -File -Attributes !D+H -Exclude desktop.ini -
 Recurse -ErrorAction SilentlyContinue
 
-
     Directory: C:\Users\century11\Desktop
-
 
 Mode                LastWriteTime         Length Name
 ----                -------------         ------ ----
 -a-h--         6/8/2017   4:59 PM              0 secret_sauce
+```
 
-!D is used to exclude directories and +H is used to include hidden files.
+<div class="box-note">
+  <b>!D</b> is used here to exclude directories and <b>+H</b> is used to include hidden files.
+</div>
 
-
-~ ssh century12@century.underthewire.tech -p 6009
-century12@century.underthewire.tech's password: secret_sauce
-Windows PowerShell
-Copyright (C) 2016 Microsoft Corporation. All rights reserved.
+The password for level 12 is: ```secret_sauce```.
 
 ## Century 12
 
+<blockquote>
+  <p>The password for Century13 is the description of the computer designated as a Domain Controller within this domain PLUS the name of the file on the desktop.</p>
+</blockquote>
+
+Let's get the easy bit first - the file on the Desktop:
+
+```posh
 PS C:\Users\century12> ls .\Desktop
 
-
     Directory: C:\Users\century12\Desktop
-
 
 Mode                LastWriteTime         Length Name
 ----                -------------         ------ ----
 -a----         6/8/2017   5:09 PM              0 _things
+```
 
+Then use the next cmdlet to find out the name of the computer who is the Domain Controller using **Get-ADDomainController**:
+
+```posh
 PS C:\Users\century12> Get-ADDomainController
-
 
 ComputerObjectDN           : CN=CENTURY,OU=Domain Controllers,DC=UNDERTHEWIRE,DC=TECH
 DefaultPartition           : DC=UNDERTHEWIRE,DC=TECH
@@ -376,19 +392,13 @@ LdapPort                   : 389
 Name                       : CENTURY
 NTDSSettingsObjectDN       : CN=NTDS Settings,CN=CENTURY,CN=Servers,CN=Default-First-Site-Name,CN=Sites,CN=Configuration,DC=UNDERTHEWIRE,DC=TECH
 OperatingSystem            : Windows Server 2012 R2 Datacenter Evaluation
-OperatingSystemHotfix      :
-OperatingSystemServicePack :
-OperatingSystemVersion     : 6.3 (9600)
-OperationMasterRoles       : {SchemaMaster, DomainNamingMaster, PDCEmulator, RIDMaster...}
-Partitions                 : {DC=ForestDnsZones,DC=UNDERTHEWIRE,DC=TECH, DC=DomainDnsZones,DC=UNDERTHEWIRE,DC=TECH,
-                             CN=Schema,CN=Configuration,DC=UNDERTHEWIRE,DC=TECH, CN=Configuration,DC=UNDERTHEWIRE,DC=TECH...}
-ServerObjectDN             : CN=CENTURY,CN=Servers,CN=Default-First-Site-Name,CN=Sites,CN=Configuration,DC=UNDERTHEWIRE,DC=TECH
-ServerObjectGuid           : d620fa0f-e9cb-4f97-9004-b5b5cc75be02
-Site                       : Default-First-Site-Name
-SslPort                    : 636
+[..]
+```
 
+Based on its name, **Get-ADComputer** provides additional information:
+
+```posh
 PS C:\Users\century12> Get-ADComputer -Filter {Name -Eq "CENTURY"} -Properties description
-
 
 Description       : i_authenticate
 DistinguishedName : CN=CENTURY,OU=Domain Controllers,DC=UNDERTHEWIRE,DC=TECH
@@ -400,34 +410,43 @@ ObjectGUID        : e1248e0f-ed89-42a4-86ef-687303e886a5
 SamAccountName    : CENTURY$
 SID               : S-1-5-21-3968311752-1263969649-2303472966-1002
 UserPrincipalName :
+```
 
-ssh century13@century.underthewire.tech -p 6009
-century13@century.underthewire.tech's password: i_authenticate_things
-Windows PowerShell
-Copyright (C) 2016 Microsoft Corporation. All rights reserved.
+<div class="box-note">
+  Note that the <i>Description</i> field is not displayed by default, that;s why we need to specify it manually using the <b>-Properties</b> flag.
+</div>
 
-Under the Wire... PowerShell Training for The People!
+And we have the password for the next level: ```i_authenticate_things```.
 
 ## Century 13
 
+<blockquote>
+  <p>The password for Century14 is the number of words within the file on the desktop.</p>
+</blockquote>
+
+We're getting closer to the final level with more file parsing:
+
+```posh
 PS C:\Users\century13> Get-Content .\Desktop\words.txt | Measure-Object –Word
 
 Lines  Words Characters Property
 -----  ----- ---------- --------
       475361
+```
 
-
-PS C:\Users\century13> exit
-Connection to century.underthewire.tech closed.
-[18:05] ~ ssh century14@century.underthewire.tech -p 6009
-century14@century.underthewire.tech's password: 475361
+The password for level 14 is: ```475361```.
 
 ## Century 14
 
+<blockquote>
+  <p>The password for Century15 is the number of times the word "polo" appears within the file on the desktop.</p>
+</blockquote>
+
+The last level is very simple as well and teaches us pattern matching:
+
+```posh
 PS C:\Users\century14> (Get-Content .\Desktop\stuff.txt | Select-String -Pattern "polo" -AllMatches).length
 10
+```
 
-[18:10] ~ ssh century15@century.underthewire.tech -p 6009
-century15@century.underthewire.tech's password: 10
-Windows PowerShell
-Copyright (C) 2016 Microsoft Corporation. All rights reserved.
+The final password is: ```10```.
