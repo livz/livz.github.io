@@ -22,7 +22,7 @@ Before starting, I wanted to say a huge thank you to the creators of these games
 ## Century 1
 
 <blockquote>
-  <p>The password for Century2 is the build version of the instance of PowerShell installed on this system. </p>
+  <p>The password for Century2 is the build version of the instance of PowerShell installed on this system.</p>
 </blockquote>
 
 We connect to **Century1** with ```century1/century1```. To get the build version is as simple as:
@@ -43,18 +43,28 @@ PSRemotingProtocolVersion      2.3
 SerializationVersion           1.1.0.1
 ```
 
-So the level 2 password is: ```10.0.14409.1012```.
+So the password for level 2 is: ```10.0.14409.1012```.
 
 ## Century 2
 
+<blockquote>
+  <p>The password for Century3 is the name of the built-in cmdlet that performs the wget like function within PowerShell PLUS the name of the file on the desktop.</p>
+</blockquote>
+
+To find the command behind an alias use the cmdlet below:
+
+```bash
 PS C:\Users\century2\Documents> Get-Alias wget
 
 CommandType     Name                                               Version    Source
 -----------     ----                                               -------    ------
 Alias           wget -> Invoke-WebRequest
+```
 
+Let's also get the *file on the desktop*:
+
+```bash
 PS C:\Users\century2\Documents> ls ..\Desktop
-
 
     Directory: C:\Users\century2\Desktop
 
@@ -62,26 +72,36 @@ PS C:\Users\century2\Documents> ls ..\Desktop
 Mode                LastWriteTime         Length Name
 ----                -------------         ------ ----
 -a----         6/8/2017   4:05 PM              0 80
+```
 
-[11:45] ~ ssh century3@century.underthewire.tech -p 6009
-century3@century.underthewire.tech's password: invoke-webrequest80
-Windows PowerShell
-Copyright (C) 2016 Microsoft Corporation. All rights reserved.
+So the password for level 3 is: ```invoke-webrequest80```.
 
 ## Century 3
 
+<blockquote>
+  <p>The password for Century4 is the number of files on the desktop.</p>
+</blockquote>
+
+This is another simple one that introduces new operators:
+
+```bash
 PS C:\Users\century3\Documents> (Get-ChildItem -File ..\Desktop | Measure-Object).Count
 517
+```
 
-~ ssh century4@century.underthewire.tech -p 6009
-century4@century.underthewire.tech's password: 517
-Windows PowerShell
-Copyright (C) 2016 Microsoft Corporation. All rights reserved.
+So the password for level 4 is: ```517```
 
 ## Century 4
 
-PS C:\Users\century4\Documents> ls '..\Desktop\500                                                                                                                         501'
+<blockquote>
+  <p>The password for Century5 is the name of the file within a directory on the desktop that has spaces in its name. 
+</p>
+</blockquote>
 
+This level is about parsing folders containing spaces in their names. This reminded me about an old social engineering trick used to hide the real extension of a file by adding a big number of spaces before it. This works because Windows Explorer would show only the name before spaces followed by three dots, which most often go unnoticed.
+
+```bash
+PS C:\Users\century4\Documents> ls '..\Desktop\500                                                                                                                         501'
 
     Directory: C:\Users\century4\Desktop\500                                                                                                                         501
 
@@ -89,11 +109,9 @@ PS C:\Users\century4\Documents> ls '..\Desktop\500                              
 Mode                LastWriteTime         Length Name
 ----                -------------         ------ ----
 -a----         6/8/2017   4:19 PM              0 65536
+```
 
-~ ssh century5@century.underthewire.tech -p 6009
-century5@century.underthewire.tech's password: 65536
-Windows PowerShell
-Copyright (C) 2016 Microsoft Corporation. All rights reserved.
+So we get the password for level 5: ```65536```.
 
 ## Century 5
 
