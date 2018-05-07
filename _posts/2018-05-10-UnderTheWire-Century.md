@@ -1,5 +1,5 @@
 ---
-title:  "[CTF] Under the Wire - Century Wargame"
+title:  "[CTF] Under the Wire - Century"
 categories: [CTF, UnderTheWire]
 ---
 
