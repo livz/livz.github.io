@@ -27,7 +27,7 @@ Before starting, I wanted to say a huge thank you to the creators of these games
 
 We connect to **Century1** with ```century1/century1```. To get the build version is as simple as:
 
-```bash
+```posh
 
 PS C:\Users\century15> $PSVersionTable
 
