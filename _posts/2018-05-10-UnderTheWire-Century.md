@@ -61,7 +61,7 @@ CommandType     Name                                               Version    So
 Alias           wget -> Invoke-WebRequest
 ```
 
-Let's also get the file on the desktop:
+Let's also get the name of the file on the desktop:
 
 ```posh
 PS C:\Users\century2\Documents> ls ..\Desktop
