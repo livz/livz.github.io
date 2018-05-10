@@ -47,7 +47,7 @@ UserPrincipalName : chris.rogers@UNDERTHEWIRE.TECH
 ```
 
 <div class="box-note">
-  By default the <b>Get-ADUser</b> cmdlet only retrieves a default set of user object properties. To retrieve additional properties we need to use the <i>Properties</i> parameter. 
+  By default the <b>Get-ADUser</b> cmdlet retrieves only a default set of user object properties. To retrieve additional properties we need to use the <i>Properties</i> parameter. 
 </div>
 
 ## Cyborg 2
