@@ -9,7 +9,7 @@ categories: [CTF, UnderTheWire]
 
 The UnderTheWire wargames could be described as designed for Windows security professionals, Blue Team members or security tools designers. Currently there are 5 sets of levels of increasing difficulty. 
 
-In this post I'll go through my solutions to the second batch of 15 levels - [Cyborg](http://underthewire.tech/cyborg/cyborg.htm). These covers a bit more advanced topics like working Active Directory, AppLocker policies, Alternate Data Streams, and auto-start items. 
+In this post I'll go through my solutions to the second batch of 15 levels - [Cyborg](http://underthewire.tech/cyborg/cyborg.htm). These cover a bit more advanced topics like working Active Directory, AppLocker policies, Alternate Data Streams and auto-start items. 
 
 For the solutions to the other games check:
 * [Level 1 - Century]({{ site.baseurl }}{% post_url 2018-05-10-UnderTheWire-Century %})
