@@ -1,5 +1,5 @@
 ---
-title:  "[CTF] Under the Wire - Century"
+title:  "[CTF] Under the Wire Level 1 - Century"
 categories: [CTF, UnderTheWire]
 ---
 
