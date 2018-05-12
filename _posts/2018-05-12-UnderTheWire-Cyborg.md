@@ -53,79 +53,180 @@ UserPrincipalName : chris.rogers@UNDERTHEWIRE.TECH
 ## Cyborg 2
 
 <blockquote>
-  <p>The password for Century3 is the name of the built-in cmdlet that performs the wget like function within PowerShell PLUS the name of the file on the desktop.</p>
+  <p>The password for cyborg3 is the host A record IP address for CYBORG713W104N PLUS the name of the file on the desktop.</p>
 </blockquote>
+
+First let's get the file on the Desktop:
+
+```posh
+PS C:\Users\cyborg2\Documents> ls ..\Desktop
+
+    Directory: C:\Users\cyborg2\Desktop
+
+Mode                LastWriteTime         Length Name
+----                -------------         ------ ----
+-a----         6/7/2017  11:07 AM              0 _ipv4
+```
+
+To resolve a hostname we'll use the **Resolve-DnsName** cmdlet:
+
+```posh
+PS C:\Users\cyborg2\Documents> Resolve-DnsName CYBORG713W104N
+
+Name                                           Type   TTL   Section    IPAddress
+----                                           ----   ---   -------    ---------
+CYBORG713W104N.UNDERTHEWIRE.TECH               A      3600  Answer     172.31.45.167
+```
+
+So the password for level 3 is: ```172.31.45.167_ipv4```.
 
 ## Cyborg 3
 
 <blockquote>
-  <p>The password for Century4 is the number of files on the desktop.</p>
+  <p>The password for cyborg4 is the number of users in the Cyborg group within Active Directory PLUS the name of the file on the desktop.</p>
 </blockquote>
 
+Again, first the file on the Desktop:
+
+```posh
+PS C:\Users\cyborg3\Documents> ls ..\Desktop
+
+    Directory: C:\Users\cyborg3\Desktop
+
+Mode                LastWriteTime         Length Name
+----                -------------         ------ ----
+-a----         6/7/2017  11:10 AM              0 _objects
+```
+
+To get members of an Active Directory group we have the **Get-ADGroupMember** cmdlet:
+
+```posh
+PS C:\Users\cyborg3\Documents> (Get-ADGroupMember -Identity Cyborg).Count
+88
+```
+
+So the password for level 4 is ```88_objects```.
 
 ## Cyborg 4
 
 <blockquote>
-  <p>The password for Century5 is the name of the file within a directory on the desktop that has spaces in its name.</p>
+  <p>The password for cyborg5 is the PowerShell module name with a version number of 8.9.8.9 PLUS the name of the file on the desktop. 
+</p>
 </blockquote>
+
+The file on the Desktop:
+```posh
+PS C:\Users\cyborg4\Documents> ls ..\Desktop
+
+    Directory: C:\Users\cyborg4\Desktop
+
+Mode                LastWriteTime         Length Name
+----                -------------         ------ ----
+-a----         6/7/2017  11:23 AM              0 _eggs
+```
+
+To list information about available PowerShell modules there is the **Get-Module** cmdlet:
+
+```posh
+PS C:\Users\cyborg4\Documents> Get-Module –ListAvailable | Where {$_.Version -Like "*8.9.8.9*"}
+
+    Directory: C:\Windows\system32\WindowsPowerShell\v1.0\Modules
+
+ModuleType Version    Name                                ExportedCommands
+---------- -------    ----                                ----------------
+Manifest   8.9.8.9    Grits                               Get-grits
+```
+
+After applying some filtering we get the password for the 5th level: ```grits_eggs```.
 
 ## Cyborg 5
 
 <blockquote>
-  <p>The password for Century6 is the short name of the domain in which this system resides in PLUS the name of the file on the desktop.</p>
+  <p>The password for cyborg6 is the last name of the user who has logon hours set on their account PLUS the name of the file on the desktop.</p>
 </blockquote>
+
+The file on the Deaktop:
+
+```posh
+PS C:\Users\cyborg5> ls .\Desktop\
+
+    Directory: C:\Users\cyborg5\Desktop
+
+Mode                LastWriteTime         Length Name
+----                -------------         ------ ----
+-a----         6/7/2017  11:13 AM              0 _timer
+```
+
+For the logon hours there is the [Logon-Hours](https://msdn.microsoft.com/en-us/library/ms676846(v=vs.85).aspx) Active Directory attribute. Its display name is **logonHours**, which we'll use for filtering:
+
+```posh
+PS C:\Users\cyborg5> Get-ADUser -Filter 'logonHours -like "*"' -Properties logonHours
+
+DistinguishedName : CN=Rowray\, Benny  \ ,OU=Southside,OU=Cyborg,DC=UNDERTHEWIRE,DC=TECH
+Enabled           : False
+GivenName         : Benny
+logonHours        : {255, 255, 255, 255...}
+Name              : Rowray, Benny
+ObjectClass       : user
+ObjectGUID        : 23501b6d-a0ec-4048-bd51-82f84c7945d3
+SamAccountName    : Benny.Rowray
+SID               : S-1-5-21-1013972110-1198539618-3084840507-1978
+Surname           : Rowray
+UserPrincipalName : Benny.Rowray
+```
+
+The password for level 6 is then ```rowray_timer```.
 
 ## Cyborg 6
 
 <blockquote>
-  <p>The password for Century7 is the number of folders on the desktop.</p>
+  <p></p>
 </blockquote>
 
 ## Cyborg 7
 
 <blockquote>
-  <p>The password for Century8 is in a readme file somewhere within the contacts, desktop, documents, downloads, favorites, music, or videos folder in the user's profile. 
-</p>
+  <p></p>
 </blockquote>
 
 ## Cyborg 8
 
 <blockquote>
-  <p>The password for Century9 is the number of unique entries within the file on the desktop.</p>
+  <p></p>
 </blockquote>
 
 ## Century 9
 
 <blockquote>
-  <p>The password for Century10 is the 161st element within the file on the desktop.</p>
+  <p></p>
 </blockquote>
 
 ## Century 10
 
 <blockquote>
-  <p>The password for Century11 is the 10th and 8th word of the Windows Update service description combined PLUS the name of the file on the desktop.</p>
+  <p></p>
 </blockquote>
 
 ## Century 11
 
 <blockquote>
-  <p>The password for Century12 is the name of the hidden file within the contacts, desktop, documents, downloads, favorites, music, or videos folder in the user's profile.</p>
+  <p></p>
 </blockquote>
 
 ## Century 12
 
 <blockquote>
-  <p>The password for Century13 is the description of the computer designated as a Domain Controller within this domain PLUS the name of the file on the desktop.</p>
+  <p></p>
 </blockquote>
 
 ## Century 13
 
 <blockquote>
-  <p>The password for Century14 is the number of words within the file on the desktop.</p>
+  <p></p>
 </blockquote>
 
 ## Century 14
 
 <blockquote>
-  <p>The password for Century15 is the number of times the word "polo" appears within the file on the desktop.</p>
+  <p></p>
 </blockquote>
