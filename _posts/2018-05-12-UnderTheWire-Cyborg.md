@@ -1,5 +1,5 @@
 ---
-title:  "[CTF] Under the Wire - Cyborg"
+title:  "[CTF] Under the Wire Level 1 - Cyborg"
 categories: [CTF, UnderTheWire]
 ---
 
