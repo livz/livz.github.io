@@ -32,7 +32,6 @@ We connect to **Cyborg1** with ```cyborg1/cyborg1```.
 ```posh
 PS C:\Users\cyborg1\Documents> Get-ADUser -Filter 'Name -like "*rogers*"' -Properties st
 
-
 DistinguishedName : CN=Rogers\, Chris,OU=Southside,OU=Cyborg,DC=UNDERTHEWIRE,DC=TECH
 Enabled           : False
 GivenName         : Rogers
@@ -175,7 +174,7 @@ Surname           : Rowray
 UserPrincipalName : Benny.Rowray
 ```
 
-The password for level 6 is then ```rowray_timer```.
+The password for level 6 is ```rowray_timer```.
 
 ## Cyborg 6
 
@@ -199,7 +198,7 @@ Very straighforward - the password for level 7 is ```cybergeddon```.
   <p>The password for cyborg8 is the executable name of a program that will start automatically when cyborg7 logs in.</p>
 </blockquote>
 
-I found the solution from a very good article on [how to use PowerShell to Provide Startup Information](https://blogs.technet.microsoft.com/heyscriptingguy/2014/09/09/use-powershell-to-provide-startup-information/):
+I found the solution from a very good [article]((https://blogs.technet.microsoft.com/heyscriptingguy/2014/09/09/use-powershell-to-provide-startup-information/)) on how to use PowerShell to get xtartup Information:
 
 ```posh
 PS C:\Users\cyborg7\Documents> Get-WmiObject Win32_StartupCommand | Select-Object Name, command, Location, User  | Format-List
@@ -244,7 +243,7 @@ Stream        : Zone.Identifier
 Length        : 26
 ```
 
-To view a specific stream we have the *-Stream* option for **Get-Content** cmdlet:
+To view a specific stream we have the __*-Stream*__ option for **Get-Content** cmdlet:
 
 ```posh
 PS C:\Users\cyborg8\Documents> Get-Content -Path ..\Desktop\picture1.jpg -Stream Zone.Identifier
@@ -443,7 +442,7 @@ Mode                LastWriteTime         Length Name
 -a----        6/12/2017   8:03 PM              0 _objects
 ```
 
-To get information about DCOM applications we can use again the **Get-WmiObject** cmdlet and filter for **Win32_DCOMApplication** classes:
+To get information about DCOM applications we can use again the **Get-WmiObject** cmdlet and filter for *Win32_DCOMApplication* classes:
 
 ```posh
 PS C:\Users\cyborg14\Documents> (Get-WmiObject -Class "Win32_DCOMApplication" -Filter "AppId='{59B8AFA0-229E-46D9-B980-DDA2C817EC7E}'" ).Caption
