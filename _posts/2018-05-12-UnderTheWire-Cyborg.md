@@ -180,53 +180,275 @@ The password for level 6 is then ```rowray_timer```.
 ## Cyborg 6
 
 <blockquote>
-  <p></p>
+  <p>The password for cyborg7 is the decoded text of the string within the file on the desktop.</p>
 </blockquote>
+
+Here we have to do some simple base64 encoding:
+
+```posh
+PS C:\Users\cyborg6\Documents> $m = Get-Content ..\Desktop\cypher.txt
+PS C:\Users\cyborg6\Documents> [System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String($m))
+The password is cybergeddon
+```
+
+Very straighforward - the password for level 7 is ```cybergeddon```.
 
 ## Cyborg 7
 
 <blockquote>
-  <p></p>
+  <p>The password for cyborg8 is the executable name of a program that will start automatically when cyborg7 logs in.</p>
 </blockquote>
+
+I found the solution from a very good article on [how to use PowerShell to Provide Startup Information](https://blogs.technet.microsoft.com/heyscriptingguy/2014/09/09/use-powershell-to-provide-startup-information/):
+
+```posh
+PS C:\Users\cyborg7\Documents> Get-WmiObject Win32_StartupCommand | Select-Object Name, command, Location, User  | Format-List
+
+Name     : SKYNET
+command  : C:\Program Files\Cyberdyne Systems\Skynet.exe
+Location : HKU\S-1-5-21-1013972110-1198539618-3084840507-2108\SOFTWARE\Microsoft\Windows\CurrentVersion\Run
+User     : UNDERTHEWIRE\cyborg7
+```
+
+So the password for level 8 is ```skynet```.
 
 ## Cyborg 8
 
 <blockquote>
-  <p></p>
+  <p>The password for cyborg9 is the Internet zone that the picture on the desktop was downloaded from.</p>
 </blockquote>
+
+Zone information is recorded in the **Zone.Identifier** data stream. We can easily view all [Alternate Data Streams](https://blogs.technet.microsoft.com/askcore/2013/03/24/alternate-data-streams-in-ntfs/) for a file using PowerShell:
+
+```posh
+PS C:\Users\cyborg8\Documents> Get-Item ..\Desktop\picture1.jpg -Stream *
+
+PSPath        : Microsoft.PowerShell.Core\FileSystem::C:\Users\cyborg8\Desktop\picture1.jpg::$DATA
+PSParentPath  : Microsoft.PowerShell.Core\FileSystem::C:\Users\cyborg8\Desktop
+PSChildName   : picture1.jpg::$DATA
+PSDrive       : C
+PSProvider    : Microsoft.PowerShell.Core\FileSystem
+PSIsContainer : False
+FileName      : C:\Users\cyborg8\Desktop\picture1.jpg
+Stream        : :$DATA
+Length        : 224398
+
+PSPath        : Microsoft.PowerShell.Core\FileSystem::C:\Users\cyborg8\Desktop\picture1.jpg:Zone.Identifier
+PSParentPath  : Microsoft.PowerShell.Core\FileSystem::C:\Users\cyborg8\Desktop
+PSChildName   : picture1.jpg:Zone.Identifier
+PSDrive       : C
+PSProvider    : Microsoft.PowerShell.Core\FileSystem
+PSIsContainer : False
+FileName      : C:\Users\cyborg8\Desktop\picture1.jpg
+Stream        : Zone.Identifier
+Length        : 26
+```
+
+To view a specific stream we have the *-Stream* option for **Get-Content** cmdlet:
+
+```posh
+PS C:\Users\cyborg8\Documents> Get-Content -Path ..\Desktop\picture1.jpg -Stream Zone.Identifier
+[ZoneTransfer]
+ZoneId=4
+```
+
+So the password for level 9 is: ```4```.
 
 ## Century 9
 
 <blockquote>
-  <p></p>
+  <p>The password for cyborg10 is the first name of the user with the phone number of 867-5309 listed in Active Directory PLUS the name of the file on the desktop.</p>
 </blockquote>
+
+First the file on the Desktop:
+
+```posh
+PS C:\Users\cyborg9\Documents> ls ..\Desktop
+
+    Directory: C:\Users\cyborg9\Desktop
+
+Mode                LastWriteTime         Length Name
+----                -------------         ------ ----
+-a----         6/7/2017   4:39 PM              0 72
+```
+
+And some more Active Directory filtering, this time for [Telephone-Number attribute](https://msdn.microsoft.com/en-us/library/ms680027(v=vs.85).aspx):
+
+```posh
+PS C:\Users\cyborg9\Documents> Get-ADUser -Filter 'telephoneNumber -like "*5309*"'  -Properties telephoneNumber
+
+DistinguishedName : CN=Conner\, John,OU=Northside,OU=Cyborg,DC=UNDERTHEWIRE,DC=TECH
+Enabled           : False
+GivenName         : John
+Name              : Conner, John
+ObjectClass       : user
+ObjectGUID        : 61af13ae-3258-4661-b5a3-dee78ac6f659
+SamAccountName    : john.conner
+SID               : S-1-5-21-1013972110-1198539618-3084840507-2119
+Surname           : Conner
+telephoneNumber   : 867-5309
+UserPrincipalName : john.conner@UNDERTHEWIRE.TECH
+```
+
+The password for the 10th level is: ```john72```.
 
 ## Century 10
 
 <blockquote>
-  <p></p>
+  <p>The password for cyborg11 is the description of the Applocker Executable deny policy for ill_be_back.exe PLUS the name of the file on the desktop.</p>
 </blockquote>
+
+The file on the Desktop:
+
+```posh
+PS C:\Users\cyborg10\Documents> ls ..\Desktop
+
+    Directory: C:\Users\cyborg10\Desktop
+
+Mode                LastWriteTime         Length Name
+----                -------------         ------ ----
+-a----         6/7/2017   4:34 PM              0 99
+```
+
+To work with AppLocker policies from PowerShell, we have the very useful **[Get-AppLockerPolicy](https://docs.microsoft.com/en-us/powershell/module/applocker/get-applockerpolicy?view=win10-ps)** cmdlet:
+
+```posh
+PS C:\Users\cyborg10\Documents>Get-AppLockerPolicy -Effective -Xml
+
+[..]
+<FileHashRule Id="5d6eb575-3e78-4cc1-a6
+ac-38260a101d8d" Name="ill_be_back.exe" Description="terminated!" UserOrGroupSid="S-1-1-0" Action="Deny">
+[..]
+```
+
+Sifting through the output we get the password for level 11: ```terminated!99```.
+
+<div class="box-note">
+  Note that the <b>Effective</b> flag shows all the policies effective on the local machine - the merge of the local AppLocker policy and any applied AppLocker domain policies on the local computer.
+</div>
 
 ## Century 11
 
 <blockquote>
-  <p></p>
+  <p>The password for cyborg12 is located in the IIS log. The password is not Mozilla or Opera.</p>
 </blockquote>
+
+First we need to know the location of IIS logs. In this case is one of the default locations - *c:\inetpub\logs\LogFiles*. We could solve this quickly using [findstr](https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/findstr) with the **/V** flag, but it's more interesting to do it in PowerShell using **Select-String** and a regular expressions pattern:
+
+```posh
+PS C:\Users\cyborg11\Documents> Get-Content -Path ..\..\..\inetpub\logs\LogFiles\W3SVC1\u_ex160413.log | Select-String -NotMatch -Pattern "Mozilla|Opera"
+
+#Software: Microsoft Internet Information Services 8.5
+#Version: 1.0
+#Date: 2016-04-13 04:14:01
+#Fields: date time s-sitename s-computername s-ip cs-method cs-uri-stem cs-uri-query s-port cs-username c-ip cs-version cs(User-Agent) cs(Cookie)
+cs(Referer) cs-host sc-status sc-substatus sc-win32-status sc-bytes cs-bytes time-taken
+2016-04-13 04:14:12 W3SVC1 Century 172.31.45.65 GET / - 80 - 172.31.45.65 HTTP/1.1 LordHelmet/5.0+(CombTheDesert)+Password+is:spaceballs - -
+century.underthewire.tech 200 0 0 925 118 0
+```
+
+The next password is: ```spaceballs```.
 
 ## Century 12
 
 <blockquote>
-  <p></p>
+  <p>The password for cyborg13 is the first four characters of the base64 encoded fullpath to the file that started the i_heart_robots service PLUS the name of the file on the desktop.</p>
 </blockquote>
+
+The file on the Desktop:
+
+```posh
+PS C:\Users\cyborg12\Documents> ls ..\Desktop
+
+    Directory: C:\Users\cyborg12\Desktop
+
+Mode                LastWriteTime         Length Name
+----                -------------         ------ ----
+-a----         6/7/2017   4:58 PM              0 _heart
+```
+
+The best way I found to get extended details about a service is the **Get-WmiObject** cmdlet with a filter for *Win32_Service* classes:
+
+```posh
+PS C:\Users\cyborg12\Documents> Get-WmiObject -Class Win32_Service -Filter "Name='i_heart_robots'" | Select-Object *
+
+PSComputerName          : CYBORG
+Name                    : i_heart_robots
+Status                  : OK
+ExitCode                : 1077
+DesktopInteract         : False
+ErrorControl            : Normal
+PathName                : C:\windows\system32\abc.exe
+ServiceType             : Own Process
+[..]
+
+PS C:\Users\cyborg12\Documents> $path = (Get-WmiObject -Class Win32_Service -Filter "Name='i_heart_robots'").PathName
+PS C:\Users\cyborg12\Documents> $bytes = [System.Text.Encoding]::UTF8.GetBytes($path)
+PS C:\Users\cyborg12\Documents> $enc =[Convert]::ToBase64String($bytes)
+PS C:\Users\cyborg12\Documents> $enc
+Qzpcd2luZG93c1xzeXN0ZW0zMlxhYmMuZXhl
+```
+
+Copncatenating the two items together we have the password for level 13: ```qzpc_heart```.
 
 ## Century 13
 
 <blockquote>
-  <p></p>
+  <p>The password cyborg14 is the number of days the refresh interval is set to for DNS aging for the underthewire.tech zone PLUS the name of the file on the desktop.</p>
 </blockquote>
+
+The file on the Desktop:
+
+```posh
+PS C:\Users\cyborg13\Documents> ls ..\Desktop
+
+    Directory: C:\Users\cyborg13\Desktop
+
+Mode                LastWriteTime         Length Name
+----                -------------         ------ ----
+-a----        6/12/2017   7:59 PM              0 _days
+```
+
+And for the refresh interval we have the convenient **DNSServerZoneAging** command:
+
+```posh
+PS C:\Users\cyborg13\Documents> $domain = "underthewire.tech"
+PS C:\Users\cyborg13\Documents> Get-DNSServerZoneAging -Name $domain
+
+ZoneName             : underthewire.tech
+AgingEnabled         : False
+AvailForScavengeTime :
+RefreshInterval      : 16.00:00:00
+NoRefreshInterval    : 16.00:00:00
+ScavengeServers      :
+```
+
+The password for level 15 is ```16_days```.
 
 ## Century 14
 
 <blockquote>
-  <p></p>
+  <p>The password for cyborg15 is the caption for the DCOM application setting for application ID {59B8AFA0-229E-46D9-B980-DDA2C817EC7E} PLUS the name of the file on the desktop.</p>
 </blockquote>
+
+The first bit, the file on the Desktop:
+
+```posh
+PS C:\Users\cyborg14\Documents> ls ..\Desktop
+
+    Directory: C:\Users\cyborg14\Desktop
+
+Mode                LastWriteTime         Length Name
+----                -------------         ------ ----
+-a----        6/12/2017   8:03 PM              0 _objects
+```
+
+To get information about DCOM applications we can use again the **Get-WmiObject** cmdlet and filter for **Win32_DCOMApplication** classes:
+
+```posh
+PS C:\Users\cyborg14\Documents> (Get-WmiObject -Class "Win32_DCOMApplication" -Filter "AppId='{59B8AFA0-229E-46D9-B980-DDA2C817EC7E}'" ).Caption
+propshts
+```
+
+The final password is: ```propshts_objects```.
+
