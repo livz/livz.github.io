@@ -171,7 +171,7 @@ Mode                LastWriteTime         Length Name
 -a----        6/16/2017  11:09 PM              0 _secret
 ```
 
-We can solve this using WMI and can query the CDROM using the *Win32_CDROMDrive* class:
+We can solve this using WMI and query the CDROM using the *Win32_CDROMDrive* class:
 
 ```posh
 PS C:\Users\groot7\Documents> Get-WmiObject -Class Win32_CDROMDrive -Property *
@@ -219,7 +219,7 @@ The password for level 9 is: ```call_me_starlord```.
   <p>The password for groot10 is the last date that Rocket Raccoon's password was changed PLUS the name of the file on the desktop.</p>
 </blockquote>
 
-More Active Directory! To solve this we can verify the [Pwd-Last-Set attribute](https://msdn.microsoft.com/en-us/library/ms679430(v=vs.85).aspx) or even quicker *passwordlastset*:
+More Active Directory! To solve this we can verify the [Pwd-Last-Set attribute](https://msdn.microsoft.com/en-us/library/ms679430(v=vs.85).aspx) or, even quicker, the *PasswordLastSet* field:
 
 ```
 PS C:\Users\groot9\Documents> Get-ADUser -Filter 'Name -like "*raccoon*"' -Properties passwordlastset,pwdLastSet
