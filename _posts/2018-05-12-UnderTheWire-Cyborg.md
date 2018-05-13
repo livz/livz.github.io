@@ -13,7 +13,7 @@ In this post I'll go through my solutions to the second batch of 15 levels - [Cy
 
 For the solutions to the other games check:
 * [Level 1 - Century]({{ site.baseurl }}{% post_url 2018-05-10-UnderTheWire-Century %})
-* [Level 3 - Groot]({{ site.baseurl }}{% post_url 2018-05-14-UnderTheWire-Groot.md %})
+* [Level 3 - Groot]({{ site.baseurl }}{% post_url 2018-05-14-UnderTheWire-Groot %})
 * [Level 4 - Oracle]()
 * [Level 5 - Trebek]()
 
