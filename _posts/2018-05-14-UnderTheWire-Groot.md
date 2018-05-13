@@ -30,7 +30,7 @@ Before starting, I wanted to say a huge thank you to the creators of these games
 ## Groot 1
 
 <blockquote>
-The password for groot2 is the last five digits of the MD5 hash of this system's hosts file.</p>
+  <p>The password for groot2 is the last five digits of the MD5 hash of this system's hosts file.</p>
 </blockquote>
 
 We connect to **Groot** with ```groot1/groot1```. 
