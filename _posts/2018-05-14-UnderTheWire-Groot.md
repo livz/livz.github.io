@@ -35,11 +35,32 @@ The password for groot2 is the last five digits of the MD5 hash of this system's
 
 We connect to **Groot** with ```groot1/groot1```. 
 
+In this first level we learn about the **Get-FileHash** cmdlet:
+
+```posh
+PS C:\Users\groot1\Documents> Get-FileHash -Path C:\Windows\System32\drivers\etc\hosts -Algorithm MD5
+
+Algorithm       Hash                                                                   Path
+---------       ----                                                                   ----
+MD5             FFEB2134EF23012F8B838C89C94049F3                                       C:\Windows\System32\drivers\etc\hosts
+```
+
+So the password for level 2 is: ```049f3```.
+
 ## Groot 2
 
 <blockquote>
   <p>The password for groot3 is the word that is made up from the letters in the range of 1,481,110 to 1,481,117 within the file on the desktop.</p>
 </blockquote>
+
+Nothing difficult here either:
+
+```posh
+PS C:\Users\groot2\Documents> (Get-Content -Path ..\Desktop\elements.txt)[1481111..1481117] -join ""
+hiding
+```
+
+And we have the password for level 3: ```hiding```.
 
 ## Groot 3
 
@@ -47,11 +68,42 @@ We connect to **Groot** with ```groot1/groot1```.
   <p>The password for groot4 is the number of times the word "beetle" is listed in the file on the desktop.</p>
 </blockquote>
 
+This task is very similar with [Century14](http://underthewire.tech/century/century14.htm) but with a catch. In this case the file is just one huge line with multiple occurrences of the pattern word:
+
+```posh
+PS C:\Users\groot3> (Get-Content -Path .\Desktop\words.txt | Measure-Object -Line).Lines
+1
+PS C:\Users\groot3> $a = Get-Content -Path .\Desktop\words.txt | Select-String -Pattern beetle  -AllMatches
+PS C:\Users\groot3> $a.Matches.Count
+5
+```
+
+The password for level 4 is simply: ```5```.
+
 ## Groot 4
 
 <blockquote>
   <p>The password for groot5 is the name of the Drax subkey within the HKEY_CURRENT_USER (HKCU) registry hive.</p>
 </blockquote>
+
+Working with Windows Registry is very easy - we can browse it the same way we browse the file system. First we'll search for the *Drax* subkey then list its properties:
+
+```posh
+PS HKCU:\> Get-ChildItem -Path hkcu:\ -Recurse | Select-String drax
+
+HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Telephony\Drax
+HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Telephony\Drax\destroyer
+
+PS C:\Users\groot4\Documents> Get-ChildItem  -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Telephony\Drax"
+
+    Hive: HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Telephony\Drax
+
+Name                           Property
+----                           --------
+destroyer
+```
+
+The password for level 5 is: ```destroyer```.
 
 ## Groot 5
 
