@@ -40,9 +40,9 @@ In this first level we learn about the **Get-FileHash** cmdlet:
 ```posh
 PS C:\Users\groot1\Documents> Get-FileHash -Path C:\Windows\System32\drivers\etc\hosts -Algorithm MD5
 
-Algorithm       Hash                                                                   Path
----------       ----                                                                   ----
-MD5             FFEB2134EF23012F8B838C89C94049F3                                       C:\Windows\System32\drivers\etc\hosts
+Algorithm       Hash                                     Path
+---------       ----                                     ----
+MD5             FFEB2134EF23012F8B838C89C9404            C:\Windows\System32\drivers\etc\hosts
 ```
 
 So the password for level 2 is: ```049f3```.
