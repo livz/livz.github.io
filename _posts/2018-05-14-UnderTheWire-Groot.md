@@ -151,7 +151,7 @@ User     : UNDERTHEWIRE\groot6
 
 The password for level 7 is the name of the executable, without the extension: ```star-lord_rules```.
 
-The article mentioned in the *Hintt* section is not needed to solve this but it's a good read: [Windows Registry Persistence, Part 2: The Run Keys and Search-Order](https://blog.cylance.com/windows-registry-persistence-part-2-the-run-keys-and-search-order)
+The article mentioned in the *Hint* section is not needed to solve this but it's a good read: [Windows Registry Persistence, Part 2: The Run Keys and Search-Order](https://blog.cylance.com/windows-registry-persistence-part-2-the-run-keys-and-search-order)
 
 ## Groot 7
 
@@ -159,11 +159,59 @@ The article mentioned in the *Hintt* section is not needed to solve this but it'
   <p>The password for groot8 is the filesystem label name of the media in the cd-rom PLUS the name of the file on the desktop.</p>
 </blockquote>
 
+The file on the Desktop:
+
+```posh
+PS C:\Users\groot7\Documents> ls ..\Desktop
+
+    Directory: C:\Users\groot7\Desktop
+
+Mode                LastWriteTime         Length Name
+----                -------------         ------ ----
+-a----        6/16/2017  11:09 PM              0 _secret
+```
+
+We can solve this using WMI and can query the CDROM using the *Win32_CDROMDrive* class:
+
+```posh
+PS C:\Users\groot7\Documents> Get-WmiObject -Class Win32_CDROMDrive -Property *
+
+Caption                   Drive Manufacturer             VolumeName
+-------                   ----- ------------             ----------
+Microsoft Virtual DVD-ROM D:    (Standard CD-ROM drives) Blueprints
+```
+
+Or using a pure PowerShell approach using the **Get-Volume** cmdlet:
+
+```posh
+PS C:\Users\groot7\Documents> Get-Volume -DriveLetter D
+
+DriveLetter FileSystemLabel FileSystem DriveType HealthStatus SizeRemaining    Size
+----------- --------------- ---------- --------- ------------ -------------    ----
+D           Blueprints      UDF        CD-ROM    Healthy                0 B 1.17 MB
+```
+
+The password for level 8 is: ```blueprints_secret```.
+
 ## Groot 8
 
 <blockquote>
   <p>The password for groot9 is the name of the firewall rule blocking MySQL.</p>
 </blockquote>
+
+Another very straighforward one:
+
+```posh
+PS C:\Users\groot8\Documents> Get-NetFirewallRule -Action Block
+
+Name                  : {6d538bfa-e465-415a-be33-d5b9e88edae8}
+DisplayName           : MySQL Guardian
+Description           : call_me_starlord
+DisplayGroup          :
+[..]
+```
+
+The password for level 9 is: ```call_me_starlord```.
 
 ## Groot 9
 
@@ -171,11 +219,59 @@ The article mentioned in the *Hintt* section is not needed to solve this but it'
   <p>The password for groot10 is the last date that Rocket Raccoon's password was changed PLUS the name of the file on the desktop.</p>
 </blockquote>
 
+More Active Directory! To solve this we can verify the [Pwd-Last-Set attribute](https://msdn.microsoft.com/en-us/library/ms679430(v=vs.85).aspx) or even quicker *passwordlastset*:
+
+```
+PS C:\Users\groot9\Documents> Get-ADUser -Filter 'Name -like "*raccoon*"' -Properties passwordlastset,pwdLastSet
+
+DistinguishedName : CN=Rocket Raccoon,OU=Groot,DC=UNDERTHEWIRE,DC=TECH
+Enabled           : False
+GivenName         : Rocket
+Name              : Rocket Raccoon
+ObjectClass       : user
+ObjectGUID        : 66a520a2-67cd-46a9-b9a8-7dbc0aabc613
+PasswordLastSet   : 6/14/2017 11:11:43 PM
+pwdLastSet        : 131419555034241061
+[..]
+```
+
+If using the *pwdLastSet* attribute, we need to convert the timestamp to human readable format:
+
+```posh
+PS C:\Users\groot9\Documents> $pwdLastSet = (Get-ADUser -Filter 'Name -like "*raccoon*"' -Properties pwdLastSe
+PS C:\Users\groot9\Documents> [datetime]::fromFileTime($pwdLastSet)
+Wednesday, June 14, 2017 11:11:43 PM
+```
+
+And the file on the Desktop:
+
+```posh
+PS C:\Users\groot9\Documents>ls ..\Desktop
+
+   Directory: C:\Users\groot9\Desktop
+
+Mode                LastWriteTime         Length Name
+----                -------------         ------ ----
+-a----        6/16/2017  11:10 PM              0 _set
+```
+
+The password for level 10 is: ```06/14/2017_set```.
+
 ## Groot 10
 
 <blockquote>
   <p>The password for groot11 is the one word that makes the two files on the desktop different.</p>
 </blockquote>
+
+```posh
+PS C:\Users\groot10\Documents> Compare-Object (Get-Content ..\Desktop\old.txt) (Get-Content ..\Desktop\new.txt)
+
+InputObject SideIndicator
+----------- -------------
+taserface   =>
+```
+
+The password for level 11: ```taserface```.
 
 ## Groot 11
 
@@ -183,11 +279,55 @@ The article mentioned in the *Hintt* section is not needed to solve this but it'
   <p>The password for groot12 is within an alternate data stream (ADS) somewhere on the desktop.</p>
 </blockquote>
 
+We'll show all the alternate streams for all the files on the Desktop and focus on any stream other than *$DATA*:
+
+```posh
+PS C:\Users\groot11\Documents>  Get-Item ..\Desktop\* -Stream *
+
+[..]
+PSPath        : Microsoft.PowerShell.Core\FileSystem::C:\Users\groot11\Desktop\TPS_Reports04.pdf:hidden_data.txt
+PSParentPath  : Microsoft.PowerShell.Core\FileSystem::C:\Users\groot11\Desktop
+PSChildName   : TPS_Reports04.pdf:hidden_data.txt
+PSDrive       : C
+PSProvider    : Microsoft.PowerShell.Core\FileSystem
+PSIsContainer : False
+FileName      : C:\Users\groot11\Desktop\TPS_Reports04.pdf
+Stream        : hidden_data.txt
+Length        : 12
+
+PS C:\Users\groot11\Documents>  Get-Content -Path ..\Desktop\TPS_Reports04.pdf -Stream hidden_data.txt
+spaceships
+```
+
+On to level 12: ```spaceships```.
+
 ## Groot 12
 
 <blockquote>
   <p>The password for groot13 is the owner of the Nine Realms folder on the desktop.</p>
 </blockquote>
+
+The **Get-Acl** cmdlet is very useful to obtain security descriptors for files, folders and even registry keys:
+
+```posh
+PS C:\Users\groot12\Documents> Get-Acl '..\Desktop\Nine Realms'
+
+    Directory: C:\Users\groot12\Desktop
+
+Path        Owner                      Access
+----        -----                      ------
+Nine Realms UNDERTHEWIRE\Administrator UNDERTHEWIRE\grand.master Allow  FullControl...
+
+PS C:\Users\groot12\Documents> Get-ADUser grand.master
+
+DistinguishedName : CN=Grandmaster,OU=Groot,DC=UNDERTHEWIRE,DC=TECH
+Enabled           : False
+GivenName         : Grandmaster
+Name              : Grandmaster
+[..]
+```
+
+Getting closer to the last level: ```grandmaster```.
 
 ## Groot 13
 
@@ -195,8 +335,59 @@ The article mentioned in the *Hintt* section is not needed to solve this but it'
   <p>The password for groot14 is the last six numbers of the system's BIOS serial number PLUS the name of the file on the desktop.</p>
 </blockquote>
 
+This one shows the great variety of tasks that we can solve using PowerShell:
+
+```posh
+PS C:\Users\groot13\Documents> Get-WmiObject Win32_bios
+
+SMBIOSBIOSVersion : Hyper-V UEFI Release v1.0
+Manufacturer      : Microsoft Corporation
+Name              : Hyper-V UEFI Release v1.0
+SerialNumber      : 2793-3787-3388-8191-6162-3850-49
+Version           : VRTUAL - 1
+```
+
+And the file on the Desktop:
+
+```posh
+PS C:\Users\groot13\Documents> ls ..\Desktop
+
+    Directory: C:\Users\groot13\Desktop
+
+Mode                LastWriteTime         Length Name
+----                -------------         ------ ----
+-a----        6/16/2017  11:23 PM              0 _ted
+```
+
+Concatenating the two we have the password for the last level: ```385049_ted```.
+
 ## Groot 14
 
 <blockquote>
   <p>The password for groot15 is the description of the share whose name contains "tasks" in it PLUS the name of the file on the desktop.</p>
 </blockquote>
+
+The file:
+
+```posh
+PS C:\Users\groot14\Documents> ls ..\Desktop
+
+    Directory: C:\Users\groot14\Desktop
+
+Mode                LastWriteTime         Length Name
+----                -------------         ------ ----
+-a----        12/8/2017  10:23 AM              0 _4
+```
+
+And the SMB share:
+
+```posh
+PS C:\Users\groot14\Documents> Get-SmbShare -Name "*tasks*"
+
+Name  ScopeName Path Description
+----  --------- ---- -----------
+tasks *              scheduled_things
+```
+
+An effortless final level: ```scheduled_things_4```. Looking forward to the last two sets of challenges!
+
