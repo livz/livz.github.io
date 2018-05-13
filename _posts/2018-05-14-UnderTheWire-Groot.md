@@ -111,11 +111,47 @@ The password for level 5 is: ```destroyer```.
   <p>The password for groot6 is the name of workstation that user with a username of baby.groot can log into as depicted in Active Directory PLUS the name of the file on the desktop.</p>
 </blockquote>
 
+First the file on the Desktop:
+
+```posh
+PS C:\Users\groot5\Documents> ls ..\Desktop
+
+    Directory: C:\Users\groot5\Desktop
+
+Mode                LastWriteTime         Length Name
+----                -------------         ------ ----
+-a----        6/16/2017  11:02 PM              0 _local
+```
+
+Then we need to filter for the [User-Workstations](https://msdn.microsoft.com/en-us/library/ms680868(v=vs.85).aspx) attribute:
+
+```posh
+PS C:\Users\groot5\Documents> (Get-ADUser baby.groot -Properties *).userWorkstations
+wk11
+```
+
+So the password for level 6 is: ```wk11_local```.
+
 ## Groot 6
 
 <blockquote>
   <p>The password for groot7 is the name of program that is set to start when this user logs in.</p>
 </blockquote>
+
+Very Similar with [Cyborg 7](http://underthewire.tech/cyborg/cyborg7.htm):
+
+```posh
+PS C:\Users\groot6\Documents> Get-WmiObject Win32_StartupCommand | Select-Object Name, command, Location, User  | Format-List
+
+Name     : Star-Lord
+command  : c:\windows\star-lord_rules.exe
+Location : HKU\S-1-5-21-3968311752-1263969649-2303472966-1111\SOFTWARE\Microsoft\Windows\CurrentVersion\Run
+User     : UNDERTHEWIRE\groot6
+```
+
+The password for level 7 is the name of the executable, without the extension: ```star-lord_rules```.
+
+The article mentioned in the *Hintt* section is not needed to solve this but it's a good read: [Windows Registry Persistence, Part 2: The Run Keys and Search-Order](https://blog.cylance.com/windows-registry-persistence-part-2-the-run-keys-and-search-order)
 
 ## Groot 7
 
