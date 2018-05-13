@@ -253,7 +253,7 @@ ZoneId=4
 
 So the password for level 9 is: ```4```.
 
-## Century 9
+## Cyborg 9
 
 <blockquote>
   <p>The password for cyborg10 is the first name of the user with the phone number of 867-5309 listed in Active Directory PLUS the name of the file on the desktop.</p>
@@ -291,7 +291,7 @@ UserPrincipalName : john.conner@UNDERTHEWIRE.TECH
 
 The password for the 10th level is: ```john72```.
 
-## Century 10
+## Cyborg 10
 
 <blockquote>
   <p>The password for cyborg11 is the description of the Applocker Executable deny policy for ill_be_back.exe PLUS the name of the file on the desktop.</p>
@@ -326,7 +326,7 @@ Sifting through the output we get the password for level 11: ```terminated!99```
   Note that the <b>Effective</b> flag shows all the policies effective on the local machine - the merge of the local AppLocker policy and any applied AppLocker domain policies on the local computer.
 </div>
 
-## Century 11
+## Cyborg 11
 
 <blockquote>
   <p>The password for cyborg12 is located in the IIS log. The password is not Mozilla or Opera.</p>
@@ -348,7 +348,7 @@ century.underthewire.tech 200 0 0 925 118 0
 
 The next password is: ```spaceballs```.
 
-## Century 12
+## Cyborg 12
 
 <blockquote>
   <p>The password for cyborg13 is the first four characters of the base64 encoded fullpath to the file that started the i_heart_robots service PLUS the name of the file on the desktop.</p>
@@ -390,7 +390,7 @@ Qzpcd2luZG93c1xzeXN0ZW0zMlxhYmMuZXhl
 
 Copncatenating the two items together we have the password for level 13: ```qzpc_heart```.
 
-## Century 13
+## Cyborg 13
 
 <blockquote>
   <p>The password cyborg14 is the number of days the refresh interval is set to for DNS aging for the underthewire.tech zone PLUS the name of the file on the desktop.</p>
@@ -424,7 +424,7 @@ ScavengeServers      :
 
 The password for level 15 is ```16_days```.
 
-## Century 14
+## Cyborg 14
 
 <blockquote>
   <p>The password for cyborg15 is the caption for the DCOM application setting for application ID {59B8AFA0-229E-46D9-B980-DDA2C817EC7E} PLUS the name of the file on the desktop.</p>
