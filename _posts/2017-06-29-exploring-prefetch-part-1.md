@@ -136,4 +136,4 @@ Fortunately this bug cannot be reproduced reliably, so it won’t cause problems
 
 ##
 
-In the [next part](https://livz.github.io/2017/08/09/exploring-prefetch-part-2.html) of this blogpost we'll look at the way these incredibly important forensic artefacts, the prefetch files, are actually created and how (*and if!*) an intruder trying to hide its traces could work around them.
+In the [next part]({{ site.baseurl }}{% post_url 2017-08-09-exploring-prefetch-part-2 %}) of this blogpost we'll look at the way these incredibly important forensic artefacts, the prefetch files, are actually created and how (*and if!*) an intruder trying to hide its traces could work around them.
