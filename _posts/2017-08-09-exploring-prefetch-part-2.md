@@ -5,7 +5,7 @@ categories: [Deep-Dive]
 
 ![Logo](/assets/images/tricks2.png)
 
-In the [first part](https://livz.github.io/2017/06/29/exploring-prefetch-part-1.html) of this blog post we explored 
+In the [first part]({{ site.baseurl }}{% post_url 2017-06-29-exploring-prefetch-part-1 %}) of this blog post we explored 
 the way Windows stores information in the prefetch files, more specifically the loaded libraries and opened files.
 We saw how in some cases one could prevent this completely and no library traces will be present in the .pf files. 
 Next let's check whether one could hide even the traces of a binary being run from the prefetching process. 
