@@ -115,6 +115,31 @@ So the password for level 3 is: ```droid823```.
   <p>The password for trebek4 is the IP that the user Yoda last logged in from as depicted in the event logs on the desktop PLUS the name of the text file on the user's desktop.</p>
 </blockquote>
 
+The file on the Desktop:
+
+```posh
+PS C:\Users\trebek3\Documents> ls ..\Desktop
+
+    Directory: C:\Users\trebek3\Desktop
+
+Mode                LastWriteTime         Length Name
+----                -------------         ------ ----
+d-----        5/14/2017   2:48 AM                Logs
+-a----        5/13/2017   6:50 PM              0 address
+```
+
+To solve this we need to filter for [**user successfully logged on events**](https://www.manageengine.com/products/active-directory-audit/kb/windows-security-log-event-id-4624.html)(ID 4624). To get all the IP addresses that the user *yoda* logged in from:
+
+```posh
+PS C:\Users\trebek3\Documents> Get-WinEvent -Path ..\Desktop\Logs\Security.evtx | where {$_.Id -Eq 4624} | Format-List -Property Message | Out-String -Stream | Select-String "yoda" -Context 2,15 | Out-String -Stream | select-string "network address"
+
+        Source Network Address: 10.30.1.18
+        Source Network Address: 10.30.1.18
+        [..]
+```
+
+The password for the next level is: ```10.30.1.18address```.
+
 ## Trebek 4
 
 <blockquote>
