@@ -22,19 +22,85 @@ Before starting, I wanted to say a huge thank you to the creators of these games
 ## Trebek 1
 
 <blockquote>
-  <p>The password for groot2 is the last five digits of the MD5 hash of this system's hosts file.</p>
+  <p></p>
 </blockquote>
 
-We connect to **Groot** with ```groot1/groot1```. 
+We connect to **Trebek** with ```trebek1/trebek1```. 
 
-In this first level we learn about the **Get-FileHash** cmdlet:
+## Trebek 2
 
-```posh
-PS C:\Users\groot1\Documents> Get-FileHash -Path C:\Windows\System32\drivers\etc\hosts -Algorithm MD5
+<blockquote>
+  <p></p>
+</blockquote>
 
-Algorithm       Hash                                     Path
----------       ----                                     ----
-MD5             FFEB2134EF23012F8B838C89C9404            C:\Windows\System32\drivers\etc\hosts
-```
+## Trebek 3
 
-So the password for level 2 is: ```049f3```.
+<blockquote>
+  <p></p>
+</blockquote>
+
+## Trebek 4
+
+<blockquote>
+  <p></p>
+</blockquote>
+
+## Trebek 5
+
+<blockquote>
+  <p></p>
+</blockquote>
+
+## Trebek 6
+
+<blockquote>
+  <p></p>
+</blockquote>
+
+## Trebek 7
+
+<blockquote>
+  <p></p>
+</blockquote>
+
+## Trebek 8
+
+<blockquote>
+  <p></p>
+</blockquote>
+
+## Trebek 9
+
+<blockquote>
+  <p></p>
+</blockquote>
+
+## Trebek 10
+
+<blockquote>
+  <p></p>
+</blockquote>
+
+## Trebek 11
+
+<blockquote>
+  <p></p>
+</blockquote>
+
+## Trebek 12
+
+<blockquote>
+  <p></p>
+</blockquote>
+
+## Trebek 13
+
+<blockquote>
+  <p></p>
+</blockquote>
+
+## Trebek 14
+
+<blockquote>
+  <p></p>
+</blockquote>
