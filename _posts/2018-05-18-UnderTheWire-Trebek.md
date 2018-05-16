@@ -254,16 +254,15 @@ The password for level 8 is: ```han_solo99```.
   <p>The password for trebek9 the first 8 bytes of the file located on the desktop. Combine the answer together with NO spaces.</p>
 </blockquote>
 
-Another short one:
+Another short one. We can get the value of the first 8 bytes with the **Get-Content** cmdlet:
 
 ```posh
-Get the value of the first 8 bytes:
 PS C:\Users\trebek8\Documents> (Get-Content -Path ..\Desktop\Clone_Trooper_data.pdf -Encoding Byte)[0..7] -join
 " "
 77 90 144 0 3 0 0 0
 ```
 
-Combine the integer values without spaces we get the password for level 9: ```779014403000```.
+For the password for level 9 we combine the integer values: ```779014403000```.
 
 ## Trebek 9
 
@@ -271,7 +270,7 @@ Combine the integer values without spaces we get the password for level 9: ```77
   <p>The password for trebek10 is the name of the potentially rogue share on the system PLUS the name of the file on the desktop. If the share name is "share$" and the file on the desktop is named "_today", the password would be "share$_today".</p>
 </blockquote>
 
-First the file on the Desktop:
+First, the file on the Desktop:
 
 ```posh
 PS C:\Users\trebek9\Documents> ls ..\Desktop
