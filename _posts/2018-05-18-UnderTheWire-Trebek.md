@@ -438,14 +438,184 @@ So the password for level 12: ```general.hux100```.
   <p>The password for trebek13 is the username of the user who created the user Lor San Tekka as depicted in the event logs on the desktop PLUS the name of the file on the desktop.</p>
 </blockquote>
 
+The straighforward bi first, the file on the Desktop:
+
+```posh
+PS C:\Users\trebek12\Documents> ls ..\Desktop
+
+    Directory: C:\Users\trebek12\Desktop
+
+Mode                LastWriteTime         Length Name
+----                -------------         ------ ----
+d-----        5/14/2017   4:12 AM                Logs
+-a----        5/14/2017   3:04 AM              0 53
+```
+
+Similarly with the previous level, we need to filter for *4720* events:
+
+```posh
+PS C:\Users\trebek12\Documents> Get-WinEvent -Path ..\Desktop\Logs\Security.evtx | where {$_.Id -Eq 4720} | Format-List -Property Message | Out-String -Stream | Select-String "tekka" -Context 8,1
+
+            Subject:
+                Security ID:            S-1-5-21-3968311752-1263969649-2303472966-1150
+                Account Name:           poe.dameron
+                Account Domain:         UNDERTHEWIRE
+                Logon ID:               0x1235812
+
+            New Account:
+                Security ID:            S-1-5-21-3968311752-1263969649-2303472966-1151
+                Account Name:           lor.tekka
+                Account Domain:         UNDERTHEWIRE
+```
+
+The next password is: ```poe.dameron53```.
+
 ## Trebek 13
 
 <blockquote>
   <p>The password for trebek14 is the last name of the user who has an encoded powershell command in their City property PLUS the name of the file on the desktop.</p>
 </blockquote>
 
+The file on the Desktop:
+
+```posh
+PS C:\Users\trebek13\Documents> ls ..\Desktop
+
+    Directory: C:\Users\trebek13\Desktop
+
+Mode                LastWriteTime         Length Name
+----                -------------         ------ ----
+-a----        5/14/2017   3:04 AM              0 3003
+```
+
+The <a href="http://www.computerperformance.co.uk/Logon/LDAP_attributes_active_directory.htm" target="_blank">LDAP city attribute</a> is represented in the field named **l (lowercase 'L')**.
+
+There's only one user with this attribute set:
+
+```posh
+PS C:\Users\trebek13\Documents> Get-ADUser -Filter 'l -like "*"'
+
+DistinguishedName : CN=Prindel\, Bollie,OU=X-Wing,OU=trebek,DC=underthewire,DC=tech
+Enabled           : False
+GivenName         : Bollie
+Name              : Prindel, Bollie
+ObjectClass       : user
+ObjectGUID        : 9085d24b-4dbc-47cc-855c-6fef0d06aae3
+SamAccountName    : bollie.prindel
+SID               : S-1-5-21-3968311752-1263969649-2303472966-2154
+Surname           : Prindel
+UserPrincipalName : bollie.prindel@underthewire.tech
+```
+
+So the password for the last level is: ```prindel3003```.
+
 ## Trebek 14
 
 <blockquote>
   <p>The password for trebek15 is the output from decoding the powershell found in the account properties of the user account from the previous level PLUS the name of the file on the desktop.</p>
 </blockquote>
+
+First the file on the Desktop:
+
+```posh
+PS C:\Users\trebek14\Documents> ls ..\Desktop
+
+    Directory: C:\Users\trebek14\Desktop
+
+Mode                LastWriteTime         Length Name
+----                -------------         ------ ----
+-a----        5/14/2017   3:05 AM              0 _today
+```
+
+Next, the value of the City attribute:
+
+```posh
+PS > Get-ADUser -Filter 'l -like "*"' -Properties l
+
+DistinguishedName : CN=Prindel\, Bollie,OU=X-Wing,OU=trebek,DC=underthewire,DC=tech
+Enabled           : False
+GivenName         : Bollie
+l                 : agBvAGkAbgBfAHQAaABlAF8AcgBlAGIAZQBsAHMA
+Name              : Prindel, Bollie
+[..]
+
+PS > [System.Text.Encoding]::Unicode.GetString([System.Convert]::FromBase64String("agBvAGkAbgBfAHQAaABlAF8AcgBlAGIAZQBsAHMA"))
+join_the_rebels
+```
+
+And the final password is: ```join_the_rebels_today```.
+
+## Trebek 15
+
+A message from the authors is hidden on the Desktop folder for the last level:
+
+```posh
+PS C:\Users\trebek15\Documents> cat ..\Desktop\15.txt
+@"
+
+           Garfield says PowerShell is awesome!
+
+                   #####
+                  #######      #**#!!###
+                 #**#!!!!##   #****#!!!!#
+                #****###!!!#  #*****#!!!!#
+                #*******#!!!# #******#!!!!#
+                #*********#!###!*!*!*#!!!!!#        --
+                #!*!*!*!*!*!#!##########!!!!#      /_
+                ###########!##!!!!!!!!!!#!!!#     //__
+             ###!!!!!!!!!!!#!!!!!!!!!!!!!#!!!####///  \
+   \       ##!#!!!!!!!!!!!#!!!!!!!!!!!!!!!#!!!!!!!#
+   _\    ##!!#!!!!!!!!!!!#!!!!!!!!!!!######!!!!!!!*#
+    \\  ##!!#!!!!!!!!!!!!#!!!!#######     #!!!!!!***#
+  ___\\#!!!###################*****       #...!!*****#
+ /   \#!!!.#       ***** #     ***        #....*******#
+     #*....#        ***   #              #.......*****#
+    #**.....##          *****          ##........!!****#
+    #!........##       *******#########......#...!!!!!*#
+   #!...........#######.*****...............#.#..!!!!**#
+  #*.....##.............#..#...............#...#.!!****#
+  #*....#.#............#....#............##......!*****#
+  #*.......##.......###......###........#.......!!!****#
+  #*.........#######......!!....########.......!!!!!***#
+   #!!!.................!!!!!!!!.............!!!*******#
+    #!!!!............!!!!!!!!!!!!!!!!!!!!!!!!!!!******#
+     #*******!!!!!!!!!!!!!!!!!!!!!!!!!!!!***!!!!*****#
+      #******!!!!!!!!!!!!!!!!!!!!!!!!!********!!****#
+       ##*****!!!!!!!!!!!!!!!!!!!!!#*************###
+         ##****!!!!!!!!!!!!!!!!!!!!!###******####
+           ####!!!!!!!!!!!!!!!!!!!!!!!!######!#
+               #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*#
+               #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!***##
+              #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!******#
+             #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*******#
+            #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*****#
+           #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!**#
+          #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!##
+         #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*##
+        #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!***#
+        #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!####!!!!!!****##
+       #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!###****##!!!!******##
+       #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!##**!!*****#!!!********#
+       #!!!!!!!!#!!!!!!!!!!!#!!!!!!!#***!!!!***!!!!**********#
+      #!!!!!!!!!!#!!!!!!!!!#!!!!!!!#****!!!!!*!!!!!!!!!!*****#
+      #!!!!!!!!!!!#!!!!!!!#!!!!!!!#*!!***!!!!!!!!!!!!!!!!!***#
+      #!!!!!!!!!!!!#!!!!!!#!!!!!!#*!!!!!*!!!!!!!!!!!!!!!*****#
+      #!!!!!!!!!!!!#!!!!!!#!!!!!#***!!!!!!!!!!!!!!!!!********#
+     #!!!!!!!!!!!!!#!!!!!!#!!!!!#****!!!!!!!!!!!!!!**********#
+     #!!!!!!!!!!!!!#!!!!!!#!!!!!#*****!!!!!!!!!!!!!!*********#
+     #!!!!!!!!!!!!!#!!!!!!#!!!!!#***!!!!!!!!!!!!!!!!!********##
+    ##!!!!!!!!!!!!!#!!!!!!#!!!!!#*!!!!!!!!!!!!!!!!!!!!!*****#!*##
+   #!#!!!!!!!!######!!!!!!#!!!!!#**!!!!!!!!!!#########!!!!*#!!**##
+  #!#!#!!!!!!#!!!!!!!!!!!!#!!!!!#***!!!!!####******!!!#######!!**#
+ #!#!!##!!!!#!!!!!!!!!!!############*!!!#********!!!!!!!!!!!!!!!**#
+ #!#!!#!#!!#!!!#!!!!!!!#!!!!!!!!!!!!!!!#***********!!!!!!!!!!!!!!!#
+ #!#!!!#!#!#!!#!!!!!!!#!!!!#!!!!#!!!!!#**********!!!!!!!!!!!!!!!**#
+ #!!#!!!#!##!!#!!!!!!#!!!!#!!!!#!!!!!!#************!!!!!!!!!!****#
+  ######### ##########!!!!#!!!!#!!!!!!#**********!!!!!!!!!!!!***#
+                      #################************!!!!!!!!!!**#
+                                      #**********!!!!!#########
+                                       ###############
+"@
+```
+
+All the games were awesome! Huge thanks to the authors.
