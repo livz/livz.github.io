@@ -66,6 +66,49 @@ So the password for level 2 is: ```mess_cleaner994```.
   <p>The password for trebek3 is the name of the executable associated with the C-3PO service PLUS the name of the file on the user's desktop.</p>
 </blockquote>
 
+First the file on the Desktop:
+
+```posh
+PS C:\Users\trebek2\Documents> ls ..\Desktop
+
+    Directory: C:\Users\trebek2\Desktop
+
+Mode                LastWriteTime         Length Name
+----                -------------         ------ ----
+-a----        5/13/2017   6:50 PM              0 823
+```
+
+If we list the *C-3PO* service, there is no entry for its executable. The *PathName* field is empty:
+
+```posh
+PS C:\Users\trebek2\Documents>  Get-WmiObject -Class Win32_Service -Filter "Name='C-3PO'"  | Select-Object *
+
+PSComputerName          : TREBEK
+Name                    : C-3PO
+Status                  : UNKNOWN
+ExitCode                : 0
+DesktopInteract         :
+ErrorControl            : Unknown
+PathName                :
+[..]
+```
+
+We can, however, retrieve more information about services from the Windows registry:
+
+```posh
+PS C:\Users\trebek2> cd HKLM:\System\CurrentControlSet\Services\C-3PO
+PS HKLM:\System\CurrentControlSet\Services\C-3PO> Get-ItemProperty -Path .
+
+Type         : 16
+Start        : 2
+ErrorControl : 1
+ImagePath    : C:\windows\system32\droid.exe
+ObjectName   : LocalSystem
+[..]
+```
+
+So the password for level 3 is: ```droid823```.
+
 ## Trebek 3
 
 <blockquote>
