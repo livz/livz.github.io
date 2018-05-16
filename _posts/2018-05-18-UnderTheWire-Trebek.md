@@ -399,7 +399,7 @@ TimeCreated                     Id LevelDisplayName Message
 5/11/2017 6:26:08 PM          4720 Information      A user account was created....
 ```
 
-Next, let's see the full message:
+Next, let's see the full message corresponding to the event:
 
 ```posh
 PS C:\Users\trebek11\Documents> Get-WinEvent -Path ..\Desktop\Logs\Security.evtx | where {$_.Id -Eq 4720 -AND $_.TimeCreated -ge $startDate -AND $_.TimeCreated -lt $startDate.AddMinutes(1)} | Format-List -Property Message
@@ -430,7 +430,7 @@ Message : A user account was created.
 [..]
 ```
 
-The password for level 12: ```general.hux100```.
+So the password for level 12: ```general.hux100```.
 
 ## Trebek 12
 
