@@ -43,16 +43,15 @@ Next we'll list all the events for deleted tasks and grep through the output for
 
 ```posh
 PS C:\Users\trebek1.UNDERTHEWIRE\Desktop> Get-WinEvent -Path ..\Desktop\Security.evtx | Where {$_.Message -Like "*task was deleted*"} | Format-List -Property Message | Out-String -Stream | Select-String -Pattern "Command" -Context 1,2
-
-                <Exec>
-                  <Command>C:\Program Files\Bitvise SSH Server\BssCtrl.exe</Command>
-                  <Arguments>-startMinimized</Arguments>
-                </Exec>
+      <Exec>
+        <Command>C:\Program Files\Bitvise SSH Server\BssCtrl.exe</Command>
+        <Arguments>-startMinimized</Arguments>
+      </Exec>
 [..]
-                <Exec>
-                  <Command>C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe</Command>
-                  <Arguments>-NonInteractive -NoLogo -NoProfile -File 'c:\users\trebek1\mess_cleaner.ps1'</Arguments>
-                </Exec>
+      <Exec>
+        <Command>C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe</Command>
+        <Arguments>-NonInteractive -NoLogo -NoProfile -File 'c:\users\trebek1\mess_cleaner.ps1'</Arguments>
+      </Exec>
 ```
 
 <div class="box-note">
