@@ -146,12 +146,12 @@ So the password for the next level is: ```10.30.1.18address```.
   <p>The password for trebek5 is the last execution date of Microsoft Access.</p>
 </blockquote>
 
-Some of the places that record program execution within the Windows Registry, as described in the [article](https://www.fireeye.com/blog/threat-research/2013/08/execute.html) suggected by the hint, are:
+Some of the places that record program execution within the Windows Registry, as described in the [article](https://www.fireeye.com/blog/threat-research/2013/08/execute.html) suggested by the hint, are:
 * ShimCache
 * MUICache
 * UserAssist
 
-After thorough checks, there was no mention of *MSAccess* in the accessible registry places. Hoever, another valuabl resource for tracing executed applications are the [prefetch](({{ site.baseurl }}{% post_url 2017-06-29-exploring-prefetch-part-1 %})) [files]({{ site.baseurl }}{% post_url 2017-08-09-exploring-prefetch-part-2 %}).
+After thorough checks, there was no mention of *MSAccess* in the accessible registry places. However, another valuable resource for tracking executed applications are the [prefetch](({{ site.baseurl }}{% post_url 2017-06-29-exploring-prefetch-part-1 %})) [files]({{ site.baseurl }}{% post_url 2017-08-09-exploring-prefetch-part-2 %}):
 
 ```posh
 PS C:\Windows\Prefetch> Get-ChildItem | Out-String -Stream | Select-String -Pattern "access"
@@ -167,11 +167,49 @@ The last execution date is reflected in the modified date of the prefetch file. 
   <p>The password for trebek6 is the suspicious program set to run at startup PLUS the name of the file on the desktop.</p>
 </blockquote>
 
+First the file on the Desktop:
+
+```posh
+PS C:\Users\trebek5\Documents> ls ..\Desktop
+
+    Directory: C:\Users\trebek5\Desktop
+
+Mode                LastWriteTime         Length Name
+----                -------------         ------ ----
+-a----        5/14/2017   2:50 AM              0 4444
+```
+
+
+[Win32_StartupCommand WMI class](https://msdn.microsoft.com/en-us/library/aa394464(v=vs.85).aspx) provides immensely helpful information about startup items:
+
+```posh
+PS C:\Users\trebek5\Documents> Get-WmiObject Win32_StartupCommand | Select-Object Name, command, Location, User  | Format-List
+
+Name     : R2-D2_backdoor.exe
+command  :
+Location : HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Run
+User     : Public
+```
+
+And we quickly have the suspicious program and the password for level 6 is: ```r2-d2_backdoor4444```.
+
 ## Trebek 6
 
 <blockquote>
   <p>The password for trebek7 is the total number of DLLs within the "C:\program files (x86)\adobe\" folder and it's subfolders.</p>
 </blockquote>
+
+And a quick one:
+
+```posh
+PS C:\Program Files (x86)\Adobe> Get-ChildItem -Recurse | Out-String -Stream | Select-String ".dll" | Measure-Object -Line
+
+Lines Words Characters Property
+----- ----- ---------- --------
+   40
+```
+
+The password for level 7: ```40```.
 
 ## Trebek 7
 
