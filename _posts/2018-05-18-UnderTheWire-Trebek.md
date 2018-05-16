@@ -305,11 +305,132 @@ The next password is: ```shoretroopers$_hideout```.
   <p>The password for trebek11 is the last name of the user who enabled Oni-Wan Kenobi's account as depicted in the event logs on the desktop PLUS the name of the file on the desktop.</p>
 </blockquote>
 
+First, the file on the Desktop:
+
+```posh
+PS C:\Users\trebek10\Documents> ls ..\Desktop
+
+    Directory: C:\Users\trebek10\Desktop
+
+Mode                LastWriteTime         Length Name
+----                -------------         ------ ----
+d-----        5/11/2017   9:05 PM                Logs
+-a----        5/14/2017   3:00 AM              0 2121
+```
+
+Then more Active Directory filtering. This time we're looking for the <a href="https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventID=4722" target="_blank">Windows Security Log Event ID 4722: A user account was enabled</a> event.
+
+```posh
+PS C:\Users\trebek10\Documents> Get-WinEvent -Path ..\Desktop\Logs\Security.evtx | where {$_.Id -Eq 4722} | Format-List -Property Message | Out-String -Stream | Select-String "kenobi" -Context 8,1
+
+Subject:
+    Security ID:            S-1-5-21-3968311752-1263969649-2303472966-1153
+    Account Name:           admiral.ackbar
+    Account Domain:         UNDERTHEWIRE
+    Logon ID:               0x12CEFCA
+
+Target Account:
+    Security ID:            S-1-5-21-3968311752-1263969649-2303472966-1154
+    Account Name:           obi-wan.kenobi
+    Account Domain:         UNDERTHEWIRE
+```
+
+Then obtain the last name from the username:
+
+```
+PS C:\Users\trebek10\Documents> Get-ADUser -Filter 'Name -like "*ackbar*"'
+
+    DistinguishedName : CN=Ackbar\, Admiral,OU=X-Wing,OU=trebek,DC=underthewire,DC=tech
+    Enabled           : False
+    GivenName         : admiral
+    Name              : Ackbar, Admiral
+    ObjectClass       : user
+    ObjectGUID        : 8bf9d142-3c12-468a-bded-f77dc6a4e38c
+    SamAccountName    : admiral.ackbar
+    SID               : S-1-5-21-3968311752-1263969649-2303472966-1153
+    Surname           : Ackbar
+    UserPrincipalName : admiral.ackbar@underthewire.tech
+```
+
+The password for level 11 is: ```ackbar2121```.
+
 ## Trebek 11
 
 <blockquote>
   <p>The password for trebek12 is the username of the user who was created on 11 May 17 at 6:26 PM, as depicted in the event logs on the desktop PLUS the name of the file on the desktop.</p>
 </blockquote>
+
+The file on the Desktop:
+
+```posh
+PS C:\Users\trebek11\Documents> ls ..\Desktop
+
+    Directory: C:\Users\trebek11\Desktop
+
+Mode                LastWriteTime         Length Name
+----                -------------         ------ ----
+d-----        5/14/2017   4:12 AM                Logs
+-a----        5/14/2017   3:02 AM              0 100
+```
+
+Similar with the previous level, but this time we need to search for <a href="https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4720" target="_blank">Windows Security Log Event ID 4720: A user account was created</a> events.
+
+This time we have to apply a filter on the *TimeCreated* field, which is of type **_DateTime_**:
+
+```posh
+PS > Get-WinEvent -Path ..\Desktop\Logs\Security.evtx | where {$_.Id -Eq 4720} | ForEach-Object {echo $_.TimeCreated.GetType()}
+
+IsPublic IsSerial Name                                     BaseType
+-------- -------- ----                                     --------
+True     True     DateTime                                 System.ValueType
+[..]
+```
+
+To get all the *'user created'* events on 11 May 17 at 6:26 PM:
+
+```posh
+PS > $startDate = Get-Date -Year 2017 -Month 5 -Day 11 -Hour 18 -Minute 26 -Second 0
+PS > Get-WinEvent -Path ..\Desktop\Logs\Security.evtx | where {$_.Id -Eq 4720 -AND $_.TimeCreated -ge $startDate -AND $_.TimeCreated -lt $startDate.AddMinutes(1)}
+
+   ProviderName: Microsoft-Windows-Security-Auditing
+
+TimeCreated                     Id LevelDisplayName Message
+-----------                     -- ---------------- -------
+5/11/2017 6:26:08 PM          4720 Information      A user account was created....
+```
+
+Next, let's see the full message:
+
+```posh
+PS C:\Users\trebek11\Documents> Get-WinEvent -Path ..\Desktop\Logs\Security.evtx | where {$_.Id -Eq 4720 -AND $_.TimeCreated -ge $startDate -AND $_.TimeCreated -lt $startDate.AddMinutes(1)} | Format-List -Property Message
+
+Message : A user account was created.
+
+  Subject:
+        Security ID:            S-1-5-21-3968311752-1263969649-2303472966-1150
+        Account Name:           poe.dameron
+        Account Domain:         UNDERTHEWIRE
+        Logon ID:               0x1235812
+
+  New Account:
+        Security ID:            S-1-5-21-3968311752-1263969649-2303472966-1152
+        Account Name:           general.hux
+        Account Domain:         UNDERTHEWIRE
+
+  Attributes:
+        SAM Account Name:       general.hux
+        Display Name:           Hux, General
+        User Principal Name:    general.hux@underthewire.tech
+        Home Directory:         -
+        Home Drive:             -
+        Script Path:            -
+        Profile Path:           -
+        User Workstations:      -
+        Password Last Set:      <never>
+[..]
+```
+
+The password for level 12: ```general.hux100```.
 
 ## Trebek 12
 
