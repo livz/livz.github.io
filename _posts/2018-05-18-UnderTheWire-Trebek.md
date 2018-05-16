@@ -438,7 +438,7 @@ So the password for level 12: ```general.hux100```.
   <p>The password for trebek13 is the username of the user who created the user Lor San Tekka as depicted in the event logs on the desktop PLUS the name of the file on the desktop.</p>
 </blockquote>
 
-The straighforward bi first, the file on the Desktop:
+The straighforward bit first, the file on the Desktop:
 
 ```posh
 PS C:\Users\trebek12\Documents> ls ..\Desktop
@@ -488,9 +488,7 @@ Mode                LastWriteTime         Length Name
 -a----        5/14/2017   3:04 AM              0 3003
 ```
 
-The <a href="http://www.computerperformance.co.uk/Logon/LDAP_attributes_active_directory.htm" target="_blank">LDAP city attribute</a> is represented in the field named **l (lowercase 'L')**.
-
-There's only one user with this attribute set:
+The <a href="http://www.computerperformance.co.uk/Logon/LDAP_attributes_active_directory.htm" target="_blank">LDAP city attribute</a> is represented in the field named **l (lowercase 'L')**. There's only one user with this attribute set:
 
 ```posh
 PS C:\Users\trebek13\Documents> Get-ADUser -Filter 'l -like "*"'
@@ -515,7 +513,7 @@ So the password for the last level is: ```prindel3003```.
   <p>The password for trebek15 is the output from decoding the powershell found in the account properties of the user account from the previous level PLUS the name of the file on the desktop.</p>
 </blockquote>
 
-First the file on the Desktop:
+First, the file on the Desktop:
 
 ```posh
 PS C:\Users\trebek14\Documents> ls ..\Desktop
@@ -618,4 +616,4 @@ PS C:\Users\trebek15\Documents> cat ..\Desktop\15.txt
 "@
 ```
 
-All the games were awesome! Huge thanks to the authors.
+All the levels were very educative! Huge thanks to the authors.
