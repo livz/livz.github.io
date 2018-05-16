@@ -254,11 +254,51 @@ The password for level 8 is: ```han_solo99```.
   <p>The password for trebek9 the first 8 bytes of the file located on the desktop. Combine the answer together with NO spaces.</p>
 </blockquote>
 
+Another short one:
+
+```posh
+Get the value of the first 8 bytes:
+PS C:\Users\trebek8\Documents> (Get-Content -Path ..\Desktop\Clone_Trooper_data.pdf -Encoding Byte)[0..7] -join
+" "
+77 90 144 0 3 0 0 0
+```
+
+Combine the integer values without spaces we get the password for level 9: ```779014403000```.
+
 ## Trebek 9
 
 <blockquote>
   <p>The password for trebek10 is the name of the potentially rogue share on the system PLUS the name of the file on the desktop. If the share name is "share$" and the file on the desktop is named "_today", the password would be "share$_today".</p>
 </blockquote>
+
+First the file on the Desktop:
+
+```posh
+PS C:\Users\trebek9\Documents> ls ..\Desktop
+
+    Directory: C:\Users\trebek9\Desktop
+
+Mode                LastWriteTime         Length Name
+----                -------------         ------ ----
+-a----        5/11/2017  11:46 PM              0 _hideout
+```
+
+And then the suspicious SMB share:
+
+```posh
+PS C:\Users\trebek9\Documents> Get-SmbShare
+
+Name           ScopeName Path Description
+----           --------- ---- -----------
+ADMIN$         *              Remote Admin
+C$             *              Default share
+IPC$           *              Remote IPC
+NETLOGON       *              Logon server share
+shoretroopers$ *              It's a SECRET!!!!!
+SYSVOL         *              Logon server share
+```
+
+The next password is: ```shoretroopers$_hideout```.
 
 ## Trebek 10
 
