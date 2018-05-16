@@ -229,7 +229,7 @@ Mode                LastWriteTime         Length Name
 -a----        5/14/2017   2:54 AM              0 99
 ```
 
-For an introduction to Image File Execution Options and how it is used by analysts and malware authors, check [this article](https://blog.malwarebytes.com/101/2015/12/an-introduction-to-image-file-execution-options).
+For an introduction to Image File Execution Options and how it is used by analysts and malware authors, check <a href="https://blog.malwarebytes.com/101/2015/12/an-introduction-to-image-file-execution-options" target="_blank">this article</a>.
 
 ```
 PS > cd 'HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\sethc.exe'
