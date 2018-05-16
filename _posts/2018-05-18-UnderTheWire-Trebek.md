@@ -146,6 +146,21 @@ So the password for the next level is: ```10.30.1.18address```.
   <p>The password for trebek5 is the last execution date of Microsoft Access.</p>
 </blockquote>
 
+Some of the places that record program execution within the Windows Registry, as described in the [article](https://www.fireeye.com/blog/threat-research/2013/08/execute.html) suggected by the hint, are:
+* ShimCache
+* MUICache
+* UserAssist
+
+After thorough checks, there was no mention of *MSAccess* in the accessible registry places. Hoever, another valuabl resource for tracing executed applications are the [prefetch](({{ site.baseurl }}{% post_url 2017-06-29-exploring-prefetch-part-1 %})) [files]({{ site.baseurl }}{% post_url 2017-08-09-exploring-prefetch-part-2 %}).
+
+```posh
+PS C:\Windows\Prefetch> Get-ChildItem | Out-String -Stream | Select-String -Pattern "access"
+
+-ar---         1/5/2017   9:12 PM          65058 MSACCESS.EXE-EF45328A.pf
+```
+
+The last execution date is reflected in the modified date of the prefetch file. And we have the password for level 5: ```01/05/2017```.
+
 ## Trebek 5
 
 <blockquote>
