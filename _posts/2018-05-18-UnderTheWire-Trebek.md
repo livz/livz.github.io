@@ -22,8 +22,8 @@ In this post I'll go through my solutions to the third batch of 15 levels - [Gro
 For the solutions to the other games check:
 * [Level 1 - Century]({{ site.baseurl }}{% post_url 2018-05-10-UnderTheWire-Century %})
 * [Level 2 - Cyborg]({{ site.baseurl }}{% post_url 2018-05-12-UnderTheWire-Cyborg %})
+* [Level 3 - Groot]({{ site.baseurl }}{% post_url 2018-05-14-UnderTheWire-Groot %})
 * [Level 4 - Oracle]()
-* [Level 5 - Trebek]()
 
 Before starting, I wanted to say a huge thank you to the creators of these games for the effort of designing and hosting them, and making them available for free for everyone!
 
