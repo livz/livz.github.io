@@ -54,9 +54,7 @@ PS C:\Users\trebek1.UNDERTHEWIRE\Desktop> Get-WinEvent -Path ..\Desktop\Security
       </Exec>
 ```
 
-<div class="box-note">
-Note that <a href="https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.utility/out-string?view=powershell-6" target="_blank"><b>Out-String -Stream</b></a> is very important here. This is needed to be able to use <b>Select-String</b> and grep through the output!
-</div>
+
 
 So the password for level 2 is: ```mess_cleaner994```.
 
