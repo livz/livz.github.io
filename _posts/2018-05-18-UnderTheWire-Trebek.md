@@ -217,6 +217,37 @@ The password for level 7: ```40```.
   <p>The password for trebek8 is the name of the program set to run prior to login if sticky keys is activated PLUS the name of the file on the desktop.</p>
 </blockquote>
 
+First the file on the Desktop:
+
+```posh
+PS C:\Users\trebek7\Documents> ls ..\Desktop
+
+    Directory: C:\Users\trebek7\Desktop
+
+Mode                LastWriteTime         Length Name
+----                -------------         ------ ----
+-a----        5/14/2017   2:54 AM              0 99
+```
+
+For an introduction to Image File Execution Options and how it is used by analysts and malware authors, check [this article](https://blog.malwarebytes.com/101/2015/12/an-introduction-to-image-file-execution-options).
+
+```
+PS > cd 'HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\sethc.exe'
+PS > Get-ItemProperty -Path .
+
+Debugger     : han_solo.exe
+PSPath       : Microsoft.PowerShell.Core\Registry::HKEY_LOCAL_MACHINE\SOFTWARE\
+               Microsoft\Windows NT\CurrentVersion\Image File Execution
+               Options\sethc.exe
+PSParentPath : Microsoft.PowerShell.Core\Registry::HKEY_LOCAL_MACHINE\SOFTWARE\
+               Microsoft\Windows NT\CurrentVersion\Image File Execution Options
+PSChildName  : sethc.exe
+PSDrive      : HKLM
+PSProvider   : Microsoft.PowerShell.Core\Registry
+```
+
+The password for level 8 is: ```han_solo99```.
+
 ## Trebek 8
 
 <blockquote>
