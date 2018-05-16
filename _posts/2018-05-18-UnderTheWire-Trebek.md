@@ -39,7 +39,7 @@ Mode                LastWriteTime         Length Name
 -a----        5/13/2017   6:46 PM              0 994
 ```
 
-Next we'll list all the events for deleted tasks and grep through the output:
+Next we'll list all the events for deleted tasks and grep through the output for the commands being executed:
 
 ```posh
 PS C:\Users\trebek1.UNDERTHEWIRE\Desktop> Get-WinEvent -Path ..\Desktop\Security.evtx | Where {$_.Message -Like "*task was deleted*"} | Format-List -Property Message | Out-String -Stream | Select-String -Pattern "Command" -Context 1,2
