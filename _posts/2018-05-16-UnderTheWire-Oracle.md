@@ -101,6 +101,39 @@ And the password for level 4 is: ```05/09/2017```.
   <p>The password for oracle5 is the name of the GPO created on April 5, 2017 PLUS the name of the file on the user's desktop.</p>
 </blockquote>
 
+The file on the Desktop:
+
+```posh
+PS C:\Users\oracle4\Documents> ls ..\Desktop
+
+    Directory: C:\Users\oracle4\Desktop
+
+Mode                LastWriteTime         Length Name
+----                -------------         ------ ----
+-a----         5/9/2017   5:03 AM              0 83
+```
+
+To sift through group policies (*GPOs*) there is the **Get-GPO** cmdlet:
+
+```posh
+PS C:\Users\oracle4\Documents> $startDate = Get-Date -Year 2017 -Month 4 -Day 5 -Hour 0 -Minute 0 -Second 0
+PS C:\Users\oracle4\Documents> Get-GPO -all| where { $_.CreationTime -ge $startDate -AND $_.CreationTime -lt $startDate.AddDays(1) }
+
+DisplayName      : Boom
+DomainName       : UNDERTHEWIRE.TECH
+Owner            : UNDERTHEWIRE\Domain Admins
+Id               : e19b0c64-216a-4a8b-bf02-0f5ec3a57d36
+GpoStatus        : AllSettingsEnabled
+Description      : Everything is awesome!
+CreationTime     : 4/5/2017 2:02:15 AM
+ModificationTime : 4/5/2017 2:02:22 AM
+UserVersion      : AD Version: 0, SysVol Version: 0
+ComputerVersion  : AD Version: 0, SysVol Version: 0
+WmiFilter        :
+```
+
+The password for level 5 is: ```boom83```.
+
 ## Oracle 5
 
 <blockquote>
