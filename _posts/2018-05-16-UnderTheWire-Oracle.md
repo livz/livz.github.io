@@ -182,7 +182,7 @@ Mode                LastWriteTime         Length Name
 -a----         5/9/2017   5:04 AM              0 97
 ```
 
-Then we need to filter for the organizational units that *don't* have a linked group policy. More specifically, we need only the results where the collection *LinkedGroupPolicyObjects* is enmty. After some attemtps with other operators, I found [this](https://jdhitsolutions.com/blog/powershell/1580/filtering-empty-values-in-powershell/) very good article on filtering for empty values in PowerShell. The final command is:
+Then we need to filter for the organizational units that *don't* have a linked group policy. More specifically, we need only the results where the collection *LinkedGroupPolicyObjects* is empty. After some attemtps with other operators, I found [this](https://jdhitsolutions.com/blog/powershell/1580/filtering-empty-values-in-powershell/) very good article on filtering for empty values in PowerShell. The command woth the correct filter is:
 
 ```posh
 PS C:\Users\oracle6\Documents> Get-ADOrganizationalUnit -Filter * | Where {-Not $_.LinkedGroupPolicyObjects}
@@ -378,7 +378,7 @@ TimeCreated                     Id LevelDisplayName Message
 5/19/2017 1:16:17 AM          4727 Information      A security-enabled global group was created....
 ```
 
-A more elegant approach makes use of the event IDs for creating security enabled local ([635](https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=635) and [4731](https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventID=4731)), global ([631](https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=631), [4727](https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4727) and universal ([658](https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=658), [4727](https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4754) groups:
+A more elegant approach makes uses the event IDs for creating security enabled local ([635](https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=635), [4731](https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventID=4731)), global ([631](https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=631), [4727](https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4727)) and universal ([658](https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=658), [4727](https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4754)) groups:
 
 ```posh
 PS C:\Users\oracle13\Documents> Get-WinEvent -Path ..\Desktop\Security.evtx | where {$_.Id -Eq 631 -OR $_.Id -Eq 635 -OR $_.Id -Eq 658 -OR $_.Id -Eq 4727 -OR $_.Id -Eq 4731 -OR $_.Id -Eq 4754}
