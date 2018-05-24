@@ -125,11 +125,7 @@ Owner            : UNDERTHEWIRE\Domain Admins
 Id               : e19b0c64-216a-4a8b-bf02-0f5ec3a57d36
 GpoStatus        : AllSettingsEnabled
 Description      : Everything is awesome!
-CreationTime     : 4/5/2017 2:02:15 AM
-ModificationTime : 4/5/2017 2:02:22 AM
-UserVersion      : AD Version: 0, SysVol Version: 0
-ComputerVersion  : AD Version: 0, SysVol Version: 0
-WmiFilter        :
+[..]
 ```
 
 The password for level 5 is: ```boom83```.
