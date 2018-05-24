@@ -14,7 +14,7 @@ In this post I'll go through my solutions to the first batch of 15 levels - [Cen
 For the solutions to the other games check:
 * [Level 2 - Cyborg]({{ site.baseurl }}{% post_url 2018-05-12-UnderTheWire-Cyborg %})
 * [Level 3 - Groot]({{ site.baseurl }}{% post_url 2018-05-14-UnderTheWire-Groot %})
-* [Level 4 - Oracle]()
+* [Level 4 - Oracle]({{ site.baseurl }}{% post_url 2018-05-16-UnderTheWire-Oracle %})
 * [Level 5 - Trebek]({{ site.baseurl }}{% post_url 2018-05-18-UnderTheWire-Trebek %}) 
 
 Before starting, I wanted to say a huge thank you to the creators of these games for the effort of designing and hosting them, and making them available for free for everyone!
