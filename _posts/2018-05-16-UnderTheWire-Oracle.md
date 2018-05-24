@@ -77,7 +77,7 @@ So the password for level 3 is: ```2f5c4```.
   <p>The password for oracle4 is the date the system logs were last wiped as depicted in the event logs on the desktop.</p>
 </blockquote>
 
-To solve this level we need to filter for [event with id 1102](https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventID=1102) - *The audit log was cleared*. The corresponding event for Windows 2003 is [517](https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=517).
+To solve this level we need to filter for [events with id 1102](https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventID=1102) - *The audit log was cleared*. The corresponding event for Windows 2003 would be [517](https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=517).
 
 <div class="box-note">
 Note that event 1102 is logged whenever the Security log is cleared, <b><i>REGARDLESS of the status of the Audit System Events audit policy</i></b>. 
