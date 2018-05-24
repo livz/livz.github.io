@@ -431,8 +431,7 @@ Mode                LastWriteTime         Length Name
 In this case we have the follwing events when a user is added to a security group: [632](https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=632) and [4728](https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventID=4728).
 
 ```posh
-PS C:\Users\oracle14\Documents> Get-WinEvent -Path ..\Desktop\Security.evtx | where {$_.Id -Eq 632 -OR $_.Id -Eq 4728} | Format-List -Property
-Message | Out-String -Stream | Select-String -Pattern "Bereet" -Context 8,1
+PS C:\Users\oracle14\Documents> Get-WinEvent -Path ..\Desktop\Security.evtx | where {$_.Id -Eq 632 -OR $_.Id -Eq 4728} | Format-List -Property Message | Out-String -Stream | Select-String -Pattern "Bereet" -Context 8,1
 
             Subject:
                 Security ID:            S-1-5-21-2268727836-2773903800-2952248001-1622
