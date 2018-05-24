@@ -53,7 +53,7 @@ The password for level 2 is: ```utc```.
   <p>The password for oracle3 is the last five digits of the MD5 hash, from the hashes of files on the destop, that appears twice.</p>
 </blockquote>
 
-The two files with the same hash are eveident if we list all the hashes sorted:
+The two files with the same hash are evident if we list all the hashes sorted:
 
 ```posh
 PS C:\Users\oracle2\Desktop> Get-ChildItem | ForEach-Object {Get-FileHash -Algorithm MD5 $_.name} | Sort-Object -Property Hash
@@ -77,8 +77,7 @@ So the password for level 3 is: ```2f5c4```.
   <p>The password for oracle4 is the date the system logs were last wiped as depicted in the event logs on the desktop.</p>
 </blockquote>
 
-For this one we need [Event Id 1102](https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventID=1102
-) - *The audit log was cleared*.
+To solve this level we need to filter for [event with id 1102](https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventID=1102) - *The audit log was cleared*. The corresponding event for Windows 2003 is [517](https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=517).
 
 <div class="box-note">
 Note that event 1102 is logged whenever the Security log is cleared, <b><i>REGARDLESS of the status of the Audit System Events audit policy</i></b>. 
