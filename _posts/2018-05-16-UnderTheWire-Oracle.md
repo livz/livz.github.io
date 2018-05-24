@@ -378,7 +378,7 @@ TimeCreated                     Id LevelDisplayName Message
 5/19/2017 1:16:17 AM          4727 Information      A security-enabled global group was created....
 ```
 
-A more elegant approach makes use of the event IDs for creating security enabled local ([635](https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=635) and [4731](https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventID=4731)), global ([631](https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=631), [4727](https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4727) and universal ([658](https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=631), [4727](https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4754) groups:
+A more elegant approach makes use of the event IDs for creating security enabled local ([635](https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=635) and [4731](https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventID=4731)), global ([631](https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=631), [4727](https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4727) and universal ([658](https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=658), [4727](https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4754) groups:
 
 ```posh
 PS C:\Users\oracle13\Documents> Get-WinEvent -Path ..\Desktop\Security.evtx | where {$_.Id -Eq 631 -OR $_.Id -Eq 635 -OR $_.Id -Eq 658 -OR $_.Id -Eq 4727 -OR $_.Id -Eq 4731 -OR $_.Id -Eq 4754}
@@ -415,3 +415,34 @@ Almost at the end. The next password id: ```gamora88```.
   <p>The password for oracle15 is the name of the user who added the user Bereet to the Guardian security group as depicted in the event logs on the desktop PLUS the name of the text file on the user's desktop.</p>
 </blockquote>
 
+The file on the Desktop:
+
+```posh
+PS C:\Users\oracle14\Documents> ls ..\Desktop
+
+    Directory: C:\Users\oracle14\Desktop
+
+Mode                LastWriteTime         Length Name
+----                -------------         ------ ----
+-a----         5/9/2017   9:45 PM              0 2112
+-a----        5/19/2017   1:22 AM        2166784 security.evtx
+```
+
+In this case we have the follwing events when a user is added to a security group: [632](https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=632) and [4728](https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventID=4728).
+
+```posh
+PS C:\Users\oracle14\Documents> Get-WinEvent -Path ..\Desktop\Security.evtx | where {$_.Id -Eq 632 -OR $_.Id -Eq 4728} | Format-List -Property
+Message | Out-String -Stream | Select-String -Pattern "Bereet" -Context 8,1
+
+            Subject:
+                Security ID:            S-1-5-21-2268727836-2773903800-2952248001-1622
+                Account Name:           nebula
+                Account Domain:         UNDERTHEWIRE
+                Logon ID:               0xBD8CC7
+
+            Member:
+                Security ID:            S-1-5-21-2268727836-2773903800-2952248001-1623
+                Account Name:           CN=Bereet,OU=Morag,DC=UNDERTHEWIRE,DC=TECH
+```
+
+The final password is ```nebula2112```. One more set of levels to go!
