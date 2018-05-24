@@ -170,11 +170,71 @@ And the password for level 6 is: ```charlie25```.
   <p>The password for oracle7 is the name of the OU that doesn't have a GPO linked to it PLUS the name of the file on the user's desktop.</p>
 </blockquote>
 
+The file on the Desktop:
+
+```posh
+PS C:\Users\oracle6\Documents> ls ..\Desktop
+
+    Directory: C:\Users\oracle6\Desktop
+
+Mode                LastWriteTime         Length Name
+----                -------------         ------ ----
+-a----         5/9/2017   5:04 AM              0 97
+```
+
+Then we need to filter for the organizational units that *don't* have a linked group policy. More specifically, we need only the results where the collection *LinkedGroupPolicyObjects* is enmty. After some attemtps with other operators, I found [this](https://jdhitsolutions.com/blog/powershell/1580/filtering-empty-values-in-powershell/) very good article on filtering for empty values in PowerShell. The final command is:
+
+```posh
+PS C:\Users\oracle6\Documents> Get-ADOrganizationalUnit -Filter * | Where {-Not $_.LinkedGroupPolicyObjects}
+
+City                     :
+Country                  :
+DistinguishedName        : OU=Xandar,DC=UNDERTHEWIRE,DC=TECH
+LinkedGroupPolicyObjects : {}
+ManagedBy                :
+Name                     : Xandar
+ObjectClass              : organizationalUnit
+[..]
+```
+
+And we have the password for level 7: ```xandar97```.
+
 ## Oracle 7
 
 <blockquote>
   <p>The password for oracle8 is the name of the domain that a trust is built with PLUS the name of the file on the user's desktop.</p>
 </blockquote>
+
+The file on the Desktop:
+
+```posh
+PS C:\Users\oracle7\Documents> ls ..\Desktop
+
+    Directory: C:\Users\oracle7\Desktop
+
+Mode                LastWriteTime         Length Name
+----                -------------         ------ ----
+-a----         5/9/2017   5:04 AM              0 111
+```
+
+Once you understand what the requirement is, this level is very simple:
+
+```posh
+PS C:\Users\oracle7\Documents> Get-ADTrust -Filter *
+
+Direction               : BiDirectional
+DisallowTransivity      : True
+DistinguishedName       : CN=multiverse,CN=System,DC=UNDERTHEWIRE,DC=TECH
+ForestTransitive        : False
+IntraForest             : False
+IsTreeParent            : False
+IsTreeRoot              : False
+Name                    : multiverse
+ObjectClass             : trustedDomain
+[..]
+```
+
+Which provides the password for the next level: ```multiverse111```.
 
 ## Oracle 8
 
@@ -182,11 +242,45 @@ And the password for level 6 is: ```charlie25```.
   <p>The password for oracle9 is the name of the file in the GET Request from www.guardian.galaxy.com within the log file on the desktop.</p>
 </blockquote>
 
+Another short one that requires some strings filtering:
+
+```posh
+PS C:\Users\oracle8\Documents> cat ..\Desktop\Logs.txt |  Out-String -Stream | Select-String -Pattern "guardian"
+
+guardian.galaxy.com - - [28/Jul/1995:13:03:55 -0400] "GET /images/star-lord.gif HTTP/1.0" 200 786
+```
+
+On to level 9: ```star-lord```.
+
 ## Oracle 9
 
 <blockquote>
   <p>The password for oracle10 is the computername of the DNS record of the mail server listed in the UnderTheWire.tech zone PLUS the name of the file on the user's desktop.</p>
 </blockquote>
+
+The file on the Desktop:
+
+```posh
+PS C:\Users\oracle9\Documents> ls ..\Desktop
+
+    Directory: C:\Users\oracle9\Desktop
+
+Mode                LastWriteTime         Length Name
+----                -------------         ------ ----
+-a----         5/9/2017   5:04 AM              0 40
+```
+
+The DNS records for a specific zone will reveal the mail server in the *__MX__* record:
+
+```posh
+PS C:\Users\oracle9\Documents> DnsServerResourceRecord -ZoneName UNDERTHEWIRE.TECH | where {$_.RecordType -Like "MX"}
+
+HostName                  RecordType Timestamp            TimeToLive      RecordData
+--------                  ---------- ---------            ----------      ----------
+exch_serv                 MX         0                    01:00:00        [10][exch_serv.underthewire.tech.]
+```
+
+The password for level 10 is: ```exch_serv40```.
 
 ## Oracle 10
 
@@ -194,11 +288,42 @@ And the password for level 6 is: ```charlie25```.
   <p>The password for oracle11 is the .biz site the user has previously navigated to.</p>
 </blockquote>
 
+[TypedURLs registry key](http://sketchymoose.blogspot.co.uk/2014/02/typedurls-registry-key.html) stores Internet Explorer's cached history and is very valuable in a forensic investigation. Let's retrieve the *.biz* URL:
+
+```posh
+PS C:\Users\oracle10\Documents> cd "HKCU:\Software\Microsoft\Internet Explorer\TypedURLs"
+PS HKCU:\Software\Microsoft\Internet Explorer\TypedURLs> Get-ItemProperty -path .
+
+url1         : http://go.microsoft.com/fwlink/p/?LinkId=255141
+url2         : http://google.com
+url3         : http://underthewire.tech
+url4         : http://bimmerfest.com
+url5         : http://nba.com
+url6         : http://yondu.biz
+[..]
+```
+
+The password for level 11 is: ```yondu```.
+
 ## Oracle 11
 
 <blockquote>
   <p>The password for oracle12 is the drive letter associated with the mapped drive of this user.</p>
 </blockquote>
+
+Another (*very*) short level:
+
+```posh
+PS C:\Users\oracle11\Documents> Get-PSDrive -PSProvider FileSystem
+
+Name    Used (GB)     Free (GB) Provider      Root   CurrentLocation
+----    ---------     --------- --------      ----   ---------------
+C                               FileSystem    C:\    Users\oracle11\Documents
+D                               FileSystem    D:\
+M                               FileSystem    \\127.0.0.1\WsusContent
+```
+
+The next password is also short: ```m```.
 
 ## Oracle 12
 
@@ -206,11 +331,83 @@ And the password for level 6 is: ```charlie25```.
   <p>The password for oracle13 is the IP of the system that this user has previously established a remote desktop with.</p>
 </blockquote>
 
+Once we know where the RDP connections are [stored](http://woshub.com/how-to-clear-rdp-connections-history) within the Windows registry, this is almost too easy:
+
+```posh
+PS C:\Users\oracle12\Documents> cd "HKCU:\Software\Microsoft\Terminal Server Client"
+PS HKCU:\Software\Microsoft\Terminal Server Client> Get-ChildItem
+
+    Hive: HKEY_CURRENT_USER\Software\Microsoft\Terminal Server Client
+
+Name                           Property
+----                           --------
+192.168.2.3                    UsernameHint : MyServer\raccoon
+```
+
+The IP address is the next level password: ```192.168.2.3```.
+
 ## Oracle 13
 
 <blockquote>
   <p>The password for oracle14 is the name of the user who created the Galaxy security group as depicted in the event logs on the desktop PLUS the name of the text file on the user's desktop.</p>
 </blockquote>
+
+The file on the Desktop:
+
+```posh
+PS C:\Users\oracle13\Documents> ls ..\Desktop
+
+    Directory: C:\Users\oracle13\Desktop
+
+Mode                LastWriteTime         Length Name
+----                -------------         ------ ----
+-a----         5/9/2017   9:44 PM              0 88
+-a----        5/19/2017   1:22 AM        2166784 security.evtx
+```
+
+We can solve this level quickly, without knowing the event ID for creation of security groups, with a string filter based on the message:
+
+```posh
+PS C:\Users\oracle13\Documents> Get-WinEvent -Path ..\Desktop\Security.evtx | where {$_.Message -Like "*group*created*"}
+
+   ProviderName: Microsoft-Windows-Security-Auditing
+
+TimeCreated                     Id LevelDisplayName Message
+-----------                     -- ---------------- -------
+5/19/2017 1:18:26 AM          4727 Information      A security-enabled global group was created....
+5/19/2017 1:16:17 AM          4727 Information      A security-enabled global group was created....
+```
+
+A more elegant approach makes use of the event IDs for creating security enabled local ([635](https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=635) and [4731](https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventID=4731)), global ([631](https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=631), [4727](https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4727) and universal ([658](https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=631), [4727](https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4754) groups:
+
+```posh
+PS C:\Users\oracle13\Documents> Get-WinEvent -Path ..\Desktop\Security.evtx | where {$_.Id -Eq 631 -OR $_.Id -Eq 635 -OR $_.Id -Eq 658 -OR $_.Id -Eq 4727 -OR $_.Id -Eq 4731 -OR $_.Id -Eq 4754}
+
+   ProviderName: Microsoft-Windows-Security-Auditing
+
+TimeCreated                     Id LevelDisplayName Message
+-----------                     -- ---------------- -------
+5/19/2017 1:18:26 AM          4727 Information      A security-enabled global group was created....
+5/19/2017 1:16:17 AM          4727 Information      A security-enabled global group was created....
+
+PS C:\Users\oracle13\Documents> Get-WinEvent -Path ..\Desktop\Security.evtx | where {$_.Id -Eq 631 -OR $_.Id -Eq 635 -OR $_.Id -Eq 658 -OR $_.Id -Eq 4727 -OR $_.Id -Eq 4731 -OR $_.Id -Eq 4754} | Format-List -Property Message
+
+Message : A security-enabled global group was created.
+
+          Subject:
+                Security ID:            S-1-5-21-2268727836-2773903800-2952248001-1621
+                Account Name:           gamora
+                Account Domain:         UNDERTHEWIRE
+                Logon ID:               0xBC24FF
+
+          New Group:
+                Security ID:            S-1-5-21-2268727836-2773903800-2952248001-1626
+                Group Name:             Galaxy
+                Group Domain:           UNDERTHEWIRE
+[..]
+```
+
+Almost at the end. The next password id: ```gamora88```.
 
 ## Oracle 14
 
