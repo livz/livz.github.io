@@ -136,6 +136,34 @@ The password for level 5 is: ```boom83```.
   <p>The password for oracle6 is the name of the GPO that contains a description of "I_AM_GROOT" PLUS the name of the file on the user's desktop.</p>
 </blockquote>
 
+The file on the Desktop:
+
+```posh
+PS C:\Users\oracle5\Documents> ls ..\Desktop
+
+    Directory: C:\Users\oracle5\Desktop
+
+Mode                LastWriteTime         Length Name
+----                -------------         ------ ----
+-a----         5/9/2017   5:03 AM              0 25
+```
+
+And the required group policy:
+
+```posh
+PS C:\Users\oracle5\Documents> Get-GPO -all| where { $_.Description -Like "*I_AM_GROOT*"}
+
+DisplayName      : Charlie
+DomainName       : UNDERTHEWIRE.TECH
+Owner            : UNDERTHEWIRE\Domain Admins
+Id               : 15135a78-1e2a-43c3-8098-7e059807af17
+GpoStatus        : AllSettingsEnabled
+Description      : I_AM_GROOT
+[..]
+```
+
+And the password for level 6 is: ```charlie25```.
+
 ## Oracle 6
 
 <blockquote>
