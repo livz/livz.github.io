@@ -8,7 +8,7 @@ categories: [UX]
 ## Overview
 
 <div class="box-note">
-This tip here only worked until MacOS 10.9 Mavericks. Since OS X Yosemite (10.10), the background of the Dashboard is a blured version of the wallpaper on Desktop 1.
+This tip here only worked until OS X 10.9 Mavericks. Since OS X Yosemite (10.10), the background of the Dashboard is a blured version of the wallpaper on Desktop 1.
 </div>
 
 **Steps to change the dashboard background:**
