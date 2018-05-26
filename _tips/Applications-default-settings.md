@@ -7,7 +7,7 @@ categories: [Internals]
 
 ## Overview
 
-Unlike the Windows way of storing applications preferences within the Registry, neither MacOS nor iOS use or have a registry. This tip covers the mechanism used to store user preferences and default settings of applications.
+Unlike the Windows way of storing applications preferences within the Registry, neither macOS nor iOS use or have a registry. This tip covers the mechanism used to store user preferences and default settings of applications.
 
 ## Defaults
 
