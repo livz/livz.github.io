@@ -92,7 +92,7 @@ void install()
 * Compile the bootstrap library and the injector projects. The easiest way is to do it from [Xcode](https://developer.apple.com/xcode/). Notice in the invocation below that I've changed the injector a bit to work on a PID rather than process name. Everything else is the same.
 
 <div class="box-note">
-  When compiling projects in Xcode, the output files are created in a random directory, <i><b>not</b></i> in the base folder containing the sources. <br/> <br/> The quickest way to locate the output folder is to click the binary name in the left-hand side pane, and the full path will be displayed in the right-hand side pane. It should be something like this: <br/> <br/> <i>/Users/&lt;username&gt;/Library/Developer/Xcode/DerivedData/&lt;project name&gt;-&lt;random letters&gt;/Build/Products/Debug</i>.
+  When compiling projects in Xcode, the output files are created in a random directory, <i><b>not</b></i> in the base folder containing the sources. <br/> <br/> The quickest way to locate the output folder is to click on the binary name in the left-hand side pane, and the full path will be displayed in the right-hand side pane. It should be something like this: <br/> <br/> <i>/Users/&lt;username&gt;/Library/Developer/Xcode/DerivedData/&lt;project name&gt;-&lt;random letters&gt;/Build/Products/Debug</i>.
 </div>
   
 * Profit!
@@ -127,7 +127,7 @@ hello, world!
 ```
 
 <div class="box-note">
-Notice that in the scenario above that we're using a 32-bit dynamic library. This is to avoid an error in the injector, however, mach_inject supports x86_64 libraries.
+Notice that in the scenario above that we're using a 32-bit dynamic library. This is to avoid an error in the injector, however, mach_inject does support x86_64 libraries.
 </div>
 
 ## References
