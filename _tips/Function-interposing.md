@@ -11,7 +11,7 @@ categories: [Internals]
 * This mechanism can be used both for good and bad purposes, from inspecting program memory and adding trace logs to inject nefarious code into applications.
 * To prevent privilege escalation using ```suid``` binaries, **the loader ignores the ```LD_PRELOAD``` variable if _real user id_ is different than the _effective user id_**. 
 * [This blog](https://rafalcieslak.wordpress.com/2013/04/02/dynamic-linker-tricks-using-ld_preload-to-cheat-inject-features-and-investigate-programs) has a working example showing how this trick works for Linux. 
-* MacOS loader supports a similar feature called _**function interposing**_.
+* macOS loader supports a similar feature called _**function interposing**_.
 
 ## How it works
 
