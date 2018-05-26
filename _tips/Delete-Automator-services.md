@@ -7,7 +7,7 @@ categories: [Howto]
 
 ## Overview
 
-Automator is a default application pre-installed on MacOS. if you've never used it, you could search online for ideas of things to automate. 
+Automator is a default application pre-installed on macOS. if you've never used it, you could search online for ideas of things to automate. 
 
 When you create services using Automator, there is no option to choose the location of the service and also its location is not specified. So this tip is about how to delete or temporary disable a service created using Automator.
 
