@@ -17,12 +17,26 @@ published: true
 * There's no need to reinvent the wheel. Better, let's understand how [mach_inject](https://github.com/rentzsch/mach_inject) work, on a higher level. This project is an amazing resource to understand the internals of process injection. Huge thanks to the [author](https://github.com/rentzsch). There is, however, a warning on the main page of the process:
 
 <div class="box-warning">
-[..] Please don't file a bug report stating mach_inject is crashing for you when you try to use it -- you have to be hard-core enough to debug the problem yourself.
+Please don't file a bug report stating mach_inject is crashing for you when you try to use it -- you have to be hard-core enough to debug the problem yourself.
 </div>
 
-    . bootstrap code, find thread, allocae stack, etc1!!!
+. The idea is to inject bootstrapping code into the target process that will then invoke ```dyld``` to load a custom module. After writing the bootstrap code into the target process
+
+- allocate space for remote stack block, for remote code block, create a new thread and launch it. All these are defined in the ```mach_inject``` function, with the following definition hinting at the parameters function:
+
+```c
+mach_error_t
+mach_inject(
+            const mach_inject_entry	threadEntry,
+            const void				*paramBlock,
+            size_t					paramSize,
+            pid_t					targetProcess,
+            vm_size_t				stackSize );
+```
+
+
 * why root needed?
-    . Could not access task for pid 800. You probably need to add user to procmod group
+. Could not access task for pid 800. You probably need to add user to procmod group
 mach_inject failing.. (ipc/send) invalid destination port
 * task_for_pid
 
