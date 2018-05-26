@@ -72,10 +72,57 @@ int main(int argc, char* argv[])
 ~ clang main.cpp -o testapp
 ```
 
-* compile testdylib
-* compile bootstrap
-* move all to one folder and test
+And the test library:
 
+```c
+#include <cstdio>
+
+void install(void) __attribute__ ((constructor));
+
+void install()
+{
+    printf("Hello from injected lib!\n");
+}
+```
+
+```bash
+~ clang -Wall -o myLib.dylib -dynamiclib main.cpp
+```
+
+* Compile the bootstrap library and the injector projects. The easiest way is to do it from Xcode. Notice in the invocation below that I've changed the injector a bit to work on a PID rather than process name. Everything else is the same.
+
+<Note -- when compiling projects in Xcode ----compilatin location>
+  
+* Profit!
+
+```bash
+~ ./testapp
+Sleeping!
+
+~ ps axu | grep -i testapp
+m                1335   0.0  0.0   599668    516 s003  S+    8:39pm   0:00.00 ./testapp
+
+~ sudo ./osxinj 1335 ./testdylib.dylib
+Password:
+/Users/m/Library/Developer/Xcode/DerivedData/osxinj-hdeefdhwprtwkjeybczergoaninn/Build/Products/Debug/testdylib.dylib
+module: 0x79E63EA0
+bootstrapfn: 0x4AD50
+injecting into pid: 1335
+image name: /Users/m/Library/Developer/Xcode/DerivedData/osxinj-hdeefdhwprtwkjeybczergoaninn/Build/Products/Debug/bootstrap.dylib
+mach_inject: found threadEntry image at: 0x4a000 with size: 9868
+at 0x7a015c88 correcting 0x4b010 to 0x11c010
+[..]
+at 0x7a015cdc correcting 0x4b048 to 0x11c048
+wrote param with size 118
+```
+
+And notice in the initial terminal the result of the injection:
+
+```bash
+~ ./testapp
+Sleeping!
+hello, world!
+```
 
 ## References
 * <a href="http://stanleycen.com/blog/2013/mac-osx-code-injection/" target="_blank">Mac OS X code injection & reverse engineering</a>
