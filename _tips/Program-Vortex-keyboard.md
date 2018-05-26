@@ -18,7 +18,7 @@ To program one of the layers 2-4 (the first one cannot be programmed) follow the
 6. Press **Fn + Right Ctrl** to exit programming mode. _Spacebar right LED off_.
 
 
-Although there is already a MacOS layer, at minimum you probably would want to map these combinations as well, to benefit from the extra _Home_ and _End_ keys:
+Although there is already a macOS layer, at minimum you probably would want to map these combinations as well, to benefit from the extra _Home_ and _End_ keys:
 ```
 ⌘ + Left  (CMD + Left) → Home 
 ⌘ + Right (CMD + Left) → End
