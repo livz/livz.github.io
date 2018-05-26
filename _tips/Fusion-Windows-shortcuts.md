@@ -7,7 +7,7 @@ categories: [Howto]
 
 ## Overview
 
-A somehow annoying thing about Windows guests running un MacOS hosts in Fusion is that some very common shortcuts don't work, or have different keys assigned. To enable some of the shortcuts we've been accustomed to, follow these steps:
+A somehow annoying thing about Windows guests running un macOS hosts in Fusion is that some very common shortcuts don't work, or have different keys assigned. To enable some of the shortcuts we've been accustomed to, follow these steps:
 
 * In Fusion, go to _Preferences → Keyboard & Mouse_.
 * Select a profile to edit or create a new one. Let's say _Windows 8 Profile_.
