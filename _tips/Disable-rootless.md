@@ -7,7 +7,7 @@ categories: [Security]
 
 ## What is SIP?
 
-SIP (aka _**rootless mode**_) is a security feature introduced in Mac OS X El Capitan that amongst other things stops anybody (_including root!_) from writing to certain folders and files, typically related to the system or Apple’s own apps. The following folders are protected by default, and also most applications that came preinstalled with OS X (e.g. _Dashboard_):
+SIP (aka _**rootless mode**_) is a security feature introduced in OS X El Capitan that amongst other things stops anybody (_including root!_) from writing to certain folders and files, typically related to the system or Apple’s own apps. The following folders are protected by default, and also most applications that came preinstalled with OS X (e.g. _Dashboard_):
 ```
 /System
 /usr
