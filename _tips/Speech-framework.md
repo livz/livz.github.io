@@ -7,7 +7,7 @@ categories: [UX, Howto]
 
 ## Overview
 
-MacOS provides a very powerful speech synthesis framework, easily accessible using built-in tools - ```say (1)``` or programmatically via [Applications Services APIs](https://developer.apple.com/documentation/applicationservices/speech_synthesis_manager). Let's see how to get started with using the Speech framework.
+macOS provides a very powerful speech synthesis framework, easily accessible using built-in tools - ```say (1)``` or programmatically via [Applications Services APIs](https://developer.apple.com/documentation/applicationservices/speech_synthesis_manager). Let's see how to get started with using the Speech framework.
 
 From the command-line it's very simple. Just list the available voices and chose one to speak the message. If you're curious how it would sound in French for example:
 
