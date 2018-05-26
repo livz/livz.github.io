@@ -7,7 +7,7 @@ categories: [Internals]
 
 ## Overview
 
-* A strong feature of HFS+ is that it implements __*transparent file compression*__. All MacOS utilities silently perform decompression on the fly.
+* A strong feature of HFS+ is that it implements __*transparent file compression*__. All macOS utilities silently perform decompression on the fly.
 * Compressed data is placed in the _resource fork_. 
 * Compressed files have an additional extended attribute, _**com.apple.decmpfs**_. 
 
