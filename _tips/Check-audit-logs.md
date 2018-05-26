@@ -7,7 +7,7 @@ categories: [Security]
 
 ## Overview
 
-* MacOS implements the Basic Security Module (BSM) auditing subsystem, originally introduced in Solaris.
+* macOS implements the Basic Security Module (BSM) auditing subsystem, originally introduced in Solaris.
 * This subsystem is useful for tracking user sessions, authentications and process actions.
 
 ## Work with audit logs
