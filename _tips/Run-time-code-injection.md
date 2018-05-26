@@ -123,7 +123,7 @@ Finaly check the initial terminal the result of the injection:
 ```bash
 ~ ./testapp
 Sleeping!
-Hello from injected lib
+Hello from injected lib!
 ```
 
 <div class="box-note">
