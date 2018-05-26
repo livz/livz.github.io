@@ -14,9 +14,12 @@ published: true
 * Root privileges are needed to play with this project. More on the reason for this later on.
 
 ## How it works
-* how mach_inject works:
-https://github.com/rentzsch/mach_inject
-Please don't file a bug report stating mach_inject is crashing for you when you try to use it -- you have to be hard-core enough to debug the problem yourself.
+* There's no need to reinvent the wheel. Better, let's understand how [mach_inject](https://github.com/rentzsch/mach_inject) work, on a higher level. This project is an amazing resource to understand the internals of process injection. Huge thanks to the [author](https://github.com/rentzsch). There is, however, a warning on the main page of the process:
+
+<div class="box-warning">
+[..] Please don't file a bug report stating mach_inject is crashing for you when you try to use it -- you have to be hard-core enough to debug the problem yourself.
+</div>
+
     . bootstrap code, find thread, allocae stack, etc1!!!
 * why root needed?
     . Could not access task for pid 800. You probably need to add user to procmod group
