@@ -7,7 +7,7 @@ categories: [Internals]
 
 ## Overview
 
-This post goes step by step through the process of _**debugging a kernel panic on MacOS Sierra**_ across a network connection. The general process is described at length for different configurations in [Technical Note TN2118](https://developer.apple.com/library/content/technotes/tn2004/tn2118.html). We'll use a MacOS host to act as the _**core dump server**_  and a MacOS guest virtual machine client - _**the debugee**_.
+This post goes step by step through the process of _**debugging a kernel panic on macOS Sierra**_ across a network connection. The general process is described at length for different configurations in [Technical Note TN2118](https://developer.apple.com/library/content/technotes/tn2004/tn2118.html). We'll use a macOS host to act as the _**core dump server**_  and a macOS guest virtual machine client - _**the debugee**_.
 
 For building and loading a kernel extension, check the [previous tip](http://craftware.xyz/tips/Building-kernel-extension.html). 
 
@@ -15,7 +15,7 @@ For building and loading a kernel extension, check the [previous tip](http://cra
 
 #### Configure the dump server
 
-* The first step in collecting kernel core dumps is to set up a kernel core dump server. We'll use a MacOS Sierra.
+* The first step in collecting kernel core dumps is to set up a kernel core dump server. We'll use a macOS Sierra.
 * A typical size for kernel dumps is 200-500 MB and can vary dependng on the physical memory size and usage patterns.
 * The server needs to be accessible from the client over the network. 
 * On the server we need a directory where the cores will be dropped, which needs to be writable by _the program dumping the cores_. According to the official guide, the following settings will do:
