@@ -9,7 +9,7 @@ published: true
 
 ## Overview
 
-* MacOS 10.12 Sierra introduced a new security feature called **_Gatekeeper Path Randomization_**. Gatekeeper checks that an application has been signed with valid Developer ID certificates purchased from Apple. If the app is not signed, Gatekeeper will block the launch.
+* macOS 10.12 Sierra introduced a new security feature called **_Gatekeeper Path Randomization_**. Gatekeeper checks that an application has been signed with valid Developer ID certificates purchased from Apple. If the app is not signed, Gatekeeper will block the launch.
 * A security vulnerability in Gatekeeper has been discovered in 2015 called [dylib hijacking](https://www.virusbulletin.com/virusbulletin/2015/03/dylib-hijacking-os-x) which is very similar to the [DLL hijacking](http://resources.infosecinstitute.com/dll-hijacking-attacks-revisited/#gref) class of vulnerabilities for Windows operating system. 
 * If an app signed with a valid developer certificate loads resources external to its app bundle _via a relative path_, an attacker could package the app with a malicious external resource and bypass Gatekeeper protection. The app would be allowed to run and it will also load the malicious resource.
 * *Gatekeeper Path Randomization* is meant to block this class of attacks:
