@@ -47,8 +47,31 @@ Could not access task for pid 800. You probably need to add user to procmod grou
 
 ## Walkthrough
 
-* downlaod project (contains all libs including bootstrap)
-* modify and compile testapp
+* Downlaod the [osxinj project](https://github.com/scen/osxinj). This includes a test application, test library and the bootstrapping library.
+
+```c
+~ git clone https://github.com/scen/osxinj.git
+```
+* You can use the test app and library or simply create your own. For the test program:
+
+```c
+#include <cstdio>
+#include <unistd.h>
+
+int main(int argc, char* argv[])
+{
+    printf("Sleeping!\n");
+
+    sleep(100000000);
+    
+    return 0;
+}
+```
+
+```bash
+~ clang main.cpp -o testapp
+```
+
 * compile testdylib
 * compile bootstrap
 * move all to one folder and test
