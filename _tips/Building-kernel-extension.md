@@ -7,11 +7,11 @@ categories: [Internals]
 
 ## Overview
 
-This post goes step by step through the process of bulding a simple kernel extension for MacOS High Sierra, using Xcode. This should, hopefully, be educational for anyone with an interest in MacOS security even if not on the kernel level.
+This post goes step by step through the process of bulding a simple kernel extension for macOS High Sierra, using Xcode. This should, hopefully, be educational for anyone with an interest in macOS security even if not on the kernel level.
 
 ## Step by step
 
-* Open Xcode and create a new project. From the _Templates_ window, select _MacOS → Generic Kernel Extension_. In the next screen, select a product name and organisation identifier, as below:
+* Open Xcode and create a new project. From the _Templates_ window, select _macOS → Generic Kernel Extension_. In the next screen, select a product name and organisation identifier, as below:
 
 <img src="/assets/images/tips/newkext.png" alt="newkext" class="figure-body">
 
