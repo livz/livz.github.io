@@ -86,12 +86,14 @@ void install()
 ```
 
 ```bash
-~ clang -Wall -o myLib.dylib -dynamiclib main.cpp
+~ clang -Wall -m32 -o myLib.dylib -dynamiclib main.cpp
 ```
 
 * Compile the bootstrap library and the injector projects. The easiest way is to do it from [Xcode](https://developer.apple.com/xcode/). Notice in the invocation below that I've changed the injector a bit to work on a PID rather than process name. Everything else is the same.
 
-<Note -- when compiling projects in Xcode ----compilatin location>
+<div class="box-note">
+  When compiling projects in Xcode, the output files are created in a random directory, <i>not</i> in the base folder containing the sources. The quickest way to locate the output folder is to click the binary name in the left-hand side pane, and the full path will be displayed in the right-hand side pane. It should be something like <i>/Users/<username>/Library/Developer/Xcode/DerivedData/<project name>-hchndxlkoeuevzdcitgjioiwllok/Build/Products/Debug/</i>.
+</div>
   
 * Profit!
 
@@ -103,18 +105,17 @@ Sleeping!
 ```bash
 ~ ps axu | grep -i testapp
 m                1335   0.0  0.0   599668    516 s003  S+    8:39pm   0:00.00 ./testapp
-~ sudo ./osxinj 1335 ./testdylib.dylib
-Password:
-/Users/m/Library/Developer/Xcode/DerivedData/osxinj-hdeefdhwprtwkjeybczergoaninn/Build/Products/Debug/testdylib.dylib
-module: 0x79E63EA0
-bootstrapfn: 0x4AD50
-injecting into pid: 1335
+~ sudo ./osxinj 1335 ./testdylib.dylib:
+/Users/m/Library/Developer/Xcode/DerivedData/osxinj-hdeefdhwprtwkjeybczergoaninn/Build/Products/Debug/myLib.dylib
+module: 0x78E0A730
+bootstrapfn: 0x2AD50
+injecting into pid: 1393
 image name: /Users/m/Library/Developer/Xcode/DerivedData/osxinj-hdeefdhwprtwkjeybczergoaninn/Build/Products/Debug/bootstrap.dylib
-mach_inject: found threadEntry image at: 0x4a000 with size: 9868
-at 0x7a015c88 correcting 0x4b010 to 0x11c010
+mach_inject: found threadEntry image at: 0x2a000 with size: 9868
+at 0x792de088 correcting 0x2b010 to 0x79010
 [..]
-at 0x7a015cdc correcting 0x4b048 to 0x11c048
-wrote param with size 118
+at 0x792de0dc correcting 0x2b048 to 0x79048
+wrote param with size 114
 ```
 
 Finaly check the initial terminal the result of the injection:
@@ -124,6 +125,10 @@ Finaly check the initial terminal the result of the injection:
 Sleeping!
 hello, world!
 ```
+
+<div class="box-note">
+Notice that in the scenario above that we're using a 32-bit dynamic library. This is to avoid an error in the injector, however, mach_inject supports x86_64 libraries.
+</div>
 
 ## References
 * <a href="http://stanleycen.com/blog/2013/mac-osx-code-injection/" target="_blank">Mac OS X code injection & reverse engineering</a>
