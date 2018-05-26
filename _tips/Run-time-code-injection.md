@@ -14,31 +14,36 @@ published: true
 * Root privileges are needed to play with this project. More on the reason for this later on.
 
 ## How it works
-* There's no need to reinvent the wheel. Better, let's understand how [mach_inject](https://github.com/rentzsch/mach_inject) work, on a higher level. This project is an amazing resource to understand the internals of process injection. Huge thanks to the [author](https://github.com/rentzsch). There is, however, a warning on the main page of the process:
+* There's no need to reinvent the wheel. Better, let's understand how [osxinj project](https://github.com/scen/osxinj/tree/master/osxinj) works, without getting into too many low level details. This project is an amazing resource to understand the internals of process injection. Huge thanks to the [author](https://github.com/scen) and to the origina author]() of [mach_inject](https://github.com/rentzsch).
+* There is a warning on the main page of the *mach_inject* process:
 
 <div class="box-warning">
 Please don't file a bug report stating mach_inject is crashing for you when you try to use it -- you have to be hard-core enough to debug the problem yourself.
 </div>
 
-. The idea is to inject bootstrapping code into the target process that will then invoke ```dyld``` to load a custom module. After writing the bootstrap code into the target process
+* The idea is to *inject bootstrapping code into the target process* that will then invoke ```dyld``` to load any custom library. After writing the bootstrap code into the target process a new thread is spawned, with having the function ```bootstrap``` as its enty point. In order to start the thread correctly, ```mach_inject``` function performs the following actions:
+   * Allocate space for the stack i nthe reote process
+   * Alocate space for the code in the remote process
+   * Create a new thread and launch it. 
 
-- allocate space for remote stack block, for remote code block, create a new thread and launch it. All these are defined in the ```mach_inject``` function, with the following definition hinting at the parameters function:
+* The definition of *mach_inject* function hints at the purpose of its parameters:
 
 ```c
-mach_error_t
-mach_inject(
-            const mach_inject_entry	threadEntry,
-            const void				*paramBlock,
-            size_t					paramSize,
-            pid_t					targetProcess,
-            vm_size_t				stackSize );
+mach_error_t mach_inject(
+            const mach_inject_entry	            threadEntry,
+            const void		            *paramBlock,
+            size_t		            paramSize,
+            pid_t		            targetProcess,
+            vm_size_t		            stackSize );
 ```
 
+* Last point before seeing a demo. *Why are root privileges needed?* If we try to perform process injection without it, we have the following error:
 
-* why root needed?
-. Could not access task for pid 800. You probably need to add user to procmod group
-mach_inject failing.. (ipc/send) invalid destination port
-* task_for_pid
+```
+Could not access task for pid 800. You probably need to add user to procmod group
+```
+
+* Browsing through the code, we can trace this to the ```task_for_pid``` function call. This functions returns the *mac task* corresponding to a process. With a mach task, you can do pretty much anything, including reading and writing a remote process' memory. There is not much documentation about this function online, but [these](https://www.spaceflint.com/?p=150) [articles](https://attilathedud.me/mac-os-x-el-capitan-10-11-and-task_for_pid/) provide a solid starting point.
 
 ## Walkthrough
 
@@ -53,3 +58,6 @@ mach_inject failing.. (ipc/send) invalid destination port
 * <a href="http://stanleycen.com/blog/2013/mac-osx-code-injection/" target="_blank">Mac OS X code injection & reverse engineering</a>
 * <a href="https://github.com/rentzsch/mach_inject" target="_blank">Interprocess code injection for Mac OS X</a>
 * <a href="https://www.spaceflint.com/?p=150" target="_blank">Using ptrace on OS X</a>
+* <a href="https://attilathedud.me/mac-os-x-el-capitan-10-11-and-task_for_pid/" target="_blank">Mac OS X El Capitan (10.11) and task_for_pid()</a>
+
+
