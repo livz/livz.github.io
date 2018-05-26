@@ -8,7 +8,7 @@ published: true
 
 ## Overview
 
-* In a nutshell, the file quarantine feature that was introduced in macOS Leopard 10.5 to protect users from accidentally running applications downloaded from an untrusted source.
+* In a nutshell, the file quarantine feature that was introduced in Mac OSX Leopard 10.5 to protect users from accidentally running applications downloaded from an untrusted source.
 
 <blockquote>
   <p>File Quarantine is a new feature in Leopard designed to protect users from trojan horse attacks. It allows applications which download file content from the Internet to place files in “quarantine” to indicate that the file could be from an untrustworthy source. An application quarantines a file simply by assigning values to one or more quarantine properties which preserve information about when and where the file come from.
