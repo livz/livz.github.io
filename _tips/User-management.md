@@ -7,7 +7,7 @@ categories: [Howto]
 
 ## Overview
 
-Unlike the UNIX approach that relies on ```/etc/passwd``` and ```/etc/shadow``` files, MacOS has its own directory service: ``` DirectoryService (8)``` (renamed to ```opendirectoryd(8)``` as of Lion). The two traditional files are still present, but deprecated. As its name suggests, the daemon is an implementation of the OpenLDAP project. 
+Unlike the UNIX approach that relies on ```/etc/passwd``` and ```/etc/shadow``` files, macOS has its own directory service: ``` DirectoryService (8)``` (renamed to ```opendirectoryd(8)``` as of Lion). The two traditional files are still present, but deprecated. As its name suggests, the daemon is an implementation of the OpenLDAP project. 
 
 The directory service maintains the users and groups and also holds many other system configuration settings. Let's play around with it. To interface with the daemon, OS X supplies a command line utility ```dscl (8)```.
 
