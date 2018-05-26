@@ -12,7 +12,7 @@ Traditionally, applications compiled in C have have access to 3 parameters passe
 * ```char *argv[]``` - An array of strings containing the program arguments, ending in a NULL element.
 * ```char *envp[]``` - An array of strings containing the environment variables, ending in a NULL element.
 
-But on MacOS, programs actually have access to another parameter - the ```apple``` array of strings, which is passed on the stack as the 4th argument, after the ```envp```.
+But on macOS, programs actually have access to another parameter - the ```apple``` array of strings, which is passed on the stack as the 4th argument, after the ```envp```.
 
 ```c
 #include <stdio.h>
