@@ -7,7 +7,7 @@ categories: [Internals]
 
 ## Overview
 
-In this post we'll cover two MacOS applications, part of Xcode Developer Tools, which can be extremely useful to track memory allocations and leaks - **```malloc_history```** and **```leaks```**. 
+In this post we'll cover two macOS applications, part of Xcode Developer Tools, which can be extremely useful to track memory allocations and leaks - **```malloc_history```** and **```leaks```**. 
 
 #### ```malloc_history```
 
