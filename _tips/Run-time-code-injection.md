@@ -105,11 +105,11 @@ Sleeping!
 ```bash
 ~ ps axu | grep -i testapp
 m                1335   0.0  0.0   599668    516 s003  S+    8:39pm   0:00.00 ./testapp
-~ sudo ./osxinj 1335 ./testdylib.dylib:
+~ sudo ./osxinj 1335 ./myLib.dylib:
 /Users/m/Library/Developer/Xcode/DerivedData/osxinj-hdeefdhwprtwkjeybczergoaninn/Build/Products/Debug/myLib.dylib
 module: 0x78E0A730
 bootstrapfn: 0x2AD50
-injecting into pid: 1393
+injecting into pid: 1335
 image name: /Users/m/Library/Developer/Xcode/DerivedData/osxinj-hdeefdhwprtwkjeybczergoaninn/Build/Products/Debug/bootstrap.dylib
 mach_inject: found threadEntry image at: 0x2a000 with size: 9868
 at 0x792de088 correcting 0x2b010 to 0x79010
@@ -123,7 +123,7 @@ Finaly check the initial terminal the result of the injection:
 ```bash
 ~ ./testapp
 Sleeping!
-hello, world!
+Hello from injected lib
 ```
 
 <div class="box-note">
