@@ -125,8 +125,6 @@ Sleeping!
 hello, world!
 ```
 
-##### *Happy code injection!*
-
 ## References
 * <a href="http://stanleycen.com/blog/2013/mac-osx-code-injection/" target="_blank">Mac OS X code injection & reverse engineering</a>
 * <a href="https://github.com/rentzsch/mach_inject" target="_blank">Interprocess code injection for Mac OS X</a>
