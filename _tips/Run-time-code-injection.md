@@ -47,7 +47,7 @@ Could not access task for pid 800. You probably need to add user to procmod grou
 
 ## Walkthrough
 
-* Downlaod the [osxinj project](https://github.com/scen/osxinj). This includes a test application, test library and the bootstrapping library.
+* Downlaod the [osxinj project](https://github.com/scen/osxinj). This includes a test application, test library and the bootstrapping library:
 
 ```c
 ~ git clone https://github.com/scen/osxinj.git
@@ -89,7 +89,7 @@ void install()
 ~ clang -Wall -o myLib.dylib -dynamiclib main.cpp
 ```
 
-* Compile the bootstrap library and the injector projects. The easiest way is to do it from Xcode. Notice in the invocation below that I've changed the injector a bit to work on a PID rather than process name. Everything else is the same.
+* Compile the bootstrap library and the injector projects. The easiest way is to do it from [Xcode](https://developer.apple.com/xcode/). Notice in the invocation below that I've changed the injector a bit to work on a PID rather than process name. Everything else is the same.
 
 <Note -- when compiling projects in Xcode ----compilatin location>
   
@@ -98,10 +98,11 @@ void install()
 ```bash
 ~ ./testapp
 Sleeping!
+```
 
+```bash
 ~ ps axu | grep -i testapp
 m                1335   0.0  0.0   599668    516 s003  S+    8:39pm   0:00.00 ./testapp
-
 ~ sudo ./osxinj 1335 ./testdylib.dylib
 Password:
 /Users/m/Library/Developer/Xcode/DerivedData/osxinj-hdeefdhwprtwkjeybczergoaninn/Build/Products/Debug/testdylib.dylib
@@ -116,13 +117,15 @@ at 0x7a015cdc correcting 0x4b048 to 0x11c048
 wrote param with size 118
 ```
 
-And notice in the initial terminal the result of the injection:
+Finaly check the initial terminal the result of the injection:
 
 ```bash
 ~ ./testapp
 Sleeping!
 hello, world!
 ```
+
+##### *Happy code injection!*
 
 ## References
 * <a href="http://stanleycen.com/blog/2013/mac-osx-code-injection/" target="_blank">Mac OS X code injection & reverse engineering</a>
