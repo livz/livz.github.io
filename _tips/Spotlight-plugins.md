@@ -7,7 +7,7 @@ categories: [Howto]
 
 ## Overview
 
-Spotlight is the quick search technology in MacOS and iOS, launched on MacOS by clicking the magnifying glass icon on the top right corner of the screen, at the end of the menu bar, or on iOS by _swiping down from around the middle of the screen_.
+Spotlight is the quick search technology in macOS and iOS, launched on macOS by clicking the magnifying glass icon on the top right corner of the screen, at the end of the menu bar, or on iOS by _swiping down from around the middle of the screen_.
 
 ## How it works
 
