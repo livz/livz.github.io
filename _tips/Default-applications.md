@@ -7,7 +7,7 @@ categories: [UX]
 
 ## Overview
 
-Like other operating systems, MacOS also keeps an association of file types with default applications used to open them. This is effective when double-clicking a file in the GUI, but also when using the ```open (1)``` command-line tool. Sometimes we might want to change that and it's very easy.
+Like other operating systems, macOS also keeps an association of file types with default applications used to open them. This is effective when double-clicking a file in the GUI, but also when using the ```open (1)``` command-line tool. Sometimes we might want to change that and it's very easy.
 
 ## Change default associations
 
