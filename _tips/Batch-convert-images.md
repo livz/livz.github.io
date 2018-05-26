@@ -7,7 +7,7 @@ categories: [Howto]
 
 ## Overview
 
-**_sips_** is a very useful built-in utility on MacOS for _scriptable image processing_. It can do a lot of stuff, but let's see a few handy use cases:
+**_sips_** is a very useful built-in utility on macOS for _scriptable image processing_. It can do a lot of stuff, but let's see a few handy use cases:
 
 1. Convert multiple images from one format to another (e.g. _jpg_ to _png_):
 
