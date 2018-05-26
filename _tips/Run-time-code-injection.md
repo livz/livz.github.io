@@ -118,7 +118,7 @@ at 0x792de0dc correcting 0x2b048 to 0x79048
 wrote param with size 114
 ```
 
-Finaly check the initial terminal the result of the injection:
+Finaly check the initial terminal for the result of the injection:
 
 ```bash
 ~ ./testapp
