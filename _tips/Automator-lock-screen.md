@@ -6,13 +6,13 @@ categories: [Security]
 ---
 
 ## Overview
-G
-{% assign tip = site.tips | where: "title", "Quickly Lock The Machine With Mouse Only" %}
-{{ tip.date }}
+H
+{% assign t = site.tips | where: "title", "Quickly Lock The Machine With Mouse Only" %}
+{{ t.date }}
 
   {% assign items = (site.tips | sort: 'date') | reverse %}
 		{% for tip in items %}
-			{{ tip.url | prepend: site.baseurl }} {{ tip.title }} 
+			{{ tip.url | prepend: site.baseurl }}
 		{% endfor %}
     
 In the previous tips we've seen how to [lock the screen quickly using mouse only and _Hot Horners_](???) or [using the _Keychain Access_ menu](http://craftware.xyz/tips/Keychain-status-menubar.html). Another quick option to do that is to assign a key combination to a script execution/ This could either be the same AppleScript we've seen before that clicks the _Lock Screen_ button or a different one. For variety, let's go for a different one.
