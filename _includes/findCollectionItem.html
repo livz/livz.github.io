@@ -11,5 +11,6 @@
   Return:
   Full URL of the item, if found.
 
+  DO NOT ADD NEWLINES AFTER THE COMMENT!!!
 {% endcomment %}
 {% assign myCollection = site.collections | where: "label", include.collectionName | first %}{% assign tip = myCollection.docs | where: "title", include.itemTitle | first %}{{ site.url}}{{ tip.url | prepend: site.baseurl }}
