@@ -7,7 +7,13 @@
 
 {% endcomment %}
 
-TEST 6
+TEST 7
+
+
+{% assign collection = site.collections | where: "label", include.collectionName | first %}
+{{ collection.label }}
+
+
 {% assign tip = site.tips | where: "title", include.itemTitle | first %}
  
 {{ site.url}}{{ tip.url | prepend: site.baseurl }}
