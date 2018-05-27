@@ -6,7 +6,7 @@ categories: [Security]
 ---
 
 ## Overview
-{% for item in site.tips %}
+{% for item in site.tips | where: "title", "Quickly Lock The Machine With Mouse Only" %}
     {{ item.title }}
 {% endfor %}
   
