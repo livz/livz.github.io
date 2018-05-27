@@ -1,1 +1,18 @@
-www.test3.com
+{% comment %}
+  Workaround to create a function in Jekyll that returns an item's URL from a collection, other than posts.
+  
+  Parameters:
+  {{ include.collectionName }}    - Name of the colelction to search into
+  {{ include.itemTitle }}         - Title of the item
+
+  Call example:
+  {% include findCollectionItem.html collectionName='tips' itemTitle='Quickly Lock The Machine With Mouse Only' %}
+  
+  Return:
+  Full URL of the item, if found.
+
+{% endcomment %}
+{% assign myCollection = site.collections | where: "label", include.collectionName | first %}
+{% assign tip = myCollection.docs | where: "title", include.itemTitle | first %}
+{{ site.url}}{{ tip.url | prepend: site.baseurl }}
+{% endcomment %}
