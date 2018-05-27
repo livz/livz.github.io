@@ -16,9 +16,9 @@
 TEST 13
 
 {% assign myCollection = site.collections | where: "label", include.collectionName | first %}
-{% comment %}
 
 {{ myCollection.label }}
+{% comment %}
 {{ myCollection | inspect }}
 {{ site.tips | inspect }}
 {% endcomment %}
