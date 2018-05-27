@@ -6,10 +6,12 @@ categories: [Security]
 ---
 
 ## Overview
-I
+K
 
-{% assign t = site.tips | where: "title", "Quickly Lock The Machine With Mouse Only" %}
-{{ t }}
+{% assign tt = site.tips | where: "title", "Quickly Lock The Machine With Mouse Only" %}
+		{% for tip in tt %}
+			{{ tip.url | prepend: site.baseurl }} {{ tip.title }}
+		{% endfor %}
 
   {% assign items = (site.tips | sort: 'date') | reverse %}
 		{% for tip in items %}
