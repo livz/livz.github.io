@@ -6,14 +6,10 @@ categories: [Security]
 ---
 
 ## Overview
-Y
+A
 {% assign tip = site.tips | where: "title", "Quickly Lock The Machine With Mouse Only" %}
 {{ tip.title }}
 
-{% for item in site.tips | where: "title", "Quickly Lock The Machine With Mouse Only" %}
-    {{ item.title }}
-{% endfor %}
-  
 In the previous tips we've seen how to [lock the screen quickly using mouse only and _Hot Horners_]({{ site.tips | where: "title", "Quickly Lock The Machine With Mouse Only" }}) or [using the _Keychain Access_ menu](http://craftware.xyz/tips/Keychain-status-menubar.html). Another quick option to do that is to assign a key combination to a script execution/ This could either be the same AppleScript we've seen before that clicks the _Lock Screen_ button or a different one. For variety, let's go for a different one.
 
 The following very simple bash command can be used to put the display to sleep:
