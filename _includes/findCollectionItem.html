@@ -7,8 +7,8 @@
 
 {% endcomment %}
 
-TEST 2
-{% assign tips = site.tips | where: "title", "Quickly Lock The Machine With Mouse Only"  %}
+TEST 3
+{% assign tips = site.tips | where: "title", include.itemTitle  %}
 
 {% for tip in tips %}
   {{ site.url}}{{ tip.url | prepend: site.baseurl }}
