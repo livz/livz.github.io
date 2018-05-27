@@ -6,7 +6,7 @@ categories: [Security]
 ---
 
 ## Overview
-{% for item in site.posts %}
+{% for item in site.tips %}
     {{ item.title }}
 {% endfor %}
   
