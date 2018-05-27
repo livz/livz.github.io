@@ -1,0 +1,15 @@
+{% comment %}
+  Workaround to create a function in Jekyll that returns an item's URL from a collection, other than posts.
+  
+  Parameters:
+  {{ include.collectionName }}    - Name of the colelction to search into
+  {{ include.itemTitle }}         - Title of the item
+
+{% endcomment %}
+
+
+{% assign tips = site.tips | where: "title", {{ include.itemTitle }}  %}
+
+{% for tip in tips %}
+  {{ site.url}}{{ tip.url | prepend: site.baseurl }}
+{% endfor %}
