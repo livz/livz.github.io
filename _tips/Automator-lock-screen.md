@@ -6,7 +6,10 @@ categories: [Security]
 ---
 
 ## Overview
-x
+Y
+{% assign tip = site.tips | where: "title", "Quickly Lock The Machine With Mouse Only" %}
+{{ tip.title }}
+
 {% for item in site.tips | where: "title", "Quickly Lock The Machine With Mouse Only" %}
     {{ item.title }}
 {% endfor %}
