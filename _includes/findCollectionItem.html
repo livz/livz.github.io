@@ -13,12 +13,7 @@
 
 {% endcomment %}
 
-TEST 15
-
 {% assign myCollection = site.collections | where: "label", include.collectionName | first %}
-
-{{ myCollection.files }}
-{{ myCollection.docs }}
 
 {% assign tip = myCollection.docs | where: "title", include.itemTitle | first %}
  
