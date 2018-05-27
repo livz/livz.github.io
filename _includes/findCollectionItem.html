@@ -13,16 +13,10 @@
 
 {% endcomment %}
 
-TEST 13
+TEST 14
 
 {% assign myCollection = site.collections | where: "label", include.collectionName | first %}
 
-{{ myCollection.label }}
-{% comment %}
-{{ myCollection | inspect }}
-{{ site.tips | inspect }}
-{% endcomment %}
-
-{% assign tip = site.tips | where: "title", include.itemTitle | first %}
+{% assign tip = myCollection | where: "title", include.itemTitle | first %}
  
 {{ site.url}}{{ tip.url | prepend: site.baseurl }}
