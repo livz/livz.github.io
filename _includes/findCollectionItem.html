@@ -7,14 +7,13 @@
 
   Call example:
   {% include findCollectionItem.html collectionName='tips' itemTitle='Quickly Lock The Machine With Mouse Only' %}
-
+  
   Return:
   Full URL of the item, if found.
 
 {% endcomment %}
 
-TEST 12
-
+TEST 10
 
 {% assign myCollection = site.collections | where: "label", include.collectionName | first %}
 
