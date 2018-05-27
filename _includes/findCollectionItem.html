@@ -13,13 +13,13 @@
 
 {% endcomment %}
 
-TEST 11
+TEST 12
 
 
 {% assign myCollection = site.collections | where: "label", include.collectionName | first %}
 
 {{ myCollection.label }}
-{{ myCollection | inspect }}
+
 
 {% assign tip = site.tips | where: "title", include.itemTitle | first %}
  
