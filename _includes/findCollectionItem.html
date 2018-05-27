@@ -7,12 +7,8 @@
 
 {% endcomment %}
 
-HELLO TEST
-{{ include.collectionName }} 
-{{ include.itemTitle }} 
-
-
-{% assign tips = site.tips | where: "title", {{ include.itemTitle }}  %}
+TEST 2
+{% assign tips = site.tips | where: "title", "Quickly Lock The Machine With Mouse Only"  %}
 
 {% for tip in tips %}
   {{ site.url}}{{ tip.url | prepend: site.baseurl }}
