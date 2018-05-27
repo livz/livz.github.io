@@ -17,6 +17,8 @@ TEST 8
 
 
 {% assign myCollection = site.collections | where: "label", include.collectionName | first %}
-{% assign tip = myCollection | where: "title", include.itemTitle | first %}
+{{ myCollection.label }}
+
+{% assign tip = site.tips | where: "title", include.itemTitle | first %}
  
 {{ site.url}}{{ tip.url | prepend: site.baseurl }}
