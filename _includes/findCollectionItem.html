@@ -7,7 +7,7 @@
 
 {% endcomment %}
 
-TEST 4
+TEST 5
 {% assign tips = site.tips | where: "title", include.itemTitle  %}
 
 {% for tip in tips %}
@@ -15,4 +15,4 @@ TEST 4
 {% endfor %}
 
 {% assign ttt = site.tips | where: "title", include.itemTitle  | first %}
-X{{ tt.url}}X
+X{{ ttt.url }}X
