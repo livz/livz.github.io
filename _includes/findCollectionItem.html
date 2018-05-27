@@ -12,12 +12,12 @@
   Full URL of the item, if found.
 
 {% endcomment %}
+{% comment %}
 
 {% assign myCollection = site.collections | where: "label", include.collectionName | first %}
 
 {% assign tip = myCollection.docs | where: "title", include.itemTitle | first %}
  
-{% comment %}
 
 {{ site.url}}{{ tip.url | prepend: site.baseurl }}
 {% endcomment %}
