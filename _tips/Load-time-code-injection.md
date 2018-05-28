@@ -214,7 +214,7 @@ Notice the key function here - [_method_setImplementation_](https://developer.ap
 
 ### Down the rabbit hole
 
-Starting from the _CalculatorLauncher_ and _CalculatorOverrides_ projects, we'll create a library to perform code injection and compile it manually. In the [previous post]() we've replaced a simple C function. Now we want to replace the function ```showAbout``` from class ```CalculatorController```. 
+Starting from the _CalculatorLauncher_ and _CalculatorOverrides_ projects, we'll create a library to perform code injection and compile it manually. In the [previous post]({% capture itemLink %}{% include findCollectionItem.html collectionName='tips' itemTitle='Function Interposing' %}{% endcapture %}{{ itemLink | strip_newlines }}) we've replaced a simple C function. Now we want to replace the function ```showAbout``` from class ```CalculatorController```. 
 
 To make things easier, we could print a stacktrace in the ```load``` function, which performs the method substitution in the original project. Add the line below and recompile:
 
