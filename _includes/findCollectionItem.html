@@ -6,17 +6,14 @@
   {{ include.itemTitle }}         - Title of the item
 
   Call example:
-  {% include findCollectionItem.html collectionName='tips' itemTitle='Quickly Lock The Machine With Mouse Only' %}
-  
+  {% capture itemLink %}{% include findCollectionItem.html collectionName='tips' itemTitle='my title' %}{% endcapture %}{{ itemLink | strip_newlines }}
+
   Return:
   Full URL of the item, if found.
-
-  DO NOT ADD NEWLINES AFTER THE COMMENT!!!
 {% endcomment %}
-{% capture cache %}
 
-2
 {% assign myCollection = site.collections | where: "label", include.collectionName | first %}
+
 {% assign tip = myCollection.docs | where: "title", include.itemTitle | first %}
+
 {{ site.url}}{{ tip.url | prepend: site.baseurl }}
-{% endcapture %}{% assign cache = nil %}
