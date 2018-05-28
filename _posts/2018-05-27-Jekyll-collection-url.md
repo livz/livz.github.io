@@ -14,4 +14,3 @@ categories: [Experiment]
 ```liquid
 {{ site.baseurl }}{% post_url 2018-01-25-My-new-post %}
 ```
-* One advantage of using the ```post_url``` tag is **link validation**. If the link doesn’t exist, Jekyll won’t build your site and will alert you on a broken link.
