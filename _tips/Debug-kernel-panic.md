@@ -9,7 +9,7 @@ categories: [Internals]
 
 This post goes step by step through the process of _**debugging a kernel panic on macOS Sierra**_ across a network connection. The general process is described at length for different configurations in [Technical Note TN2118](https://developer.apple.com/library/content/technotes/tn2004/tn2118.html). We'll use a macOS host to act as the _**core dump server**_  and a macOS guest virtual machine client - _**the debugee**_.
 
-For building and loading a kernel extension, check the [previous tip](). 
+For building and loading a kernel extension, check the [previous tip]({% capture itemLink %}{% include findCollectionItem.html collectionName='tips' itemTitle='Building A Kernel Extension' %}{% endcapture %}{{ itemLink | strip_newlines }}). 
 
 ## Walkthrough
 
@@ -70,7 +70,7 @@ $ sudo reboot
 $ sysctl kern.bootargs
 kern.bootargs: debug=0x444 _panicd_ip=192.168.136.1
 ```
-* Trigger a kernel panic on the client using the following ```dtrace``` trick. Note that [_SIP needs to be disabled_]() for this to work:
+* Trigger a kernel panic on the client using the following ```dtrace``` trick. Note that [_SIP needs to be disabled_]({% capture itemLink %}{% include findCollectionItem.html collectionName='tips' itemTitle='Enable/Disable Rootless Mode' %}{% endcapture %}{{ itemLink | strip_newlines }}) for this to work:
 
 ```bash
 $ sudo dtrace -w -n "BEGIN{ panic(); }"
