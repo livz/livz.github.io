@@ -18,4 +18,4 @@ $ ls -alO /bin/ls
 -rwxr-xr-x  1 root  wheel  restricted,compressed 38624 15 Jul  2017 /bin/ls
 ```
 
-The ```restricted``` flag is covered in [this tip](http://craftware.xyz/tips/Disable-rootless.html) and the ```compressed``` attribute will have its own tip :)
+The ```restricted``` flag is covered in [this tip]() and the ```compressed``` attribute will have its own tip :)
