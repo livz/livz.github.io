@@ -7,7 +7,7 @@ published: true
 ---
 
 ## Overview
-* In the [previous](http://craftware.xyz/tips/Function-interposing.html) [posts](http://craftware.xyz/tips/Load-time-code-injection.html) we've seen how to do code injection at *load time* using ```DYLD_INSERT_LIBRARIES``` environment variable and *loadable classes* for both simple C applications and complex Objective-C apps. This is very useful but sometimes the application you want to inject into has already been started so we need another approach.
+* In the [previous]() [posts]() we've seen how to do code injection at *load time* using ```DYLD_INSERT_LIBRARIES``` environment variable and *loadable classes* for both simple C applications and complex Objective-C apps. This is very useful but sometimes the application you want to inject into has already been started so we need another approach.
 * Similarly to Windows and Linux platforms, it is possible to do run-time code injection in macOS as well. 
 * The documentation on this subject if *very* sparse. All of the implementations available online are based on the [mach_inject](https://github.com/rentzsch/mach_inject) project.
 * There is also a good side to this lack of documentation. There are limited resources for malware writers as well. Thus, it's easy to locate *possibly malicious* samples online that perform process injection. For example, a quick Virus Total hunt reveals [this sample](https://www.virustotal.com/intelligence/search/?query=b00d55dbf45387e81d5d28adc4829e639740eda1) which, at the time of submission, had only 4 detections. Currently 24/60 vendors detect it. I'm sure, however, there are many other samples (*This will be the subject of another story*).
