@@ -46,8 +46,6 @@ Another option would be to put all the instructions outside the comment block in
 ### Full code
 
 ```liquid
-{% raw %}{% include myFunction.html param1='valParam1' param2='valParam2' %}
-
 {% comment %}
   Workaround to create a function in Jekyll that returns an item's URL from a collection, other than posts.
   
