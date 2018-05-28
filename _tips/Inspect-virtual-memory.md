@@ -80,7 +80,7 @@ __TEXT                 00007fffc80b3000-00007fffc80d2000 [  124K   108K     0K  
 * The ```_TEXT``` section is readable and executable, but _not writable_.
 * The ```_DATA``` section is readable and writable, but _not executable_. 
 * The ```malloc```ed ranges are readable and writable, but _not executable_. 
-* An interesting fact, the constant data and hardcoded local strings get stored in the ```_TEXT``` section. That means we should be able to test the shellcode from [this post](http://craftware.xyz/tips/Stack-exec.html) by directly storing it in a local variable:
+* An interesting fact, the constant data and hardcoded local strings get stored in the ```_TEXT``` section. That means we should be able to test the shellcode from [this post]() by directly storing it in a local variable:
 
 ```c
 #include <stdio.h>
