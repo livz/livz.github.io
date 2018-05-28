@@ -21,6 +21,6 @@ shift + cmd - l: ~/scripts/sleep.sh
 
 You'll now be able to use the **⇧ +  ⌘ + L (Shift + CMD + Capital L)** to lock the screen. So here you have 3 quick ways, there's no reason to leave your machine unlocked anymore:
 
-1. [**Hot Horners**](http://craftware.xyz/tips/Lock-machine-gestures.html)
-2. [**Keychain Access**](http://craftware.xyz/tips/Keychain-status-menubar.html)
-3. [**Global shortcut**](http://craftware.xyz/tips/Automator-lock-screen.html)
+1. [**Hot Horners**]()
+2. [**Keychain Access**]()
+3. [**Global shortcut**]()
