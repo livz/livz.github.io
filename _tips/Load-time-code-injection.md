@@ -54,7 +54,7 @@ Current executable set to '/Applications/Calculator.app' (x86_64).
 error: process exited with status -1 (cannot attach to process due to System Integrity Protection)
 ```
 
-To work around this, [disable SIP]() and try again:
+To work around this, [disable SIP]({% capture itemLink %}{% include findCollectionItem.html collectionName='tips' itemTitle='Enable/Disable Rootless Mode' %}{% endcapture %}{{ itemLink | strip_newlines }}) and try again:
 
 ```
 $ lldb /Applications/Calculator.app
@@ -123,7 +123,7 @@ With the breakpoint in place, I wanted to see the stack trace when the ```showAb
 <div class="box-note">
 You might be wondering why there was no ASLR, why the static address found in Ida was the same in LLDB. The reason is that by default, to ease the debugging process, LLDB loaded the binary with address space layout randomization <b>turned off</b>. 
 <br /><br />
-Check <a target="_blank" href="">this tip</a> to make sure ASLR is working as expected!
+Check <a target="_blank" href="{% capture itemLink %}{% include findCollectionItem.html collectionName='tips' itemTitle='Test ASLR (Address Space Layout Randomization)' %}{% endcapture %}{{ itemLink | strip_newlines }}">this tip</a> to make sure ASLR is working as expected!
 </div>
 
 ### Objective-C *Hello World!*
