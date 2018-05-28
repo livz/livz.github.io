@@ -10,7 +10,7 @@ categories: [Internals, Security]
 Before diving into building a test 64-bit shellcode on _macOS Sierra_, some historic information will help to understand the context:
 
 * The stack of applications is marked as *__non-executable by default__* to prevent code injection and stack-based buffer overflows.
-* The heap is [_**not executable by default**_](), although it is considerably harder (although not impossible) to inject code via the heap.
+* The heap is [not executable by default]({% capture itemLink %}{% include findCollectionItem.html collectionName='tips' itemTitle='Test Code Execution On The Heap' %}{% endcapture %}{{ itemLink | strip_newlines }}), although it is considerably harder (although not impossible) to inject code via the heap.
 * On previoud macOS versions, both these settings could be changed system-wide using ```sysctl (8)``` command and setting the ```vm.allow_stack_exec``` and ```vm.allow_heap_exec``` variables to ```1```. This is no longer possible in Sierra:
 
 ```bash
