@@ -15,7 +15,7 @@
 {% endcomment %}
 {% capture cache %}
 
-1
+2
 {% assign myCollection = site.collections | where: "label", include.collectionName | first %}
 {% assign tip = myCollection.docs | where: "title", include.itemTitle | first %}
 {{ site.url}}{{ tip.url | prepend: site.baseurl }}
