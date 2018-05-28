@@ -16,7 +16,7 @@ categories: [Experiment]
 ```
 * One advantage of using the ```post_url``` tag is **link validation**. If the link doesn’t exist, Jekyll won’t build your site and will alert you on a broken link.
 * Unfortunately, there's __no equivalent of *post_url* for custom collections__. There is, however, a closed [feature request](https://github.com/jekyll/jekyll/issues/2252) which states that the functionality would not be implemented due to various constraints.  
-* In this context I was looking for an acceptable workaround, possibly a function that would search items and return their URLs. But **Jekyll doesn't support functions** so I needed *a workaround for the workaround* :)
+* In this context I was looking for an acceptable workaround, possibly a function that would search items and return their URLs. But **Jekyll doesn't support functions** so I needed *a workaround for the workaround*
 
 ## Walkthrough 
 
