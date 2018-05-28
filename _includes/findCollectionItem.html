@@ -13,7 +13,10 @@
 
   DO NOT ADD NEWLINES AFTER THE COMMENT!!!
 {% endcomment %}
+{% capture cache %}
+
 1
 {% assign myCollection = site.collections | where: "label", include.collectionName | first %}
 {% assign tip = myCollection.docs | where: "title", include.itemTitle | first %}
 {{ site.url}}{{ tip.url | prepend: site.baseurl }}
+{% endcapture %}{% assign cache = nil %}
