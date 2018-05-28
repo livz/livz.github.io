@@ -7,7 +7,7 @@ categories: [Howto]
 
 ## Overview
 
-To play with keychains from CLI, macOS has the ```security (1)``` tool, which is basically a command line interface to keychains and Security framework. Of course if you have the [keychain icon in the menu bar](http://craftware.xyz/tips/Keychain-status-menubar.html) it's much easier, but cli interface is handy as well. 
+To play with keychains from CLI, macOS has the ```security (1)``` tool, which is basically a command line interface to keychains and Security framework. Of course if you have the [keychain icon in the menu bar]() it's much easier, but cli interface is handy as well. 
 
 ### Usage
 
