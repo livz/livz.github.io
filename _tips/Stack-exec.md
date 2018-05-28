@@ -10,9 +10,9 @@ categories: [Internals, Security]
 In these four short posts we'll test a few traditional anti-exploitation measures. The experiments below are inspired from the great book [The Mac Hacker's Handbook](https://www.amazon.co.uk/Mac-Hackers-Handbook-Charlie-Miller/dp/0470395362) and are done on a _macOS Sierra_.
 
 To check the other tests, see the links below:
-* [Test Stack Smashing Protection](http://craftware.xyz/tips/Stack-police.html)
-* [Test ASLR (Address space layout randomization)](http://craftware.xyz/tips/Test-ASLR.html)
-* [Test Code Execution On The Heap](http://craftware.xyz/tips/Heap-exec.html)
+* [Test Stack Smashing Protection]()
+* [Test ASLR (Address space layout randomization)]()
+* [Test Code Execution On The Heap]()
 
 #### Test Code Execution On The Stack
 
