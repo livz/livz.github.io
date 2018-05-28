@@ -12,7 +12,7 @@ categories: [CTF, CyberSecurityChallenge]
 
 Recently **Bank of England** published a series of challenges on the [CyberSecurityChallenge UK website](https://pod.cybersecuritychallenge.org.uk). The first two of them are more interesting and realistic. I'll post the description and short answers below. Please avoid looking at the solutions and first analyse the artefacts and find the clues yourself!
 
-* **First challenge** -  [_"I smell a rat"_]()
+* **First challenge** -  [_"I smell a rat"_]({{ site.baseurl }}{% post_url 2018-02-01-BoE-I-smell-a-rat %})
 
 ## Scenario
 
