@@ -7,7 +7,7 @@ categories: [Internals]
 
 ## Overview
 
-The [previous tip]() covered the way Spotlight works. A very little documented feature of Spotlight, but one that can be very useful, is the possibility to disable indexing for specific sensitive folders. By default, indexing will be performed immediately after file notifications are received by the ```mds``` daemon:
+The [previous tip]({% capture itemLink %}{% include findCollectionItem.html collectionName='tips' itemTitle='Spotlight Architecture' %}{% endcapture %}{{ itemLink | strip_newlines }}) covered the way Spotlight works. A very little documented feature of Spotlight, but one that can be very useful, is the possibility to disable indexing for specific sensitive folders. By default, indexing will be performed immediately after file notifications are received by the ```mds``` daemon:
 
 <img src="/assets/images/tips/spotlight-indexed.png" alt="spotlight-indexed" class="figure-body">
 
