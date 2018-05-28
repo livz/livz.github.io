@@ -21,6 +21,6 @@ shift + cmd - l: ~/scripts/sleep.sh
 
 You'll now be able to use the **⇧ +  ⌘ + L (Shift + CMD + Capital L)** to lock the screen. So here you have 3 quick ways, there's no reason to leave your machine unlocked anymore:
 
-1. [**Hot Horners**]()
-2. [**Keychain Access**]()
-3. [**Global shortcut**]()
+1. [**Hot Horners**]({% capture itemLink %}{% include findCollectionItem.html collectionName='tips' itemTitle='Quickly Lock The Machine With Mouse Only' %}{% endcapture %}{{ itemLink | strip_newlines }})
+2. [**Keychain Access**]({% capture itemLink %}{% include findCollectionItem.html collectionName='tips' itemTitle='Show Keychain Status In Menubar' %}{% endcapture %}{{ itemLink | strip_newlines }})
+3. [**Global shortcut**]({% capture itemLink %}{% include findCollectionItem.html collectionName='tips' itemTitle='Keyboard Combo To Lock Screen' %}{% endcapture %}{{ itemLink | strip_newlines }})
