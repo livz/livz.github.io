@@ -13,7 +13,6 @@ To check the other tests, see the links below:
 * [Test Stack Smashing Protection]({% capture itemLink %}{% include findCollectionItem.html collectionName='tips' itemTitle='Test Stack Smashing Protection' %}{% endcapture %}{{ itemLink | strip_newlines }})
 * [Test ASLR (Address space layout randomization)]({% capture itemLink %}{% include findCollectionItem.html collectionName='tips' itemTitle='Test ASLR (Address Space Layout Randomization)' %}{% endcapture %}{{ itemLink | strip_newlines }})
 * [Test Code Execution On The Stack]({% capture itemLink %}{% include findCollectionItem.html collectionName='tips' itemTitle='Test Code Execution On The Stack' %}{% endcapture %}{{ itemLink | strip_newlines }})
-1
 
 #### Test Code Execution On The Heap
 
