@@ -6,7 +6,7 @@
   {{ include.itemTitle }}         - Title of the item
 
   Call example:
-  {% capture itemLink %}{% include findCollectionItem.html collectionName='tips' itemTitle='my title' %}{% endcapture %}{{ itemLink | strip_newlines }}
+  {% capture itemLink %}{% include findCollectionItem.html collectionName='col' itemTitle='my title' %}{% endcapture %}{{ itemLink | strip_newlines }}
 
   Return:
   Full URL of the item, if found.
