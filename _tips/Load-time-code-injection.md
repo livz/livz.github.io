@@ -8,7 +8,7 @@ published: true
 
 ## Overview
 
-* After playing with [function interposing](http://craftware.xyz/tips/Function-interposing.html) to backdoor the random number generator, I wanted to apply the same  *__load-time code injection__* technique to a proper Objective-C application.
+* After playing with [function interposing]() to backdoor the random number generator, I wanted to apply the same  *__load-time code injection__* technique to a proper Objective-C application.
 * Although there is very little information available, I found [this very detailed article](https://blog.timac.org/2012/1218-simple-code-injection-using-dyld_insert_libraries) from 2012. Surprisingly, after downloading the two Xcode projects (the launcher and the dynamic library) the injection was still working on macOS Sierra.
 * In this post I'll walk through the process of understanding how this works under the hood, to be able to apply this technique to any application.
 
