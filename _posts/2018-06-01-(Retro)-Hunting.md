@@ -8,7 +8,7 @@ categories: [Security]
 
 ![Logo](/assets/images/jekyll-logo.png)
 
-### Research osx malware 
+# Research osx malware 
 
 ## Search for code injections samples
 ### Vt hunt - how it works + yara rule;
