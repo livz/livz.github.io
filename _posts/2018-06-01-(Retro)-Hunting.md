@@ -13,7 +13,7 @@ categories: [Security]
 ## Overview
 * In a previous [post]({% capture itemLink %}{% include findCollectionItem.html collectionName='tips' itemTitle='Code Injection (Run-Time)' %}{% endcapture %}{{ itemLink | strip_newlines }}) we've seen how to do run-time code injection on macOS up to the newest version 10.13. Because there are very limited resources online on how to do that (comapred to Windows/Linux), it's easier to find samples that do this based on string patterns.
 * A not so well known feature of Virus Total is [retrohunting](https://www.virustotal.com/intelligence/hunting/). This feature allows YARA scans going back 3 months, or aproximate **75 -100 TB of data**. To access it go to *Intelligence →  Hunting →  Retrohunt*. 
-* I was curious what kind of samples used process injection and whether any legitimate software take this approach __*TL;DR. I didn't find any APT. Most of them are cheats for [Counter-Strike: Global Offensive](https://en.wikipedia.org/wiki/Counter-Strike:_Global_Offensive) and a few small legitimate 3rd party software*__.
+* I was curious what kind of samples used process injection and whether any legitimate software take this approach. __*TL;DR. I didn't find any APT. Most of them are cheats for [Counter-Strike: Global Offensive](https://en.wikipedia.org/wiki/Counter-Strike:_Global_Offensive) and a few small legitimate 3rd party software*__.
 
 ## VT Hunting
 
@@ -51,7 +51,7 @@ rule mach_inject {
 }
 ```
 
-* The search took a little over 3 hours and explored more than 100 TB of data. *That's quite impressive!* For anybody interested, this is the full list of hashes:
+* The search took a little over 3 hours and explored **more than 100 TB of data**. *That's quite impressive!* For anybody interested, this is the full list of hashes:
 
 ```
 3d9c28fc2d870c1904966cdc87c00735d22989c704cc4bdc00295f9799f99470
