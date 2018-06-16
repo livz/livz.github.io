@@ -17,7 +17,7 @@ categories: [Security]
 
 ## VT Hunting
 
-* We need a YARA rule to match macho binaries and some of the process related strings:
+* We need a YARA rule to match macho binaries and some of the process injection related strings:
 
 ```conf
 private rule Macho
@@ -51,7 +51,7 @@ rule mach_inject {
 }
 ```
 
-* The search took a little over 3 hours and explored more than 100 TB of data. That's quite impressive! For anybody interested, at the time of writing I had the following hashes:
+* The search took a little over 3 hours and explored more than 100 TB of data. *That's quite impressive!* For anybody interested, this is the full list of hashes:
 
 ```
 3d9c28fc2d870c1904966cdc87c00735d22989c704cc4bdc00295f9799f99470
@@ -120,16 +120,18 @@ a5a8c0d113ae40de6d18902fa5d5704da68b78606383b1755f66f53c3780289b
 ```
 
 ## Analysis
-* I was hoping to find new tricks but most of the samples contain just the run-time process injection code. The libraries being injected are missing, as they are probably delivered separately. As an example, here's how CS:GO dies it:
+* I was hoping to find new tricks but most of the samples contain just the code for the run-time process injection part. *__The libraries being injected are missing__*, as they are probably delivered separately. This makes it very difficult to determine their functionality and maliciousness.
+
+* As an example, here's how CS:GO does it:
 
 <img src="/assets/images/inject-ida.png" alt="Hex Rays" class="figure-body">
 
 
 ## Conclusions
 
-* Retrohunt is very cool. I shuld use it more often!
+* Retrohunt is very cool. I should use it more often!
 
-* The sample I've looked at above had 26/60 detections. Although this sounds convincing (most of them including the word *trojan* and one even boasting a verdict of *malicious (high confidence)*), this doesn't mean we should stop analysing, panic and delete everything. 
+* The sample above had **26/60 detections**. If this is not convinving enough, note that most of the results include the word *trojan* and one even boasts a verdict of *malicious (high confidence)*), this doesn't mean we should stop analysing, panic and delete everything. 
 
 <img src="/assets/images/inject-detections.png" alt="VT scan results" class="figure-body">
 
