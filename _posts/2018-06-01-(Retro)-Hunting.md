@@ -128,6 +128,6 @@ a5a8c0d113ae40de6d18902fa5d5704da68b78606383b1755f66f53c3780289b
 ## Conclusions
 
 * Retrohunt is very cool. I should use it more often!
-* The sample above had **26/60 detections**. If this is not convincing enough, note that most of the results include the word __*trojan*__ and one even boasts a verdict of __*malicious (high confidence)*__, this doesn't mean we should stop analysing, panic and delete everything.
+* The sample above had **26/60 detections**. If this is not convincing enough, note that most of the results include the word __*trojan*__ and one even boasts a verdict of __*malicious (high confidence)*__. However, this doesn't mean we should stop analysing, panic and delete everything.
 
 <img src="/assets/images/inject-detections.png" alt="VT scan results" class="figure-body">
