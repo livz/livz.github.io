@@ -2,7 +2,7 @@
 title: (Retro) Hunting
 layout: post
 date: 2018-06-01
-published: false
+published: true
 categories: [Security]
 ---
 
@@ -15,17 +15,11 @@ categories: [Security]
 
 * A not so well known feature of Virus Total is [retrohunting](https://www.virustotal.com/intelligence/hunting/). This feature allows YARA scans going back 3 months, or aproximate **75 -100 TB of data**. To access it go to *Intelligence →  Hunting →  Retrohunt*. 
 
-* I was curious what kind of samples used process injection
+* I was curious what kind of samples used process injection and whether any legitimate software take this approach *TL;DR. I didn't find any APT. Most of them are cheats for [Counter-Strike: Global Offensive](https://en.wikipedia.org/wiki/Counter-Strike:_Global_Offensive) and a few small legitimate 3rd party software*
 
 ## VT Hunting
 
-* Vt hunt - how it works + yara rule;*
-* Mach_inject results
-
-## Sample: 
-* detections + analysis https://www.virustotal.com/intelligence/search/?query=ab740081c549e00d41066e631a01c5e46a78a05730f830312ab36e7dc7e41ea9 
-
-
+* We need a YARA rule to match macho binaries and some of the process related strings:
 
 ```conf
 private rule Macho
@@ -59,7 +53,7 @@ rule mach_inject {
 }
 ```
 
-Hashes:
+* The search took a little over 3 hours and explored more than 100 TB of data. That's quite impressive! For anybody interested, at the time of writing I had the following hashes:
 
 ```
 3d9c28fc2d870c1904966cdc87c00735d22989c704cc4bdc00295f9799f99470
@@ -126,4 +120,19 @@ a5a8c0d113ae40de6d18902fa5d5704da68b78606383b1755f66f53c3780289b
 98fa992cc0452256339998fa54c76e4a2107984eb5ca819aaef53784ddcb15ad
 93342cdc841b9e09248f315e27f2c1709bbf7bd2dc38315ed810935e929e704c
 ```
-## Conclusions: retrohunt is very cool. No comment about the FPs?
+
+## Analysis
+* I was hoping to find new tricks but most of the samples contain just the run-time process injection code. The libraries being injected are missing, as they are probably delivered separately. As an example, here's how CS:GO dies it:
+
+<img src="/assets/images/inject-ida.png" alt="Hex Rays" class="figure-body">
+
+
+## Conclusions
+
+* Retrohunt is very cool. I shuld use it more often!
+
+* The sample I've looked at above had 26/60 detections. Although this sounds convincing (most of them including the word *trojan* and one even boasting a verdict of *malicious (high confidence)*), this doesn't mean we should stop analysing, panic and delete everything. 
+
+<img src="/assets/images/inject-detections.png" alt="VT scan results" class="figure-body">
+
+
