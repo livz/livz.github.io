@@ -24,7 +24,7 @@ Search for code injections samples
 ## Conclusions: retrohunt is very cool. No comment about the FPs?
 
 
-```json
+```conf
 private rule Macho
 {
     meta:
