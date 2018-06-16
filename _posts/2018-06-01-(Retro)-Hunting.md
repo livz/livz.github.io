@@ -121,11 +121,9 @@ a5a8c0d113ae40de6d18902fa5d5704da68b78606383b1755f66f53c3780289b
 
 ## Analysis
 * I was hoping to find new tricks but most of the samples contain just the code for the run-time process injection part. *__The libraries being injected are missing__*, as they are probably delivered separately. This makes it very difficult to determine their functionality and maliciousness.
-
 * As an example, here's how CS:GO does it:
 
 <img src="/assets/images/inject-ida.png" alt="Hex Rays" class="figure-body">
-
 
 ## Conclusions
 
