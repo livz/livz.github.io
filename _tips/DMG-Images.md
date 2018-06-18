@@ -8,15 +8,13 @@ published: no
 
 ## Overview
 
-- [Apple disk images](https://en.wikipedia.org/wiki/Apple_Disk_Image), typically having a *.dmg* extension, 
+- [Apple disk images](https://en.wikipedia.org/wiki/Apple_Disk_Image), typically having a *.dmg* extension, are a format used to distribute software because it allows the creator to control the Finder's presentation of the window and to instruct the user to copy the applications to the *Applications* folder.
 
 <blockquote>
   <p>A DMG file is a mountable disk image created in Mac OS X. It contains raw block data typically compressed and sometimes encrypted. DMG files are commonly used for OS X software installers that are downloaded from the Internet and mounts a virtual disk on the desktop when opened.</p>
   <cite><a target="_blank" href="https://fileinfo.com/extension/dmg">.DMG File Extension</a>
 </cite> </blockquote>
-
-
-An Apple disk image allows secure password protection as well as file compression, and hence serves both security and file distribution functions; 
+* Because Apple disk images allow *__secure password protection__* and *__file compression__*. This makes them very useful for software distribution.
 
 Different file systems can be contained inside these disk images
 
