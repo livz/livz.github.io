@@ -23,6 +23,9 @@ Different file systems can be contained inside these disk images
 Apple disk images can be created using utilities bundled with Mac OS X, 
 
 ## How to work with DMG files
+
+* There are a few options to extract the content from the proprietary image format using 3rd party utilities, but the easiest way is to use built-in tools:
+
 ```bash
 ~ hdiutil attach EliteMonitor.dmg
 expected   CRC32 $D31C24BA
