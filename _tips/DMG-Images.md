@@ -14,9 +14,9 @@ published: yes
   <p>A DMG file is a mountable disk image created in Mac OS X. It contains raw block data typically compressed and sometimes encrypted. DMG files are commonly used for OS X software installers that are downloaded from the Internet and mounts a virtual disk on the desktop when opened.</p>
   <cite><a target="_blank" href="https://fileinfo.com/extension/dmg">.DMG File Extension</a>
 </cite> </blockquote>
-* Because Apple disk images allow *__secure password protection__* and *__file compression__*. This makes them very useful for software distribution.
-* A disk image can contain *__multiple file systems__* (HFS, HFS+, FAT, etc.)
-* It's easy to [create disk images](https://www.wikihow.com/Make-a-DMG-File-on-a-Mac) using just utilities bundled with Mac OS X. 
+* Because Apple disk images allow *__secure password protection__* and *__file compression__*, this makes them very useful for software distribution.
+* A disk image can contain *__multiple file systems__* (HFS, HFS+, FAT, etc).
+* It's easy to [create disk images](https://www.wikihow.com/Make-a-DMG-File-on-a-Mac) using just utilities bundled with macOS.
 
 ## How to work with DMG files
 
