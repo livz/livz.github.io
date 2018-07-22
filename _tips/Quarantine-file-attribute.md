@@ -29,7 +29,7 @@ If you're not familiar with the Windows <a target="_blank" href="https://blogs.t
 
 #### List extended attributes
 
-To get a feeling of how this works we can download multiple file types - let's say a zipped application and a PDF report, using *both Safari and Chrome*. The output of ```_ls_``` command marks files that have extended attributes with the **@** sign after the permissions field:
+To get a feeling of how this works we can download multiple file types - let's say a zipped application and a PDF report, using *both Safari and Chrome*. The output of ```ls``` command marks files that have extended attributes with the **@** sign after the permissions field:
 
 
 ```bash
