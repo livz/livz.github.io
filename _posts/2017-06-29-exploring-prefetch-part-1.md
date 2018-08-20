@@ -21,7 +21,7 @@ before it is needed. Also, Prefetch will attempt to compute and save new data fi
 [Forensics Wiki](http://www.forensicswiki.org/wiki/Prefetch) goes into excellent detail on prefetch files and 
 links to further resources.
 
-Prefetch files are also great artifacts in a forensic investigations, very useful when building a timeline of applications that have been run on a system.  http://www.forensicswiki.org/wiki/Prefetch
+Prefetch files are also great artifacts in a forensic investigations, very useful when building a timeline of applications that have been run on a system. 
 
 ## Naming convention
 Prefetch files are named in a format containing the name of the application followed by an eight character hash 
