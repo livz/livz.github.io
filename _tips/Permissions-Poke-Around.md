@@ -21,6 +21,8 @@ published: true
 
 After unlocking the interface, just drag-and-drop an application here, or use the **+** button to add manually.
 
+<img src="/assets/images/tips/privacy-settings.png" alt="Mojave privacy settings" class="figure-body">
+
 * Notice that the protected folders have *no special attributes or permissions*:
 
 ```bash
