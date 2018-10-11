@@ -1,5 +1,5 @@
 ---
-title: Mojave Privacy Features - Permissions to Poke Around
+title: Mojave Permissions to Poke Around
 layout: tip
 date: 2018-10-10
 categories: [Internals, Security]
