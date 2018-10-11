@@ -19,7 +19,7 @@ published: true
     3. Click on the *Privacy* Tab
     4. Click *Full Disk Access* section in the sidebar
 
-After unlocking the interface, you can just drag-and-drop an application here, or use the **+** button to add manually.
+After unlocking the interface, just drag-and-drop an application here, or use the **+** button to add manually.
 
 * The protected folders have *no special attributes or permissions*:
 
