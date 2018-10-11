@@ -13,15 +13,15 @@ published: true
 
 ## *What does it mean in practice?*
 
-* A very important aspect is that **_an application cannot prompt for this permission_**. It must be granted manually. The process is however, very simple:
-    1. Open *System Preferences...*
+* A very important aspect is that **_an application cannot prompt for this permission_**. It must be granted it manually. The process is however, very simple:
+    1. Open *System Preferences*
     2. Go to *Security & Privacy*
     3. Click on the *Privacy* Tab
     4. Click *Full Disk Access* section in the sidebar
 
 After unlocking the interface, just drag-and-drop an application here, or use the **+** button to add manually.
 
-* The protected folders have *no special attributes or permissions*:
+* Notice that the protected folders have *no special attributes or permissions*:
 
 ```bash
 ~ ls -ald@ ~/Library/Safari
