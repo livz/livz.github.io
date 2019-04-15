@@ -1,5 +1,5 @@
 ---
-title:  "Cracking the Perimeter - Course and OSCE Exam Review"
+title:  "Cracking the Perimeter - Course and Exam Review"
 categories: [Opinion]
 ---
 
