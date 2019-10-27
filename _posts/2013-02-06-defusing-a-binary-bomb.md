@@ -277,3 +277,6 @@ Congratulations! You've defused the bomb!_
 ```
 
 Many thanks to the guys at [Open Security Trainings](http://opensecuritytraining.info/) for this and all the other interesting materials there! 
+
+If you're interested in a reverse engineering ransomeware hands-on tutorial and learn to reverse and decrypt some ransomware along the way, check out [this course](https://www.udemy.com/course/advanced-ransomware-reverse-engineering/?referralCode=54910378D37BD6EEC551)! Very recommended for intermediate and advanced.
+Or, if you're interested to cover the basics, see [this one](https://www.udemy.com/course/advanced-ransomware-reverse-engineering/?referralCode=54910378D37BD6EEC551).
