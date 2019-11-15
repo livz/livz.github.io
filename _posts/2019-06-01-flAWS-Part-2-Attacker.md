@@ -337,7 +337,7 @@ Docker ```inspect``` command shows the final command executed and a number of re
 ]
 ```
 
-Docker images are composed of layers, which are intermediate build stages of the image. Each line in a Dockerfile results in the creation of a new layer. For more details about Docker layers, check this in-depth explanation - [Digging into Docker layers]().
+Docker images are composed of layers, which are intermediate build stages of the image. Each line in a Dockerfile results in the creation of a new layer. For more details about Docker layers, check this in-depth explanation - [Digging into Docker layers](https://medium.com/@jessgreb01/digging-into-docker-layers-c22f948ed612).
 
 We can view the commands used to create all the layers when the docker container was built:
 
@@ -572,9 +572,10 @@ The final link is: <a href="http://the-end-962b72bjahfm5b4wcktm8t9z4sapemjb.flaw
 
 ## References
 
+### Posts 
 * [Install Docket Toolbox](https://docs.docker.com/toolbox/toolbox_install_mac/)
-* [Digging into Docker](Digging%20into%20Docker%20layers)
+* [Digging into Docker](https://medium.com/@jessgreb01/digging-into-docker-layers-c22f948ed612)
 * [Explaining Docker Image IDs](https://windsock.io/explaining-docker-image-ids/)
 
-## Tools
+### Tools
 * [Trailblazer](https://github.com/willbengtson/trailblazer-aws)
