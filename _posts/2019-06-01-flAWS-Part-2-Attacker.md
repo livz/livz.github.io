@@ -473,7 +473,7 @@ This contains all the commands used to create the layers, including the one we w
   {
       "created": "2018-11-27T03:32:58.202361504Z",
       "created_by": "/bin/sh -c htpasswd -b -c /etc/nginx/.htpasswd flaws2 secret_password"
-    },
+  },
 ```
 
 ## Level 3
@@ -537,7 +537,7 @@ print "serving at port", PORT
 httpd.serve_forever()
 ```
 
-From inside a container, we could query the credentials using with the following command:
+**_From inside a container, we could query the credentials_** using with the following command:
 
 ```bash
 ~ curl 169.254.170.2$AWS_CONTAINER_CREDENTIALS_RELATIVE_URI
