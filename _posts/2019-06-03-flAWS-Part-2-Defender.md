@@ -310,7 +310,7 @@ Athena is great for incident response because you don't have to wait for the dat
 ## References
 
 ### Posts
-* [Securing AWS Credentials on Engineer's Machines](https://99designs.com.au/tech-blog/blog/2015/10/26/aws-vault/)
+* [Securing AWS Credentials on Engineers' Machines](https://99designs.com.au/tech-blog/blog/2015/10/26/aws-vault/)
 * [Your single AWS account is a serious risk](https://cloudonaut.io/your-single-aws-account-is-a-serious-risk/)
 * [Partitioning CloudTrail Logs in Athena](https://medium.com/@alsmola/partitioning-cloudtrail-logs-in-athena-29add93ee070)
 
