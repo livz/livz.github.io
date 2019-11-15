@@ -109,8 +109,7 @@ Visiting that secret page gives us the link to the next level:
 
 <blockquote>
     <p>
-This next level is running as a container at <a href="http://container.target.flaws2.cloud/">http://container.target.flaws2.cloud/</a>. Just like S3 buckets, other resources on AWS can have open permissions. I'll give you a hint that the ECR (Elastic Container Registry) is named "level2".
-    </p>
+This next level is running as a container at <a href="http://container.target.flaws2.cloud/">http://container.target.flaws2.cloud/</a>. Just like S3 buckets, other resources on AWS can have open permissions. I'll give you a hint that the ECR (Elastic Container Registry) is named "level2".</p>
 </blockquote>
 
 So this level is running as a container. If an ECR is public, we can list all the images in the registry like this:
