@@ -138,7 +138,7 @@ List only the ```ListBuckets``` events:
 ~ find . -type f -iname "*.json" -exec cat {} \; | jq '.Records[]|select(.eventName=="ListBuckets")'
 ```
 
-There is only one call, coming from level3 user:
+There is only one call, coming from ```level3``` user:
 
 ```js
 {
@@ -266,7 +266,7 @@ There is a call to ```ListImages``` done by ```level2``` username:
 }
 ```
 
-We can check the policy of ECR repository for level2:
+We can check the policy of ECR repository for ```level2```:
 
 ```bash
 ~ aws --profile target_security ecr get-repository-policy --repository-name level2
