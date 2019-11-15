@@ -30,7 +30,7 @@ IAM credentials are provided for the Security account:
 </blockquote>
 
 And a diagram of the roles and accounts involved:
-![Logo](/assets/images/aws-security.png)
+![IAM users and roles](/assets/images/aws-security.png)
 
 ## Objective 1: Download CloudTrail logs
 
