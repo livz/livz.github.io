@@ -67,3 +67,6 @@ One missing feature I would like to see is *quicker navigation between an event 
 
 The question is “Will I use it in the future?” I believe Procdot is useful and will test it in different scenarios. I’m planning to analyse a few different infections: a stealthy process injection technique, ransomware and a remote access trojan, and update this in case I find more cool features.
 
+If you're interested in a reverse engineering ransomeware hands-on tutorial and learn to reverse and decrypt some ransomware along the way, check out [this course](https://www.udemy.com/course/advanced-ransomware-reverse-engineering/?referralCode=54910378D37BD6EEC551)! Very recommended for intermediate and advanced.
+Or, if you're interested to cover the basics, see [this one](https://www.udemy.com/course/reverse-engineering-ransomware/?referralCode=DBF9302936C660084635).
+
