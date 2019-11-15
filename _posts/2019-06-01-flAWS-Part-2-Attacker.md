@@ -167,23 +167,38 @@ Notice that the region is different from the one used in the first flAWS challen
 }
 ```
 
-Note: If we’re doing this from a different user, we would need to assign it proper permissions, for example AmazonEC2ContainerRegistryFullAccess or  AmazonEC2ContainerRegistryReadOnly.
+<div class="box-note">
+Note that if we’re doing this from a different user, we would need to assign it proper permissions, for example <b>AmazonEC2ContainerRegistryFullAccess</b> or <b>AmazonEC2ContainerRegistryReadOnly</b>.
+</div>
 
-From one of the hints: Now that you know the image is public, you have two choices, you can either download it locally with docker pull and investigate it with Docker commands or do things more manually with the AWS CLI.
+One of the hints is very helpful: 
 
-Option 1: Use docker
+<blockquote>
+    <p>Now that you know the image is public, you have two choices, you can either download it locally with docker pull and investigate it with Docker commands or do things more manually with the AWS CLI.</p>
+</blockquote>
 
-Note: make sure to enable virtualisation if using Docker in a VM!
+### Option 1: Use Docker
+
+<div class="box-note">
+    If you're installing Docker in a virtual machine, make sure to <i><b>enable virtualisation</b></i>!
+</div>
 
 First get a token to log in into the registry. 
-ecr get-login command - Retrieves a token that is valid for a specified registry for 12 hours, and then it prints a docker login command with that authorisation token
 
+<div class="box-note">
+    <b>ecr get-login</b> command - Retrieves a token that is valid for a specified registry for 12 hours, and then it prints a docker login command with that authorisation token.
+</div>
+
+```bash
 ~ aws --profile part2-attacker-level1 --region us-east-1 ecr get-login
-docker login -u AWS -p eyJwYXlsb2FkIjoibzBkbXFEVmZwNktVS3BWVXlNblZrY3JJSUhlZFp2c2x5NWYyRDNlN1cvdTJaSmJxZHZsVjhWVkl6YlUzdWV3WkFDUC9qdWlNOXQxNEtGd2xmU2dIL2xXY3A4Q29sSmpxM1drUzI2cnpqRTdVR1JjalV4K0hFNmV0cDlPbU1aZW1SeDZIWTNHVHV1b0RnS0VHUVhqNzgwc1NZR2k5Yi9CbnhIV1lVc2M5aUdqSU5oeVNRZGk2cHlNbEN1cy9rWlVRY2RLVmgzRTQzaWlzSXh1K0dqVU55c2s3UGpwcnNnSkZGeE9NNWdVelF6YS85azlURFVjYzlaOUNOR3YyRmNmWWZYeEpUMDdFTlBacU1KaFVCc2t3aDh3UkxqWW51a0xrU2g5SkVyQ0pJWVBsOHYyNVEvdFhIZmVsYWRmZW5HMk0yYlM3WTBITGhXK1FmalZaTVN2SjN6SmV5Mk9zTFU4dkRUcmJ3KzZEU3VPMWZLTHZYY1dqWHV5djVyYlJVL1dXRXJVa1dSSmdLVmw0ODdHQXg0ZnJTMTZUMzRqcC9lVzNMR0I4dllSdVh1Rk14NHNvNXZjQnZMRnhUMW82dkMrQUZndG1DOTdKOXdLZ25zMENVOFM5N0g5M0ZCU2twcjROZ3BPbjZpQXU3MENmWkxoMVVLdUMyWThFTjhjVFAwbFR4ZGtvTktJN1VBWEJ5UHR4WXlHZ2RhTkFJeDQ0dnhmblZ3d0lsK1doSmpMdkl3S2h4azZidWdzYUp4UXJBS3VCZlZzZHFiRXN2T0YvWUtteGZsRVl4TnUzNzkzdEtGc0F2WnBFVnNkdHRJb2I0WXMzbHJRUEppMFpOZmRVeDNhbDBJQjdLVTFlcDV3VUM4QTFiN0lSdE94THRzYm5EUnJ2aVZPbHM2Wm9md3E3YjUrYS9HK1lUUlhZTFNqdlJkRU1yam5kSGIyYndGY0JOeG1TcDhYQU5OaGRwTlVyUGZydDlxWG1wV2tYNllSc2RTRFNISTZ2MEJpNXNacS9iM0JYWW84bVZDR3JtMW9YUGJ0WmtBZjJRenpDaFZXQnFzNm16MmNsUWIycXhJNmpmYzlINVcvL3NCeENjU0swMVpjWXB0U2lRUklsajdqNTVsL3diRU9wQlowSjNEaTlMRGlrM3FhcjBVSnRzbXdDMXdhK29RdVhBazRId2FGYjI3S3VzR1V1YitLYTVyODlxYnNYV3kxblBaOXBkd1I5OERpTkxGU3d2c25qckpOZmVwRDFsNEI1ZXRTU0dNdFVVdDFYbmtYOUQ5MWpnMTNpN0Fnd2lBd3RGeE5UV3dvakxpZU1yUUdQZjUwMU0xcENXY0NBa1RWbUVINW5ydDJsRUZ0L1dEMHpHUUpqK3A2NTZsbTB6dEFVemZvTmFZNnAyRDZYdjcvL3lVbHNrNVBqb0VhaGptWllEeTdDeUFXcmJ2c2VsMlErdE1jUjFHVXB4V0ErM002UFd6SXZVM0Zqay9KeEgyZ3Q0VHo0Q3BDUWxSeis2eWZxWFJ0ZHpybHczVnczTTBnRnA5ZTJna0MyZWw5REQyZHd2dHVmVWcyazlRbEJ0cnVjUG4wK1R2V2YrZz09IiwiZGF0YWtleSI6IkFRRUJBSGh3bTBZYUlTSmVSdEptNW4xRzZ1cWVla1h1b1hYUGU1VUZjZTlScTgvMTR3QUFBSDR3ZkFZSktvWklodmNOQVFjR29HOHdiUUlCQURCb0Jna3Foa2lHOXcwQkJ3RXdIZ1lKWUlaSUFXVURCQUV1TUJFRURNdk5Wcm5nZ3FhZUpid2VzZ0lCRUlBN0xkamlWMDhtTm0wY3hJMnVnbFl2SkZ6cGNvSjQ3aXhoaCthenhBSHlES2pIejRUdDZqNUt2OEZIM2VERVlidDd1RkNmb2hGUkEwSzNabnc9IiwidmVyc2lvbiI6IjIiLCJ0eXBlIjoiREFUQV9LRVkiLCJleHBpcmF0aW9uIjoxNTcyODU5ODU5fQ==  https://653711331788.dkr.ecr.us-east-1.amazonaws.com
+docker login -u AWS -p eyJwYXlsb2FkIjoibzB..U5ODU5fQ==  https://653711331788.dkr.ecr.us-east-1.amazonaws.com
+
 WARNING! Using --password via the CLI is insecure. Use --password-stdin.
-Login Succeeded
+```
 
 Then pull the image from the repository:
+
+```bash
 ~ docker pull 653711331788.dkr.ecr.us-east-1.amazonaws.com/level2:latest
 
 latest: Pulling from level2
@@ -200,16 +215,19 @@ f90fb73d877d: Pull complete
 Digest: sha256:513e7d8a5fb9135a61159fbfbc385a4beb5ccbd84e5755d76ce923e040f9607e
 Status: Downloaded newer image for 653711331788.dkr.ecr.us-east-1.amazonaws.com/level2:latest
 653711331788.dkr.ecr.us-east-1.amazonaws.com/level2:latest
+```
 
+We can also verify it’s been pulled correctly:
 
-Verify it’s been pulled correctly:
-
+```bash
 ~ docker image ls
 REPOSITORY                                            TAG                 IMAGE ID            CREATED             SIZE
 653711331788.dkr.ecr.us-east-1.amazonaws.com/level2   latest              2d73de35b781        11 months ago       202M
+```
 
-Docker inspect shows the final command and a number of read-only layers:
+Docker ```inspect``` command shows the final command executed and a number of read-only layers:
 
+```bash
 ~ docker inspect 2d73de35b781
 [
     {
@@ -317,11 +335,13 @@ Docker inspect shows the final command and a number of read-only layers:
         }
     }
 ]
+```
 
-Docker images are composed of layers, which are intermediate build stages of the image. Each line in a Dockerfile results in the creation of a new layer.  For more details about Docker layers, check this in-depth explanation - Digging into Docker layers.
+Docker images are composed of layers, which are intermediate build stages of the image. Each line in a Dockerfile results in the creation of a new layer.  For more details about Docker layers, check this in-depth explanation - [Digging into Docker layers](Digging%20into%20Docker%20layers).
 
 We can view the commands used to create all the layers when the docker container was built:
 
+```bash
 ~ docker history 2d73de35b781
 IMAGE               CREATED             CREATED BY                                      SIZE                COMMENT
 2d73de35b781        11 months ago       /bin/sh -c #(nop)  CMD ["sh" "/var/www/html/…   0B
@@ -337,18 +357,21 @@ IMAGE               CREATED             CREATED BY                              
 <missing>           11 months ago       /bin/sh -c rm -rf /var/lib/apt/lists/*          0B
 <missing>           11 months ago       /bin/sh -c set -xe   && echo '#!/bin/sh' > /…   745B
 <missing>           11 months ago       /bin/sh -c #(nop) ADD file:efec03b785a78c01a…   116MB
+```
 
-Notice the command to set up the password for HTTP Basic Authentication -  /bin/sh -c htpasswd -b -c /etc/nginx/.htpass… To get the full command, run the above with —no-trunc parameter.
+Notice that the command to set up the password for HTTP Basic Authentication -  ```/bin/sh -c htpasswd -b -c /etc/nginx/.htpass...``` appears incomplete. To get the full command, run the above with ```—no-trunc``` parameter.
 
 These are the parameters we were looking for:
 
+```bash
 /bin/sh -c htpasswd -b -c /etc/nginx/.htpasswd flaws2 secret_password
+```
 
-Try them on http://container.target.flaws2.cloud to get the link to level 3:
+Try them on <a href="http://container.target.flaws2.cloud ">http://container.target.flaws2.cloud </a> to get the link to level 3:
 
-Read about Level 3 at level3-oc6ou6dnkw8sszwvdrraxc5t5udrsw3s.flaws2.cloud
+Finally, level 3 is at [level3-oc6ou6dnkw8sszwvdrraxc5t5udrsw3s.flaws2.cloud](http://level3-oc6ou6dnkw8sszwvdrraxc5t5udrsw3s.flaws2.cloud)
 
-Option 2: Use AWS CLI
+### Option 2: Use AWS CLI
 
 We can dig a bit into the image without using Docker:
 
