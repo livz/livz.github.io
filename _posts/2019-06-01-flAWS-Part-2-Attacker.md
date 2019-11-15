@@ -13,10 +13,6 @@ categories: [CTF, flAWS, AWS]
 </p>
 </blockquote>
 
-[flAWS - Part 1](http://flaws.cloud/) is a set of CTF-like challenges that teach you common security issues related with AWS. This post is a walkthrough for these challenges. It's basically a writeup on how to solve levels 1 to 6, and includes my notes and commands that helped me learn. 
-
-Each one of the challenges is followed by a brief explanation of a vulnerable AWS configuration that lead to the flaw and how to mitigate it. Before reading any further, go [here](http://flaws.cloud/) and try them for yourself first! 
-
 For the writeups and notes to the other flAWS challenges:
 * [flAWS Part 1](xxx)
 * [flAWS Part 2 - Defender](xxx)
