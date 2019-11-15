@@ -10,7 +10,7 @@ categories: [CTF, flAWS, AWS]
 <b>flAWS 2 challenge<b> [..] teaches you AWS (Amazon Web Services) security concepts. The challenges are focused on AWS specific issues, so no buffer overflows, XSS, etc. You can play by getting hands-on-keyboard or just click through the hints to learn the concepts and go from one level to the next without playing.
 <br/><br/>
     flAWS 2 has two paths this time: <b>Attacker</b> and <b>Defender</b>! In the Attacker path, you'll exploit your way through misconfigurations in serverless (Lambda) and containers (ECS Fargate). In the Defender path, that target is now viewed as the victim and you'll work as an incident responder for that same app, understanding how an attack happened. You'll get access to logs of a previous successful attack. As a Defender you'll learn the power of jq in analyzing logs, and instructions on how to set up Athena in your own environment.
-    </p>
+</p>
 </blockquote>
 
 [flAWS - Part 1](http://flaws.cloud/) is a set of CTF-like challenges that teach you common security issues related with AWS. This post is a walkthrough for these challenges. It's basically a writeup on how to solve levels 1 to 6, and includes my notes and commands that helped me learn. 
