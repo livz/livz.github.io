@@ -24,20 +24,18 @@ Before starting, I wanted to say thank you again to the creator of these games, 
 The first hint tells us to look at the JavaScript code. There is a client-side check on the parameter, which needs to be a number. This suggests that the backend application only accepts numbers.
 
 ```js
-<script type="text/javascript">
-    function validateForm() {
-        var code = document.forms["myForm"]["code"].value;
-        if (!(!isNaN(parseFloat(code)) && isFinite(code))) {
-            alert("Code must be a number");
-            return false;
-        }
-    }
-</script>
+  function validateForm() {
+      var code = document.forms["myForm"]["code"].value;
+      if (!(!isNaN(parseFloat(code)) && isFinite(code))) {
+          alert("Code must be a number");
+          return false;
+      }
+  }
 ```
 
 Form data is validated as follows:
 
-```js
+```html
 <form name="myForm" action="https://2rfismmoo8.execute-api.us-east-1.amazonaws.com/default/level1" onsubmit="return validateForm()">
   Code: <input type="text" name="code" value="1234">
   <br><br>
