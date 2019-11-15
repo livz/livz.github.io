@@ -36,6 +36,7 @@ And a diagram of the roles and accounts involved:
 
 Check the profile and list all the buckets available:
 
+```bash
 ~ aws --profile defender sts get-caller-identity
 {
     "Account": "322079859186",
@@ -45,77 +46,101 @@ Check the profile and list all the buckets available:
 
 ~ aws --profile defender s3 ls
 2018-11-19 20:54:31 flaws2-logs
+```
 
-Download everything in that bucket:
+Next, download everything in that bucket:
 
+```bash
 ~ aws --profile defender s3 sync s3://flaws2-logs .
+```
 
-The CloudTrail logs for the hack are in the subfolder AWSLogs/653711331788/CloudTrail/us-east-1/2018/11/28/
+The CloudTrail logs for the hack are in the subfolder _AWSLogs/653711331788/CloudTrail/us-east-1/2018/11/28/_
 
 ## Objective 2: Access the Target account
 
-Add a profile for the Target security role in ~/.aws/config:
+Add a profile for the Target security role in ```~/.aws/config```:
 
+```bash
 [profile target_security]
 region=us-east-1
 output=json
 source_profile = defender
 role_arn = arn:aws:iam::653711331788:role/security
+```
 
-Note: make sure the source_profile references the name of the previous profile created for the Security user.
+<div class="box-note">
+    Make sure the <i>source_profile</i> variable references the name of the previous profile created for the Security user.
+</div>
 
 Now check the identity again:
 
+```bash
 ~ aws --profile target_security sts get-caller-identity
 {
     "Account": "653711331788",
     "UserId": "AROAIKRY5GULQLYOGRMNS:botocore-session-1572880759",
     "Arn": "arn:aws:sts::653711331788:assumed-role/security/botocore-session-1572880759"
 }
+```
 
 The Target account has access to the buckets for the levels of the Attacker track:
 
+```bash
 ~ aws --profile target_security s3 ls
 2018-11-20 19:50:08 flaws2.cloud
 2018-11-20 18:45:26 level1.flaws2.cloud
 2018-11-21 01:41:16 level2-g9785tw8478k4awxtbox9kk3c5ka8iiz.flaws2.cloud
 2018-11-26 19:47:22 level3-oc6ou6dnkw8sszwvdrraxc5t5udrsw3s.flaws2.cloud
 2018-11-27 20:37:27 the-end-962b72bjahfm5b4wcktm8t9z4sapemjb.flaws2.cloud
+```
 
 ## Objective 3: Use jq
 
 First unzip all the log files:
 
+```bash
 ~ find . -type f -exec gunzip {} \;
+```
 
 The cat all of them through jq:
 
+```bash
 ~ find . -type f -iname "*.json" -exec cat {} \; | jq '.'
+```
 
-To see just the event names - eventName field nested under Records:
+To see just the event names print the ```eventName``` field nested under ```Records```:
 
+```bash
 ~ find . -type f -iname "*.json" -exec cat {} \; | jq '.Records[]|.eventName'
+```
 
-Let’s play a bit with jq parameters to include the timestamp as well, display a compact output (-cr), convert it to tsv (@tsv) and sort the events by date:
+Let’s play a bit with jq parameters to include the timestamp as well, display a compact output (```-cr```), convert it to tsv (```@tsv```) and sort the events by date:
 
+```bash
 ~ find . -type f -iname "*.json" -exec cat {} \; | jq -cr '.Records[]|[.eventTime, .eventName] |@tsv' | sort
+```
 
 Get more information and dump them to a tsv file for visual inspection:
 
+```bash
 ~ find . -type f -iname "*.json" -exec cat {} \; 
 | jq -cr '.Records[]|[.eventTime, .sourceIPAddress, .userAgent, .userIdentity.arn, .userIdentity.accountId, .userIdentity.type, .eventName]|@tsv' 
 | sort > events.tsv
+```
 
-Note: We could have dumped them similarly to a CSV file using @csv operator.
+We could have dumped them similarly to a CSV file using ```@csv``` operator.
 
 ## Objective 4: Identify credential theft
 
-List only the ListBuckets events:
+List only the ```ListBuckets``` events:
 
+```bash
 ~ find . -type f -iname "*.json" -exec cat {} \; | jq '.Records[]|select(.eventName=="ListBuckets")'
+```
 
 There is only one call, coming from level3 user:
 
+```js
 {
   "eventVersion": "1.05",
   "userIdentity": {
@@ -151,9 +176,11 @@ There is only one call, coming from level3 user:
   "eventType": "AwsApiCall",
   "recipientAccountId": "653711331788"
 }
+```
 
-The call came from the role level3. Let’s inspect this role:
+The call came from the role ```level3```. Let’s inspect this role:
 
+```bash
 ~ aws --profile target_security iam get-role --role-name level3
 
 {
@@ -180,16 +207,17 @@ The call came from the role level3. Let’s inspect this role:
         "Arn": "arn:aws:iam::653711331788:role/level3"
     }
 }
+```
 
-According to the description, this should only be run by ECS services because the AssumeRolePolicyDocument is only allowing that one principle. But that 104.* IP address clearly doesn’t come from AWS!
+According to the description, _**this should only be run by ECS services**_ because the ```AssumeRolePolicyDocument``` is only allowing that one principle. But that 104.* IP address clearly doesn’t come from AWS!
 
-Normally, we would see the resource (the ECS in this case) having made AWS API calls from its own IP that you could then compare against any new IPs.
-
+Normally, we would see the resource (the ECS in this case) having made AWS API calls from its own IP that we could then compare against any new IPs.
 
 ## Objective 5: Identify the public resource
 
-There is a call to ListImages done by level2 username:
+There is a call to ```ListImages``` done by ```level2``` username:
 
+```bash
 ~ find . -type f -iname "*.json" -exec cat {} \; | jq '.Records[]|select(.eventName=="ListImages")'
 
 {
@@ -236,9 +264,11 @@ There is a call to ListImages done by level2 username:
   "eventType": "AwsApiCall",
   "recipientAccountId": "653711331788"
 }
+```
 
 We can check the policy of ECR repository for level2:
 
+```bash
 ~ aws --profile target_security ecr get-repository-policy --repository-name level2
 
 {
@@ -246,10 +276,12 @@ We can check the policy of ECR repository for level2:
     "repositoryName": "level2",
     "registryId": "653711331788"
 }
+```
 
-And if we clean the policyText field:
+And if we clean the ```policyText``` field:
 
- ~ aws --profile target_security ecr get-repository-policy --repository-name level2 | jq '.policyText|fromjson'
+```bash
+~ aws --profile target_security ecr get-repository-policy --repository-name level2 | jq '.policyText|fromjson'
 
 {
   "Version": "2008-10-17",
@@ -267,8 +299,9 @@ And if we clean the policyText field:
       ]
     }
   ]
+```
 
-Principal: * means these actions are public to the world to perform!
+Here **Principal: \*** means these actions are public to the world to perform!
 
 ## Objective 6: Use Athena
 
