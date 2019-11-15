@@ -21,6 +21,10 @@ Before starting, I wanted to say thank you again to the creator of these games, 
 
 ## Level 1
 
+<blockquote>
+<p>For this level, you'll need to enter the correct PIN code. The correct PIN is 100 digits long, so brute forcing it won't help.</p>
+</blockquote>
+
 The first hint tells us to look at the JavaScript code. There is a client-side check on the parameter, which needs to be a number. This suggests that the backend application only accepts numbers.
 
 ```js
@@ -103,28 +107,39 @@ Visiting that secret page gives us the link to the next level:
 
 ## Level 2
 
-This level is running as a container at http://container.target.flaws2.cloud/
+<blockquote>
+    <p>
+This next level is running as a container at <a href="http://container.target.flaws2.cloud/">http://container.target.flaws2.cloud/</a></p>. Just like S3 buckets, other resources on AWS can have open permissions. I'll give you a hint that the ECR (Elastic Container Registry) is named "level2".
+    </p>
+</blockquote>
 
-If an ECR is public, we can list the images with:
+So this level is running as a container. If an ECR is public, we can list all the images in the registry like this:
 
+```bash
 ~ aws ecr list-images --repository-name REPO_NAME --registry-id ACCOUNT_ID
+```
 
-where the repository name is “level2” and the registry-id is the AWS account ID associated with the registry. We can find out this account using the profile created in the previous level:
+In this case the repository name is **level2** and the _registry-id_ is the AWS account ID associated with the registry. We can find out this account using the profile created in the previous level:
 
+```bash
 ~ aws --profile part2-attacker-level1 sts get-caller-identity
 {
     "Account": "653711331788",
     "UserId": "AROAIBATWWYQXZTTALNCE:level1",
     "Arn": "arn:aws:sts::653711331788:assumed-role/level1/level1"
 }
+```
 
-With this information, let’s try again to list the images:
+With this information, let’s try to list the images:
 
+```bash
 ~ aws --profile part2-attacker-level1 ecr list-images --repository-name level2 --registry-id 653711331788
 You must specify a region. You can also configure your region by running "aws configure".
+```
 
-We need to get the correct region:
+We also need to get the correct region:
 
+```bash
 ~ dig level2-g9785tw8478k4awxtbox9kk3c5ka8iiz.flaws2.cloud
 
 . . .
@@ -137,7 +152,11 @@ Address:	172.16.174.2#53
 
 Non-authoritative answer:
 195.37.217.52.in-addr.arpa	name = s3-website-us-east-1.amazonaws.com.
+```
 
+Notice that the region is different from the one used in the first flAWS challenge.
+
+```bash
 ~ aws --profile part2-attacker-level1 ecr list-images --repository-name level2 --registry-id 653711331788 --region us-east-1
 {
     "imageIds": [
@@ -147,6 +166,7 @@ Non-authoritative answer:
         }
     ]
 }
+```
 
 Note: If we’re doing this from a different user, we would need to assign it proper permissions, for example AmazonEC2ContainerRegistryFullAccess or  AmazonEC2ContainerRegistryReadOnly.
 
