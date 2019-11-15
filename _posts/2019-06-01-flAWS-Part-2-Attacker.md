@@ -14,7 +14,7 @@ categories: [CTF, flAWS, AWS]
 </blockquote>
 
 For the writeups and notes to the other flAWS challenges:
-* [flAWS Part 1](xxx)
+* [flAWS Part 1]({{ site.baseurl }}{% post_url 2019-05-01-flAWS-Part-1 %})
 * [flAWS Part 2 - Defender](xxx)
 
 Before starting, I wanted to say thank you again to the creator of these games, Scott Piper of [summitroute](https://summitroute.com/) for the effort of designing, hosting and making them available for free for everyone! All the levels are highly educative and recommended for anyone interested in AWS security.
