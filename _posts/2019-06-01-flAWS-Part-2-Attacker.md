@@ -45,7 +45,7 @@ Form data is validated as follows:
 
 Let’s try an invalid input and see what happens:
 
-<a href="https://2rfismmoo8.execute-api.us-east-1.amazonaws.com/default/level1?code=aaa">2rfismmoo8.execute-api.us-east-1.amazonaws.com/default/level1?code=aaa</a></p>
+<a href="https://2rfismmoo8.execute-api.us-east-1.amazonaws.com/default/level1?code=aaa">2rfismmoo8.execute-api.us-east-1.amazonaws.com/default/level1?code=aaa</a>
 
 ```js
 Error, malformed input
@@ -83,7 +83,7 @@ The JSON object, after beautifying, looks like this:
 }
 ```
 
-We’ll configure the AWS CLI with these 3 parameters (**AWS_ACCESS_KEY_ID**, **AWS_SECRET_ACCESS_KEY** and **AWS_SESSION_TOKEN**)in ~/.aws/credentials and then inspect the bucket:
+We’ll configure the AWS CLI with these 3 parameters (**AWS_ACCESS_KEY_ID**, **AWS_SECRET_ACCESS_KEY** and **AWS_SESSION_TOKEN**) in _~/.aws/credentials_ and then inspect the bucket:
 
 ```bash
 ~ aws --profile part2-attacker-level1 s3 ls s3://level1.flaws2.cloud
