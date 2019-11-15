@@ -157,6 +157,8 @@ blockquote {
   color: #aaa;
   padding-left: 10px;
   border-left: 1px dotted #666;
+  overflow: auto;
+  overflow-y: hidden;
 }
 
 pre {
