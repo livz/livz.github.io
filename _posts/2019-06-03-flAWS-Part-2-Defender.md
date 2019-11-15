@@ -17,6 +17,8 @@ For the writeups and notes to the other flAWS challenges:
 * [flAWS Part 1]({{ site.baseurl }}{% post_url 2019-05-01-flAWS-Part-1 %})
 * [flAWS Part 2 - Attacker]({{ site.baseurl }}{% post_url 2019-06-01-flAWS-Part-2-Attacker %})
 
+This post is mostly based on the instructions from the website, with my notes and comments here and there.
+
 Before starting, I wanted to say thank you again to the creator of these games, Scott Piper of [summitroute](https://summitroute.com/) for the effort of designing, hosting and making them available for free for everyone! All the levels are highly educative and recommended for anyone interested in AWS security.
 
 ## Scenario
