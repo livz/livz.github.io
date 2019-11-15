@@ -99,8 +99,7 @@ We’ll configure the AWS CLI with these 3 parameters (**AWS_ACCESS_KEY_ID**, **
 
 Visiting that secret page gives us the link to the next level:
 
-<a href="http://level2-g9785tw8478k4awxtbox9kk3c5ka8iiz.flaws2.cloud">level2-g9785tw8478k4awxtbox9kk3c5ka8iiz.flaws2.cloud</a></p>
-
+<a href="http://level2-g9785tw8478k4awxtbox9kk3c5ka8iiz.flaws2.cloud">level2-g9785tw8478k4awxtbox9kk3c5ka8iiz.flaws2.cloud</a>
 
 ## Level 2
 
