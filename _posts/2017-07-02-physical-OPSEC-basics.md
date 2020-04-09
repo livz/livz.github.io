@@ -81,7 +81,7 @@ If you’ve watched [Citizenfour](http://www.imdb.com/title/tt4044364/) maybe yo
 
 <img src="/assets/images/opsec-basics/snowden.png" alt="Snowden enter password under blanket" class="figure-body">
 
-##
+## End notes
 
 That’s it for now! Stay safe. And a piece of advice from an anonymous wise man:
 
