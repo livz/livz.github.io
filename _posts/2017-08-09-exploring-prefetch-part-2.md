@@ -113,5 +113,6 @@ Technique | Prefetch bypass
 **Regsvr32** | Partially
 **DOS files** | YES
 
-## 
+### End notes
+
 If you're interested in a reverse engineering hands-on online tutorial and want to learn more about reversing real world malware, check out [this course](https://www.udemy.com/course/reverse-engineering-essentials/?referralCode=D738F461C93A2CD029FB)! Among others, you'll see how prefetech files described here help in uncovering traces about self-deleting samples.
