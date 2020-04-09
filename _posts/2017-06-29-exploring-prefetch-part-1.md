@@ -137,3 +137,7 @@ Fortunately this bug cannot be reproduced reliably, so it won’t cause problems
 ##
 
 In the [next part]({{ site.baseurl }}{% post_url 2017-08-09-exploring-prefetch-part-2 %}) of this blogpost we'll look at the way these incredibly important forensic artefacts, the prefetch files, are actually created and how (*and if!*) an intruder trying to hide its traces could work around them.
+
+##
+
+If you're interested in a reverse engineering hands-on online tutorial and want to learn more about reversing real world malware, check out [this course](https://www.udemy.com/course/reverse-engineering-essentials/?referralCode=D738F461C93A2CD029FB)! Among others, you'll see how prefetech files described here help in uncovering traces about self-deleting samples.
