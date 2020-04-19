@@ -7,11 +7,21 @@ categories: [Opinion]
 
 ## Overview
 
-After OSCP exam, I was eager to start the [AWAE - Advanced Web Attacks And Exploitation Training](https://www.offensive-security.com/awae-oswe/) as soon as possible. The course is mostly assembly based. I've spent most of the time in OllyDbg. Besides that part, the course has a also web based module, and a networking module. All of them are very interesting and require extra reading and practice to fully understand and be able to reproduce the techniques (during the stressful exam hours!). 
+I was very excited when I found out about [AWAE - Advanced Web Attacks And Exploitation Training](https://www.offensive-security.com/awae-oswe/). If this was to be in line with the other Offsec courses, it had to be well worth doing it. And I wasn't dissappointed. The course is well structured and goes well beyond classic vulnerabilities examples. The best things, in my opinion, about this course are that:
 
+* Each chapter is a scenario that chains together multiple vulnerabilities to go from web to RCE
+* Each chapter has exercises and solutions but also *Extra Mile* challenges that force you to go on your own and find solutions.
+* There are many topics covered, mostly around vulnerabilities taht can be found via code review: a lot of applciation logic flaws, XSS, XSRF, blind SQLi, a lot of authentication bypasses
+* They force you to become good with (or at least understand and craft some code) in many programming languages: Perl, Python, Java, JavaScript, C#
+
+Time-wise, I took the 3 month 
 ## Challenge
 
 Before being able to register for the CTP training, you're required to pass a short, fun, multi-staged challenge. You can attempt the challenge before paying for the actual course. The challenge starts on the web and finishes with some low-level assembly stuff. If you liked the challenge you'll definitely love the course. 
+
+don't loose hope
+keep going 
+try harder
 
 ## Study
 
@@ -20,6 +30,10 @@ After reading through other reviews, I didn't dive straight into the course afte
 * [FuzzySecurity Exploit tutorials](http://www.fuzzysecurity.com/exploits.html)
 
 One month of lab time is more than enough to complete the exercises from all the chapters in the course, but extra work will prove very useful. Also, as a prerequisite, Python and reverse engineering skills helped a lot. Especially for the manual shellcode encoding module, which requires some automation. Fun times!
+
+Code analysis challenges practice
+
+
 
 ## Exam
 
