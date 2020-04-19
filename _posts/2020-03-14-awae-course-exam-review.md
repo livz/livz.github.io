@@ -3,11 +3,12 @@ title:  "Advanced Web Attacks And Exploitation - Course and OSWE Exam Review"
 categories: [Opinion]
 ---
 
-![Logo](/assets/images/osce.png)
+![Logo](/assets/images/oswe.png)
 
 ## Overview
 
-After OSCP exam, I was eager to start the [CTP training](http://www.offensive-security.com/information-security-training/cracking-the-perimeter/) as soon as possible. The course is mostly assembly based. I've spent most of the time in OllyDbg. Besides that part, the course has a also web based module, and a networking module. All of them are very interesting and require extra reading and practice to fully understand and be able to reproduce the techniques (during the stressful exam hours!). 
+After OSCP exam, I was eager to start the [AWAE - Advanced Web Attacks And Exploitation
+Web Application Security Training](https://www.offensive-security.com/awae-oswe/) as soon as possible. The course is mostly assembly based. I've spent most of the time in OllyDbg. Besides that part, the course has a also web based module, and a networking module. All of them are very interesting and require extra reading and practice to fully understand and be able to reproduce the techniques (during the stressful exam hours!). 
 
 ## Challenge
 
