@@ -28,7 +28,7 @@ Since this is mostly about coding vulnerabilities, I found the following code an
 * [WORDPRESS SECURITY CALENDAR 2018](https://www.ripstech.com/php-security-calendar-2018/)
 * [JAVA SECURITY CALENDAR 2019](https://www.ripstech.com/java-security-calendar-2019/)
 
-There are many other resources recommended throughout the course so make sure to check them out!
+There are many resources recommended throughout the course so make sure to check them out!
 
 ## Exam
 
