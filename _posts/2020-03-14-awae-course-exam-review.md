@@ -22,7 +22,7 @@ All the posts I've read recommended doing the Extra Mile exercises and I agree w
 
 Depending on experience, the amount of study needed before or during the training will vary. There's no point here to provide an exact number of hours of study and resources. What's important is to approach it methodically, realise what you know and what you don't and don't run away from any topics.
 
-Since this is mostly about coding vulnerabilities, I foudn the following code analysis challenges very interesting:
+Since this is mostly about coding vulnerabilities, I found the following code analysis challenges very interesting:
 
 * [PHP SECURITY CALENDAR 2017](https://www.ripstech.com/php-security-calendar-2017/)
 * [WORDPRESS SECURITY CALENDAR 2018](https://www.ripstech.com/php-security-calendar-2018/)
