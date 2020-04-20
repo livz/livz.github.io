@@ -11,7 +11,7 @@ I was very excited when I found out about [AWAE - Advanced Web Attacks And Explo
 
 * Each chapter is a scenario that chains together multiple vulnerabilities, starting from web to RCE
 * Each chapter has exercises and solutions but also *Extra Mile* challenges that force you to go on your own and find solutions.
-* There are many topics covered, mostly around vulnerabilities that can be found via code review: a lot of applciation logic flaws, XSS, XSRF, blind SQLi and interesting authentication bypasses.
+* There are many topics covered, mostly around vulnerabilities that can be found via code review: a lot of application logic flaws, XSS, XSRF, blind SQLi and interesting authentication bypasses.
 * They force you to become good with (or at least understand and be able to craft some code) in many programming languages: Perl, Python, Java, JavaScript, C#.
 
 Time-wise, I took the 3 months package but I ended using only about 2 months. If you work consistently on it, it can definitely be done quicker.
@@ -32,7 +32,7 @@ There are many resources recommended throughout the course so make sure to check
 
 ## Exam
 
-The exam is not easy and requires a bit of concentration, and a good understanding of the techniques used in the lab. I would say there are no *tricky* challenges to solve but the exam is slightly more difficult than the lab. In my case I had some serious problems with the internet connection on the first day. Because the exam is proctored, I had to restart the camera monitoring software almost 150 times. That was very very frustrating. I had a plan for the second day but luckily my connection got back to normal and didn't have to implement the contingency plan. I learn some things from this:
+The exam is not easy and requires a bit of concentration and a good understanding of the techniques used in the lab. I would say there are no *tricky* challenges to solve but the exam is slightly more difficult than the lab. In my case I had some serious problems with the internet connection on the first day. Because the exam is proctored, I had to restart the camera monitoring software almost 150 times. That was very very frustrating. I had a plan for the second day but luckily my connection got back to normal and didn't have to implement the contingency plan. I learn some things from this:
 
 * Don't loose hope and panic. If something doesn't work keep hammering at it until you find another path!
 * Avoid rabbit holes and don't chase endlessly the same issue.
