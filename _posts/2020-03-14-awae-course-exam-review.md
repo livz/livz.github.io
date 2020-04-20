@@ -43,4 +43,4 @@ Overall, I learned a lot while doing the training and the exam. The course is st
 
 Looking forward for AWE to be made available in the UK!
 
-<img src="/assets/images/exercise.png" alt="dino" class="figure-body">
+<img src="/assets/images/shark-motivation.jpeg" alt="dino" class="figure-body">
