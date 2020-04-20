@@ -32,7 +32,7 @@ There are many resources recommended throughout the course so make sure to check
 
 ## Exam
 
-The exam is not easy and requires a bit of concentration and a good understanding of the techniques used in the lab. I would say there are no *tricky* challenges to solve but the exam is slightly more difficult than the lab. In my case I had some serious problems with the internet connection on the first day. Because the exam is proctored, I had to restart the camera monitoring software almost 150 times. That was very very frustrating. I had a plan for the second day but luckily my connection got back to normal and didn't have to implement the contingency plan. I learn some things from this:
+The exam is not easy and requires a bit of concentration and a good understanding of the techniques used in the lab. I would say there are no *tricky* challenges to solve but the exam is slightly more difficult than the lab. In my case I had some serious problems with the internet connection on the first day. Because the exam is proctored, I had to restart the camera monitoring software almost 150 times. That was very very frustrating. I had a plan for the second day but luckily my connection got back to normal and didn't have to implement the contingency plan. I learnt some things from this:
 
 * Don't loose hope and panic. If something doesn't work keep hammering at it until you find another path!
 * Avoid rabbit holes and don't chase endlessly the same issue.
