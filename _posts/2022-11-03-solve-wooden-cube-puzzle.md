@@ -162,6 +162,8 @@ If you're interested to play with the code, I've uploaded my Python solver with 
 
 <img src="/assets/images/solution.png" align="middle" alt="cube done" class="figure-body">
 
+_**Update**_: I've tweaked the code a bit to work with 4x4 cubes and tested agains a 10-piece 4x4 cube and it foudn a solution in 16 seconds. I've uplaoded the pieces configuration [here](https://gist.github.com/livz/9e46b01afa1a22cdfabe1d5919bde14c) if anyone wants to paly with this one too. Enjoy!
+
 ## References
 
 * [Rotation matrixes](https://en.wikipedia.org/wiki/Rotation_matrix)
