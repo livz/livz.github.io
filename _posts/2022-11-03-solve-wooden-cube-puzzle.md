@@ -158,7 +158,7 @@ def isIn(val, list):
 ```
 * Looking at the numbers of possible valid combinations for each piece, and keeping in mind that we're placing pieces inside a cube, it became obvious that there will be a lot of symmetrical solutions. So if we really want to speed up the solution search we need only to look for the first (or first few) valid position(s) of the first piece). 
 
-I've uploaded my Python code with a couple of custom cubes configurations [here](https://gist.github.com/livz/9e46b01afa1a22cdfabe1d5919bde14c).
+If you're interested to play with the code, I've uploaded my Python solver with a couple of custom cubes configurations [here](https://gist.github.com/livz/9e46b01afa1a22cdfabe1d5919bde14c). Thank you very much for your time reading this and happy puzzle solving!
 
 <img src="/assets/images/solution.png" align="middle" alt="cube done" class="figure-body">
 
