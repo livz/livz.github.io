@@ -144,9 +144,9 @@ Breakpoint 1 at 0x555555555603
 
 
 <div class="box-note">
-As a general observation, for a binary expecting user input we can craft it separately as needed, then feed that to the binary either via command line, or inside the debugger, using the <code>stdin</code> redirection operator:</br>
+As a general observation, for a binary expecting user input we can craft it separately as needed, then feed that to the binary either via command line, or inside the debugger, using the <code>stdin</code> redirection operator:<br>
 <code>
-gef➤  run < payload</br>
+gef➤  run < payload<br>
 Starting program: /mnt/hgfs/CTF-oct-23/pwn_shell_shop/shell_shop < payload
 </code>
 </div>                                                                   
