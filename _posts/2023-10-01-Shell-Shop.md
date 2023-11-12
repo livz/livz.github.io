@@ -124,7 +124,7 @@ aaaaaaaabaaaaaaacaaaaaaadaaaaaaaeaaaaaaafaaaaaaagaaaaaaahaaaaaaaiaaaaaaajaaaaaaa
 
 *Notice based on the decompiled code above that in order to reach the point where the data (which overflows the stack variable) is read, we need to first buy an item, then exit*. 
 
-![Image](/assets/images/ShellShop/2023-11-05 at 16.34.31.png)
+![Image](/assets/images/ShellShop/Screenshot 2023-11-05 at 16.34.31.png)
 
 We can get the position in the buffer which overwrites the RBP register:
 
@@ -147,7 +147,7 @@ Breakpoint 1 at 0x555555555603
 As a general observation, for a binary expecting user input we can craft it separately as needed, then feed that to the binary either via command line, or inside the debugger, using the `stdin` redirection operator:
 
 ```
-**gef➤  run < payload**
+gef➤  run < payload
 Starting program: /mnt/hgfs/CTF-oct-23/pwn_shell_shop/shell_shop < payload
 ```
 
@@ -159,7 +159,7 @@ The strategy for exploitation will be as follows:
 * Use [pwntools](https://docs.pwntools.com/) to calculate on-the-fly the address on the stack containing the shellcode, based on the difference between that and the leaked stack variable.
 * We will first try to exploit the app locally in GDB (since stack address won’t be randomised and we can use a static payload) then port the exploit to `pwntools`, in order to be able to connect to the binary remotely. 
 
-Before getting started, we’d need to find a short  Linux x86_64 `[execve](https://man7.org/linux/man-pages/man2/execve.2.html)` shellcode. Luckily with a quick online search we can find a few that match our conditions, with sizes ranging from 22-24 bytes. Very handy. Once we found one (for example [this one](https://www.exploit-db.com/exploits/46907)), we should test it to make sure it works as expected.
+Before getting started, we’d need to find a short  Linux x86_64 [execve](https://man7.org/linux/man-pages/man2/execve.2.html) shellcode. Luckily with a quick online search we can find a few that match our conditions, with sizes ranging from 22-24 bytes. Very handy. Once we found one (for example [this one](https://www.exploit-db.com/exploits/46907)), we should test it to make sure it works as expected.
 
 ```
 // gcc -fno-stack-protector -z execstack test_shellcode.c -o test_shellcode
@@ -234,7 +234,7 @@ When porting our code to `pwntools`, we should provide the correct maximum amoun
 buf += b'\x42' * (100 - len(buf))  # 100 bytes being read (fgets is waiting ..)
 ```
 
-***‼️** ***Important Note 4 - ** Execute dash but no shell**
+***‼️* Important Note 4 - Execute dash but no shell**
 
 We have all the pieces in place, let’s test the shellcode in GDB/GEF:
 
