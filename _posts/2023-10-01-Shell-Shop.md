@@ -15,7 +15,7 @@ shell_shop: ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically
 ```
 
 When run, we’re presented with the following interface:
-![Menu](/assets/images/ShellShop/Screenshot 2023-11-05 at 15.33.25.png)
+![Menu](/assets/images/ShellShop/menu.png)
 
 The decompiled applications reveals its internals in Ghidra (interesting variable names have been changed for a quicker understanding):
 
@@ -88,7 +88,7 @@ Before identifying the actual vulnerability, let’s make a few observations:
     *  *Here is a discount code for your next purchase: [0x7fffffffdde0]*
 
 We can verify the security controls built into the app quickly using [GEF](https://hugsy.github.io/gef/) (GDB Enhanced Features):
-![checksec](/assets/images/ShellShop/Screenshot 2023-11-05 at 16.11.19.png)
+![checksec](/assets/images/ShellShop/checksec.png)
 
 Other ways to confirm that the stack is indeed executable are via the [vmmap](https://gef-legacy.readthedocs.io/en/latest/commands/vmmap/) command: 
 
