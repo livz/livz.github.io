@@ -3,7 +3,8 @@ title:  "[CTF] Shell Shop"
 categories: [CTF, HTB, Pwn]
 ---
 
-*You may be talented and skilled, but you need good armor to survive and win this game. Today is your lucky day because the Virtual Shell Shop sells excellent equipment at low prices. Make your purchase now and get a discount coupon for the next event!*
+<blockquote>
+  <p>You may be talented and skilled, but you need good armor to survive and win this game. Today is your lucky day because the Virtual Shell Shop sells excellent equipment at low prices. Make your purchase now and get a discount coupon for the next event!</p></blockquote>
 
 ## Understanding the challenge
 
@@ -142,14 +143,14 @@ Breakpoint 1 at 0x555555555603
 ```
 
 
-***‼️* Important Note 1 - ELF with stdin input**
+<div class="box-note">
+As a general observation, for a binary expecting user input we can craft it separately as needed, then feed that to the binary either via command line, or inside the debugger, using the <code>stdin</code> redirection operator:
 
-As a general observation, for a binary expecting user input we can craft it separately as needed, then feed that to the binary either via command line, or inside the debugger, using the `stdin` redirection operator:
-
-```bash
+<code>
 gef➤  run < payload
 Starting program: /mnt/hgfs/CTF-oct-23/pwn_shell_shop/shell_shop < payload
-```
+</code>
+</div>                                                                   
 
 The strategy for exploitation will be as follows:
 
