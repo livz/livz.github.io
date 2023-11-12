@@ -269,7 +269,8 @@ Start              End                Offset             Perm Path
 0x00007ffff7f9e000 0x00007ffff7fa0000 0x00000000001d2000 rw- /usr/lib/x86_64-linux-gnu/libc.so.6
 ```
 
-<div class="box-note">The 64 bit calling convention requires the stack to be 16-byte aligned before a <code>call</code> instruction but this is easily violated during ROP chain execution. To work around this, we might need one or a couple of ROP NOPs instructions (i.e. addresses of RET instructions). </div>
+<div class="box-note">
+The 64 bit calling convention requires the stack to be 16-byte aligned before a <code>call</code> instruction but this is easily violated during ROP chain execution. To work around this, we might need one or a couple of ROP NOPs instructions (i.e. addresses of RET instructions). </div>
 
 The final Python script to generate an exploitation payload for non-ASLR case looks like so:
 
