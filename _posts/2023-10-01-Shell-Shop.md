@@ -124,7 +124,7 @@ aaaaaaaabaaaaaaacaaaaaaadaaaaaaaeaaaaaaafaaaaaaagaaaaaaahaaaaaaaiaaaaaaajaaaaaaa
 
 *Notice based on the decompiled code above that in order to reach the point where the data (which overflows the stack variable) is read, we need to first buy an item, then exit*. 
 
-![Image](/assets/images/ShellShop/Screenshot 2023-11-05 at 16.34.31.png)
+![Image](/assets/images/ShellShop/sigsegv.png)
 
 We can get the position in the buffer which overwrites the RBP register:
 
@@ -222,7 +222,7 @@ Notice that we have the address of the payload on the stack hardcoded to `0x7fff
 ***‼️* Important Note 2 - Shellcode length**
 
 The shellcode we’re using simply calls the `execve` syscall. If we’d have opted for other commonly found cleaner shellcode, we could have ended up with a slightly larger size, around 40+ bytes. This would still be within our boundaries (remember we overwrite RBP at offset 55) but it will create another problem. The shellcode could overwrite itself, since it’s executing from the stack and using the stack for various operations:
-![Image](/assets/images/ShellShop/Screenshot 2023-11-05 at 17.14.21.png)
+![Image](/assets/images/ShellShop/execve.png)
 
 Notice the value of RSP and RIP registers. The push instruction will corrupt the code on the stack being executed. To avoid this situation, it’s better to stick with a shellcode as compact as possible.
 
