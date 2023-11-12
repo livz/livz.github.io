@@ -133,7 +133,7 @@ void goal(void)
     exit(1);
   }
   while( true ) {
- sVar2 = read(flagFd, &flagChar, 1);
+    sVar2 = read(flagFd, &flagChar, 1);
     if (sVar2 < 1) break;
     fputc((int)flagChar,stdout);
   }
