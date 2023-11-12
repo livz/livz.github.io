@@ -1,5 +1,5 @@
 ---
-title:  "[CTF] Flux Capacitor"
+title:  "[CTF] Flux Capacitor (ELF 64-bit ASLR, NX bypass)"
 categories: [CTF, HTB, Pwn]
 ---
 
