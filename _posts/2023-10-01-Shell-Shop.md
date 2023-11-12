@@ -219,22 +219,22 @@ with open('payload', 'wb') as f:
 
 Notice that we have the address of the payload on the stack hardcoded to `0x7fffffffdda0` - 2 (leaked address - 2). 
 
-***‼️* Important Note 2 - Shellcode length**
+<div class="box-note">
+The shellcode we’re using simply calls the <code>execve</code> syscall. If we’d have opted for other commonly found cleaner shellcode, we could have ended up with a slightly larger size, around 40+ bytes. This would still be within our boundaries (remember we overwrite RBP at offset 55) but it will create another problem. The shellcode could overwrite itself, since it’s executing from the stack and using the stack for various operations.</div>
 
-The shellcode we’re using simply calls the `execve` syscall. If we’d have opted for other commonly found cleaner shellcode, we could have ended up with a slightly larger size, around 40+ bytes. This would still be within our boundaries (remember we overwrite RBP at offset 55) but it will create another problem. The shellcode could overwrite itself, since it’s executing from the stack and using the stack for various operations:
 ![Image](/assets/images/ShellShop/execve-syscall.png)
 
 Notice the value of RSP and RIP registers. The push instruction will corrupt the code on the stack being executed. To avoid this situation, it’s better to stick with a shellcode as compact as possible.
 
-***‼️* Important Note 3 - pwntools vs stdin input**
+<div class="box-note">
+When porting our code to <code>pwntools</code>, we should provide the correct maximum amount of bytes expected by the `fgets` function call. Otherwise it will hang waiting for more input. 
+</div>
 
-When porting our code to `pwntools`, we should provide the correct maximum amount of bytes expected by the `fgets` function call. Otherwise it will hang waiting for more input. So simply append a trailer of NOPs at the end:
+This is the reason to append a trailer of NOPs at the end:
 
 ```python
 buf += b'\x42' * (100 - len(buf))  # 100 bytes being read (fgets is waiting ..)
 ```
-
-***‼️* Important Note 4 - Execute dash but no shell**
 
 We have all the pieces in place, let’s test the shellcode in GDB/GEF:
 
@@ -249,7 +249,11 @@ Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
 
 The process executes `/usr/bin/dash`, but no interactive shell is being spawned, as we’ve got with our shellcode testing harness. So what gives?
 
-It turns out that the same thing would happen outside GDB as well, and the issue is that the input for our program is redirected, and after spawning the shell, there’s no input and the program simply terminates. The fix to read the flag is straightforward: add a few commands at the end of our buffer that will be executed inside the shell:
+<div class="box-note">
+Since the input for our program is redirected, after spawning the shell there’s no more input and the program simply terminates. So the shell is being spawned, but quickly terminates.
+</div>
+
+The fix to read the flag is straightforward: add a few commands at the end of our buffer that will be executed inside the shell:
 
 ```python
 # Execute some commands in the shell
