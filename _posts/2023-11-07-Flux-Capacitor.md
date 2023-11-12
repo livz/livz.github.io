@@ -372,7 +372,7 @@ To summarise, the attack will be split in multiple steps:
 3. Make sure to add more data as input to the vulnerable program, in the form of commands to be executed within the shell. They will be fed to it as standard input.
 
 <div class="box-note">
-It’s very very useful to be able to debug <code>pwntools</code> Python scripts. It’s possible to attach a debugger, set up a breakpoint (for example before the <code>read()</code> call) and gradually feed input and parse output from the vulnerable program:</br>
+It’s very very useful to be able to debug <code>pwntools</code> Python scripts. It’s possible to attach a debugger, set up a breakpoint (for example before the <code>read()</code> call) and gradually feed input and parse output from the vulnerable program:<br>
 <code>
 io = gdb.debug(bin_path, gdbscript = 'b *(main+558)')
 </code>
