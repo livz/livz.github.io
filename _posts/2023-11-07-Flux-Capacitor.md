@@ -194,6 +194,7 @@ aaaaaaaabaaaaaaacaaaaaaadaaaaaaaeaaaaaaafaaaaaaagaaaaaaahaaaaaaaiaaaaaaajaaaaaaa
 The exploitation steps for the no-ASLR scenario are really well documented in [Introduction to x64 Linux Binary Exploitation (Part 2)—return into libc](https://valsamaras.medium.com/introduction-to-x64-binary-exploitation-part-2-return-into-libc-c325017f465). We need to put together a few pieces, mainly the address of `system` function, the address for a `POP RDI` instruction, and a few others.
 
 ***‼️* Important Note 1 - We need libc.so.6**
+
 While some of the gadgets can be found in the vulnerable binary itself, we can’t get everything from there so we need more gadgets and strings from `libc`.
 
 Find a POP RDI instruction:
@@ -236,6 +237,7 @@ gef➤ x/s 0x7ffff7dcc000 + 0x196031
 ```
 
 ***‼️* Important Note 2 - We need libc.so.6**
+
 The binary to be exploited is provided together with the `libc.so.6` library, that would be present on the target machine,  in case we need to search any gadgets or offsets.
 
 Next we need to locate the address of the `system` function:
@@ -268,6 +270,7 @@ Start              End                Offset             Perm Path
 ```
 
 ***‼️* Important Note 3 - Stack alignment**
+
 The 64 bit calling convention requires the stack to be 16-byte aligned before a `call` instruction but this is easily violated during ROP chain execution. To work around this, we might need one or a couple of ROP NOPs instructions (i.e. addresses of RET instructions). The final Python script to generate an exploitation payload for non-ASLR case looks like so:
 
 ```python
@@ -353,6 +356,7 @@ zsh: segmentation fault  ./flux_capacitor
 We need a different strategy. This is where the [return2plt](https://ir0nstone.gitbook.io/notes/types/stack/aslr/ret2plt-aslr-bypass) attack comes in handy in order to leak a function pointer and bypass ASLR.
 
 ***‼️* Important Note 4 - Debugging**
+
 While debugging, it’s very useful to set a breakpoint before the `read()` function call, which is very close to the end of the program, to watch both the buffer overflow and RIP overwrite in action:
 
 ```asm
@@ -368,6 +372,7 @@ To summarise, the attack will be split in multiple steps:
 3. Make sure to add more data as input to the vulnerable program, in the form of commands to be executed within the shell. They will be fed to it as standard input.
 
 ***‼️* Important Note 5 - Debugging with Pwntools**
+
 It’s very very useful to be able to debug `pwntools` Python scripts. It’s possible to attach a debugger, set up a breakpoint (for exampel before the `read()` call) and gradually feed input and parse output from the vulnerable program:
 
 ```python
