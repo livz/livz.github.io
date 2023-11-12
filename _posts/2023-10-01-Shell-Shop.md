@@ -1,5 +1,5 @@
 ---
-title:  "[CTF] Shell Shop"
+title:  "[CTF] Shell Shop (ELF 64-bit Buffer overflow)"
 categories: [CTF, HTB, Pwn]
 ---
 
