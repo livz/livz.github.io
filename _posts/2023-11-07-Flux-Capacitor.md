@@ -373,11 +373,11 @@ To summarise, the attack will be split in multiple steps:
 
 <div class="box-note">
 It’s very very useful to be able to debug <code>pwntools</code> Python scripts. It’s possible to attach a debugger, set up a breakpoint (for example before the <code>read()</code> call) and gradually feed input and parse output from the vulnerable program:
-</div>
 
-```python
+<code>
 io = gdb.debug(bin_path, gdbscript = 'b *(main+558)')
-```
+</code>
+</div>
 
 For phase 1, leaking the base address of libc, we have the following ROP chain:
 
