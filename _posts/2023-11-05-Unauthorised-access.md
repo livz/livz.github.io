@@ -2,7 +2,9 @@
 title:  "[CTF] Unauthorised Access"
 categories: [CTF, HTB, Pwn]
 ---
-*Our security developer stated that switching to a 64-bit architecture is unnecessary since their program ensures safety, and only the admin with the authorization cookie can access the secret file. However, we remain uncertain and would appreciate it if you could investigate this matter further.*
+
+<blockquote>
+  <p>Our security developer stated that switching to a 64-bit architecture is unnecessary since their program ensures safety, and only the admin with the authorization cookie can access the secret file. However, we remain uncertain and would appreciate it if you could investigate this matter further.</p></blockquote>
 
 ## Understanding the challenge
 
