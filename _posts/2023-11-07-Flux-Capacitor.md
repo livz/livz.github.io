@@ -3,9 +3,9 @@ title:  "[CTF] Flux Capacitor"
 categories: [CTF, HTB, Pwn]
 ---
 
-**Category**:    Pwn
-**Description**: 
-*We managed to get back to 1955 but we did not bring any Plutonuim with us. Now we need to somehow fill Flux Capacitor with 1.21 gigawatts of power. Think Marty, think.. otherwise you are gonna stuck here and forever!*
+<blockquote>
+  <p>We managed to get back to 1955 but we did not bring any Plutonuim with us. Now we need to somehow fill Flux Capacitor with 1.21 gigawatts of power. Think Marty, think.. otherwise you are gonna stuck here and forever!</p>
+</blockquote>
 
 ## Vulnerability identification
 
@@ -237,7 +237,7 @@ gef➤ x/s 0x7ffff7dcc000 + 0x196031
 ```
 
 <div class="box-note">
-The binary to be exploited is provided together with the <pre>libc.so.6</pre> library, that would be present on the target machine, in case we need to search any gadgets or offsets.
+The binary to be exploited is provided together with the <code>libc.so.6</code> library, that would be present on the target machine, in case we need to search any gadgets or offsets.
 </div>
 
 Next we need to locate the address of the `system` function:
