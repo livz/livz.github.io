@@ -334,10 +334,10 @@ print(io.recvrepeat(2))
 
 ## References
 
-[Pwntools tutorial - Debugging](https://github.com/Gallopsled/pwntools-tutorial/blob/master/debugging.md)
-[Linux/x64 - execve(/bin/sh) Shellcode (23 bytes)](https://www.exploit-db.com/exploits/46907)
-[How to Test a Shellcode](https://rjordaney.is/lectures/test_a_shellcode/)
-[fgets() Deprecated and dangerous](http://www.crasseux.com/books/ctutorial/fgets.html)
-[Introduction to x64 Linux Binary Exploitation (Part 1)](https://valsamaras.medium.com/introduction-to-x64-linux-binary-exploitation-part-1-14ad4a27aeef)
-[Controlling stack execution protection](https://www.ibm.com/docs/en/linux-on-z?topic=protection-control)
-[GDB exiting instead of spawning a shell](https://stackoverflow.com/questions/30972544/gdb-exiting-instead-of-spawning-a-shell)
+* [Pwntools tutorial - Debugging](https://github.com/Gallopsled/pwntools-tutorial/blob/master/debugging.md)
+* [Linux/x64 - execve(/bin/sh) Shellcode (23 bytes)](https://www.exploit-db.com/exploits/46907)
+* [How to Test a Shellcode](https://rjordaney.is/lectures/test_a_shellcode/)
+* [fgets() Deprecated and dangerous](http://www.crasseux.com/books/ctutorial/fgets.html)
+* [Introduction to x64 Linux Binary Exploitation (Part 1)](https://valsamaras.medium.com/introduction-to-x64-linux-binary-exploitation-part-1-14ad4a27aeef)
+* [Controlling stack execution protection](https://www.ibm.com/docs/en/linux-on-z?topic=protection-control)
+* [GDB exiting instead of spawning a shell](https://stackoverflow.com/questions/30972544/gdb-exiting-instead-of-spawning-a-shell)
