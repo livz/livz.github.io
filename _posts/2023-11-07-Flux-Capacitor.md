@@ -194,7 +194,7 @@ aaaaaaaabaaaaaaacaaaaaaadaaaaaaaeaaaaaaafaaaaaaagaaaaaaahaaaaaaaiaaaaaaajaaaaaaa
 The exploitation steps for the no-ASLR scenario are really well documented in [Introduction to x64 Linux Binary Exploitation (Part 2)—return into libc](https://valsamaras.medium.com/introduction-to-x64-binary-exploitation-part-2-return-into-libc-c325017f465). We need to put together a few pieces, mainly the address of `system` function, the address for a `POP RDI` instruction, and a few others.
 
 <div class="box-note">
-While some of the gadgets can be found in the vulnerable binary itself, we can’t get everything from there so we need more gadgets and strings from <pre>libc</pre>.
+While some of the gadgets can be found in the vulnerable binary itself, we can’t get everything from there so we need more gadgets and strings from <code>libc</code>.
 </div>
 
 Find a POP RDI instruction:
@@ -269,8 +269,9 @@ Start              End                Offset             Perm Path
 0x00007ffff7f9e000 0x00007ffff7fa0000 0x00000000001d2000 rw- /usr/lib/x86_64-linux-gnu/libc.so.6
 ```
 
-<div class="box-note">The 64 bit calling convention requires the stack to be 16-byte aligned before a <pre>call</pre> instruction but this is easily violated during ROP chain execution. To work around this, we might need one or a couple of ROP NOPs instructions (i.e. addresses of RET instructions). The final Python script to generate an exploitation payload for non-ASLR case looks like so:
-</div>
+<div class="box-note">The 64 bit calling convention requires the stack to be 16-byte aligned before a <code>call</code> instruction but this is easily violated during ROP chain execution. To work around this, we might need one or a couple of ROP NOPs instructions (i.e. addresses of RET instructions). </div>
+
+The final Python script to generate an exploitation payload for non-ASLR case looks like so:
 
 ```python
 import sys
@@ -355,10 +356,10 @@ zsh: segmentation fault  ./flux_capacitor
 We need a different strategy. This is where the [return2plt](https://ir0nstone.gitbook.io/notes/types/stack/aslr/ret2plt-aslr-bypass) attack comes in handy in order to leak a function pointer and bypass ASLR.
 
 <div class="box-note">
-While debugging, it’s very useful to set a breakpoint before the <pre>read()</pre> function call, which is very close to the end of the program, to watch both the buffer overflow and RIP overwrite in action:<br>
-<pre>
+While debugging, it’s very useful to set a breakpoint before the <code>read()</code> function call, which is very close to the end of the program, to watch both the buffer overflow and RIP overwrite in action:<br>
+<code>
 b *(main+558)
-</pre>
+</code>
 </div>
 
 To summarise, the attack will be split in multiple steps:
@@ -370,7 +371,7 @@ To summarise, the attack will be split in multiple steps:
 3. Make sure to add more data as input to the vulnerable program, in the form of commands to be executed within the shell. They will be fed to it as standard input.
 
 <div class="box-note">
-It’s very very useful to be able to debug <pre>pwntools</pre> Python scripts. It’s possible to attach a debugger, set up a breakpoint (for exampel before the <pre>read()</pre> call) and gradually feed input and parse output from the vulnerable program:
+It’s very very useful to be able to debug <pre>pwntools</pre> Python scripts. It’s possible to attach a debugger, set up a breakpoint (for exampel before the <code>read()</code> call) and gradually feed input and parse output from the vulnerable program:
 </div>
 
 ```python
