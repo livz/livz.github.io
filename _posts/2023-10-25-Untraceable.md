@@ -45,7 +45,7 @@ undefined8 main(void)
   local_48 = 0;
   local_40 = 0;
   uStack_60 = 0x101217;
- lVar2 = ptrace(PTRACE_TRACEME);
+  lVar2 = ptrace(PTRACE_TRACEME);
   if (lVar2 == -1) {
     uStack_60 = 0x101229;
     puts("Tampering detected!");
@@ -92,7 +92,7 @@ Each of these observation will lead to a separete method to solve the challenge.
 
 ### Method 1 - Hardcoded password 
 
-The variables on the stack represent the password required to “unlock the archive”. After converting from hex to ASCII, we get the following very well hidden password: ***SuperSecretPassword-DoNotRead!** *With this, it’s very easy to get the flag:
+The variables on the stack represent the password required to “unlock the archive”. After converting from hex to ASCII, we get the following very well hidden password: **SuperSecretPassword-DoNotRead!** With this, it’s very easy to get the flag:
 
 ```bash
 ./untraceable
