@@ -466,3 +466,14 @@ blockquote cite::before {
 .highlighter-rouge {
   background: rgba(103, 15, 15, 0.9);
 }
+
+/* Style for images */
+img.img-class {
+  display: block;
+  margin: 1em auto; /* centers the image */
+  border: 2px dashed #e5e5e5;
+  border-radius: 12px; /* rounded corners */
+  max-width: 100%; /* responsive scaling */
+  height: auto;
+}
+
