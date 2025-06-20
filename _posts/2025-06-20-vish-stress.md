@@ -92,6 +92,8 @@ Events:
 
 Before reading further, have you spotted the problem? 
 
+## Troubleshooting
+
 Yes! The container failed to start. 
 ```
 Warning  BackOff    3s (x5 over 50s)  kubelet            Back-off restarting failed container stress in pod hog-7d56d5576b-mn67d_default(0cefaf84-0063-4cdf-b3a6-2329e10ae30b)
@@ -103,7 +105,10 @@ $ kubectl logs hog-7d56d5576b-mn67d
 exec /stress: exec format error
 ```
 
-This basically means that the container could not execute the `stress` binary. Let's delete the deployment and work on creating a container with the expected architecture. I've already [forked](https://github.com/livz/stress) the original repo. Check it out to see the differences: mainly an updated [Docker file](https://github.com/vishh/stress/commit/0228f537b8f03ab64e34ab48de0dc517480d7e25) and a small change to [main.go](https://github.com/vishh/stress/commit/80837f9e373fce954736b0dba83dc2fd7c61c23e) to fix some imports which changed in the meantime since the repository was last updated.
+This basically means that the container could not execute the `stress` binary because of mismatched architecture.
+
+## Build an ARm Docker image
+Let's delete the deployment and work on creating a container with the expected architecture. I've already [forked](https://github.com/livz/stress) the original repo. Check it out to see the differences: mainly an updated [Docker file](https://github.com/vishh/stress/commit/0228f537b8f03ab64e34ab48de0dc517480d7e25) and a small change to [main.go](https://github.com/vishh/stress/commit/80837f9e373fce954736b0dba83dc2fd7c61c23e) to fix some imports which changed in the meantime since the repository was last updated.
 
 ```
 $ kubectl delete deployments.apps hog
@@ -151,6 +156,8 @@ The push refers to repository [docker.io/boundsgilder/stress]
 c9ae5f539446: Layer already exists
 arm64: digest: sha256:65db52c4726e3c2100d4d3bedbca3903e5250b275b4099b56915788d42662a8f size: 527
 ```
+
+## Verify 
 
 With the new container image build and uploaded to Docker hub, let's create the `hog` deployment and container from a YAML file:
 ```
@@ -343,6 +350,7 @@ NAME                   READY   STATUS    RESTARTS   AGE   IP              NODE  
 hog-6d57cb644f-f685w   1/1     Running   0          34s   192.168.1.191   w1     <none>           <none>
 ```
 
+## Next 
 Finally, we can continue the course as usual and specify parameters to the `stress` binary, then observe the resource consumption:
 ```
 [..]
