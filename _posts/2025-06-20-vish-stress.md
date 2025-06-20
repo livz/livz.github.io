@@ -6,7 +6,7 @@ categories: [CKA]
 ![Kubernetes binary](/assets/images/K8S-circuits.png)
 
 <blockquote>
-  <p>The great thing about AI is that it always has an answer</p>
+  <p>"A calm pod tells you what you want to hear. A stressed pod tells you the truth"</p>
 </blockquote>
 
 ## Problem
@@ -201,7 +201,8 @@ spec:
       terminationGracePeriodSeconds: 30
 ```
 
-```$ kubectl create -f hog.yaml
+```
+$ kubectl create -f hog.yaml
 deployment.apps/hog created
 ```
 
