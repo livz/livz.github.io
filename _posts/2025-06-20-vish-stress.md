@@ -107,7 +107,7 @@ exec /stress: exec format error
 
 This basically means that the container could not execute the `stress` binary because of mismatched architecture.
 
-## Build an ARm Docker image
+## Build an ARM Docker image
 Let's delete the deployment and work on creating a container with the expected architecture. I've already [forked](https://github.com/livz/stress) the original repo. Check it out to see the differences: mainly an updated [Docker file](https://github.com/vishh/stress/commit/0228f537b8f03ab64e34ab48de0dc517480d7e25) and a small change to [main.go](https://github.com/vishh/stress/commit/80837f9e373fce954736b0dba83dc2fd7c61c23e) to fix some imports which changed in the meantime since the repository was last updated.
 
 ```
