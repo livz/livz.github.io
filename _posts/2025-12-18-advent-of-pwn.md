@@ -5,23 +5,23 @@ categories: [CTF, pwn.college]
 
 ![Logo](/assets/images/santa-cyber.png)
 
-[Advent of Pwn](https://pwn.college/advent-of-pwn/) is an Advent CTF created by the awesome team at ASU behind pwn.college. This year was it's first edtion. In this post I'll go through my solutions and share some of the things I've learnt along the way. Having time available mostly at odd evening hours, I finished only 9/12 challenges during the CTF and worked on the others later. If you haven't stumbled upon [other](https://www.feyrer.de/CTF/CTF-Writeup-pwn.college-AdventOfPwn2025/) [solutions](https://jia.je/ctf-writeups/2025-12-01-advent-of-pwn-2025/) [already](https://github.com/hidehiroanto/ctf-writeups/tree/main/advent-of-pwn/2025) before landing on this page, please do check them out and you might find some more elegant solutions from seasoned CTF players. Especially for levels 5 which was a bit trickier and 6 which had multiple solutions.  
+[Advent of Pwn](https://pwn.college/advent-of-pwn/) is an Advent CTF created by the awesome team at [ASU](https://www.asu.edu) behind [pwn.college](http://pwn.college/). This year was it's first edtion. In this post I'll go through my solutions and share some of the things I've learnt along the way. Having time available mostly at odd evening hours, I finished only 9/12 challenges during the CTF and worked on the rest of them later. If you haven't stumbled upon [other](https://www.feyrer.de/CTF/CTF-Writeup-pwn.college-AdventOfPwn2025/) [solutions](https://jia.je/ctf-writeups/2025-12-01-advent-of-pwn-2025/) [already](https://github.com/hidehiroanto/ctf-writeups/tree/main/advent-of-pwn/2025) before landing on this page, please do check them out as you might find some more elegant ideas from seasoned CTF players. Especially for levels 5, which was a bit trickier, and 6 which had multiple solutions.  
 
-Before going into the technical solutions, a few words about LLMs. During the CTF I relied a lot on LLMs for a couple of tasks which I beleive they were really useful at:
+Before going into the technical solutions, a few words about LLMs, which seem to be the theme nowadays. During the CTF I relied on LLMs for a couple of tasks which I believe they proved really useful at:
 * Making sense of large amounts of code, high level or disassembly.
-* Getting started with complicated subjects.
+* Getting started with complicated subjects (e.g. understanding a custom blockchain).
 * Repetitive tasks when speed or code quality is not a concern.
 
-Multiple friends I've talked to during the CTF were skeptic about using LLMs and I definitely understand why. Some drawbacks I've experienced continously, not just during this CTF but in general:
+Multiple friends I've talked to during the CTF were skeptic about using LLMs and I definitely understand why. Some drawbacks I've experienced _continously_, not just during this CTF but in general:
 * It's really easy to get directed to rabbit holes or ideas that don't lead anywhere.
-* Very often they miss good ideas
-* They suggest paths which although appear correct and make sense, they are either inefficient or simply wrong.
-* On some topics, no amount of LLM discussion will get you to the solution. On advanced topics (for example level 5
-
+* Very often they miss good ideas.
+* They suggest paths which appear correct and seem to make sense, but are either very inefficient or simply wrong.
+* On advanced topics, or things for which simply there's not much information available (for example level 5 shellcode for `io_urin` async I/O here), no amount of vibe-researching will get you to the solution.
+* Again, not much chance against esoteric topics like pwn.college's [The Art of the Shell](https://pwn.college/shell-lin-do~148f65dd/) or [Linux Lunacy](https://pwn.college/linux-lunacy~9b739db1/) modules, which are awesome BTW.
 
 Last but definitely not least, huge thanks to the creators of these challenges for the effort of designing and making them available for everyone!
 
-Full code for each challenge to follow along 
+Full code for each challenge to follow along on GitHub.
 
 ## Day 1 - ...
 
