@@ -16,7 +16,7 @@ Multiple friends I've talked to during the CTF were skeptic about using LLMs and
 * It's really easy to get directed to rabbit holes or ideas that don't lead anywhere.
 * Very often they miss good ideas.
 * They suggest paths which appear correct and seem to make sense, but are either very inefficient or simply wrong.
-* On advanced topics, or things for which simply there's not much information available (for example level 5 shellcode for `io_urin` async I/O here), no amount of vibe-researching will get you to the solution.
+* On advanced topics, or things for which simply there's not much information available (for example level 5 shellcode for `io_uring` async I/O here), no amount of vibe-researching will get you to the solution.
 * Again, not much chance against esoteric topics like pwn.college's [The Art of the Shell](https://pwn.college/shell-lin-do~148f65dd/) or [Linux Lunacy](https://pwn.college/linux-lunacy~9b739db1/) modules, which are awesome BTW.
 
 Last but definitely not least, huge thanks to the creators of these challenges for the effort of designing and making them available for everyone!
