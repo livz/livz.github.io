@@ -1036,9 +1036,9 @@ pwn.college{practice}
 
 From this point onward it was straight-forward. I fed this to a couple of LLMs and quickly got a working shellcode, with comments for easier torubleshooting:
 
-```gas
+```nasm
 /* Get PC for PIC base */
-call get_pc
+call get_pc  // test comment
 get_pc:
 pop rbp                     /* rbp holds the base address */
 
