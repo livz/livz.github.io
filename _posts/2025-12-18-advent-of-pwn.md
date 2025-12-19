@@ -42,7 +42,7 @@ $ pwn checksec /challenge/check-list
 ```
 
 The code is really massive (1M+ lines of disassembly in Ghidra) but quite eays to understand. We're dealing with a large array of input bytes:
-```asm
+```masm
 .text:0000000000401000                 mov     rbp, rsp
 .text:0000000000401003                 sub     rsp, 500h
 .text:000000000040100A                 mov     eax, 0
