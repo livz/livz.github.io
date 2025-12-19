@@ -1204,7 +1204,7 @@ mov rax, 60
 syscall
 ```
 
-I used a wrapper python script to feed the shellcode to a pipe, to debug the challenge easier in GDB. Whew! Let's get the flag:
+I used a wrapper Python script to feed the shellcode to a pipe, to debug the challenge easier in GDB. Whew! Let's get the flag:
 ```bash
 $ /challenge/sleigh < ~/my_fifo_stdin
 🛷 Loading cargo: please stow your sled at the front.
