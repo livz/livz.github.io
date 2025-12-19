@@ -1288,6 +1288,12 @@ for _ in range(10):
   mine_block(nice_person="hacker")
 ```
 
+<div class="box-note">
+In retrospective, I realised that this step is not needed, it's jsut something the LLM thought it makes sense, which it does somewhat, but not necessary at all.
+</div>
+
+All the levels were very educative! Huge thanks to the authors.
+
 Before moving on to the next step, remember a clean head before Santa gifts the secrets. It will be useful later:
 ```python
 clean_head = get_head()["hash"]
@@ -1404,8 +1410,3 @@ Progress: 34448de412c2c60bd2afb4a8c113c24c (32/32)
 
 ## Day 7 - SSRFs chain
 
-<div class="box-note">
-Note that <a href="https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.utility/out-string?view=powershell-6" target="_blank">Out-String -Stream</a> is very important here. This is needed to be able to use <b>Select-String</b> and grep through the output!
-</div>
-
-All the levels were very educative! Huge thanks to the authors.
