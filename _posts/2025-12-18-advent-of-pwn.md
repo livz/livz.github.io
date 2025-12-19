@@ -42,7 +42,7 @@ $ pwn checksec /challenge/check-list
 ```
 
 The code is really massive (1M+ lines of disassembly in Ghidra) but quite eays to understand. We're dealing with a large array of input bytes:
-```masm
+```nasm
 .text:0000000000401000                 mov     rbp, rsp
 .text:0000000000401003                 sub     rsp, 500h
 .text:000000000040100A                 mov     eax, 0
@@ -53,7 +53,7 @@ The code is really massive (1M+ lines of disassembly in Ghidra) but quite eays t
 ```
 
 And thousands of basic operations (`sub` and `add`) applied on each element. Towards the end there are some checks on each array element. If we pass all the checks we get the flag:
-```asm
+```nasm
 .text:0000000000AA401C                 jnz     wrong_byte
 .text:0000000000AA4022                 cmp     [rbp+var_1], 7Dh ; '}'
 .text:0000000000AA4026                 jnz     wrong_byte
