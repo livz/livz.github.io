@@ -1304,11 +1304,11 @@ for i in range(32):
   nonce_map[n] = i
 ```
 
-Confirm the letters by mining 6 additional blocks, so letters will be >=5 blocks deep and Santa will trust them
+Confirm the letters by mining 6 additional blocks, so letters will be >=6 blocks deep and Santa will trust them
 ```python
 for _ in range(6):
-	mine_block()
-	time.sleep(1)
+  mine_block()
+  time.sleep(1)
 ```
 
 Collect the 32 characters of the secret by scanning the `txpool` and mapping the gifts to the nonce of the requests:
@@ -1317,27 +1317,27 @@ recovered = ["?"] * 32
 got = 0
 
 while got < 32:
-	txs = requests.get(f"{NORTH_POOLE}/txpool").json().get("txs", [])
-
-	cur = get_head()["hash"]
-	for _ in range(8):
-		blk = get_block(cur)
-		txs.extend(blk["txs"])
-		cur = blk["prev_hash"]
-
-	for tx in txs:
-		if tx.get("type") == "gift" and tx.get("dst") == MY_NAME:
-			req = tx["nonce"].replace("-gift", "")
-			if req in nonce_map:
-				idx = nonce_map[req]
-				if recovered[idx] == "?":
-					recovered[idx] = tx["gift"]
-					got += 1
-					print(
-						f"\rProgress: {''.join(recovered)} ({got}/32)",
-						end=""
-					)
-	time.sleep(2)
+  txs = requests.get(f"{NORTH_POOLE}/txpool").json().get("txs", [])
+  
+  cur = get_head()["hash"]
+  for _ in range(8):
+    blk = get_block(cur)
+    txs.extend(blk["txs"])
+    cur = blk["prev_hash"]
+  
+  for tx in txs:
+    if tx.get("type") == "gift" and tx.get("dst") == MY_NAME:
+      req = tx["nonce"].replace("-gift", "")
+      if req in nonce_map:
+        idx = nonce_map[req]
+        if recovered[idx] == "?":
+          recovered[idx] = tx["gift"]
+          got += 1
+          print(
+            f"\rProgress: {''.join(recovered)} ({got}/32)",
+            end=""
+          )
+  time.sleep(2)
 ```
 
 Fork the chain from the clean head before Santa gifted the secret characters, and continue to mine until the fork becomes the best chain. This is easy because the elves have a random delay after mining each block:
