@@ -1466,7 +1466,7 @@ iptables -A OUTPUT -o veth-host -m owner --uid-owner root -j ACCEPT
 iptables -A OUTPUT -o veth-host -j REJECT
 ```
 
-The script then sets up a Node.js middleware service running at 72.79.72.79:80, with has its own SSRF vulnerability via the `/fetch` endpoint. This service acts as our internal pivot point int othe Chicken.
+The script then sets up a Node.js middleware service running at 72.79.72.79:80, with its own SSRF vulnerability via the `/fetch` endpoint. This service acts as our internal pivot point into the Chicken.
 ```js
 const server = http.createServer(async (req, res) => {
      const parsedUrl = url.parse(req.url, true);
