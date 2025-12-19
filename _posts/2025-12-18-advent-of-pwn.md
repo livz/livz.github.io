@@ -314,11 +314,357 @@ pwn.college{sucGPgrXk1E5Phyq-QhxTqXukrZ.QX0gDOxIDLzQDMyQzW}
 $ nice -n 10 sleep 1
 ```
 
-## Day 4 - 
+## Day 4 - eBPF filters
+
+Another init file which runs a compiled ELF binary, and its source is available. Since it's not very long, I'll paste it here:
+```c
+#define _GNU_SOURCE
+#include <bpf/bpf.h>
+#include <bpf/libbpf.h>
+#include <stdbool.h>
+#include <ctype.h>
+#include <dirent.h>
+#include <errno.h>
+#include <fcntl.h>
+#include <signal.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <sys/resource.h>
+#include <unistd.h>
+
+static volatile sig_atomic_t stop;
+
+static void handle_sigint(int sig)
+{
+    (void)sig;
+    stop = 1;
+}
+
+static int libbpf_print_fn(enum libbpf_print_level level,
+                           const char *fmt, va_list args)
+{
+    return vfprintf(stderr, fmt, args);
+}
+
+static void broadcast_cheer(void)
+{
+    libbpf_set_print(libbpf_print_fn);
+    libbpf_set_strict_mode(LIBBPF_STRICT_ALL);
+
+    DIR *d = opendir("/dev/pts");
+    struct dirent *de;
+    char path[64];
+    char flag[256];
+    char banner[512];
+    ssize_t n;
+
+    if (!d)
+        return;
+
+    int ffd = open("/flag", O_RDONLY | O_CLOEXEC);
+    if (ffd >= 0) {
+        n = read(ffd, flag, sizeof(flag) - 1);
+        if (n >= 0)
+            flag[n] = '\0';
+        close(ffd);
+    } else {
+        strcpy(flag, "no-flag\n");
+    }
+
+    snprintf(
+        banner,
+        sizeof(banner),
+        "🎅 🎄 🎁 \x1b[1;31mHo Ho Ho\x1b[0m, \x1b[1;32mMerry Christmas!\x1b[0m\n"
+        "%s",
+        flag);
+
+    while ((de = readdir(d)) != NULL) {
+        const char *name = de->d_name;
+        size_t len = strlen(name);
+        bool all_digits = true;
+
+        if (len == 0 || name[0] == '.')
+            continue;
+        if (strcmp(name, "ptmx") == 0)
+            continue;
+
+        for (size_t i = 0; i < len; i++) {
+            if (!isdigit((unsigned char)name[i])) {
+                all_digits = false;
+                break;
+            }
+        }
+        if (!all_digits)
+            continue;
+
+        snprintf(path, sizeof(path), "/dev/pts/%s", name);
+        int fd = open(path, O_WRONLY | O_NOCTTY | O_CLOEXEC);
+        if (fd < 0)
+            continue;
+        write(fd, "\x1b[2J\x1b[H", 7);
+        write(fd, banner, strlen(banner));
+        close(fd);
+    }
+
+    closedir(d);
+}
+
+int main(void)
+{
+    struct bpf_object *obj = NULL;
+    struct bpf_program *prog = NULL;
+    struct bpf_link *link = NULL;
+    struct bpf_map *success = NULL;
+    int map_fd;
+    __u32 key0 = 0;
+    int err;
+    int should_broadcast = 0;
+
+    libbpf_set_strict_mode(LIBBPF_STRICT_ALL);
+    setvbuf(stdout, NULL, _IONBF, 0);
+
+    obj = bpf_object__open_file("/challenge/tracker.bpf.o", NULL);
+    if (!obj) {
+        fprintf(stderr, "Failed to open BPF object: %s\n", strerror(errno));
+        return 1;
+    }
+
+    err = bpf_object__load(obj);
+    if (err) {
+        fprintf(stderr, "Failed to load BPF object: %s\n", strerror(-err));
+        goto cleanup;
+    }
+
+    prog = bpf_object__find_program_by_name(obj, "handle_do_linkat");
+    if (!prog) {
+        fprintf(stderr, "Could not find BPF program handle_do_linkat\n");
+        goto cleanup;
+    }
+
+    link = bpf_program__attach_kprobe(prog, false, "__x64_sys_linkat");
+    if (!link) {
+        fprintf(stderr, "Failed to attach kprobe __x64_sys_linkat: %s\n", strerror(errno));
+        goto cleanup;
+    }
+
+    signal(SIGINT, handle_sigint);
+    signal(SIGTERM, handle_sigint);
+
+    success = bpf_object__find_map_by_name(obj, "success");
+    if (!success) {
+        fprintf(stderr, "Failed to find success map\n");
+        goto cleanup;
+    }
+    map_fd = bpf_map__fd(success);
+
+    printf("Attached. Press Ctrl-C to quit.\n");
+    fflush(stdout);
+    while (!stop) {
+        __u32 v = 0;
+        if (bpf_map_lookup_elem(map_fd, &key0, &v) == 0 && v != 0) {
+            should_broadcast = 1;
+            stop = 1;
+            break;
+        }
+        usleep(100000);
+    }
+
+    if (should_broadcast) {
+        printf("Ho Ho Ho\n");
+        broadcast_cheer();
+    }
+
+cleanup:
+    if (link)
+        bpf_link__destroy(link);
+    if (obj)
+        bpf_object__close(obj);
+    return err ? 1 : 0;
+}
+```
+Basically the challenge loads a BPF filter from a compiled object file - `tracker.bpf.o` (No source code available this time), locates a BPF program (`handle_do_linkat`) and attaches a probe to it then gets a handle to a `success` map. It then continously checks for the presence of a first element in it with a value different than 0. To get an idea about the compiled eBPF filter, list all the sections:
+
+```bash
+(List all sections)
+$ llvm-objdump -h /challenge/tracker.bpf.o
+
+/challenge/tracker.bpf.o:       file format elf64-bpf
+
+Sections:
+Idx Name                        Size     VMA              Type
+  0                             00000000 0000000000000000
+  1 .strtab                     0000008f 0000000000000000
+  2 .text                       00000000 0000000000000000 TEXT
+  3 kprobe/__x64_sys_linkat     000008a8 0000000000000000 TEXT
+  4 .relkprobe/__x64_sys_linkat 00000030 0000000000000000
+  5 license                     0000000d 0000000000000000 DATA
+  6 .maps                       00000040 0000000000000000 DATA
+  7 .BTF                        00000937 0000000000000000
+  8 .rel.BTF                    00000030 0000000000000000
+  9 .BTF.ext                    00000560 0000000000000000
+ 10 .rel.BTF.ext                00000530 0000000000000000
+ 11 .llvm_addrsig               00000004 0000000000000000
+ 12 .symtab                     00000090 0000000000000000
+```
+
+And then peek inside the custom `linkat` handler:
+```bash
+llvm-objdump -d -j kprobe/__x64_sys_linkat /challenge/tracker.bpf.o
+ challenge/tracker.bpf.o:	file format elf64-bpf
+
+Disassembly of section kprobe/__x64_sys_linkat:
+
+0000000000000000 <handle_do_linkat>:
+       0:	79 16 70 00 00 00 00 00	r6 = *(u64 *)(r1 + 0x70)
+       1:	b7 01 00 00 00 00 00 00	r1 = 0x0
+       2:	7b 1a d0 ff 00 00 00 00	*(u64 *)(r10 - 0x30) = r1
+       3:	7b 1a c8 ff 00 00 00 00	*(u64 *)(r10 - 0x38) = r1
+       4:	15 06 0e 01 00 00 00 00	if r6 == 0x0 goto +0x10e <handle_do_linkat+0x898>
+       5:	bf 63 00 00 00 00 00 00	r3 = r6
+       6:	07 03 00 00 68 00 00 00	r3 += 0x68
+       7:	bf a1 00 00 00 00 00 00	r1 = r10
+       8:	07 01 00 00 d0 ff ff ff	r1 += -0x30
+       9:	b7 02 00 00 08 00 00 00	r2 = 0x8
+      10:	85 00 00 00 71 00 00 00	call 0x71
+      11:	07 06 00 00 38 00 00 00	r6 += 0x38
+      12:	bf a1 00 00 00 00 00 00	r1 = r10
+      13:	07 01 00 00 c8 ff ff ff	r1 += -0x38
+      14:	b7 02 00 00 08 00 00 00	r2 = 0x8
+      15:	bf 63 00 00 00 00 00 00	r3 = r6
+      16:	85 00 00 00 71 00 00 00	call 0x71
+      17:	79 a3 d0 ff 00 00 00 00	r3 = *(u64 *)(r10 - 0x30)
+      18:	15 03 00 01 00 00 00 00	if r3 == 0x0 goto +0x100 <handle_do_linkat+0x898>
+      19:	79 a1 c8 ff 00 00 00 00	r1 = *(u64 *)(r10 - 0x38)
+      20:	15 01 fe 00 00 00 00 00	if r1 == 0x0 goto +0xfe <handle_do_linkat+0x898>
+      21:	bf a1 00 00 00 00 00 00	r1 = r10
+      22:	07 01 00 00 d8 ff ff ff	r1 += -0x28
+      23:	b7 02 00 00 10 00 00 00	r2 = 0x10
+      24:	85 00 00 00 72 00 00 00	call 0x72
+      25:	67 00 00 00 20 00 00 00	r0 <<= 0x20
+      26:	c7 00 00 00 20 00 00 00	r0 s>>= 0x20
+      27:	b7 01 00 00 01 00 00 00	r1 = 0x1
+      28:	6d 01 f6 00 00 00 00 00	if r1 s> r0 goto +0xf6 <handle_do_linkat+0x898>
+      29:	79 a3 d0 ff 00 00 00 00	r3 = *(u64 *)(r10 - 0x30)
+      30:	bf a1 00 00 00 00 00 00	r1 = r10
+      31:	07 01 00 00 f0 ff ff ff	r1 += -0x10
+      32:	b7 02 00 00 10 00 00 00	r2 = 0x10
+      33:	85 00 00 00 72 00 00 00	call 0x72
+      34:	67 00 00 00 20 00 00 00	r0 <<= 0x20
+      35:	77 00 00 00 20 00 00 00	r0 >>= 0x20
+      36:	55 00 ee 00 07 00 00 00	if r0 != 0x7 goto +0xee <handle_do_linkat+0x898>
+      37:	71 a1 f0 ff 00 00 00 00	r1 = *(u8 *)(r10 - 0x10)
+      38:	55 01 ec 00 73 00 00 00	if r1 != 0x73 goto +0xec <handle_do_linkat+0x898> // s
+      39:	71 a1 f1 ff 00 00 00 00	r1 = *(u8 *)(r10 - 0xf)
+      40:	55 01 ea 00 6c 00 00 00	if r1 != 0x6c goto +0xea <handle_do_linkat+0x898> // l
+      41:	71 a1 f2 ff 00 00 00 00	r1 = *(u8 *)(r10 - 0xe)
+      42:	55 01 e8 00 65 00 00 00	if r1 != 0x65 goto +0xe8 <handle_do_linkat+0x898> // e
+      43:	71 a1 f3 ff 00 00 00 00	r1 = *(u8 *)(r10 - 0xd)
+      44:	55 01 e6 00 69 00 00 00	if r1 != 0x69 goto +0xe6 <handle_do_linkat+0x898> // i
+      45:	71 a1 f4 ff 00 00 00 00	r1 = *(u8 *)(r10 - 0xc)
+      46:	55 01 e4 00 67 00 00 00	if r1 != 0x67 goto +0xe4 <handle_do_linkat+0x898> // g
+      47:	71 a1 f5 ff 00 00 00 00	r1 = *(u8 *)(r10 - 0xb)
+      48:	55 01 e2 00 68 00 00 00	if r1 != 0x68 goto +0xe2 <handle_do_linkat+0x898> // h
+      49:	79 a3 c8 ff 00 00 00 00	r3 = *(u64 *)(r10 - 0x38)
+      50:	bf a1 00 00 00 00 00 00	r1 = r10
+      51:	07 01 00 00 d8 ff ff ff	r1 += -0x28
+      52:	b7 02 00 00 10 00 00 00	r2 = 0x10
+      53:	85 00 00 00 72 00 00 00	call 0x72
+      54:	67 00 00 00 20 00 00 00	r0 <<= 0x20
+      55:	c7 00 00 00 20 00 00 00	r0 s>>= 0x20
+      56:	b7 01 00 00 01 00 00 00	r1 = 0x1
+ [...]
+```
+
+The disassembly is quite large but repetitive. At this point I used an LLM to do a first pass thrugh the decompiled code with mixed results. What I got was that the binary running as SUID _will broadcast the flag when an unprivileged process executes the linkat system call, and the newpath argument must point to a string that exactly matches: "prancer"_. Although this wasn't correct, it was a very good starting point. 
+
+Before recovering all the expected arguments to `linkat` from the disassembly, I wanted to understand a bit more the eBPF filter, so I recompiled the binary with soem debug information. To do this, we need `libbpf` and some includes:
+
+```bash
+LIBBPF_ROOT=/nix/store/b9zasiadhppl3kbn3jlfvvssc35hhavq-libbpf-1.5.0
+
+# Execute the final compilation command
+sudo gcc -o northpole -Wall -g northpole.c \
+-I${LIBBPF_ROOT}/include \
+-L${LIBBPF_ROOT}/lib \
+-lbpf
+```
+
+The BPF program actually defines two maps:
+```bash
+$ sudo bpftool map show
+1: array  name progress  flags 0x0
+	key 4B  value 4B  max_entries 1  memlock 272B
+	btf_id 12
+2: array  name success  flags 0x0
+	key 4B  value 4B  max_entries 1  memlock 272B
+	btf_id 12
+```
+
+The first one is used to track the progress from one link to another, almost like a state machine. That's why the order of the link operations matter. The second one is the one checked by the C program for success. We can also dump the maps with `bpftool`:
+```bash
+$ sudo bpftool map dump name progress
+[{
+        "key": 0,
+        "value": 1
+    }
+]
+$ sudo bpftool map dump name success
+[{
+        "key": 0,
+        "value": 0
+    }
+]
+```
+Or even manually set values for elements, to confirm the uderstanding of the code is correct:
+```bash
+$ sudo bpftool map update name success key hex 00 00 00 00 value hex 01 00 00 00
+$ sudo bpftool map dump name success
+[{
+        "key": 0,
+        "value": 1
+    }
+]
+```
+
+To trigger the winning path we need a chain of link operations. Let's see if this works or not:
+```bash
+$ touch sleigh
+$ sudo bpftool map dump name progress
+[{
+        "key": 0,
+        "value": 0
+    }
+]
+$ ln sleigh dasher
+$ sudo bpftool map dump name progress
+[{
+        "key": 0,
+        "value": 1
+    }
+]
+```
+We made progress! Next step was to get the name of the other reindeers and their order (_which by the way it doesn't match the song, so you still have to find them all_) and get the 🚩:
+```bash
+$ touch sleigh
+$ ln sleigh dasher
+$ ln sleigh dancer
+$ ln sleigh prancer
+$ ln sleigh vixen
+$ ln sleigh comet
+$ ln sleigh cupid
+$ ln sleigh donner
+$ ln sleigh blitzen
+
+🎅 🎄 🎁 Ho Ho Ho, Merry Christmas!
+pwn.college{I5Wgtp3zwRZOMihukp1FJYbSqCP.QXykDOxIDLzQDMyQzW}
+```
+
 
 <div class="box-note">
 Note that <a href="https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.utility/out-string?view=powershell-6" target="_blank">Out-String -Stream</a> is very important here. This is needed to be able to use <b>Select-String</b> and grep through the output!
 </div>
 
+## Day 5 - 
 
 All the levels were very educative! Huge thanks to the authors.
