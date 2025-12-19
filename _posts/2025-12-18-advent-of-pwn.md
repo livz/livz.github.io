@@ -23,6 +23,11 @@ Last but definitely not least, huge thanks to the creators of these challenges f
 
 Solutions and all challenge files to follow along are also on [GitHub](https://github.com/livz/advent-of-pwn). Challenge descriptions were fun to read but I think they didn't add much useful information towards solving them. So, for brevity I'm ommiting them here. 
 
+[Day 1 - Warm-up gatekeeper](#day-1---warm-up-gatekeeper)
+[Day 2 - Dumpable SUID binary](#day-2---dumpable-suid-binary)
+[Day 3 - Sleeping nicely](day-3---sleeping-nicely)
+[Day 4 - eBPF filters](day-4---ebpf-filters)
+
 ## Day 1 - Warm-up gatekeeper
 
 In this challenge we're dealing with an ELF 😛 file that performs some checks on its input:
@@ -483,10 +488,9 @@ cleanup:
     return err ? 1 : 0;
 }
 ```
-Basically the challenge loads a BPF filter from a compiled object file - `tracker.bpf.o` (No source code available this time), locates a BPF program (`handle_do_linkat`) and attaches a probe to it then gets a handle to a `success` map. It then continously checks for the presence of a first element in it with a value different than 0. To get an idea about the compiled eBPF filter, list all the sections:
+Basically the challenge loads a BPF filter from a compiled object file - `tracker.bpf.o` (Sorry, no source code available this time), locates a BPF program (`handle_do_linkat`) and attaches a probe to it then gets a handle to a `success` map. It then continously checks for the presence of a first element in it with a value different than 0. To get an idea about the compiled eBPF filter, list all the sections:
 
 ```bash
-(List all sections)
 $ llvm-objdump -h /challenge/tracker.bpf.o
 
 /challenge/tracker.bpf.o:       file format elf64-bpf
@@ -510,7 +514,7 @@ Idx Name                        Size     VMA              Type
 
 And then peek inside the custom `linkat` handler:
 ```bash
-llvm-objdump -d -j kprobe/__x64_sys_linkat /challenge/tracker.bpf.o
+$ llvm-objdump -d -j kprobe/__x64_sys_linkat /challenge/tracker.bpf.o
  challenge/tracker.bpf.o:	file format elf64-bpf
 
 Disassembly of section kprobe/__x64_sys_linkat:
@@ -576,15 +580,14 @@ Disassembly of section kprobe/__x64_sys_linkat:
  [...]
 ```
 
-The disassembly is quite large but repetitive. At this point I used an LLM to do a first pass thrugh the decompiled code with mixed results. What I got was that the binary running as SUID _will broadcast the flag when an unprivileged process executes the linkat system call, and the newpath argument must point to a string that exactly matches: "prancer"_. Although this wasn't correct, it was a very good starting point. 
+The disassembly is quite large but repetitive. At this point I used an LLM to do a first pass thrugh the decompiled code with mixed results. What I got was that the binary running as SUID _will broadcast the flag when an unprivileged process executes the linkat system call, and the newpath argument must point to a string that exactly matches: "prancer"_. Although this wasn't correct, it was a good starting point. 
 
-Before recovering all the expected arguments to `linkat` from the disassembly, I wanted to understand a bit more the eBPF filter, so I recompiled the binary with soem debug information. To do this, we need `libbpf` and some includes:
+Before recovering all the expected arguments to `linkat` from the disassembly, I wanted to understand a bit more the eBPF filter, so I recompiled the binary with debug information. To do this, we need `libbpf` and some includes:
 
 ```bash
-LIBBPF_ROOT=/nix/store/b9zasiadhppl3kbn3jlfvvssc35hhavq-libbpf-1.5.0
+$ LIBBPF_ROOT=/nix/store/b9zasiadhppl3kbn3jlfvvssc35hhavq-libbpf-1.5.0
 
-# Execute the final compilation command
-sudo gcc -o northpole -Wall -g northpole.c \
+$ sudo gcc -o northpole -Wall -g northpole.c \
 -I${LIBBPF_ROOT}/include \
 -L${LIBBPF_ROOT}/lib \
 -lbpf
@@ -601,7 +604,7 @@ $ sudo bpftool map show
 	btf_id 12
 ```
 
-The first one is used to track the progress from one link to another, almost like a state machine. That's why the order of the link operations matter. The second one is the one checked by the C program for success. We can also dump the maps with `bpftool`:
+The first one is used to track the progress from one link to another, almost like a state machine. That's why the order of the link operations matter (more on this next). The second map is the one checked by the C program for success. We can also dump the maps with `bpftool`:
 ```bash
 $ sudo bpftool map dump name progress
 [{
@@ -616,7 +619,7 @@ $ sudo bpftool map dump name success
     }
 ]
 ```
-Or even manually set values for elements, to confirm the uderstanding of the code is correct:
+Or even manually set values for elements, to confirm the understanding of the code is correct:
 ```bash
 $ sudo bpftool map update name success key hex 00 00 00 00 value hex 01 00 00 00
 $ sudo bpftool map dump name success
