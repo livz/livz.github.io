@@ -43,56 +43,51 @@ $ pwn checksec /challenge/check-list
 
 The code is really massive (1M+ lines of disassembly in Ghidra) but quite eays to understand. We're dealing with a large array of input bytes:
 ```nasm
-.text:0000000000401000                 mov     rbp, rsp
-.text:0000000000401003                 sub     rsp, 500h
-.text:000000000040100A                 mov     eax, 0
-.text:000000000040100F                 mov     edi, 0          ; fd
-.text:0000000000401014                 lea     rsi, [rbp+var_400] ; buf
-.text:000000000040101B                 mov     edx, 400h       ; count
-.text:0000000000401020                 syscall                 ; LINUX - sys_read
-```
-
-test
-```nasm
 mov     rbp, rsp
 sub     rsp, 500h
+mov     eax, 0
+mov     edi, 0          ; fd
+lea     rsi, [rbp+var_400] ; buf
+mov     edx, 400h       ; count
+syscall                 ; LINUX - sys_read
 ```
+
 And thousands of basic operations (`sub` and `add`) applied on each element. Towards the end there are some checks on each array element. If we pass all the checks we get the flag:
 ```nasm
-.text:0000000000AA401C                 jnz     wrong_byte
-.text:0000000000AA4022                 cmp     [rbp+var_1], 7Dh ; '}'
-.text:0000000000AA4026                 jnz     wrong_byte
-.text:0000000000AA402C                 mov     rax, 1
-.text:0000000000AA4033                 mov     rdi, 1          ; fd
-.text:0000000000AA403A                 lea     rsi, bufCorrectStart ; buf
-.text:0000000000AA4041                 mov     rdx, 31h ; '1'  ; count
-.text:0000000000AA4048                 syscall                 ; LINUX - sys_write
-.text:0000000000AA404A                 mov     eax, 2
-.text:0000000000AA404F                 lea     rdi, filename   ; Open flag
-.text:0000000000AA4056                 mov     esi, 0          ; flags
-.text:0000000000AA405B                 mov     edx, 0          ; mode
-.text:0000000000AA4060                 syscall                 ; LINUX - sys_open
-.text:0000000000AA4062                 cmp     rax, 0
-.text:0000000000AA4066                 jl      short loc_AA40B6
-.text:0000000000AA4068                 mov     r12, rax
-.text:0000000000AA406B                 mov     eax, 0
-.text:0000000000AA4070                 mov     rdi, r12        ; fd
-.text:0000000000AA4073                 lea     rsi, [rbp+var_500] ; buf
-.text:0000000000AA407A                 mov     edx, 100h       ; count
-.text:0000000000AA407F                 syscall                 ; LINUX - sys_read
-.text:0000000000AA4081                 cmp     rax, 0
-.text:0000000000AA4085                 jle     short loc_AA40B6
-.text:0000000000AA4087                 mov     rcx, rax
-.text:0000000000AA408A                 mov     rax, 1
-.text:0000000000AA4091                 mov     rdi, 1          ; fd
-.text:0000000000AA4098                 lea     rsi, [rbp+var_500] ; buf
-.text:0000000000AA409F                 mov     rdx, rcx        ; count
-.text:0000000000AA40A2                 syscall                 ; LINUX - sys_write
-.text:0000000000AA40A4                 cmp     rax, 0
-.text:0000000000AA40A8                 jl      short loc_AA40B6
-.text:0000000000AA40AA                 mov     eax, 3Ch ; '<'
-.text:0000000000AA40AF                 mov     edi, 0          ; error_code
-.text:0000000000AA40B4                 syscall                 ; LINUX - sys_exit
+jnz     wrong_byte
+cmp     [rbp+var_1], 7Dh ; '}'
+jnz     wrong_byte
+mov     rax, 1
+mov     rdi, 1          ; fd
+lea     rsi, bufCorrectStart ; buf
+mov     rdx, 31h ; '1'  ; count
+syscall                 ; LINUX - sys_write
+mov     eax, 2
+lea     rdi, filename   ; Open flag
+mov     esi, 0          ; flags
+mov     edx, 0          ; mode
+syscall                 ; LINUX - sys_open
+cmp     rax, 0
+jl      short loc_AA40B6
+mov     r12, rax
+mov     eax, 0
+mov     rdi, r12        ; fd
+lea     rsi, [rbp+var_500] ; buf
+mov     edx, 100h       ; count
+syscall                 ; LINUX - sys_read
+cmp     rax, 0
+jle     short loc_AA40B6
+mov     rcx, rax
+mov     rax, 1
+mov     rdi, 1          ; fd
+lea     rsi, [rbp+var_500] ; buf
+mov     rdx, rcx        ; count
+syscall                 ; LINUX - sys_write
+cmp     rax, 0
+jl      short loc_AA40B6
+mov     eax, 3Ch ; '<'
+mov     edi, 0          ; error_code
+syscall                 ; LINUX - sys_exit
 ```
 
 For this level, once you understand what's happening a simple Python script can parse all the code, extract the operations and final value for each array element and reverse them to get the expected input key:
