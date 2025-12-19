@@ -27,9 +27,9 @@ Solutions and all challenge files to follow along are also on [GitHub](https://g
 [Day 2 - Dumpable SUID binary](#day-2---dumpable-suid-binary)<br>
 [Day 3 - Sleeping nicely](#day-3---sleeping-nicely)<br>
 [Day 4 - eBPF filters](#day-4---ebpf-filters)<br>
-[Day 5 - io_uring syscall filter bypass](#day-5---io_uring-syscall-filter-bypass)
-[Day 6 - Custom blockchain](#day-6---custom-blockchain)
-[Day 7 - SSRFs chain](day-7---ssrfs-chain)
+[Day 5 - io_uring syscall filter bypass](#day-5---io_uring-syscall-filter-bypass)<br>
+[Day 6 - Custom blockchain](#day-6---custom-blockchain)<br>
+[Day 7 - SSRFs chain](day-7---ssrfs-chain)<br>
 
 ## Day 1 - Warm-up gatekeeper
 
