@@ -1194,8 +1194,7 @@ This challenge has multiple files and a lot more code. There area children, elve
 
 There are four actors:
 
-🎄 North Poole (`north_poole.py`)
-A minimal blockchain node:
+🎄 North Poole (`north_poole.py`) - A minimal blockchain node
 * Maintains blocks, tx pool, balances
 * Uses PoW (difficulty = 16 → 4 hex zeros)
 * Tracks a “nice list” balance
@@ -1215,21 +1214,19 @@ A minimal blockchain node:
 * Mine continuously
 
 👶 Children (`children.py`)
-* Childrean are children 😇
+* Children are children 😇
 * Randomly send signed “Dear Santa” letters
 * Ask for toys
 * Their letters go into the `tx` pool
 
 ### Blockchain rules
 
-*Proof-of-Work*
-A block is valid if:
+**Proof-of-Work**: A block is valid if
 ```python
 sha256(block_json).startswith("0000")
 ```
 
-*Longest chain wins*
-The best chain is the block with the highest index:
+**Longest chain wins**: The best chain is the block with the highest index
 ```python
 def get_best_chain_block():
     best_hash = None
@@ -1242,16 +1239,15 @@ def get_best_chain_block():
 ```
 
 
-*Balance system*
-Everyone starts with balance 1 and each block may include:
+**Balance system**: Everyone starts with balance 1 and each block may include a nice field
 ```python
 "nice": "<child_name>"
 ```
-Which increases the person's balance:
+Which increases the person's balance
 ```python
 balances[nice_person] += 1
 ```
-Santa gives gifts only to nice children:
+Santa gives gifts only to nice children
 ```python
 balances[child] > 0
 ```
