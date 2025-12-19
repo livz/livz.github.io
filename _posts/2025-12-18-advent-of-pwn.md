@@ -1289,7 +1289,7 @@ for _ in range(10):
 ```
 
 <div class="box-note">
-In retrospective, I realised that this step is not needed, it's jsut something the LLM thought it makes sense, which it does somewhat, but not necessary at all.
+In retrospective, I realised that this step is not needed, it's just something the a LLM thought it makes sense, which it does somewhat, but is not necessary at all.
 </div>
 
 All the levels were very educative! Huge thanks to the authors.
