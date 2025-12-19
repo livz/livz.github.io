@@ -1289,7 +1289,7 @@ for _ in range(10):
 ```
 
 <div class="box-note">
-In retrospective, I realised that this step is not needed, it's just something the a LLM thought it makes sense, which it does somewhat, but is not necessary at all.
+I realised that inflating the balance is not actually needed, it's just something the an LLM thought it makes sense, which it does somewhat, but is not necessary at all.
 </div>
 
 All the levels were very educative! Huge thanks to the authors.
