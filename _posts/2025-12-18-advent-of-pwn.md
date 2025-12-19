@@ -1406,7 +1406,7 @@ Progress: 34448de412c2c60bd2afb4a8c113c24c (32/32)
 🏁 FLAG: pwn.college{ohENUI7kBHILv-h1IFOZfDPnPzp.QX0ETOxIDLzQDMyQzW}
 ```
 
-## Day 7 - Warm-up gatekeeper
+## Day 7 - SSRFs chain
 
 <div class="box-note">
 Note that <a href="https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.utility/out-string?view=powershell-6" target="_blank">Out-String -Stream</a> is very important here. This is needed to be able to use <b>Select-String</b> and grep through the output!
