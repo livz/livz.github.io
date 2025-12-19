@@ -1104,7 +1104,7 @@ mov rdx, 1
 mov r10, 1
 mov r8, 0 
 mov r9, 0 
-syscall                     /* io_uring_enter(ring_fd, 1, 1, 1, NULL, 0) - Submit OPENAT */
+syscall                         /* io_uring_enter(ring_fd, 1, 1, 1, NULL, 0) - Submit OPENAT */
 
 mov rdx, r12                    /* Get fd from cqe[0].res */
 add rdx, 0x40                   /* rdx = CQE array base */
