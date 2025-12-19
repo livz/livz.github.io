@@ -1036,7 +1036,7 @@ pwn.college{practice}
 
 From this point onward it was straight-forward. I fed this to a couple of LLMs and quickly got a working shellcode, with comments for easier torubleshooting:
 
-```masm
+```asm
 /* Get PC for PIC base */
 call get_pc
 get_pc:
