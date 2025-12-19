@@ -31,7 +31,7 @@ Solutions and all challenge files to follow along are also on [GitHub](https://g
 
 ## Day 1 - Warm-up gatekeeper
 
-In this challenge we're dealing with an ELF 😛 file that performs some checks on its input:
+In this challenge we're dealing with an ELF 😛 that performs some checks on its input:
 
 ```bash
 $ file /challenge/check-list
