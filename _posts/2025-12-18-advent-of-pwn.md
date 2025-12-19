@@ -1269,15 +1269,12 @@ Where `REQUIRED_CONFIRMATION_DEPTH = 5`. So:
 * Recent blocks are ignored
 * This mimics Bitcoin-style confirmations
 
-### The secret
+### The secret and flag
 At startup the pool script initialises a secret gift:
 ```python
 SECRET_GIFT = os.urandom(16).hex()  # 32 hex chars
 ```
-If a letter contains `secret index #N` Santa replies with `SECRET_GIFT[N]`. So we can exfiltrate the secret one character at a time.
-
-### The flag
-If a letter contains the entire secret string previously exfiltrated, Santa provides the flag:
+If a letter contains `secret index #N` Santa replies with `SECRET_GIFT[N]`. So we can exfiltrate the secret one character at a time. If a letter contains the entire secret string previously exfiltrated, Santa provides the flag:
 ```python
 if SECRET_GIFT in letter["letter"]:
     gift_value = FLAG_GIFT
