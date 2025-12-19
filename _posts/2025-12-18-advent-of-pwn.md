@@ -1282,7 +1282,8 @@ if SECRET_GIFT in letter["letter"]:
 ```
 
 ### Plan
-* Inflate the nice balance to maximum (1 + 10) by mining 10 blocks and setting `hacker` as nice:
+
+Inflate the nice balance to maximum (1 + 10) by mining 10 blocks and setting `hacker` as nice:
 ```python
 for _ in range(10):
   mine_block(nice_person="hacker")
@@ -1294,7 +1295,7 @@ clean_head = get_head()["hash"]
 clean_index = get_head()["block"]["index"]
 ```
 
-* Request the 32 secret characters
+Request the 32 secret characters
 ```python
 for i in range(32):
   n = send_letter(
@@ -1303,14 +1304,14 @@ for i in range(32):
   nonce_map[n] = i
 ```
 
-* Confirm the letters by mining 6 additional blocks, so letters will be >=5 blocks deep and Santa will trust them
+Confirm the letters by mining 6 additional blocks, so letters will be >=5 blocks deep and Santa will trust them
 ```python
 for _ in range(6):
 	mine_block()
 	time.sleep(1)
 ```
 
-* Collect the 32 characters of the secret by scanning the `txpool` and mapping the gifts to the nonce of the requests:
+Collect the 32 characters of the secret by scanning the `txpool` and mapping the gifts to the nonce of the requests:
 ```python
 recovered = ["?"] * 32
 got = 0
@@ -1339,13 +1340,13 @@ while got < 32:
 	time.sleep(2)
 ```
 
-* Fork the chain from the clean head before Santa gifted the secret characters, and continue to mine until the fork becomes the best chain. This is easy because the elves have a random delay after mining each block:
+Fork the chain from the clean head before Santa gifted the secret characters, and continue to mine until the fork becomes the best chain. This is easy because the elves have a random delay after mining each block:
 ```python
 time.sleep(random.randint(10, 120))
 ```
 Now a re-org happens and the nice balance is kept. WIthout the fork the balance would have been (1 + 10 - 32 = -21) and we would be stuck.
 
-* Ask for the flag:
+Ask for the flag:
 ```bash
 $ python solver.py
 
