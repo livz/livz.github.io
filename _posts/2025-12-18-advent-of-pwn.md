@@ -23,10 +23,10 @@ Last but definitely not least, huge thanks to the creators of these challenges f
 
 Solutions and all challenge files to follow along are also on [GitHub](https://github.com/livz/advent-of-pwn). Challenge descriptions were fun to read but I think they didn't add much useful information towards solving them. So, for brevity I'm ommiting them here. 
 
-[Day 1 - Warm-up gatekeeper](#day-1---warm-up-gatekeeper)
-[Day 2 - Dumpable SUID binary](#day-2---dumpable-suid-binary)
-[Day 3 - Sleeping nicely](day-3---sleeping-nicely)
-[Day 4 - eBPF filters](day-4---ebpf-filters)
+[Day 1 - Warm-up gatekeeper](#day-1---warm-up-gatekeeper)<br>
+[Day 2 - Dumpable SUID binary](#day-2---dumpable-suid-binary)<br>
+[Day 3 - Sleeping nicely](day-3---sleeping-nicely)<br>
+[Day 4 - eBPF filters](day-4---ebpf-filters)<br>
 
 ## Day 1 - Warm-up gatekeeper
 
@@ -663,6 +663,18 @@ $ ln sleigh blitzen
 pwn.college{I5Wgtp3zwRZOMihukp1FJYbSqCP.QXykDOxIDLzQDMyQzW}
 ```
 
+## Day 5 - io_uring syscall filter bypass
+
+<blockquote>
+Dashing through the code,<br>
+In a one-ring I/O sled,<br>
+O’er the syscalls go,<br>
+No blocking lies ahead!<br>
+Buffers queue and spin,<br>
+Completions shining bright,<br>
+What fun it is to read and write,<br>
+Async I/O tonight — hey!
+</blockquote>
 
 <div class="box-note">
 Note that <a href="https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.utility/out-string?view=powershell-6" target="_blank">Out-String -Stream</a> is very important here. This is needed to be able to use <b>Select-String</b> and grep through the output!
