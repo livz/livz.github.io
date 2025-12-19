@@ -29,7 +29,7 @@ Solutions and all challenge files to follow along are also on [GitHub](https://g
 [Day 4 - eBPF filters](#day-4---ebpf-filters)<br>
 [Day 5 - io_uring syscall filter bypass](#day-5---io_uring-syscall-filter-bypass)<br>
 [Day 6 - Custom blockchain](#day-6---custom-blockchain)<br>
-[Day 7 - SSRFs chain](day-7---ssrfs-chain)<br>
+[Day 7 - SSRFs chain](#day-7---ssrfs-chain)<br>
 
 ## Day 1 - Warm-up gatekeeper
 
@@ -1419,13 +1419,13 @@ This challenge is a set of vulnerable web apps, interestingly nested like a Matr
 A vulnerable Flask app running as root that accepts a `hacker_image` URL:
 ```html
 <form action="/check" method="POST">
-	<label for="hacker_name">Hacker Name:</label>
-	<input type="text" id="hacker_name" name="hacker_name" required>
-
-	<label for="hacker_image">Hacker Image URL (optional):</label>
-	<input type="text" id="hacker_image" name="hacker_image" placeholder="https://example.com/image.jpg">
-
-	<input type="submit" value="Check Naughty List">
+  <label for="hacker_name">Hacker Name:</label>
+  <input type="text" id="hacker_name" name="hacker_name" required>
+  
+  <label for="hacker_image">Hacker Image URL (optional):</label>
+  <input type="text" id="hacker_image" name="hacker_image" placeholder="https://example.com/image.jpg">
+  
+  <input type="submit" value="Check Naughty List">
 </form>
 ```
 And has a route `/check` which makes an outbound HTTP request using the `requests.get()` function:
@@ -1439,10 +1439,10 @@ def check():
 The outer layer also deobfuscates and executes the next layer:
 ```python
 if PAYLOAD:
-	decoded = base64.b64decode(PAYLOAD)
-	reversed_bytes = decoded[::-1]
-	unpacked = bytes(b ^ 0x42 for b in reversed_bytes)
-	subprocess.run(unpacked.decode(), shell=True)
+  decoded = base64.b64decode(PAYLOAD)
+  reversed_bytes = decoded[::-1]
+  unpacked = bytes(b ^ 0x42 for b in reversed_bytes)
+  subprocess.run(unpacked.decode(), shell=True)
 ```
 
 ### {The Duck 🦆}
