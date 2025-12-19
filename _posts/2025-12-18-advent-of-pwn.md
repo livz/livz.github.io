@@ -28,6 +28,8 @@ Solutions and all challenge files to follow along are also on [GitHub](https://g
 [Day 3 - Sleeping nicely](#day-3---sleeping-nicely)<br>
 [Day 4 - eBPF filters](#day-4---ebpf-filters)<br>
 [Day 5 - io_uring syscall filter bypass](#day-5---io_uring-syscall-filter-bypass)
+[Day 6 - Custom blockchain](#day-6---custom-blockchain)
+[Day 7 - SSRFs chain](day-7---ssrfs-chain)
 
 ## Day 1 - Warm-up gatekeeper
 
@@ -1340,11 +1342,11 @@ while got < 32:
   time.sleep(2)
 ```
 
-Fork the chain from the clean head before Santa gifted the secret characters, and continue to mine until the fork becomes the best chain. This is easy because the elves have a random delay after mining each block:
+Fork the chain from the clean head saved before Santa gifted the secret characters, and continue to mine until the fork becomes the best chain. This is easy because the elves have a random delay after mining each block:
 ```python
 time.sleep(random.randint(10, 120))
 ```
-Now a re-org happens and the nice balance is kept. WIthout the fork the balance would have been (1 + 10 - 32 = -21) and we would be stuck.
+A re-org will happen and the nice balance is kept. Without the fork the balance would have been negative (1 + 10 - 32 = -21) and we would be stuck.
 
 Ask for the flag:
 ```bash
