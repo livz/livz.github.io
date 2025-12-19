@@ -52,6 +52,11 @@ The code is really massive (1M+ lines of disassembly in Ghidra) but quite eays t
 .text:0000000000401020                 syscall                 ; LINUX - sys_read
 ```
 
+test
+```nasm
+mov     rbp, rsp
+sub     rsp, 500h
+```
 And thousands of basic operations (`sub` and `add`) applied on each element. Towards the end there are some checks on each array element. If we pass all the checks we get the flag:
 ```nasm
 .text:0000000000AA401C                 jnz     wrong_byte
