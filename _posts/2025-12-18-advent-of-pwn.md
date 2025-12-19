@@ -754,9 +754,9 @@ int main()
 }
 ```
 The idea is clear: all the syscalls except `io_uring_setup`, `io_uring_enter` and `io_uring_register` are blocked and we get a mapped memory page to store some shellcode to be executed. Straght-forward but there are a few difficult things to overcome here:
-* Not much related code available out there to work with `io_uring` (=> not much for LLMs to train with too)
-* `io_uring_setup` syscall returns a file descriptor which needs to be `mmap`-ed, but `mmap` syscall is not allowed
-* There's a large number of structures and member fields involved, whose offsets differ from one kernel version to another (=> LLMs will likely fail to generate any working shellcode).
+* Not much code showing how to work with `io_uring` is available online (So not much material for LLMs to train with)
+* `io_uring_setup` syscall returns a file descriptor which needs to be `mmap`-ed, but `mmap` syscall is not allowed!
+* There's a large number of structures and member fields involved, whose offsets differ from one kernel version to another (So an LLM will likely fail to generate any working shellcode)
 
 My plan was as follows:
 1. Locate a working example for `io_uring` async I/O.
@@ -764,7 +764,7 @@ My plan was as follows:
 3. Convert it to shellcode and feed it to the challenge binary
 4. Enjoy!
 
-Luckily towards the end of the `io_uring` [man page](https://man7.org/linux/man-pages/man7/io_uring.7.html) there's an example that uses `io_uring` to copy stdin to stdout. Nice, let's see if it works:
+Luckily, towards the end of the `io_uring` [man page](https://man7.org/linux/man-pages/man7/io_uring.7.html) there's an example that uses `io_uring` to copy stdin to stdout. Nice, let's see if it works:
 ```bash
 $ gcc io_uring_orig.c -o io_uring
 ubuntu@2025~day-05:~$ ./io_uring
@@ -779,7 +779,7 @@ ubuntu@practice~2025~day-05:~$ sudo ./io_uring
 pwn.college{practice}
 ```
 
-But how to get rid of the need to `mmap` stuff?  By default, `io_uring` allocates kernel memory for submission queue and completion queue, that callers must subsequently `mmap`.  However, consulting the `io_uring_setup` man page I noticed the `IORING_SETUP_NO_MMAP` flag. As per documentaiont, if this flag is set, io_uring instead uses caller-allocated buffers:  `p->cq_off.user_addr` must point to the memory for the `sq`/`cq` rings, and `p->sq_off.user_addr` must point to the memory for the `sqes`. Neat! 
+But how to get rid of the `mmap` calls?  By default, `io_uring` allocates kernel memory for submission queue and completion queue, that callers must subsequently `mmap`.  However, consulting the `io_uring_setup` man page I noticed the `IORING_SETUP_NO_MMAP` flag. As per documentaiont, if this flag is set, `io_uring` instead uses caller-allocated buffers:  `p->cq_off.user_addr` must point to the memory for the `sq`/`cq` rings, and `p->sq_off.user_addr` must point to the memory for the `sqes`. Neat! 
 
 I've trimmed the PoC even more and simulated the conditions of the challege binary with two page-aligned (very important) buffers on the stack:
 ```c
@@ -917,7 +917,7 @@ int main() {
 }
 ```
 
-With this simple code we can get the falg without the need to `mmap` anything:
+With this simple code I got the flag without the need to `mmap` anything:
 
 ```bash
 $ gcc io_uring_nommap.c -o io_uring
@@ -929,7 +929,7 @@ $ sudo ./io_uring
 pwn.college{practice}
 ```
 
-At this point I didn't realise I could have converted my PoC straight to working assembly code as other have done (_check the writeups mentioend in the beginning!_) and I manually converted this to shellcode. To make my job easier I minimised the PoC code even more, replaced all the defines with their actual values. I also made all the access to structure members to be offset-based (these offsets vary from one kernel version to another!) using the `offsetof` macro:
+At this point I didn't realise I could have converted my PoC straight to working assembly code as other have done (_check the writeups mentioend in the beginning!_) and I manually converted this to shellcode. To make my job easier I minimised the PoC code even more and replaced all the defines with their actual values. I also made all the access to structure members to be offset-based (these offsets vary from one kernel version to another!) using the `offsetof` macro:
 ```c
 printf("offsetof(struct io_uring_sqe, len): %d\n", offsetof(struct io_uring_sqe, len));
 ```
@@ -1025,7 +1025,7 @@ int main() {
 }
 ```
 
-Which, although maybe not production-grade, gets the flag:
+Which, although maybe not production-grade, it gets the flag:
 ```bash
 ubuntu@practice~2025~day-05:~$ gcc io_uring_min.c -o io_uring
 ubuntu@practice~2025~day-05:~$ sudo ./io_uring
@@ -1034,9 +1034,9 @@ read: 22
 pwn.college{practice}
 ```
 
-From this it was straight-forward. I fed this to a couple of LLMs and quickly got a working shellcode, with comments for easier torubleshooting:
+From this point onward it was straight-forward. I fed this to a couple of LLMs and quickly got a working shellcode, with comments for easier torubleshooting:
 
-```nasm
+```masm
 /* Get PC for PIC base */
 call get_pc
 get_pc:
