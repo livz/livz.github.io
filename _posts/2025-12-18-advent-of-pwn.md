@@ -30,6 +30,8 @@ Solutions and all challenge files to follow along are also on [GitHub](https://g
 [Day 5 - io_uring syscall filter bypass](#day-5---io_uring-syscall-filter-bypass)<br>
 [Day 6 - Custom blockchain](#day-6---custom-blockchain)<br>
 [Day 7 - SSRFs chain](#day-7---ssrfs-chain)<br>
+[Day 8 - Jinja2 template](#day-8---jinja2-template)<br>
+
 
 ## Day 1 - Warm-up gatekeeper
 
