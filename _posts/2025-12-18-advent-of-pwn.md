@@ -2375,4 +2375,4 @@ Press ENTER to send shellcode payload to fifo...
 I'm sure there's a more elegant solution than having 3 terminals and using a FIFO to transmit the payload but I got used to this setup because it helps with debugging in GDB.
 </div>
 
-Day 10 - 
+## Day 10 - 
