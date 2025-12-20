@@ -2425,7 +2425,7 @@ NETMASK    255.255.255.0
 GATEWAY    192.168.13.37
 NAMESERVER 192.168.13.37
 ```
-**Step 4:** Test conenctivity
+**Step 4:** Test connectivity
 ```bash
 SET MTCPCFG=C:\MTCP\MTCP.CFG
 C:\MTCP>ping 192.168.13.37
