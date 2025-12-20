@@ -32,6 +32,8 @@ Solutions and all challenge files to follow along are also on [GitHub](https://g
 [Day 7 - SSRFs chain](#day-7---ssrfs-chain)<br>
 [Day 8 - Jinja2 template](#day-8---jinja2-template)<br>
 [Day 9 - Custom Python bytecode processing unit](#day-9---custom-python-bytecode-processing-unit)<br>
+[Day 10 - Unix domain sockets fd passing](#day-10---unix-domain-sockets-fd-passing)<br>
+
 
 ## Day 1 - Warm-up gatekeeper
 
