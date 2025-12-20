@@ -10,7 +10,7 @@ categories: [CTF, pwn.college]
 Before going into the technical solutions, a few words about LLMs, which seem to be the theme nowadays. During the CTF I relied on LLMs for a couple of tasks which I believe they proved really useful at:
 * Making sense of large amounts of code, high level or disassembly.
 * Getting started with complicated subjects (e.g. understanding a custom blockchain).
-* Repetitive tasks when speed or code quality is not a concern.
+* Repetitive tasks when speed or code quality was not a concern.
 
 Multiple friends I've talked to during the CTF were skeptic about using LLMs and I definitely understand why. Some drawbacks I've experienced _continously_, not just during this CTF but in general:
 * It's really easy to get directed to rabbit holes or ideas that don't lead anywhere.
@@ -21,7 +21,7 @@ Multiple friends I've talked to during the CTF were skeptic about using LLMs and
 
 Last but definitely not least, huge thanks to the creators of these challenges for the effort of designing and making them available for everyone!
 
-Solutions and all challenge files to follow along are also on [GitHub](https://github.com/livz/advent-of-pwn). Challenge descriptions were fun to read but I think they didn't add much useful information towards solving them. So, for brevity I'm ommiting them here. 
+Solutions and all challenge files to follow along are also on [GitHub](https://github.com/livz/advent-of-pwn). Challenge descriptions were fun to read but I think they didn't add much useful information towards solving them. So, for brevity I'm usually ommiting them here. 
 
 [Day 1 - Warm-up gatekeeper](#day-1---warm-up-gatekeeper)<br>
 [Day 2 - Dumpable SUID binary](#day-2---dumpable-suid-binary)<br>
