@@ -2501,16 +2501,16 @@ cat /flag
 A few interesting bits that we can observe:
 - `-cpu max` option - which enables all CPU features that are safe and supported by the architecture.
 - `-fsdev local,id=list_fs,path="$LIST_SRC"` - QEMU sharess a local folder with the guest VM using the 9p protocol.
-- `rdinit=/init"` - Upon initialisation, the script `/init` will be executed. The script is coming from `/boot/initramfs.cpio.gz`
+- `rdinit=/init"` - Upon initialisation, the script `/init` will be executed. The script is coming from `/boot/initramfs.cpio.gz`.
 - If the script thinks we've been NICE, not NAUGHTY, we get the flag.
 
-To find out what's inside the init script, we can extract from the compressed initial RAM filesystem that Linux loads early during boot process:
+To find out what's inside the init script, we can extract it from the compressed initial RAM filesystem that Linux loads early during the boot process:
 ```bash
 ~ scp hacker@dojo.pwn.college:/boot/initramfs.cpio.gz ~/tmp
 ~ gzcat initramfs.cpio.gz | cpio -idmv
 ```
 
-Peeling off the layers, there's nother short script:
+Peeling off the layers, there's another short script:
 ```bash
 #!/bin/sh
 set -eu
@@ -2549,6 +2549,7 @@ fi
 
 /bin/busybox poweroff -f
 ```
+
 Which basically mounts a list folder, then runs another script - `/challenge/check-list`:
 ```bash
 #!/bin/sh
@@ -2575,7 +2576,7 @@ done
 
 For each binary file in `/challenge/naughty-or-nice` (on the host), the script looks for a corresponding file in `/list/` to use as input. The script iterates through all available binaries (about 460 at the time). If running a binary with its corresponding input key produces a result, the script moves on to the next one; otherwise, execution terminates with exit code 1.
 
-All the binaries have te same structure, and their logic is very very similar with level 1. They rean an inpu buffer, apply a very large number of operations and expect a certain result. The difference and difficulty comes from th fact that these binariesnow use AVX (Advanced Vector Extensions) instructions to process the input.Here's a snippet of code from Ghidra:
+All the binaries have te same structure, and their logic is very very similar with level 1. They read an input buffer, apply a very large number of operations and expect a certain result. The difference and difficulty comes from the fact that these binaries now use AVX (Advanced Vector Extensions) instructions to process the input. Here's a snippet of code from Ghidra:
 
 ```c
 auVar747[0x1f] = 0x50;
@@ -2590,7 +2591,7 @@ auVar748._0_8_ = 0xf8f8f8f8f8f8f8f8;
 auVar748[9] = 0xf8;
 ```
 
-Maybe not necessarily the fastest solution but I opted for [angr](https://angr.io) framework to do the symbolic execution. The solver iterates through all the binaries on the naughty-or-nice list, identifies the winning address for each (based on the instruction that reads the length of the success message) and 'solves' it (finds an input that will lead to the success address):
+Maybe not necessarily the fastest solution, but I opted for [angr](https://angr.io) framework to do the symbolic execution. The solver iterates through all the binaries on the naughty-or-nice list, identifies the winning address for each (based on the instruction that reads the length of the success message) and _solves_ it (finds an input that will lead to the success address):
 
 ```python
 import os
@@ -2704,7 +2705,7 @@ SUCCESS
 SUCCESS
 ```
 
-Having 'solved' all the binaries, we can find the solutions list to the checker in the guest VM and retrieve the flag:
+Having _solved_ all the binaries, we can feed the solutions list to the checker in the guest VM and retrieve the flag:
 ```bash
 $ /challenge/run ~/my-list/
 SeaBIOS (version rel-1.16.3-0-ga6ed6b701f0a-prebuilt.qemu.org)
