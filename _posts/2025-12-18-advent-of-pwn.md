@@ -2394,8 +2394,8 @@ There are other disks available which I haven't used, like LANMAN, or TURBOCPP (
 - View files: `type <file>`
 - Edit files: `edit <file>`
 
-**Step 1:**: Install MS-DOS 6.22 from disks 1-3
-**Step 2:**: Install PCNet Packet Driver
+**Step 1:** Install MS-DOS 6.22 from disks 1-3<br>
+**Step 2:** Install PCNet Packet Driver
 
 ```bash
 DIR A:\PKTDRVR
