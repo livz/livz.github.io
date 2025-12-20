@@ -2375,4 +2375,75 @@ Press ENTER to send shellcode payload to fifo...
 I'm sure there's a more elegant solution than having 3 terminals and using a FIFO to transmit the payload but I got used to this setup because it helps with debugging in GDB.
 </div>
 
-## Day 10 - 
+## Day 11 - MS-DOS comeback
+
+This is another really nice challenge. If you can get past the frustrations of not having the modern features of a terminal, or yo're missing the MS-DOS era, this will be fun! The main idea is that we had to install MS-DOS from 3 disks, then somehow connect to a flag server running (obviously) on a 'leet IP and 'leet port (192.168.**13.37**:**1337**) and retrieve the flag. EZ, let's do it!
+
+<div class="box-note">
+There are other disks available which I haven't used, like LANMAN, or TURBOCPP (compile your own `netcat` ?!) which made the challenge more realistic.
+</div>
+
+**Useful references:**<br>
+[Installing The Packet Driver](http://www.oldcomputers.it/parts/cubix/ers/docs/sitocubix/amd-c13.htm)<br>
+[mTCP: TCP/IP for DOS](https://www.doomi.ch/mtcp-tcp-ip-for-dos/)<br>
+
+**DOS tricks**
+
+- Paginate a long files listing: `dir /p`
+- View files: `type <file>`
+- Edit files: `edit <file>`
+
+**Step 1:**: Install MS-DOS 6.22 from disks 1-3
+**Step 2:**: Install PCNet Packet Driver
+
+```bash
+DIR A:\PKTDRVR
+
+A: \PKTDRVR>pcntpk int=0×60
+Packet driver for an PCNTPK, version 03.10
+Packet driver skeleton copyright 1988-92, Crynwr Software.
+This program is free software; see the file COPYING for details.
+NO WARRANTY; see the file COPYING for details.
+Packet driver is at segment OBBF
+Interrupt number OxB (11)
+I/D port 0xC000 (49152)
+My Ethernet address is 52:54:00:12:34:56
+```
+
+**Step 3:** Install mTCP
+```bash
+C:
+MD \MTCP
+COPY A:\*.EXE C:\MTCP
+COPY A:\*.TXT C:\MTCP
+EDIT C:\MTCP\MTCP.CFG
+
+PACKETINT 0x60
+IPADDR     192.168.13.10
+NETMASK    255.255.255.0
+GATEWAY    192.168.13.37
+NAMESERVER 192.168.13.37
+```
+**Step 4:** Test conenctivity
+```bash
+SET MTCPCFG=C:\MTCP\MTCP.CFG
+C:\MTCP>ping 192.168.13.37
+mCP Ping by M Brutman (mbbrutman@gmail.com) (C)opyright 2009-2025
+Version: Jan 10 2025
+Sending ICMP packets to 192.168.13.37
+ICMP Packet payload is 32 bytes.
+Packet sequence number O received from 192.168.13.37 in 0.00 ms, ttl=64 
+Packet sequence number 1 received from 192.168.13.37 in 0.00 ms, ttl=64
+```
+
+**Step 5:** Retrieve the flag
+```bash
+NC -TARGET 192.168.13.37 1337
+
+Server resolved to 192.168.13.37 - connecting
+Connected!
+
+pwn.college{YQduO2Ga9nwPmpuQxidIlLd5Myh.QXyYTMyIDLzQDMyQzW}
+```
+
+## Day 12 - 
