@@ -2447,4 +2447,290 @@ Connected!
 pwn.college{YQduO2Ga9nwPmpuQxidIlLd5Myh.QXyYTMyIDLzQDMyQzW}
 ```
 
-## Day 12 - 
+## Day 12 - AVX instructions symbolic analysis
+
+Another QEMU based challenge, which already hints at some interesting features 😛 To unpack what's happening, we can start with the script that launches the guest VM:
+```bash
+#!/usr/bin/exec-suid -- /bin/bash -p
+
+set -euo pipefail
+umask 077
+
+if [ "$#" -ne 1 ]; then
+    echo "usage: $0 <list>" >&2
+    exit 1
+fi
+
+LIST_SRC="$1"
+if [ ! -d "$LIST_SRC" ]; then
+    echo "error: list must be a directory" >&2
+    exit 1
+fi
+
+LOG_FILE="$(mktemp)"
+cleanup() { rm -f "$LOG_FILE"; }
+trap cleanup EXIT
+
+if ! qemu-system-x86_64 \
+    -machine accel=tcg \
+    -cpu max \
+    -m 512M \
+    -nographic \
+    -no-reboot \
+    -kernel /boot/vmlinuz \
+    -initrd /boot/initramfs.cpio.gz \
+    -append "console=ttyS0 quiet panic=-1 rdinit=/init" \
+    -fsdev local,id=list_fs,path="$LIST_SRC",security_model=none \
+    -device virtio-9p-pci,fsdev=list_fs,mount_tag=list \
+    -serial stdio \
+    -monitor none | tee "$LOG_FILE"; then
+    echo "error: VM execution failed" >&2
+    exit 1
+fi
+
+if grep -q "NAUGHTY" "$LOG_FILE"; then
+    exit 1
+fi
+
+if ! grep -q "NICE" "$LOG_FILE"; then
+    exit 1
+fi
+
+cat /flag
+```
+A few interesting bits that we can observe:
+- `-cpu max` option - which enables all CPU features that are safe and supported by the architecture.
+- `-fsdev local,id=list_fs,path="$LIST_SRC"` - QEMU sharess a local folder with the guest VM using the 9p protocol.
+- `rdinit=/init"` - Upon initialisation, the script `/init` will be executed. The script is coming from `/boot/initramfs.cpio.gz`
+- If the script thinks we've been NICE, not NAUGHTY, we get the flag.
+
+To find out what's inside the init script, we can extract from the compressed initial RAM filesystem that Linux loads early during boot process:
+```bash
+~ scp hacker@dojo.pwn.college:/boot/initramfs.cpio.gz ~/tmp
+~ gzcat initramfs.cpio.gz | cpio -idmv
+```
+
+Peeling off the layers, there's nother short script:
+```bash
+#!/bin/sh
+set -eu
+
+PATH=/bin
+export PATH
+
+( cd /bin && ln -sf busybox sh )
+for util in mount insmod poweroff cat; do
+    [ -x "/bin/$util" ] || ln -sf busybox "/bin/$util"
+done
+
+echo "[init] loading 9p modules"
+for mod in /lib/modules/*/kernel/fs/netfs/netfs.ko \
+           /lib/modules/*/kernel/net/9p/9pnet.ko \
+           /lib/modules/*/kernel/net/9p/9pnet_virtio.ko \
+           /lib/modules/*/kernel/fs/9p/9p.ko; do
+    [ -f "$mod" ] || continue
+    echo "  insmod $mod"
+    insmod "$mod" 2>/dev/null || true
+done
+
+echo "[init] mounting 9p list..."
+mkdir -p /list
+if ! mount -t 9p -o trans=virtio,version=9p2000.L list /list 2>&1; then
+    echo "mount failed"
+    exit 1
+fi
+
+echo "[init] running checks"
+if /challenge/check-list; then
+    echo "NICE"
+else
+    echo "NAUGHTY"
+fi
+
+/bin/busybox poweroff -f
+```
+Which basically mounts a list folder, then runs another script - `/challenge/check-list`:
+```bash
+#!/bin/sh
+set -eu
+
+for path in /challenge/naughty-or-nice/*; do
+    [ -f "$path" ] || continue
+    digest=$(basename "$path")
+    input="/list/$digest"
+
+    if [ ! -f "$input" ]; then
+        echo "$digest: missing"
+        exit 1
+    fi
+
+    if output=$("$path" < "$input" 2>&1); then
+        cat "$input"
+    else
+        echo "$digest: $output"
+        exit 1
+    fi
+done
+```
+
+For each binary file in `/challenge/naughty-or-nice` (on the host), the script looks for a corresponding file in `/list/` to use as input. The script iterates through all available binaries (about 460 at the time). If running a binary with its corresponding input key produces a result, the script moves on to the next one; otherwise, execution terminates with exit code 1.
+
+All the binaries have te same structure, and their logic is very very similar with level 1. They rean an inpu buffer, apply a very large number of operations and expect a certain result. The difference and difficulty comes from th fact that these binariesnow use AVX (Advanced Vector Extensions) instructions to process the input.Here's a snippet of code from Ghidra:
+
+```c
+auVar747[0x1f] = 0x50;
+auVar8 = vpsubb_avx2(auVar3,auVar747);
+auVar27._20_6_ = 0x598b8790a024;
+auVar27._0_20_ = _DAT_0040a0f1;
+auVar27._26_6_ = 0xa31790cff50c;
+auVar3 = vpsubb_avx2(auVar2,auVar27);
+auVar2 = vpblendvb_avx2(auVar2,auVar3,_DAT_00415bd4);
+auVar748[8] = 0xf8;
+auVar748._0_8_ = 0xf8f8f8f8f8f8f8f8;
+auVar748[9] = 0xf8;
+```
+
+Maybe not necessarily the fastest solution but I opted for [angr](https://angr.io) framework to do the symbolic execution. The solver iterates through all the binaries on the naughty-or-nice list, identifies the winning address for each (based on the instruction that reads the length of the success message) and 'solves' it (finds an input that will lead to the success address):
+
+```python
+import os
+import angr
+import logging
+
+# Suppress verbose logging
+logging.getLogger('angr').setLevel(logging.ERROR)
+
+BIN_DIR = "/opt/naughty-or-nice"
+OUT_DIR = "/home/hacker/my-list"
+
+def find_success_address(bin_path):
+
+    with open(bin_path, 'rb') as f:
+        data = f.read()
+    
+    # Success message length
+    # E.g.: 00407cdb   48 c7 c2 31 00 00 00       MOV RDX,0x31                
+    pattern = b'\x48\xc7\xc2\x31\x00\x00\x00'
+    offset = data.find(pattern)
+    base = 0x400000
+
+    if offset != -1:
+        addr = base + offset
+        print(f"[*] Found success path at {addr:08x}")  
+        return addr
+
+    return None
+
+def solve_binary(bin_path):
+
+    success_addr = find_success_address(bin_path)
+    if not target_addr:
+        sys.exit(1)
+
+    # Load without shared libraries to increase speed
+    proj = angr.Project(bin_path, auto_load_libs = False)
+    
+    # Initialize state with zero-filling to handle large SIMD registers/memory
+    state = proj.factory.entry_state(
+        add_options={
+            angr.options.ZERO_FILL_UNCONSTRAINED_MEMORY,
+            angr.options.ZERO_FILL_UNCONSTRAINED_REGISTERS
+        }
+    )
+    
+    simgr = proj.factory.simulation_manager(state)
+    
+    # Explore for the dynamically found success path
+    simgr.explore(find = success_addr)
+    
+    if simgr.found:
+        return simgr.found[0].posix.dumps(0)
+    
+    return None
+
+if __name__ == "__main__":
+
+    if not os.path.exists(OUT_DIR):
+        os.makedirs(OUT_DIR)
+    
+    # Get all binaries and sort them
+    binaries = sorted(os.listdir(BIN_DIR))
+    total = len(binaries)
+
+    print(f"[*] Starting solver for {total} binaries")
+
+    for i, filename in enumerate(binaries, 1):
+
+        print(f"[{i}/{total}] Solving {filename}...", flush = True)
+
+        # Solution path
+        target_path = os.path.join(OUT_DIR, filename)
+        
+        # Skip files already solved
+        if os.path.exists(target_path):
+            print("[+] Already solved")
+            continue
+            
+        # Binary to be solved
+        full_path = os.path.join(BIN_DIR, filename)
+        
+        try:
+            solution = solve_binary(full_path)
+            if solution:
+                with open(target_path, "wb") as f:
+                    f.write(solution)
+                print("SUCCESS")
+            else:
+                print("FAILED")
+        except Exception as e:
+            print(f"ERROR: {e}")
+```
+
+It takes a while to generate all the solutions on the challenge server, but I was not in any rush:
+```bash
+$ python solver.py
+
+[*] Starting solver for 467 binaries
+[1/467] Solving 003b1327b890496084b50be689fb88b9818f1d220060fb98f549dec133afc353...
+[+] Already solved
+[2/467] Solving 01649985ef4ec3da6241a65f7bb43cbddd3709104283b2f09028abd5aecd3072...
+[+] Already solved
+...
+[84/467] Solving 2d6c0a4ed3afe983ad1af4313308702c1db3efece17b1199c9e8875516c58a6a...
+[*] Found success path at 00407d19
+SUCCESS
+[85/467] Solving 2d74d602dad9382033f5fbaf51c4be41c763df60408aad3cc5e6eb01fde085b1...
+[*] Found success path at 00407c52
+SUCCESS
+```
+
+Having 'solved' all the binaries, we can find the solutions list to the checker in the guest VM and retrieve the flag:
+```bash
+$ /challenge/run ~/my-list/
+SeaBIOS (version rel-1.16.3-0-ga6ed6b701f0a-prebuilt.qemu.org)
+
+iPXE (http://ipxe.org) 00:03.0 CA00 PCI2.10 PnP PMM+1EFD0E10+1EF30E10 CA00
+
+Booting from ROM...
+[init] loading 9p modules
+  insmod /lib/modules/6.8.0-90-generic/kernel/fs/netfs/netfs.ko
+  insmod /lib/modules/6.8.0-90-generic/kernel/net/9p/9pnet.ko
+  insmod /lib/modules/6.8.0-90-generic/kernel/net/9p/9pnet_virtio.ko
+  insmod /lib/modules/6.8.0-90-generic/kernel/fs/9p/9p.ko
+[init] mounting 9p list...
+[init] running checks
+🎅 frstbyte is nice! 🎅
+🎅 Sammy17 is nice! 🎅
+🎅 im-razvan is nice! 🎅
+🎅 baymax123 is nice! 🎅
+🎅 S4vvy is nice! 🎅
+🎅 Lord_Idiot is nice! 🎅
+🎅 invalidwaffles is nice! 🎅
+[....]
+🎅 livz is nice! 🎅. 😛
+...
+ pyrogny is nice! 🎅
+NICE
+[   89.252875] reboot: Power down
+pwn.college{IcVZ4pVM1QTYfyFVqSoWFtuz-CM.QX1YTMyIDLzQDMyQzW}
+```
