@@ -2381,7 +2381,7 @@ I'm sure there's a more elegant solution than having 3 terminals and using a FIF
 This is another really nice challenge. If you can get past the frustrations of not having the modern features of a terminal, and you're missing the MS-DOS era, this will be fun! The main idea is that we had to install MS-DOS from 3 disks, then somehow connect to a flag server running (obviously) on a 'leet IP and 'leet port (192.168.**13.37**:**1337**) and retrieve the flag. EZ, let's do it!
 
 <div class="box-note">
-There are other disks available which I haven't used, like LANMAN, or TURBOCPP (compile your own <pre>netcat</pre> ?!) which made the challenge more realistic.
+There are other disks available which I haven't used, like LANMAN, or TURBOCPP (compile your own <i>netcat</i> ?!) which made the challenge more realistic.
 </div>
 
 **Useful references:**<br>
