@@ -1530,7 +1530,7 @@ output = "".join(["%c" % ((byte - 2 + 256) % 256) for byte in decoded])
 print(output)
 ```
 
-### {The Chicked 🐔}
+### {The Chicken 🐔}
 
 **_A a rich, indulgent core that ties the whole dish together_**
 
