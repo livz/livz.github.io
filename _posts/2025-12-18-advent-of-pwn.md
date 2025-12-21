@@ -19,7 +19,7 @@ Multiple friends I've talked to during the CTF were skeptic about using LLMs and
 * On advanced topics, or things for which simply there's not much information available (for example level 5 shellcode for `io_uring` async I/O here), no amount of vibe-researching will get you to the solution.
 * Again, not much chance against esoteric topics like pwn.college's [The Art of the Shell](https://pwn.college/shell-lin-do~148f65dd/) or [Linux Lunacy](https://pwn.college/linux-lunacy~9b739db1/) modules, which are awesome BTW.
 
-Last but definitely not least, huge thanks to the creators of these challenges for the effort of designing and making them available for everyone!
+Last but definitely not least, huge thanks to the creators of these challenges for the effort of designing and making them available for everyone! All the levels were very educative.
 
 Solutions and all challenge files to follow along are also on [GitHub](https://github.com/livz/advent-of-pwn). Challenge descriptions were fun to read but I think they didn't add much useful information towards solving them. So, for brevity I'm usually ommiting them here. 
 
@@ -1296,8 +1296,6 @@ for _ in range(10):
 <div class="box-note">
 I realised that inflating the balance is not actually needed, it's just something the an LLM thought it makes sense, which it does somewhat, but is not necessary at all.
 </div>
-
-All the levels were very educative! Huge thanks to the authors.
 
 Before moving on to the next step, remember a clean head before Santa gifts the secrets. It will be useful later:
 ```python
