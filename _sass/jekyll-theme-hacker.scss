@@ -454,6 +454,23 @@ blockquote cite::before {
     content: "\2014\00a0\00a0";
 }
 
+/* Random quote shown on the blog index */
+.quote-of-the-day {
+  font-style: italic;
+  margin-bottom: 2em;
+
+  p {
+    margin: 0 0 0.3em;
+  }
+
+  cite {
+    display: block;
+    text-align: right;
+    color: $header-col;
+    font-style: normal;
+  }
+}
+
 /* Style for the footer */
 .foot { 
   display: block;

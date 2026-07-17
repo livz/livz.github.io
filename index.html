@@ -10,19 +10,10 @@ title: Home page
         <li><b>E-mail &nbsp;&nbsp;:</b> <span class="addr">zyx TOD erawtfarc TA mm</span></li>        
 	</ul>
 	<iframe src="logo-frame.html" width=520 height=300 style="border:none;"></iframe>
-    <h4>My favourite quotes</h4>
   <ul>
-    <li>Many people spend more time and energy going around problems than in trying to solve them - <b>Henry Ford</b></li>
-    <li>The brighter bears are smarter than the dumber campers - <b>Anonymous camper</b></li>
-    <li>We should forget about small efficiencies, say about 97% of the time: premature optimization is the root of all evil - <b>Donald Knuth</b></li>
-    <li>There are two ways of constructing a software design: one way is to make it so simple that there are obviously no deficiencies, and the other is to make it so complicated that there are no obvious deficiencies - <b>C. A. R. Hoare</b></li>
-    <li>The human eye has an almost infinite capacity for not seeing what it does not want to see - <b>G. M. Weinberg</b></li>
-    <li>Try and fail, but never fail to try - <b>Jared Leto</b></li>
-    <li>The greatest obstacle to discovery is not ignorance — it is the illusion of knowledge - <b> Daniel J. Boorstin</b></li>
-    <li>Being able to break security doesn't make you a hacker any more than being able to hotwire cars makes you an automotive engineer</li>
-    <li>In some ways, cryptography is like pharmaceuticals. Its integrity may be absolutely crucial. But bad penicillin looks the same as good penicillin - <b>Philip Zimmermann</b></li>
-	  <li>Good judgement is the result of experience. Experience is the result of bad judgement - <b>Fred Brooks</b></li>
-    <li>Amateurs practice until they get it right. Professionals practice until they can’t get it wrong - <b>Anonymous wise man</b></li>
+    {% for quote in site.data.quotes %}
+    <li>{{ quote.text }}{% if quote.author != "" %} - <b>{{ quote.author }}</b>{% endif %}</li>
+    {% endfor %}
   </ul>
 
 	<h4> Customary challenge</h4>
