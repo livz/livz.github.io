@@ -7,6 +7,13 @@ title: Posts
 
 <h1>{{ page.title }}</h1>
 
+<blockquote class="quote-of-the-day" id="quote-of-the-day">
+  <p></p>
+  <cite></cite>
+</blockquote>
+<script type="application/json" id="quotes-data">{{ site.data.quotes | jsonify }}</script>
+<script type="text/javascript" src="/assets/scripts/quote-of-the-day.js"></script>
+
 <ul class="posts">
   {% for post in site.posts %}
     <li><span>{{ post.date | date_to_string }}</span> » <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a></li>
