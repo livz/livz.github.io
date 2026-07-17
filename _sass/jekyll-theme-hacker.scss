@@ -458,9 +458,10 @@ blockquote cite::before {
 .quote-of-the-day {
   font-style: italic;
   margin-bottom: 2em;
+  padding: 1.2em 1.5em;
 
   p {
-    margin: 0 0 0.3em;
+    margin: 0 0 0.5em;
   }
 
   cite {
